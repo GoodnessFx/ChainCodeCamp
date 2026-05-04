@@ -3,712 +3,1542 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHAIN-CODE-CAMP // THE DEFINITIVE SMART CONTRACT ARCHITECT ROADMAP</title>
+    <title>World-Class Smart Contract Developer Roadmap</title>
+    <!-- External Dependencies -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Sora:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #FDFDFD;
-            --text: #1A1A1A;
-            --accent: #0052FF; /* Base Coinbase Blue */
-            --accent-soft: #EBF1FF;
-            --border: #E5E5E5;
-            --code-bg: #F8F9FA;
-            --sidebar-bg: #FFFFFF;
-            --font-main: 'Sora', sans-serif;
-            --font-head: 'Outfit', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --max-width: 1100px;
+            --bg-color: #060810;
+            --sidebar-bg: #0c0f1a;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #7c3aed;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: #1e293b;
+            --card-bg: #111422;
+            --sidebar-width: 280px;
+            --font-heading: 'Syne', sans-serif;
+            --font-code: 'IBM Plex Mono', monospace;
+            --font-number: 'Space Mono', monospace;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: var(--font-main);
-            line-height: 1.7;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- Navigation HUD (Minimalist) --- */
+        /* --- Sidebar --- */
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
-            bottom: 0;
-            width: 320px;
+            width: var(--sidebar-width);
+            height: 100vh;
             background: var(--sidebar-bg);
-            border-right: 1px solid var(--border);
-            padding: 3rem 2rem;
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
             overflow-y: auto;
-            z-index: 100;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
 
-        .brand {
-            font-family: var(--font-head);
-            font-weight: 800;
+        .sidebar-logo {
+            font-family: var(--font-heading);
             font-size: 1.5rem;
-            letter-spacing: -0.02em;
-            color: var(--accent);
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .nav-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .nav-label {
-            font-family: var(--font-head);
-            font-weight: 600;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #999;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            color: var(--text);
-            font-size: 0.95rem;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.25rem;
-            transition: 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .nav-item:hover {
-            background: var(--accent-soft);
-            color: var(--accent);
-        }
-
-        .nav-item.active {
-            background: var(--accent);
-            color: white;
-            font-weight: 600;
-        }
-
-        .nav-num {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            opacity: 0.5;
-        }
-
-        /* --- Main Content Area --- */
-        .main {
-            margin-left: 320px;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        .content-wrap {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 6rem 4rem;
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            padding-bottom: 8rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 6rem;
-        }
-
-        .hero h1 {
-            font-family: var(--font-head);
-            font-weight: 800;
-            font-size: 4.5rem;
-            line-height: 1.1;
-            letter-spacing: -0.04em;
+            color: var(--accent-cyan);
             margin-bottom: 2rem;
-            color: var(--text);
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            font-weight: 300;
-            color: #555;
-            max-width: 800px;
-            line-height: 1.5;
-        }
-
-        .hero-meta {
-            display: flex;
-            gap: 4rem;
-            margin-top: 4rem;
-        }
-
-        .meta-stat h4 {
-            font-family: var(--font-head);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #999;
-            margin-bottom: 0.5rem;
-        }
-
-        .meta-stat span {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        /* --- Content Blocks --- */
-        section {
-            margin-bottom: 10rem;
-            scroll-margin-top: 4rem;
-        }
-
-        .section-header {
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: baseline;
-            gap: 2rem;
-        }
-
-        .section-num {
-            font-family: var(--font-head);
-            font-size: 6rem;
-            font-weight: 800;
-            color: var(--accent-soft);
-            line-height: 1;
-        }
-
-        .section-title h2 {
-            font-family: var(--font-head);
-            font-size: 3rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .time-est {
-            display: inline-block;
-            background: #F0F0F0;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        h3 {
-            font-family: var(--font-head);
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin: 4rem 0 1.5rem;
-            color: var(--text);
-            border-left: 4px solid var(--accent);
-            padding-left: 1.5rem;
-        }
-
-        p {
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        strong {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        /* --- Code Blocks (Clean PDF Style) --- */
-        .code-container {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin: 3rem 0;
-            overflow: hidden;
-        }
-
-        .code-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #FFF;
-        }
-
-        .code-label {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: #999;
-        }
-
-        pre {
-            padding: 2rem;
-            font-family: var(--font-mono);
-            font-size: 0.95rem;
-            overflow-x: auto;
-            line-height: 1.6;
-        }
-
-        /* --- Security Callouts --- */
-        .audit-note {
-            background: #FFF5F5;
-            border: 1px solid #FFD1D1;
-            border-left: 6px solid #FF4D4D;
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin: 4rem 0;
-        }
-
-        .audit-note h4 {
-            color: #FF4D4D;
-            font-family: var(--font-head);
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .audit-note p {
-            margin-bottom: 0;
-            color: #661D1D;
-            font-size: 1rem;
-        }
-
-        /* --- Projects Grid --- */
-        .project-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .project-card {
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            border-radius: 16px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .project-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            transform: translateY(-5px);
-        }
-
-        .project-card h4 {
-            font-family: var(--font-head);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .project-card ul {
-            list-style: none;
-            margin-top: 1.5rem;
-        }
-
-        .project-card li {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .project-card li::before {
-            content: "→";
-            color: var(--accent);
+        .nav-group {
+            margin-bottom: 2rem;
         }
 
-        /* --- Tables --- */
-        .table-wrap {
-            margin: 4rem 0;
+        .nav-group-title {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-purple);
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.6rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+            background: linear-gradient(90deg, rgba(124, 58, 237, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border-left: 3px solid var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 0;
+        }
+
+        section {
+            padding: 6rem 4rem;
+            border-bottom: 1px solid var(--border-color);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 3rem;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-family: var(--font-number);
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Stage Components --- */
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 2.5rem;
+            background: var(--accent-purple);
+            display: inline-block;
+        }
+
+        h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin: 2.5rem 0 1.25rem;
+            color: var(--accent-cyan);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .code-block-container {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            color: #d1d5db;
             overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.4rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-cyan);
+            color: white;
+            border-color: var(--accent-cyan);
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            border: 1px solid;
+        }
+
+        .callout-iron {
+            background: rgba(148, 163, 184, 0.05);
+            border-color: #94a3b8;
+            color: #94a3b8;
+        }
+
+        .callout-danger {
+            background: rgba(239, 68, 68, 0.05);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .callout-title {
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.85rem;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem 1.25rem;
             text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
 
         th {
-            background: #F9FAFB;
-            padding: 1.25rem 1.5rem;
-            font-family: var(--font-head);
+            background: rgba(255, 255, 255, 0.03);
+            font-family: var(--font-heading);
+            color: var(--accent-cyan);
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #666;
-            border-bottom: 1px solid var(--border);
         }
 
-        td {
+        .resources-block {
+            margin-top: 2rem;
             padding: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
         }
 
-        /* --- Footer --- */
-        footer {
-            padding: 8rem 4rem;
-            background: #F9FAFB;
-            border-top: 1px solid var(--border);
-            text-align: center;
+        .resources-block ul {
+            list-style: none;
+            margin-top: 1rem;
         }
 
-        .footer-logo {
-            font-family: var(--font-head);
-            font-weight: 800;
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .resources-block li {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
         }
 
-        /* --- Mobile Responsiveness --- */
-        @media (max-width: 1200px) {
-            .sidebar { transform: translateX(-100%); }
-            .main { margin-left: 0; }
-            .content-wrap { padding: 4rem 2rem; }
-            .hero h1 { font-size: 3rem; }
-            .project-list { grid-template-columns: 1fr; }
+        .resources-block a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        .mobile-nav-toggle {
-            display: none;
+        .resources-block a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Syntax Highlighting --- */
+        .token.comment { color: #6a737d; }
+        .token.keyword { color: var(--accent-purple); }
+        .token.string { color: var(--accent-green); }
+        .token.number { color: var(--accent-amber); }
+        .token.function { color: var(--accent-cyan); }
+        .token.type { color: #ffcb6b; }
+
+        .video-container {
+            position: relative;
+            margin: 2.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            aspect-ratio: 16/9;
+        }
+
+        .video-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- Scroll to Top --- */
+        #scrollTop {
             position: fixed;
             bottom: 2rem;
-            right: 2rem;
-            width: 4rem;
-            height: 4rem;
-            background: var(--accent);
+            right: 1.5rem;
+            background: var(--accent-purple);
             color: white;
+            width: 3rem;
+            height: 3rem;
             border-radius: 50%;
-            z-index: 1000;
-            justify-content: center;
+            display: none;
             align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 82, 255, 0.3);
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            border: none;
+            transition: var(--transition);
         }
 
-        @media (max-width: 1200px) {
-            .mobile-nav-toggle { display: flex; }
+        /* --- Theme Toggle --- */
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 4rem;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+        }
+
+        /* --- Progress Tracker --- */
+        .progress-tracker {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar-bg {
+            background: var(--border-color);
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* --- Search Bar --- */
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* --- Badge --- */
+        .time-badge {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--accent-purple);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-family: var(--font-number);
+            font-size: 0.75rem;
+            border: 1px solid var(--accent-purple);
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .requires-callout {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 0.75rem 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+        }
+
+        .requires-callout a {
+            color: var(--accent-cyan);
+            text-decoration: underline;
+        }
+
+        /* --- Glossary Tooltips --- */
+        .term {
+            color: var(--accent-cyan);
+            border-bottom: 1px dashed var(--accent-cyan);
+            cursor: help;
+            position: relative;
+            display: inline-block;
+        }
+
+        .term::after {
+            content: attr(data-def);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--sidebar-bg);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-cyan);
+            font-size: 0.85rem;
+            width: 250px;
+            white-space: normal;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 2000;
+            pointer-events: none;
+            line-height: 1.4;
+            font-weight: normal;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .term:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- Framework Cards --- */
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .framework-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .framework-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-5px);
+        }
+
+        .framework-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+            font-family: var(--font-heading);
+        }
+
+        .framework-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .framework-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); width: 100%; max-width: 320px; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .mobile-menu-btn { display: block; }
+            section { padding: 4rem 1.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .theme-toggle { right: 1rem; }
+        }
+
+        /* --- Mobile Toggle --- */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1002;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <button class="mobile-nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
 
     <aside class="sidebar" id="sidebar">
-        <div class="brand">
-            <i class="fas fa-terminal"></i>
-            <span>CCC ROADMAP</span>
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-cube"></i>
+                <span>CHAINCODECAMP</span>
+            </div>
+
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="sidebarSearch" placeholder="Search sections...">
+            </div>
+
+            <div class="progress-tracker">
+                <div class="progress-text">
+                    <span>Course Progress</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+            </div>
         </div>
 
-        <nav>
-            <div class="nav-section">
-                <span class="nav-label">Phase I: Foundations</span>
-                <a href="#hero" class="nav-item active"><span class="nav-num">00</span> Introduction</a>
-                <a href="#foundation" class="nav-item"><span class="nav-num">01</span> Blockchain Basics</a>
-                <a href="#evm" class="nav-item"><span class="nav-num">02</span> EVM Internals</a>
-            </div>
+        <div class="nav-group">
+            <div class="nav-group-title">Foundation</div>
+            <a href="#prerequisites" class="nav-item">Prerequisites</a>
+            <a href="#evm-internals" class="nav-item">EVM Internals</a>
+            <a href="#solidity-yul" class="nav-item">Solidity + Yul</a>
+            <a href="#languages" class="nav-item">Languages</a>
+            <a href="#tools" class="nav-item">Tools</a>
+        </div>
 
-            <div class="nav-section">
-                <span class="nav-label">Phase II: Development</span>
-                <a href="#solidity" class="nav-item"><span class="nav-num">03</span> Solidity & Yul</a>
-                <a href="#security" class="nav-item"><span class="nav-num">04</span> Security First</a>
-            </div>
+        <div class="nav-group">
+            <div class="nav-group-title">Core Mastery</div>
+            <a href="#security" class="nav-item">Security & Auditing</a>
+            <a href="#gas" class="nav-item">Gas Optimization</a>
+            <a href="#tokens" class="nav-item">Token Standards</a>
+            <a href="#proxies" class="nav-item">Proxies & Upgrades</a>
+            <a href="#defi" class="nav-item">DeFi Architecture</a>
+        </div>
 
-            <div class="nav-section">
-                <span class="nav-label">Phase III: Advanced</span>
-                <a href="#tokenomics" class="nav-item"><span class="nav-num">05</span> Tokenomics</a>
-                <a href="#projects" class="nav-item"><span class="nav-num">06</span> 8 Pro Projects</a>
-            </div>
-        </nav>
+        <div class="nav-group">
+            <div class="nav-group-title">Advanced</div>
+            <a href="#mev" class="nav-item">MEV Infrastructure</a>
+            <a href="#aa" class="nav-item">Account Abstraction</a>
+            <a href="#zk" class="nav-item">Zero-Knowledge</a>
+            <a href="#l2" class="nav-item">Layer 2 & Bridges</a>
+            <a href="#tokenomics" class="nav-item">Tokenomics Deep Dive</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-group-title">Build & Grow</div>
+            <a href="#projects" class="nav-item">8 Projects</a>
+            <a href="#recognition" class="nav-item">Recognition</a>
+            <a href="#routine" class="nav-item">Daily Routine</a>
+            <a href="#plan" class="nav-item">6-Month Plan</a>
+            <a href="#elite" class="nav-item">Elite Knowledge</a>
+        </div>
     </aside>
 
-    <main class="main">
-        <div class="content-wrap">
-            <!-- Hero -->
-            <section id="hero" class="hero">
-                <h1>The Architect's Journey to Smart Contract Mastery.</h1>
-                <p>A rigorous, security-first curriculum designed to propel you into the top 1% of protocol developers and auditors. No fluff. Just engineering.</p>
-                
-                <div class="hero-meta">
-                    <div class="meta-stat">
-                        <h4>Stages</h4>
-                        <span>18</span>
-                    </div>
-                    <div class="meta-stat">
-                        <h4>Modules</h4>
-                        <span>200+</span>
-                    </div>
-                    <div class="meta-stat">
-                        <h4>Est. Time</h4>
-                        <span>6 Months</span>
-                    </div>
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <h1>World-Class Smart Contract Developer Roadmap</h1>
+            <p>From zero to protocol architect. Every exploit explained. Every concept proven. Security is the entire job.</p>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <span class="stat-value">17</span>
+                    <span class="stat-label">Stages</span>
                 </div>
-            </section>
-
-            <!-- Foundation -->
-            <section id="foundation">
-                <div class="section-header">
-                    <span class="section-num">01</span>
-                    <div class="section-title">
-                        <h2>The Foundation</h2>
-                        <span class="time-est">1 Week Duration</span>
-                    </div>
+                <div class="stat-item">
+                    <span class="stat-value">200+</span>
+                    <span class="stat-label">Topics</span>
                 </div>
-
-                <p>Before writing a single line of Solidity, you must internalize the fundamental constraints of a decentralized environment. Smart contracts are <strong>immutable, transparent, and high-stakes</strong>. There is no "undo" button in production.</p>
-
-                <h3>Public-Key Cryptography</h3>
-                <p>The bedrock of blockchain identity. You must understand that an Ethereum address is simply the result of a cryptographic pipeline:</p>
-                <ol style="margin-left: 2rem; margin-bottom: 2rem;">
-                    <li>Generate a <strong>Private Key</strong> (256-bit random number).</li>
-                    <li>Derive the <strong>Public Key</strong> via ECDSA.</li>
-                    <li>Hash the Public Key using <code>keccak256</code>.</li>
-                    <li>Take the last 20 bytes of that hash.</li>
-                </ol>
-
-                <div class="audit-note">
-                    <h4><i class="fas fa-shield-alt"></i> Security Mindset #1</h4>
-                    <p>Identity is ownership. If a private key is compromised, the assets are gone. As a developer, you never handle user private keys directly; you design systems that interact with signatures.</p>
+                <div class="stat-item">
+                    <span class="stat-value">8</span>
+                    <span class="stat-label">Projects</span>
                 </div>
-            </section>
-
-            <!-- EVM -->
-            <section id="evm">
-                <div class="section-header">
-                    <span class="section-num">02</span>
-                    <div class="section-title">
-                        <h2>EVM Internals</h2>
-                        <span class="time-est">2 Weeks Duration</span>
-                    </div>
+                <div class="stat-item">
+                    <span class="stat-value">6 Mo</span>
+                    <span class="stat-label">Duration</span>
                 </div>
-
-                <p>The Ethereum Virtual Machine is a stack-based state machine. To be an elite developer, you must think in terms of opcodes and gas costs, not just high-level Solidity syntax.</p>
-
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Location</th>
-                                <th>Gas Cost</th>
-                                <th>Nature</th>
-                                <th>Security Context</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Stack</strong></td>
-                                <td>Minimal (3)</td>
-                                <td>Volatile</td>
-                                <td>1024 slots. Source of "Stack Too Deep" errors.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Memory</strong></td>
-                                <td>Quadratic</td>
-                                <td>Volatile</td>
-                                <td>Cheap for small data, exponentially expensive for large.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Storage</strong></td>
-                                <td>Expensive (20k+)</td>
-                                <td>Permanent</td>
-                                <td>The state of the world. Every SLOAD/SSTORE must be optimized.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="stat-item">
+                    <span class="stat-value">$2B+</span>
+                    <span class="stat-label">Exploits Studied</span>
                 </div>
+            </div>
+        </section>
 
-                <h3>The DelegateCall Pattern</h3>
-                <p>One of the most powerful and dangerous opcodes in the EVM. It allows a contract to execute code from another contract but within its own storage context.</p>
+        <!-- Stage 00: Prerequisites -->
+        <section id="prerequisites">
+            <div class="stage-header">
+                <h2>Stage 00: Prerequisites</h2>
+                <span class="time-badge">~1 week</span>
+            </div>
+            <p>Before writing a single line of Solidity, you must understand the environment your code lives in. A <span class="term" data-def="A distributed ledger where data is shared across a network and cannot be easily altered.">blockchain</span> is not a cloud server; it is a <strong>globally replicated append-only database</strong>.</p>
+            
+            <h3>Public-Key Cryptography</h3>
+            <p>The foundation of identity on Ethereum. Your account is a pair of cryptographic keys:</p>
+            <ul>
+                <li><strong><span class="term" data-def="A secret number that allows you to spend your funds. Never share this!">Private Key</span>:</strong> A random 256-bit number. This is your soul; if lost, your funds are gone.</li>
+                <li><strong><span class="term" data-def="Mathematically derived from the private key, used to identify you on the network.">Public Key</span>:</strong> Derived from the private key using <strong><span class="term" data-def="Elliptic Curve Digital Signature Algorithm, the math used to sign transactions.">ECDSA</span></strong>.</li>
+                <li><strong><span class="term" data-def="The public identifier (0x...) where people send you tokens.">Address</span>:</strong> Derived by taking the <code>keccak256</code> hash of the public key and keeping the <strong>last 20 bytes</strong>.</li>
+            </ul>
 
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-label">vulnerability_example.sol</span>
-                    </div>
-                    <pre><code>// DANGER: Malicious contract can overwrite owner slot
-(bool success, ) = target.delegatecall(
-    abi.encodeWithSignature("attack()")
-);</code></pre>
+            <h3>What is a Transaction?</h3>
+            <p>A <span class="term" data-def="An instruction sent by an account to the blockchain, like sending ETH or calling a function.">transaction</span> is a signed message that triggers a state change. It contains:</p>
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i></button>
+                <div class="code-block">
+{
+    "nonce": 1, // Prevent <span class="term" data-def="An attack where a valid transaction is maliciously repeated on the same or another chain.">replay attacks</span>
+    "gasPrice": 20000000000, // Price per <span class="term" data-def="The unit of measurement for computational effort on Ethereum.">gas</span> unit
+    "gasLimit": 21000, // Max gas for this tx
+    "to": "0x...", // Destination address
+    "value": 1000000000000000000, // Amount in <span class="term" data-def="The smallest denomination of Ether (1 ETH = 10^18 Wei).">Wei</span> (1 ETH)
+    "data": "0x", // Input for contract calls
+    "v, r, s": "..." // ECDSA signature components
+}</div>
+            </div>
+
+            <div class="callout callout-iron">
+                <i class="fas fa-gavel"></i>
+                <div>
+                    <span class="callout-title">The Iron Rule</span>
+                    Code is law. Bugs ARE the law. In a decentralized world, there is no "undo" button. If your contract has a vulnerability, it is a feature of the protocol until fixed.
                 </div>
-            </section>
+            </div>
 
-            <!-- Solidity -->
-            <section id="solidity">
-                <div class="section-header">
-                    <span class="section-num">03</span>
-                    <div class="section-title">
-                        <h2>Solidity & Yul Mastery</h2>
-                        <span class="time-est">4 Weeks Duration</span>
-                    </div>
-                </div>
+            <span class="video-label">Watch: But how does Bitcoin actually work?</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SSo_EIwHSd4" title="But how does Bitcoin actually work?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
 
-                <p>Solidity is the high-level language, but <strong>Yul</strong> is the assembly language that gives you surgical control over the EVM. Elite auditors look for patterns that high-level compilers might miss.</p>
-
-                <h3>Advanced Patterns</h3>
+            <div class="resources-block">
+                <h3>Resources</h3>
                 <ul>
-                    <li><strong>Bitwise Operations:</strong> Packing multiple variables into a single 32-byte storage slot to save gas.</li>
-                    <li><strong>Assembly Optimization:</strong> Using <code>mload</code> and <code>mstore</code> for efficient data handling.</li>
-                    <li><strong>Custom Errors:</strong> Using <code>error Name()</code> instead of strings to save gas on revert.</li>
+                    <li>→ Ethereum Whitepaper — <a href="https://ethereum.org/en/whitepaper/" target="_blank">ethereum.org/whitepaper</a></li>
+                    <li>→ Mastering Bitcoin — <a href="https://github.com/bitcoinbook/bitcoinbook" target="_blank">github.com/bitcoinbook</a></li>
+                    <li>→ Blockchain Demo — <a href="https://andersbrownworth.com/blockchain/" target="_blank">andersbrownworth.com</a></li>
                 </ul>
-            </section>
+            </div>
+        </section>
 
-            <!-- Security -->
-            <section id="security">
-                <div class="section-header">
-                    <span class="section-num">04</span>
-                    <div class="section-title">
-                        <h2>Security & Exploits</h2>
-                        <span class="time-est">Continuous Deep Dive</span>
-                    </div>
+        <!-- Stage 01: EVM Internals -->
+        <section id="evm-internals">
+            <div class="stage-header">
+                <h2>Stage 01: EVM Internals</h2>
+                <span class="time-badge">~2 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#prerequisites">Stage 00</a></div>
+            <p>The Ethereum Virtual Machine (EVM) is a <strong>stack-based state machine</strong>. Think of a stack of plates: you can only add (PUSH) or remove (POP) from the top.</p>
+            
+            <h3>The 4 Data Locations</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Gas Cost</th>
+                        <th>Nature</th>
+                        <th>Security Significance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Stack</strong></td>
+                        <td>3-5 gas</td>
+                        <td>Volatile</td>
+                        <td>1024 slots. Source of "Stack too deep" errors.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Memory</strong></td>
+                        <td>Quadratic</td>
+                        <td>Volatile</td>
+                        <td>Expansion cost: <code>3n + n²/512</code>. Layout 0x00-0x80 scratch.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Storage</strong></td>
+                        <td>20k / 2.1k</td>
+                        <td>Permanent</td>
+                        <td>Cold SLOAD (2100) and SSTORE (20000) drive all costs.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Calldata</strong></td>
+                        <td>4-16 gas</td>
+                        <td>Read-only</td>
+                        <td>Cheap input data. 4 per zero byte, 16 per non-zero.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <span class="callout-title">DELEGATECALL Danger</span>
+                    DELEGATECALL runs external code in YOUR storage context. A malicious implementation can overwrite ANY storage slot including the owner/admin slots.
                 </div>
+            </div>
 
-                <p>Security is not a stage; it is the entire process. You must learn to think like an attacker to build as a defender. Every major DeFi hack in history is a lesson in code logic.</p>
+            <span class="video-label">Watch: EVM Deep Dive</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RxL_1AfV7N4" title="EVM Deep Dive" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
 
-                <div class="audit-note" style="background: #FFF9EB; border-color: #FFE5A1; border-left-color: #F59E0B;">
-                    <h4 style="color: #B45309;"><i class="fas fa-exclamation-triangle"></i> Case Study: Reentrancy</h4>
-                    <p>The exploit that birthed Ethereum Classic. An attacker calls a function that makes an external call to the attacker's contract, which then calls back into the original function before the state is updated.</p>
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul>
+                    <li>→ EVM Codes — <a href="https://www.evm.codes/" target="_blank">evm.codes</a></li>
+                    <li>→ EVM Playground — <a href="https://playground.evm.codes/" target="_blank">playground.evm.codes</a></li>
+                    <li>→ Noxx Substack — <a href="https://noxx.substack.com/" target="_blank">noxx.substack.com</a></li>
+                    <li>→ Ethereum Yellow Paper — <a href="https://ethereum.github.io/yellowpaper/paper.pdf" target="_blank">yellowpaper.pdf</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 02: Solidity + Yul -->
+        <section id="solidity-yul">
+            <div class="stage-header">
+                <h2>Stage 02: Solidity + Yul</h2>
+                <span class="time-badge">~4 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#evm-internals">Stage 01</a></div>
+            <p>Solidity is the high-level language, but Yul is the assembly language that gives you surgical control over the EVM.</p>
+            
+            <h3>Storage Layout Packing</h3>
+            <p>Packing variables into a single 32-byte slot saves 20,000 gas per slot avoided.</p>
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i></button>
+                <div class="code-block">
+// BAD: 3 slots (60,000 gas to initialize)
+uint256 a; // Slot 0
+uint128 b; // Slot 1
+uint256 c; // Slot 2
+
+// GOOD: 2 slots (40,000 gas to initialize)
+uint256 a; // Slot 0
+uint128 b; // Slot 1 (packs with d)
+uint128 d; // Slot 1</div>
+            </div>
+
+            <h3>Slot Derivation Rules</h3>
+            <ul>
+                <li><strong>Mappings:</strong> <code>keccak256(abi.encode(key, p))</code> where <code>p</code> is the slot of the mapping.</li>
+                <li><strong>Arrays:</strong> Length at slot <code>p</code>, elements start at <code>keccak256(p)</code>.</li>
+            </ul>
+
+            <div class="callout callout-iron">
+                <i class="fas fa-microchip"></i>
+                <div>
+                    <span class="callout-title">Optimization Rule</span>
+                    Reading WETH from an immutable variable costs 3 gas. Reading it from storage costs 2,100 gas. At 10,000 calls/day, this saves 20.9M gas daily.
                 </div>
+            </div>
 
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-label">secure_withdrawal.sol</span>
-                    </div>
-                    <pre><code>function withdraw() public {
+            <span class="video-label">Watch: Foundry Full Course</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/umepbfKp5rI" title="Foundry Full Course" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul>
+                    <li>→ Solidity Docs: Storage Layout — <a href="https://docs.soliditylang.org/en/latest/internals/layout_in_storage.html" target="_blank">solidity.org</a></li>
+                    <li>→ RareSkills: Gas Optimization — <a href="https://www.rareskills.io/post/gas-optimization" target="_blank">rareskills.io</a></li>
+                    <li>→ Remix IDE — <a href="https://remix.ethereum.org/" target="_blank">remix.ethereum.org</a></li>
+                    <li>→ EtherVM Decompiler — <a href="https://ethervm.io/decompile" target="_blank">ethervm.io</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 03: Languages to Master -->
+        <section id="languages">
+            <h2>Stage 03: Languages to Master</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Language</th>
+                        <th>Depth</th>
+                        <th>Role</th>
+                        <th>Resource</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Solidity</td>
+                        <td>Expert</td>
+                        <td>Primary smart contract language.</td>
+                        <td><a href="https://docs.soliditylang.org/" target="_blank">Docs</a></td>
+                    </tr>
+                    <tr>
+                        <td>Yul</td>
+                        <td>Proficient</td>
+                        <td>Gas optimization and low-level control.</td>
+                        <td><a href="https://docs.soliditylang.org/en/latest/yul.html" target="_blank">Yul Docs</a></td>
+                    </tr>
+                    <tr>
+                        <td>TypeScript</td>
+                        <td>Expert</td>
+                        <td>Testing (Ethers/Viem) and Frontend.</td>
+                        <td><a href="https://viem.sh/" target="_blank">Viem Docs</a></td>
+                    </tr>
+                    <tr>
+                        <td>Rust</td>
+                        <td>Proficient</td>
+                        <td>Foundry tooling and MEV bots.</td>
+                        <td><a href="https://www.rust-lang.org/" target="_blank">Rust Lang</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Stage 04: Professional Toolchain -->
+        <section id="tools">
+            <div class="stage-header">
+                <h2>Stage 04: Professional Toolchain</h2>
+                <span class="time-badge">~1 week</span>
+            </div>
+            
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <h4>Foundry</h4>
+                    <p>The lightning-fast, Rust-based toolkit. Use this to compile, test, and deploy with extreme speed.</p>
+                    <div class="code-block" style="font-size: 0.75rem; padding: 0.75rem; margin-top: 0.5rem;">
+curl -L https://foundry.paradigm.xyz | bash</div>
+                    <a href="https://book.getfoundry.sh/" target="_blank" class="framework-link">Download & Install →</a>
+                </div>
+                <div class="framework-card">
+                    <h4>Hardhat</h4>
+                    <p>The JavaScript-based industry standard. Perfect for complex plugins and extensive JS testing.</p>
+                    <div class="code-block" style="font-size: 0.75rem; padding: 0.75rem; margin-top: 0.5rem;">
+npm install --save-dev hardhat</div>
+                    <a href="https://hardhat.org/" target="_blank" class="framework-link">Get Started →</a>
+                </div>
+            </div>
+
+            <h3>Security Tooling</h3>
+            <p>Don't just write code; verify it. Use these detectors to catch bugs before they reach the mainnet.</p>
+            <ul>
+                <li><strong>Slither:</strong> <span class="term" data-def="A static analysis framework that finds common vulnerabilities in Solidity code.">Static analysis</span> for common vulnerabilities.</li>
+                <li><strong>Echidna:</strong> <span class="term" data-def="A tool that generates random inputs to find edge cases where your code fails (Fuzzing).">Fuzzing</span> tool for property-based testing.</li>
+                <li><strong>Halmos:</strong> <span class="term" data-def="Proves mathematically that your code behaves as expected for ALL possible inputs.">Formal verification</span> for EVM bytecode.</li>
+            </ul>
+        </section>
+
+        <!-- Stage 05: Security & Auditing -->
+        <section id="security">
+            <h2>Stage 05: Security & Auditing</h2>
+            <p>Security is not a stage; it is the entire job. You must learn to think like an attacker.</p>
+            
+            <h3>Vulnerability: Reentrancy</h3>
+            <p>The exploit that birthed Ethereum Classic. The DAO Hack ($60M, 2016).</p>
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i></button>
+                <div class="code-block">
+// VULNERABLE
+function withdraw() public {
     uint balance = balances[msg.sender];
-    require(balance > 0);
-    
-    // 1. Update state FIRST (Checks-Effects-Interactions)
-    balances[msg.sender] = 0;
-    
-    // 2. Then interact
+    (bool success, ) = msg.sender.call{value: balance}("");
+    balances[msg.sender] = 0; // State updated AFTER call
+}
+
+// FIXED (Checks-Effects-Interactions)
+function withdraw() public {
+    uint balance = balances[msg.sender];
+    balances[msg.sender] = 0; // State updated BEFORE call
     (bool success, ) = msg.sender.call{value: balance}("");
     require(success);
-}</code></pre>
-                </div>
-            </section>
+}</div>
+            </div>
 
-            <!-- Tokenomics -->
-            <section id="tokenomics">
-                <div class="section-header">
-                    <span class="section-num">05</span>
-                    <div class="section-title">
-                        <h2>Tokenomics & Incentives</h2>
-                        <span class="time-est">2 Weeks Duration</span>
-                    </div>
-                </div>
+            <h3>Rekt Hall of Fame</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Loss</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ronin</td>
+                        <td>$625M</td>
+                        <td>Key Compromise</td>
+                    </tr>
+                    <tr>
+                        <td>Nomad</td>
+                        <td>$190M</td>
+                        <td>Logic Error</td>
+                    </tr>
+                    <tr>
+                        <td>Beanstalk</td>
+                        <td>$182M</td>
+                        <td>Governance/Flash Loan</td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <p>A smart contract protocol is as much an economic system as it is a software system. If the incentives are wrong, the code will be exploited economically even if it is technically bug-free.</p>
-                
-                <h3>Key Concepts</h3>
+            <span class="video-label">Watch: Smart Contract Security</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/DRZogmD647U" title="Smart Contract Security" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
                 <ul>
-                    <li><strong>Supply Mechanics:</strong> Inflationary vs. Deflationary models.</li>
-                    <li><strong>Staking & Yield:</strong> How to design sustainable rewards without creating a Ponzi structure.</li>
-                    <li><strong>Governance:</strong> DAO structures, voting power, and protection against governance attacks.</li>
+                    <li>→ Solodit — <a href="https://solodit.xyz/" target="_blank">solodit.xyz</a> (Audit finding aggregator)</li>
+                    <li>→ Rekt News — <a href="https://rekt.news/" target="_blank">rekt.news</a> (DeFi exploit reporting)</li>
+                    <li>→ Code4rena Reports — <a href="https://code4rena.com/reports" target="_blank">code4rena.com</a></li>
+                    <li>→ DeFiHackLabs — <a href="https://github.com/SunWeb3Sec/DeFiHackLabs" target="_blank">github.com/DeFiHackLabs</a></li>
                 </ul>
-            </section>
+            </div>
+        </section>
 
-            <!-- Projects -->
-            <section id="projects">
-                <div class="section-header">
-                    <span class="section-num">06</span>
-                    <div class="section-title">
-                        <h2>8 Pro Artifacts</h2>
-                        <span class="time-est">Building Phase</span>
+        <!-- Stage 06: Gas Optimization -->
+        <section id="gas">
+            <div class="stage-header">
+                <h2>Stage 06: Gas Optimization</h2>
+                <span class="time-badge">~2 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#solidity-yul">Stage 02</a></div>
+            <p>Gas is the oxygen of the EVM. Optimizing gas is not just about saving money; it is about extending the capabilities of your protocol.</p>
+            <div class="code-block-container">
+                <div class="code-block">
+// 1. Cache storage reads (ROI: Massive)
+uint256 cached = storageVar; // 2100 gas
+// use cached 3 times (3 gas each) instead of storageVar (2100 gas each)
+// Saves 4200 gas per call.</div>
+            </div>
+
+            <span class="video-label">Watch: Gas Optimization</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/IkdoQI7API0" title="Gas Optimization" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul>
+                    <li>→ RareSkills Gas Optimization — <a href="https://www.rareskills.io/post/gas-optimization" target="_blank">rareskills.io</a></li>
+                    <li>→ EIP-1167: Minimal Proxy — <a href="https://eips.ethereum.org/EIPS/eip-1167" target="_blank">eip-1167</a></li>
+                    <li>→ Foundry Gas Reports — <a href="https://book.getfoundry.sh/forge/gas-reports" target="_blank">book.getfoundry.sh</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 07: Token Standards -->
+        <section id="tokens">
+            <div class="stage-header">
+                <h2>Stage 07: Token Standards</h2>
+                <span class="time-badge">~2 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#solidity-yul">Stage 02</a></div>
+            <ul>
+                <li><strong>ERC-20:</strong> Fungible tokens (USDT, USDC). Watch for non-standard returns and fee-on-transfer edge cases.</li>
+                <li><strong>ERC-721:</strong> NFTs. <code>safeTransferFrom</code> reentrancy risk via callbacks.</li>
+                <li><strong>ERC-4626:</strong> Tokenized Vaults. Rounding errors and "inflation attacks" are primary exploit vectors.</li>
+            </ul>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul>
+                    <li>→ OpenZeppelin Contracts — <a href="https://github.com/OpenZeppelin/openzeppelin-contracts" target="_blank">github.com/OpenZeppelin</a></li>
+                    <li>→ EIP-4626 Tokenized Vaults — <a href="https://eip4626.cash/" target="_blank">eip4626.cash</a></li>
+                    <li>→ ERC-4337: Account Abstraction — <a href="https://erc4337.io/" target="_blank">erc4337.io</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 08: Proxies & Upgrades -->
+        <section id="proxies">
+            <div class="stage-header">
+                <h2>Stage 08: Proxies & Upgrades</h2>
+                <span class="time-badge">~2 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#evm-internals">Stage 01</a></div>
+            <p>Proxies allow updating code while keeping state. This is achieved via <code>DELEGATECALL</code>. Storage layout management is the most critical part of upgradeable contracts.</p>
+            
+            <div class="callout callout-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <span class="callout-title">Storage Gap Warning</span>
+                    Adding a variable in a parent contract without <code>__gap</code> shifts ALL child variables. Data in slot 5 moves to slot 6. State is permanently corrupted and funds are likely lost.
+                </div>
+            </div>
+
+            <span class="video-label">Watch: Smart Contract Upgrades</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/bdXAkM7BA38" title="Smart Contract Upgrades" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul>
+                    <li>→ OZ Upgrades Docs — <a href="https://docs.openzeppelin.com/upgrades-plugins/1.x/" target="_blank">docs.openzeppelin.com</a></li>
+                    <li>→ EIP-1967: Proxy Storage Slots — <a href="https://eips.ethereum.org/EIPS/eip-1967" target="_blank">eip-1967</a></li>
+                    <li>→ EIP-2535: Diamond Multi-Facet Proxy — <a href="https://eips.ethereum.org/EIPS/eip-2535" target="_blank">eip-2535</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 09: DeFi Architecture -->
+        <section id="defi">
+            <div class="stage-header">
+                <h2>Stage 09: DeFi Architecture</h2>
+                <span class="time-badge">~4 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#solidity-yul">Stage 02</a></div>
+            <h3>Uniswap V2 (x * y = k)</h3>
+            <p>The Constant Product Market Maker (CPMM) formula. If you remove x, you must add y proportionally to keep k constant.</p>
+            <p><strong>Example:</strong> Pool has 100 ETH and 200,000 USDC. Alice wants to buy 10 ETH. <code>90 * newUSDC = 20,000,000</code>. New USDC = 222,222. Alice pays 22,222 USDC.</p>
+
+            <span class="video-label">Watch: DeFi Explained</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/1D6yd7NZofI" title="DeFi Explained" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul>
+                    <li>→ Uniswap V2 Whitepaper — <a href="https://uniswap.org/whitepaper.pdf" target="_blank">uniswap.org</a></li>
+                    <li>→ Aave V3 Technical Paper — <a href="https://github.com/aave/aave-v3-core/blob/master/techpaper/Aave_V3_Technical_Paper.pdf" target="_blank">aave.com</a></li>
+                    <li>→ MakerDAO Docs — <a href="https://docs.makerdao.com/" target="_blank">docs.makerdao.com</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Advanced Sections -->
+        <section id="mev">
+            <div class="stage-header">
+                <h2>Stage 10: MEV Infrastructure</h2>
+                <span class="time-badge">~2 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#evm-internals">Stage 01</a></div>
+            <p><span class="term" data-def="Maximal Extractable Value: profit extracted by builders/searchers by reordering transactions within a block.">MEV</span> is the heartbeat of Ethereum's economy. As an architect, you must design for a world where your users' transactions are visible to bots with infinite capital.</p>
+            
+            <h3>The Sandwich Attack</h3>
+            <p>A bot places a buy order before you and a sell order after you. They profit from the price slippage you cause. <strong>Protection:</strong> Always set strict <code>minAmountOut</code> parameters.</p>
+
+            <h3>PBS: Proposer-Builder Separation</h3>
+            <p>To prevent centralization, Ethereum separates the role of building blocks (MEV-Boost) from proposing them. This ensures smaller validators can still participate in the MEV economy.</p>
+
+            <span class="video-label">Watch: MEV Explained</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/KOO5S4FMEw8" title="MEV Explained" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="aa">
+            <div class="stage-header">
+                <h2>Stage 11: Account Abstraction (ERC-4337)</h2>
+                <span class="time-badge">~3 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#evm-internals">Stage 01</a></div>
+            <p><span class="term" data-def="Moving from Externally Owned Accounts (EOAs) to Smart Contract Wallets to allow features like gas sponsorship and social recovery.">Account Abstraction</span> removes the friction of seed phrases. It turns your wallet into a programmable smart contract.</p>
+
+            <h3>The UserOperation</h3>
+            <p>Instead of a standard transaction, users send a <code>UserOperation</code> to a separate <span class="term" data-def="A specialized pool where UserOperations wait to be bundled by a searcher.">mempool</span>. A <strong>Bundler</strong> then packages these into a single L1 transaction.</p>
+            
+            <h3>Paymasters & Session Keys</h3>
+            <ul>
+                <li><strong>Paymasters:</strong> Allow protocols to pay gas for their users or allow users to pay gas in stablecoins.</li>
+                <li><strong>Session Keys:</strong> Grant temporary, limited permissions (e.g., "Allow this game to spend 0.1 ETH for 24 hours").</li>
+            </ul>
+
+            <span class="video-label">Watch: Account Abstraction Explained</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/RCFTfMOSwh0" title="Account Abstraction" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="zk">
+            <div class="stage-header">
+                <h2>Stage 12: Zero-Knowledge</h2>
+                <span class="time-badge">~6 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#prerequisites">Stage 00</a></div>
+            <p><span class="term" data-def="A cryptographic method where one party can prove to another that they know a value, without revealing the value itself.">Zero-Knowledge Proofs</span> (ZKP) are the holy grail of privacy and scalability. You are proving <em>computation</em> happened correctly without revealing the <em>data</em>.</p>
+
+            <h3>SNARKs vs STARKs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>zk-SNARK</th>
+                        <th>zk-STARK</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Trusted Setup</td>
+                        <td>Required (usually)</td>
+                        <td>Not Required</td>
+                    </tr>
+                    <tr>
+                        <td>Proof Size</td>
+                        <td>Very Small (~200 bytes)</td>
+                        <td>Larger (~hundreds of KB)</td>
+                    </tr>
+                    <tr>
+                        <td>Quantum Secure</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Circom Circuits</h3>
+            <p>To build ZK apps, you write <strong>Circuits</strong>. These are mathematical constraints that define what is being proven.</p>
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i></button>
+                <div class="code-block">
+template Multiplier() {
+    signal input a;
+    signal input b;
+    signal output c;
+    c <== a * b; // Constraint: c must be a * b
+}</div>
+            </div>
+
+            <span class="video-label">Watch: ZK Whiteboard Sessions</span>
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/fOGdb1CTu5c" title="ZK Whiteboard" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- Stage 13: Layer 2 & Bridges -->
+        <section id="l2">
+            <div class="stage-header">
+                <h2>Stage 13: Layer 2 & Bridges</h2>
+                <span class="time-badge">~3 weeks</span>
+            </div>
+            <div class="requires-callout">Requires: <a href="#evm-internals">Stage 01</a></div>
+            <p>Scaling Ethereum without compromising on security. Layer 2s move execution off-chain while keeping security on-chain.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+                <div class="callout callout-iron" style="margin: 0;">
+                    <div>
+                        <span class="callout-title" style="color: var(--accent-cyan);">Optimistic Rollups</span>
+                        <strong>Arbitrum, Optimism, Base</strong>. Uses Fraud Proofs. 7-day withdrawal window. Security model: "Assume valid unless proven otherwise."
                     </div>
                 </div>
-
-                <div class="project-list">
-                    <div class="project-card">
-                        <h4>01 // Multi-Sig Wallet</h4>
-                        <p>Build a secure treasury management contract requiring M-of-N signatures.</p>
-                        <ul>
-                            <li>Nonce management</li>
-                            <li>Signature verification</li>
-                        </ul>
-                    </div>
-                    <div class="project-card">
-                        <h4>02 // DeFi AMM</h4>
-                        <p>Implement a Constant Product Market Maker like Uniswap V2.</p>
-                        <ul>
-                            <li>Liquidity provisioning</li>
-                            <li>Slippage calculations</li>
-                        </ul>
-                    </div>
-                    <div class="project-card">
-                        <h4>03 // Lending Protocol</h4>
-                        <p>A collateralized debt position system like Aave.</p>
-                        <ul>
-                            <li>Interest rate curves</li>
-                            <li>Liquidation logic</li>
-                        </ul>
-                    </div>
-                    <div class="project-card">
-                        <h4>04 // NFT Marketplace</h4>
-                        <p>Custom royalties, bidding systems, and lazy minting.</p>
-                        <ul>
-                            <li>ERC-721/1155 deep dive</li>
-                            <li>Escrow mechanics</li>
-                        </ul>
+                <div class="callout callout-iron" style="margin: 0; border-color: var(--accent-purple);">
+                    <div>
+                        <span class="callout-title" style="color: var(--accent-purple);">ZK Rollups</span>
+                        <strong>zkSync, Scroll, StarkNet</strong>. Uses Validity Proofs. Immediate L1 finality. Security model: "Cryptographic proof of correctness."
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
 
-        <footer>
-            <div class="footer-logo">CHAIN-CODE-CAMP</div>
-            <p>&copy; 2026. Designed for the Top 1%. Stay Vigilant.</p>
-        </footer>
+            <h3>EIP-4844: Proto-Danksharding</h3>
+            <p>The Dencun upgrade (March 2024) introduced <strong>Blobs</strong>. L2s now pay significantly less for data availability, dropping fees by 10-100x.</p>
+
+            <div class="callout callout-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <span class="callout-title">Sequencer Centralization</span>
+                    Most L2s currently rely on a single sequencer. If it goes offline, transactions stop. Always check for "escape hatch" mechanisms in the protocol.
+                </div>
+            </div>
+
+            <div class="audit-note" style="border-left: 6px solid var(--accent-red); background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+                <h4 style="color: var(--accent-red); margin-bottom: 0.5rem;"><i class="fas fa-biohazard"></i> Case Study: Nomad Bridge Hack ($190M)</h4>
+                <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                    <li>A routine upgrade accidentally set the trusted root to <code>0x00</code>.</li>
+                    <li>This caused <strong>any</strong> message to be considered valid by the bridge.</li>
+                    <li>One attacker discovered they could withdraw funds with an invalid proof.</li>
+                    <li>Hundreds of "copy-cat" attackers simply copied the transaction data, changed the recipient, and drained the bridge.</li>
+                </ol>
+            </div>
+
+            <div class="video-container">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/7pWxCklcNsU" title="L2 Architecture Explained" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul style="list-style: none; color: var(--accent-cyan);">
+                    <li>→ L2Beat — <a href="https://l2beat.com" target="_blank">l2beat.com</a> (Track L2 risks and TVL)</li>
+                    <li>→ EIP-4844 Explained — <a href="https://www.eip4844.com/" target="_blank">eip4844.com</a></li>
+                    <li>→ Arbitrum Developer Docs — <a href="https://docs.arbitrum.io/" target="_blank">docs.arbitrum.io</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 14: Tokenomics Deep Dive -->
+        <section id="tokenomics">
+            <div class="stage-header">
+                <h2>Stage 14: Tokenomics Deep Dive</h2>
+                <span class="time-badge">~2 weeks</span>
+            </div>
+            <p>"Tokenomics answers: Why would a rational, self-interested actor do what you need them to do? If the answer requires altruism, it will fail."</p>
+
+            <h3>The veToken Model (Vote-Escrowed)</h3>
+            <p>Pioneered by Curve. Lock tokens to gain voting power and boosted rewards. The longer you lock, the more power you get.</p>
+            <div class="code-block-container">
+                <button class="copy-btn"><i class="far fa-copy"></i></button>
+                <div class="code-block">
+// Simplified veToken logic
+function createLock(uint256 amount, uint256 unlockTime) external {
+    require(unlockTime > block.timestamp + 1 weeks);
+    require(unlockTime <= block.timestamp + 4 years);
+    // Power = amount * (time_remaining / 4_years)
+    _mintPower(msg.sender, amount, unlockTime);
+}</div>
+            </div>
+
+            <h3>Impermanent Loss (IL)</h3>
+            <p>The risk of providing liquidity. If the price ratio of assets in a pool changes, you would have been better off just holding.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Price Change</th>
+                        <th>Impermanent Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2x</td>
+                        <td>5.7%</td>
+                    </tr>
+                    <tr>
+                        <td>4x</td>
+                        <td>20.0%</td>
+                    </tr>
+                    <tr>
+                        <td>9x</td>
+                        <td>40.0%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="resources-block">
+                <h3>Resources</h3>
+                <ul style="list-style: none; color: var(--accent-cyan);">
+                    <li>→ Curve Finance Docs — <a href="https://resources.curve.fi/" target="_blank">resources.curve.fi</a></li>
+                    <li>→ Tokenomics Design Guide — <a href="https://tokenomicsdao.xyz/" target="_blank">tokenomicsdao.xyz</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Stage 15: 8 Projects -->
+        <section id="projects">
+            <div class="stage-header">
+                <h2>Stage 15: 8 Projects</h2>
+                <span class="time-badge">Ongoing</span>
+            </div>
+            <div class="project-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="callout callout-iron" style="display: block; margin: 0; border-color: var(--accent-cyan);">
+                    <span class="callout-title" style="color: var(--accent-cyan);">01 // Production ERC-20</span>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Implement EIP-2612 (Permit) and Snapshot voting. Learn about signature security.</p>
+                </div>
+                <div class="callout callout-iron" style="display: block; margin: 0; border-color: var(--accent-purple);">
+                    <span class="callout-title" style="color: var(--accent-purple);">02 // NFT Marketplace</span>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Build an off-chain order book using EIP-712 signatures. Zero gas listings.</p>
+                </div>
+                <div class="callout callout-iron" style="display: block; margin: 0; border-color: var(--accent-amber);">
+                    <span class="callout-title" style="color: var(--accent-amber);">03 // AMM from Scratch</span>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Derive the x*y=k math yourself. Implement swaps, liquidity, and fees.</p>
+                </div>
+                <div class="callout callout-iron" style="display: block; margin: 0; border-color: var(--accent-red);">
+                    <span class="callout-title" style="color: var(--accent-red);">04 // Lending Protocol</span>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Aave-style lending with interest rate curves and liquidation logic.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recognition">
+            <div class="stage-header">
+                <h2>Stage 16: Recognition</h2>
+                <span class="time-badge">Final Phase</span>
+            </div>
+            <p>Reputation is the most valuable asset in Web3. One high-severity finding on Code4rena is worth more than 20 low-severity ones.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th>Type</th>
+                        <th>Payout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Code4rena</td>
+                        <td>Competitive Audit</td>
+                        <td>Variable ($10k - $100k+)</td>
+                    </tr>
+                    <tr>
+                        <td>Immunefi</td>
+                        <td>Bug Bounty</td>
+                        <td>Up to $10M</td>
+                    </tr>
+                    <tr>
+                        <td>Sherlock</td>
+                        <td>Managed Audit</td>
+                        <td>Fixed + Performance</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="routine">
+            <div class="stage-header">
+                <h2>Stage 17: Daily Routine</h2>
+                <span class="time-badge">Lifelong</span>
+            </div>
+            <p>The habit of excellence. To be in the top 1%, you must out-work the 99%.</p>
+            <ul style="list-style: none;">
+                <li><strong>09:00 - 11:30:</strong> Deep Audit Practice (Read 1 protocol code-base).</li>
+                <li><strong>13:00 - 15:00:</strong> Build/Refine one of the 8 Projects.</li>
+                <li><strong>16:00 - 17:30:</strong> Read Rekt.news and Post-Mortems.</li>
+            </ul>
+        </section>
+
+        <section id="plan">
+            <div class="stage-header">
+                <h2>6-Month Plan</h2>
+                <span class="time-badge">Timeline</span>
+            </div>
+            <div style="border-left: 2px solid var(--accent-purple); padding-left: 1.5rem;">
+                <p><strong>Month 1:</strong> Foundation & Cryptography.</p>
+                <p><strong>Month 2:</strong> EVM & Gas Optimization.</p>
+                <p><strong>Month 3:</strong> Security & Auditing Practice.</p>
+                <p><strong>Month 4-6:</strong> Building the 8 Projects & Competing in Audits.</p>
+            </div>
+        </section>
+
+        <section id="elite">
+            <div class="stage-header">
+                <h2>Elite Knowledge</h2>
+                <span class="time-badge">The 1%</span>
+            </div>
+            <p>The final concepts that separate architects from developers. <strong>The best security researchers are adversarial thinkers first, coders second.</strong> Always ask: <em>"What breaks this?"</em>, not <em>"How does this work?"</em>.</p>
+            <div class="callout callout-iron" style="border-color: var(--accent-cyan);">
+                <div>
+                    <span class="callout-title" style="color: var(--accent-cyan);">The Golden Rule</span>
+                    "Build. Break. Learn. Repeat. Security is not a feature. It is the entire job."
+                </div>
+            </div>
+        </section>
     </main>
 
+    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
     <script>
-        // Mobile Nav Toggle
-        const toggle = document.getElementById('navToggle');
+        // --- Navigation ---
         const sidebar = document.getElementById('sidebar');
-        
-        toggle.addEventListener('click', () => {
-            sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
-            toggle.innerHTML = sidebar.style.transform === 'translateX(0px)' ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        const sidebarSearch = document.getElementById('sidebarSearch');
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('section');
+        const progressBar = document.getElementById('progressBar');
+        const progressPercent = document.getElementById('progressPercent');
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         });
 
-        // Simple scroll spy for active state
-        const sections = document.querySelectorAll('section');
-        const navItems = document.querySelectorAll('.nav-item');
+        // Search Functionality
+        sidebarSearch.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            navItems.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(term)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
 
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close sidebar on click (mobile)
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                }
+            });
+        });
+
+        // Scroll Spy & Progress
         window.addEventListener('scroll', () => {
             let current = '';
-            sections.forEach(section => {
+            let currentIdx = 0;
+            const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+            
+            sections.forEach((section, index) => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= sectionTop - 150) {
+                if (scrollPos >= sectionTop - 300) {
                     current = section.getAttribute('id');
+                    currentIdx = index;
                 }
             });
 
             navItems.forEach(item => {
                 item.classList.remove('active');
-                if (item.getAttribute('href').includes(current)) {
+                if (item.getAttribute('href').substring(1) === current) {
                     item.classList.add('active');
                 }
+            });
+
+            // Progress Update
+            const total = sections.length;
+            const percent = Math.round(((currentIdx + 1) / total) * 100);
+            if (progressBar) progressBar.style.width = percent + '%';
+            if (progressPercent) progressPercent.innerText = percent + '%';
+
+            // Scroll to Top visibility
+            const scrollTop = document.getElementById('scrollTop');
+            if (scrollPos > 500) {
+                scrollTop.style.display = 'flex';
+            } else {
+                scrollTop.style.display = 'none';
+            }
+        });
+
+        document.getElementById('scrollTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Copy to Clipboard
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => { btn.innerHTML = '<i class="far fa-copy"></i>'; }, 2000);
             });
         });
     </script>

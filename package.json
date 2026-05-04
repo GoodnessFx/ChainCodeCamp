@@ -1,0 +1,13 @@
+{
+  "name": "chaincodecamp-roadmap",
+  "version": "1.0.0",
+  "description": "World-Class Smart Contract Architect Roadmap",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve .",
+    "start": "serve ."
+  },
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}

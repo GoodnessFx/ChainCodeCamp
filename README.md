@@ -3,24 +3,34 @@
 Welcome to **ChainCodeCamp**, a world-class, security-first curriculum designed to transform developers into elite protocol architects and security auditors.
 
 ## 🚀 The Vision
-To provide the most rigorous, clear, and comprehensive path to mastering smart contract development and EVM internals. This isn't just a roadmap; it's an engineering blueprint for the top 1% of the field.
+To provide the most rigorous, clear, and comprehensive path to mastering smart contract development and EVM internals. This is an engineering blueprint for the top 1% of the field.
 
 ## 🛠️ Key Features
 - **Security-First Mindset**: Every concept is taught through the lens of protection and exploitation.
-- **Deep EVM Internals**: Master opcodes, storage patterns, and gas optimization from the ground up.
-- **Academic Precision**: A clean, readable, and highly structured layout designed for deep focus.
-- **8 Professional Artifacts**: Build real-world protocols (Multi-Sig, AMMs, Lending, etc.) to prove mastery.
+- **Interactive Technical Glossary**: Every technical term is clickable with instant, offline-ready definitions.
+- **Advanced Depth**: Deep dives into MEV, Account Abstraction (ERC-4337), and Zero-Knowledge Proofs.
+- **Framework Integration**: Direct links to industry-standard frameworks (Foundry, Hardhat) with usage examples.
+- **Premium UX**: Dark/Light theme, mobile-responsive design, and reading progress tracking.
+- **Offline Capable**: Designed to be fully functional without an internet connection for core reading.
 
 ## 📂 Project Structure
 - `smart-contract-roadmap.html`: The core interactive roadmap and curriculum.
-- `assets/`: (Planned) High-fidelity diagrams and technical documentation.
+- `package.json`: Local development environment configuration.
 
 ## 🏗️ Getting Started
 1. Clone the repository:
    ```bash
    git clone https://github.com/GoodnessFx/ChainCodeCamp.git
    ```
-2. Open `smart-contract-roadmap.html` in your browser to begin the journey.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open `http://localhost:3000/smart-contract-roadmap.html` in your browser.
 
 ## 🛡️ Security
 Security is our entire job. If you find vulnerabilities or have suggestions for improved auditing techniques, please contribute via a Pull Request.
