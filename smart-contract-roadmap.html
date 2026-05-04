@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAIN-CODE-CAMP // THE DEFINITIVE SMART CONTRACT ARCHITECT ROADMAP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Sora:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #FDFDFD;
+            --text: #1A1A1A;
+            --accent: #0052FF; /* Base Coinbase Blue */
+            --accent-soft: #EBF1FF;
+            --border: #E5E5E5;
+            --code-bg: #F8F9FA;
+            --sidebar-bg: #FFFFFF;
+            --font-main: 'Sora', sans-serif;
+            --font-head: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --max-width: 1100px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- Navigation HUD (Minimalist) --- */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 320px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            padding: 3rem 2rem;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .brand {
+            font-family: var(--font-head);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+            color: var(--accent);
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .nav-label {
+            font-family: var(--font-head);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #999;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.95rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.25rem;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-num {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* --- Main Content Area --- */
+        .main {
+            margin-left: 320px;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .content-wrap {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 6rem 4rem;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding-bottom: 8rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 6rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-head);
+            font-weight: 800;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: #555;
+            max-width: 800px;
+            line-height: 1.5;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .meta-stat h4 {
+            font-family: var(--font-head);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-stat span {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* --- Content Blocks --- */
+        section {
+            margin-bottom: 10rem;
+            scroll-margin-top: 4rem;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: baseline;
+            gap: 2rem;
+        }
+
+        .section-num {
+            font-family: var(--font-head);
+            font-size: 6rem;
+            font-weight: 800;
+            color: var(--accent-soft);
+            line-height: 1;
+        }
+
+        .section-title h2 {
+            font-family: var(--font-head);
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .time-est {
+            display: inline-block;
+            background: #F0F0F0;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        h3 {
+            font-family: var(--font-head);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin: 4rem 0 1.5rem;
+            color: var(--text);
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* --- Code Blocks (Clean PDF Style) --- */
+        .code-container {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin: 3rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FFF;
+        }
+
+        .code-label {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        pre {
+            padding: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        /* --- Security Callouts --- */
+        .audit-note {
+            background: #FFF5F5;
+            border: 1px solid #FFD1D1;
+            border-left: 6px solid #FF4D4D;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 4rem 0;
+        }
+
+        .audit-note h4 {
+            color: #FF4D4D;
+            font-family: var(--font-head);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .audit-note p {
+            margin-bottom: 0;
+            color: #661D1D;
+            font-size: 1rem;
+        }
+
+        /* --- Projects Grid --- */
+        .project-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .project-card {
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 16px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            transform: translateY(-5px);
+        }
+
+        .project-card h4 {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .project-card li {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-card li::before {
+            content: "→";
+            color: var(--accent);
+        }
+
+        /* --- Tables --- */
+        .table-wrap {
+            margin: 4rem 0;
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: #F9FAFB;
+            padding: 1.25rem 1.5rem;
+            font-family: var(--font-head);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #666;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 1rem;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 8rem 4rem;
+            background: #F9FAFB;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-head);
+            font-weight: 800;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 1200px) {
+            .sidebar { transform: translateX(-100%); }
+            .main { margin-left: 0; }
+            .content-wrap { padding: 4rem 2rem; }
+            .hero h1 { font-size: 3rem; }
+            .project-list { grid-template-columns: 1fr; }
+        }
+
+        .mobile-nav-toggle {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 4rem;
+            height: 4rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 82, 255, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .mobile-nav-toggle { display: flex; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="mobile-nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <i class="fas fa-terminal"></i>
+            <span>CCC ROADMAP</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <span class="nav-label">Phase I: Foundations</span>
+                <a href="#hero" class="nav-item active"><span class="nav-num">00</span> Introduction</a>
+                <a href="#foundation" class="nav-item"><span class="nav-num">01</span> Blockchain Basics</a>
+                <a href="#evm" class="nav-item"><span class="nav-num">02</span> EVM Internals</a>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">Phase II: Development</span>
+                <a href="#solidity" class="nav-item"><span class="nav-num">03</span> Solidity & Yul</a>
+                <a href="#security" class="nav-item"><span class="nav-num">04</span> Security First</a>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">Phase III: Advanced</span>
+                <a href="#tokenomics" class="nav-item"><span class="nav-num">05</span> Tokenomics</a>
+                <a href="#projects" class="nav-item"><span class="nav-num">06</span> 8 Pro Projects</a>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <div class="content-wrap">
+            <!-- Hero -->
+            <section id="hero" class="hero">
+                <h1>The Architect's Journey to Smart Contract Mastery.</h1>
+                <p>A rigorous, security-first curriculum designed to propel you into the top 1% of protocol developers and auditors. No fluff. Just engineering.</p>
+                
+                <div class="hero-meta">
+                    <div class="meta-stat">
+                        <h4>Stages</h4>
+                        <span>18</span>
+                    </div>
+                    <div class="meta-stat">
+                        <h4>Modules</h4>
+                        <span>200+</span>
+                    </div>
+                    <div class="meta-stat">
+                        <h4>Est. Time</h4>
+                        <span>6 Months</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Foundation -->
+            <section id="foundation">
+                <div class="section-header">
+                    <span class="section-num">01</span>
+                    <div class="section-title">
+                        <h2>The Foundation</h2>
+                        <span class="time-est">1 Week Duration</span>
+                    </div>
+                </div>
+
+                <p>Before writing a single line of Solidity, you must internalize the fundamental constraints of a decentralized environment. Smart contracts are <strong>immutable, transparent, and high-stakes</strong>. There is no "undo" button in production.</p>
+
+                <h3>Public-Key Cryptography</h3>
+                <p>The bedrock of blockchain identity. You must understand that an Ethereum address is simply the result of a cryptographic pipeline:</p>
+                <ol style="margin-left: 2rem; margin-bottom: 2rem;">
+                    <li>Generate a <strong>Private Key</strong> (256-bit random number).</li>
+                    <li>Derive the <strong>Public Key</strong> via ECDSA.</li>
+                    <li>Hash the Public Key using <code>keccak256</code>.</li>
+                    <li>Take the last 20 bytes of that hash.</li>
+                </ol>
+
+                <div class="audit-note">
+                    <h4><i class="fas fa-shield-alt"></i> Security Mindset #1</h4>
+                    <p>Identity is ownership. If a private key is compromised, the assets are gone. As a developer, you never handle user private keys directly; you design systems that interact with signatures.</p>
+                </div>
+            </section>
+
+            <!-- EVM -->
+            <section id="evm">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <div class="section-title">
+                        <h2>EVM Internals</h2>
+                        <span class="time-est">2 Weeks Duration</span>
+                    </div>
+                </div>
+
+                <p>The Ethereum Virtual Machine is a stack-based state machine. To be an elite developer, you must think in terms of opcodes and gas costs, not just high-level Solidity syntax.</p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Gas Cost</th>
+                                <th>Nature</th>
+                                <th>Security Context</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Stack</strong></td>
+                                <td>Minimal (3)</td>
+                                <td>Volatile</td>
+                                <td>1024 slots. Source of "Stack Too Deep" errors.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Memory</strong></td>
+                                <td>Quadratic</td>
+                                <td>Volatile</td>
+                                <td>Cheap for small data, exponentially expensive for large.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Storage</strong></td>
+                                <td>Expensive (20k+)</td>
+                                <td>Permanent</td>
+                                <td>The state of the world. Every SLOAD/SSTORE must be optimized.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>The DelegateCall Pattern</h3>
+                <p>One of the most powerful and dangerous opcodes in the EVM. It allows a contract to execute code from another contract but within its own storage context.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-label">vulnerability_example.sol</span>
+                    </div>
+                    <pre><code>// DANGER: Malicious contract can overwrite owner slot
+(bool success, ) = target.delegatecall(
+    abi.encodeWithSignature("attack()")
+);</code></pre>
+                </div>
+            </section>
+
+            <!-- Solidity -->
+            <section id="solidity">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <div class="section-title">
+                        <h2>Solidity & Yul Mastery</h2>
+                        <span class="time-est">4 Weeks Duration</span>
+                    </div>
+                </div>
+
+                <p>Solidity is the high-level language, but <strong>Yul</strong> is the assembly language that gives you surgical control over the EVM. Elite auditors look for patterns that high-level compilers might miss.</p>
+
+                <h3>Advanced Patterns</h3>
+                <ul>
+                    <li><strong>Bitwise Operations:</strong> Packing multiple variables into a single 32-byte storage slot to save gas.</li>
+                    <li><strong>Assembly Optimization:</strong> Using <code>mload</code> and <code>mstore</code> for efficient data handling.</li>
+                    <li><strong>Custom Errors:</strong> Using <code>error Name()</code> instead of strings to save gas on revert.</li>
+                </ul>
+            </section>
+
+            <!-- Security -->
+            <section id="security">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <div class="section-title">
+                        <h2>Security & Exploits</h2>
+                        <span class="time-est">Continuous Deep Dive</span>
+                    </div>
+                </div>
+
+                <p>Security is not a stage; it is the entire process. You must learn to think like an attacker to build as a defender. Every major DeFi hack in history is a lesson in code logic.</p>
+
+                <div class="audit-note" style="background: #FFF9EB; border-color: #FFE5A1; border-left-color: #F59E0B;">
+                    <h4 style="color: #B45309;"><i class="fas fa-exclamation-triangle"></i> Case Study: Reentrancy</h4>
+                    <p>The exploit that birthed Ethereum Classic. An attacker calls a function that makes an external call to the attacker's contract, which then calls back into the original function before the state is updated.</p>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-label">secure_withdrawal.sol</span>
+                    </div>
+                    <pre><code>function withdraw() public {
+    uint balance = balances[msg.sender];
+    require(balance > 0);
+    
+    // 1. Update state FIRST (Checks-Effects-Interactions)
+    balances[msg.sender] = 0;
+    
+    // 2. Then interact
+    (bool success, ) = msg.sender.call{value: balance}("");
+    require(success);
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- Tokenomics -->
+            <section id="tokenomics">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <div class="section-title">
+                        <h2>Tokenomics & Incentives</h2>
+                        <span class="time-est">2 Weeks Duration</span>
+                    </div>
+                </div>
+
+                <p>A smart contract protocol is as much an economic system as it is a software system. If the incentives are wrong, the code will be exploited economically even if it is technically bug-free.</p>
+                
+                <h3>Key Concepts</h3>
+                <ul>
+                    <li><strong>Supply Mechanics:</strong> Inflationary vs. Deflationary models.</li>
+                    <li><strong>Staking & Yield:</strong> How to design sustainable rewards without creating a Ponzi structure.</li>
+                    <li><strong>Governance:</strong> DAO structures, voting power, and protection against governance attacks.</li>
+                </ul>
+            </section>
+
+            <!-- Projects -->
+            <section id="projects">
+                <div class="section-header">
+                    <span class="section-num">06</span>
+                    <div class="section-title">
+                        <h2>8 Pro Artifacts</h2>
+                        <span class="time-est">Building Phase</span>
+                    </div>
+                </div>
+
+                <div class="project-list">
+                    <div class="project-card">
+                        <h4>01 // Multi-Sig Wallet</h4>
+                        <p>Build a secure treasury management contract requiring M-of-N signatures.</p>
+                        <ul>
+                            <li>Nonce management</li>
+                            <li>Signature verification</li>
+                        </ul>
+                    </div>
+                    <div class="project-card">
+                        <h4>02 // DeFi AMM</h4>
+                        <p>Implement a Constant Product Market Maker like Uniswap V2.</p>
+                        <ul>
+                            <li>Liquidity provisioning</li>
+                            <li>Slippage calculations</li>
+                        </ul>
+                    </div>
+                    <div class="project-card">
+                        <h4>03 // Lending Protocol</h4>
+                        <p>A collateralized debt position system like Aave.</p>
+                        <ul>
+                            <li>Interest rate curves</li>
+                            <li>Liquidation logic</li>
+                        </ul>
+                    </div>
+                    <div class="project-card">
+                        <h4>04 // NFT Marketplace</h4>
+                        <p>Custom royalties, bidding systems, and lazy minting.</p>
+                        <ul>
+                            <li>ERC-721/1155 deep dive</li>
+                            <li>Escrow mechanics</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer-logo">CHAIN-CODE-CAMP</div>
+            <p>&copy; 2026. Designed for the Top 1%. Stay Vigilant.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Mobile Nav Toggle
+        const toggle = document.getElementById('navToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        toggle.addEventListener('click', () => {
+            sidebar.style.transform = sidebar.style.transform === 'translateX(0px)' ? 'translateX(-100%)' : 'translateX(0px)';
+            toggle.innerHTML = sidebar.style.transform === 'translateX(0px)' ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Simple scroll spy for active state
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').includes(current)) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
