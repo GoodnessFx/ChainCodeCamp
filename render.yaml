@@ -1,0 +1,6 @@
+services:
+  - type: static
+    name: chaincodecamp
+    env: static
+    buildCommand: "npm install"
+    staticPublishNum: index.html
