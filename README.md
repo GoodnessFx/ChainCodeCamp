@@ -6,10 +6,12 @@ Welcome to **ChainCodeCamp**, a world-class, security-first curriculum designed 
 To provide the most rigorous, clear, and comprehensive path to mastering smart contract development and EVM internals. This is an engineering blueprint for the top 1% of the field.
 
 ## 🛠️ Key Features
+- **Splash Screen**: A minimalist, high-impact landing experience.
+- **Interactive Build Lab**: A simulated terminal to practice Foundry, Hardhat, and Git commands directly in your browser.
+- **Graduation System**: Complete the roadmap and generate a verifiable **Certificate of Mastery**.
 - **Security-First Mindset**: Every concept is taught through the lens of protection and exploitation.
 - **Interactive Technical Glossary**: Every technical term is clickable with instant, offline-ready definitions.
 - **Advanced Depth**: Deep dives into MEV, Account Abstraction (ERC-4337), and Zero-Knowledge Proofs.
-- **Framework Integration**: Direct links to industry-standard frameworks (Foundry, Hardhat) with usage examples.
 - **Premium UX**: Dark/Light theme, mobile-responsive design, and reading progress tracking.
 - **Offline Capable**: Designed to be fully functional without an internet connection for core reading.
 

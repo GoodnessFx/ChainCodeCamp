@@ -11,22 +11,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #060810;
-            --sidebar-bg: #0c0f1a;
-            --accent-cyan: #00d4ff;
-            --accent-purple: #7c3aed;
-            --accent-amber: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-green: #10b981;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --border-color: #1e293b;
-            --card-bg: #111422;
-            --sidebar-width: 280px;
-            --font-heading: 'Syne', sans-serif;
+            --bg-color: #0a0a23; /* fCC Dark Blue */
+            --sidebar-bg: #0a0a23;
+            --header-bg: #1b1b32;
+            --accent-color: #feac32; /* fCC Yellow */
+            --text-primary: #ffffff;
+            --text-secondary: #d0d0d5;
+            --border-color: #3b3b4f;
+            --card-bg: #1b1b32;
+            --sidebar-width: 300px;
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
             --font-code: 'IBM Plex Mono', monospace;
-            --font-number: 'Space Mono', monospace;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.2s ease;
         }
 
         * {
@@ -39,583 +35,246 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-primary);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: var(--font-main);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        /* --- Splash Screen --- */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        #splash.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .splash-logo {
+            font-size: 4rem;
+            color: var(--text-primary);
+            font-family: 'Syne', sans-serif;
+            letter-spacing: -2px;
+        }
+
+        /* --- Header --- */
+        header {
+            background: var(--header-bg);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: var(--text-primary);
         }
 
         /* --- Sidebar --- */
         .sidebar {
             position: fixed;
             left: 0;
-            top: 0;
+            top: 50px;
             width: var(--sidebar-width);
-            height: 100vh;
+            height: calc(100vh - 50px);
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
-            padding: 1.5rem;
+            padding: 1rem;
             overflow-y: auto;
             z-index: 1000;
             transition: transform 0.3s ease;
         }
 
-        .sidebar-logo {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            color: var(--accent-cyan);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-group {
-            margin-bottom: 2rem;
+        .sidebar-header {
+            padding: 1rem 0;
         }
 
         .nav-group-title {
-            font-family: var(--font-heading);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--accent-purple);
-            margin-bottom: 0.75rem;
-            padding-left: 0.5rem;
+            color: var(--text-secondary);
+            margin: 1.5rem 0 0.5rem 0.5rem;
+            font-weight: 600;
         }
 
         .nav-item {
             display: block;
-            padding: 0.6rem 0.75rem;
+            padding: 0.5rem 1rem;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+            border-radius: 2px;
+            transition: var(--transition);
         }
 
         .nav-item:hover {
-            color: var(--accent-cyan);
-            background: rgba(0, 212, 255, 0.05);
+            background: var(--border-color);
+            color: var(--text-primary);
         }
 
         .nav-item.active {
+            background: var(--border-color);
             color: var(--text-primary);
-            background: linear-gradient(90deg, rgba(124, 58, 237, 0.2) 0%, rgba(0, 212, 255, 0.1) 100%);
-            border-left: 3px solid var(--accent-cyan);
-            font-weight: 600;
+            border-left: 3px solid var(--accent-color);
         }
 
         /* --- Main Content --- */
         .main-content {
             margin-left: var(--sidebar-width);
-            padding: 0;
+            padding-top: 50px;
         }
 
         section {
-            padding: 6rem 4rem;
-            border-bottom: 1px solid var(--border-color);
-            max-width: 1200px;
+            padding: 4rem 2rem;
+            max-width: 900px;
             margin: 0 auto;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        /* --- Hero Section --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
-        }
-
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin-bottom: 3rem;
-        }
-
-        .stats-row {
-            display: flex;
-            gap: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-value {
-            font-family: var(--font-number);
-            font-size: 1.5rem;
-            color: var(--accent-cyan);
-            font-weight: bold;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            letter-spacing: 0.05em;
-        }
-
-        /* --- Stage Components --- */
         h2 {
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        h2::before {
-            content: '';
-            width: 4px;
-            height: 2.5rem;
-            background: var(--accent-purple);
-            display: inline-block;
-        }
-
-        h3 {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            margin: 2.5rem 0 1.25rem;
-            color: var(--accent-cyan);
-        }
-
-        p {
+            font-size: 2rem;
             margin-bottom: 1.5rem;
-            color: var(--text-secondary);
-            font-size: 1.05rem;
+            font-family: 'Syne', sans-serif;
         }
 
-        strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .code-block-container {
-            position: relative;
-            margin: 1.5rem 0;
-        }
-
-        .code-block {
-            background: #0d1117;
+        /* --- Build Lab Simulation --- */
+        .build-lab {
+            background: #1b1b32;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 4px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .lab-header {
+            background: #2a2a40;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-family: var(--font-code);
+        }
+
+        .lab-terminal {
             padding: 1.5rem;
             font-family: var(--font-code);
+            background: #000;
+            color: #00ff00;
+            min-height: 200px;
             font-size: 0.9rem;
-            color: #d1d5db;
-            overflow-x: auto;
-            line-height: 1.5;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 0.4rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .copy-btn:hover {
-            background: var(--accent-cyan);
-            color: white;
-            border-color: var(--accent-cyan);
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            border: 1px solid;
-        }
-
-        .callout-iron {
-            background: rgba(148, 163, 184, 0.05);
-            border-color: #94a3b8;
-            color: #94a3b8;
-        }
-
-        .callout-danger {
-            background: rgba(239, 68, 68, 0.05);
-            border-color: var(--accent-red);
-            color: var(--accent-red);
-        }
-
-        .callout-title {
-            font-weight: 800;
-            margin-bottom: 0.25rem;
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 1rem 1.25rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background: rgba(255, 255, 255, 0.03);
-            font-family: var(--font-heading);
-            color: var(--accent-cyan);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .resources-block {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-        }
-
-        .resources-block ul {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .resources-block li {
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
-        }
-
-        .resources-block a {
-            color: var(--accent-cyan);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .resources-block a:hover {
-            text-decoration: underline;
-        }
-
-        /* --- Syntax Highlighting --- */
-        .token.comment { color: #6a737d; }
-        .token.keyword { color: var(--accent-purple); }
-        .token.string { color: var(--accent-green); }
-        .token.number { color: var(--accent-amber); }
-        .token.function { color: var(--accent-cyan); }
-        .token.type { color: #ffcb6b; }
-
-        .video-container {
-            position: relative;
-            margin: 2.5rem 0;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            aspect-ratio: 16/9;
-        }
-
-        .video-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            display: block;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        /* --- Scroll to Top --- */
-        #scrollTop {
-            position: fixed;
-            bottom: 2rem;
-            right: 1.5rem;
-            background: var(--accent-purple);
-            color: white;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1001;
-            border: none;
-            transition: var(--transition);
-        }
-
-        /* --- Theme Toggle --- */
-        .theme-toggle {
-            position: fixed;
-            top: 1.5rem;
-            right: 4rem;
-            z-index: 1001;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f8fafc;
-            --sidebar-bg: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --border-color: #e2e8f0;
-            --card-bg: #ffffff;
-        }
-
-        /* --- Progress Tracker --- */
-        .progress-tracker {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem;
-            margin-bottom: 2rem;
-        }
-
-        .progress-text {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .progress-bar-bg {
-            background: var(--border-color);
-            height: 4px;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        /* --- Search Bar --- */
-        .search-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.6rem 1rem 0.6rem 2.5rem;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.8rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* --- Badge --- */
-        .time-badge {
-            background: rgba(124, 58, 237, 0.1);
-            color: var(--accent-purple);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-family: var(--font-number);
-            font-size: 0.75rem;
-            border: 1px solid var(--accent-purple);
-        }
-
-        .stage-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .requires-callout {
-            background: rgba(0, 212, 255, 0.05);
-            border-left: 3px solid var(--accent-cyan);
-            padding: 0.75rem 1rem;
-            margin-bottom: 2rem;
-            font-size: 0.85rem;
-            color: var(--accent-cyan);
-        }
-
-        .requires-callout a {
-            color: var(--accent-cyan);
-            text-decoration: underline;
-        }
-
-        /* --- Glossary Tooltips --- */
-        .term {
-            color: var(--accent-cyan);
-            border-bottom: 1px dashed var(--accent-cyan);
-            cursor: help;
-            position: relative;
-            display: inline-block;
-        }
-
-        .term::after {
-            content: attr(data-def);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--sidebar-bg);
-            color: var(--text-primary);
-            padding: 0.75rem;
-            border-radius: 8px;
-            border: 1px solid var(--accent-cyan);
-            font-size: 0.85rem;
-            width: 250px;
-            white-space: normal;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 2000;
-            pointer-events: none;
             line-height: 1.4;
-            font-weight: normal;
-            font-family: 'Inter', sans-serif;
+            overflow-y: auto;
+            max-height: 400px;
         }
 
-        .term:hover::after {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* --- Framework Cards --- */
-        .framework-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .framework-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: var(--transition);
-        }
-
-        .framework-card:hover {
-            border-color: var(--accent-purple);
-            transform: translateY(-5px);
-        }
-
-        .framework-card h4 {
-            color: var(--accent-cyan);
-            margin-bottom: 0.75rem;
-            font-family: var(--font-heading);
-        }
-
-        .framework-link {
-            display: inline-block;
+        .lab-input-line {
+            display: flex;
+            gap: 0.5rem;
             margin-top: 1rem;
-            color: var(--accent-purple);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
         }
 
-        .framework-link:hover {
-            text-decoration: underline;
+        .lab-prompt { color: var(--accent-color); }
+        .lab-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+            flex: 1;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        /* --- Certificate --- */
+        #certificate-section {
+            text-align: center;
+            background: radial-gradient(circle, #1b1b32 0%, #0a0a23 100%);
+        }
+
+        .cert-form {
+            max-width: 400px;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cert-input {
+            padding: 0.8rem;
+            background: var(--header-bg);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .cert-btn {
+            padding: 1rem;
+            background: var(--accent-color);
+            color: #0a0a23;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        #cert-canvas {
+            max-width: 100%;
+            height: auto;
+            margin-top: 2rem;
+            display: none;
+            border: 10px solid #feac32;
         }
 
         @media (max-width: 1024px) {
-            .sidebar { transform: translateX(-100%); width: 100%; max-width: 320px; }
+            .sidebar { transform: translateX(-100%); }
             .sidebar.open { transform: translateX(0); }
             .main-content { margin-left: 0; }
-            .mobile-menu-btn { display: block; }
-            section { padding: 4rem 1.5rem; }
-            .hero h1 { font-size: 2.5rem; }
-            .theme-toggle { right: 1rem; }
-        }
-
-        /* --- Mobile Toggle --- */
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1002;
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
+            .mobile-menu-btn { display: block !important; }
         }
     </style>
 </head>
 <body>
 
-    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
-    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+    <!-- Splash Screen -->
+    <div id="splash">
+        <div class="splash-logo"><i class="fas fa-cube"></i> CCC</div>
+    </div>
+
+    <header>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" style="display: none;"><i class="fas fa-bars"></i></button>
+        <a href="#" class="header-logo">ChainCodeCamp (A)</a>
+        <div style="flex: 1;"></div>
+        <button class="theme-toggle" id="themeToggle" style="position: static; margin-right: 1rem;"><i class="fas fa-moon"></i></button>
+    </header>
 
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <i class="fas fa-cube"></i>
-                <span>CHAINCODECAMP</span>
-            </div>
-
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" id="sidebarSearch" placeholder="Search sections...">
+                <input type="text" class="search-input" id="sidebarSearch" placeholder="Search lessons...">
             </div>
 
             <div class="progress-tracker">
                 <div class="progress-text">
-                    <span>Course Progress</span>
+                    <span>Your Progress</span>
                     <span id="progressPercent">0%</span>
                 </div>
                 <div class="progress-bar-bg">
@@ -624,64 +283,54 @@
             </div>
         </div>
 
-        <div class="nav-group">
-            <div class="nav-group-title">Foundation</div>
-            <a href="#prerequisites" class="nav-item">Prerequisites</a>
-            <a href="#evm-internals" class="nav-item">EVM Internals</a>
-            <a href="#solidity-yul" class="nav-item">Solidity + Yul</a>
-            <a href="#languages" class="nav-item">Languages</a>
-            <a href="#tools" class="nav-item">Tools</a>
-        </div>
+        <nav>
+            <div class="nav-group">
+                <div class="nav-group-title">1. Foundation</div>
+                <a href="#prerequisites" class="nav-item">Prerequisites</a>
+                <a href="#evm-internals" class="nav-item">EVM Internals</a>
+                <a href="#solidity-yul" class="nav-item">Solidity + Yul</a>
+                <a href="#tools" class="nav-item">Professional Toolchain</a>
+            </div>
 
-        <div class="nav-group">
-            <div class="nav-group-title">Core Mastery</div>
-            <a href="#security" class="nav-item">Security & Auditing</a>
-            <a href="#gas" class="nav-item">Gas Optimization</a>
-            <a href="#tokens" class="nav-item">Token Standards</a>
-            <a href="#proxies" class="nav-item">Proxies & Upgrades</a>
-            <a href="#defi" class="nav-item">DeFi Architecture</a>
-        </div>
+            <div class="nav-group">
+                <div class="nav-group-title">2. Core Mastery</div>
+                <a href="#security" class="nav-item">Security & Auditing</a>
+                <a href="#gas" class="nav-item">Gas Optimization</a>
+                <a href="#tokens" class="nav-item">Token Standards</a>
+                <a href="#proxies" class="nav-item">Proxies & Upgrades</a>
+                <a href="#defi" class="nav-item">DeFi Architecture</a>
+            </div>
 
-        <div class="nav-group">
-            <div class="nav-group-title">Advanced</div>
-            <a href="#mev" class="nav-item">MEV Infrastructure</a>
-            <a href="#aa" class="nav-item">Account Abstraction</a>
-            <a href="#zk" class="nav-item">Zero-Knowledge</a>
-            <a href="#l2" class="nav-item">Layer 2 & Bridges</a>
-            <a href="#tokenomics" class="nav-item">Tokenomics Deep Dive</a>
-        </div>
+            <div class="nav-group">
+                <div class="nav-group-title">3. Advanced</div>
+                <a href="#mev" class="nav-item">MEV Infrastructure</a>
+                <a href="#aa" class="nav-item">Account Abstraction</a>
+                <a href="#zk" class="nav-item">Zero-Knowledge</a>
+                <a href="#l2" class="nav-item">Layer 2 & Bridges</a>
+                <a href="#tokenomics" class="nav-item">Tokenomics</a>
+            </div>
 
-        <div class="nav-group">
-            <div class="nav-group-title">Build & Grow</div>
-            <a href="#projects" class="nav-item">8 Projects</a>
-            <a href="#recognition" class="nav-item">Recognition</a>
-            <a href="#routine" class="nav-item">Daily Routine</a>
-            <a href="#plan" class="nav-item">6-Month Plan</a>
-            <a href="#elite" class="nav-item">Elite Knowledge</a>
-        </div>
+            <div class="nav-group">
+                <div class="nav-group-title">4. Graduation</div>
+                <a href="#projects" class="nav-item">The 8 Projects</a>
+                <a href="#certificate-section" class="nav-item">Get Your Certificate</a>
+            </div>
+        </nav>
     </aside>
 
     <main class="main-content">
         <!-- Hero Section -->
-        <section id="hero" class="hero">
-            <h1>World-Class Smart Contract Developer Roadmap</h1>
-            <p>From zero to protocol architect. Every exploit explained. Every concept proven. Security is the entire job.</p>
-            <div class="stats-row">
+        <section id="hero" class="hero" style="min-height: 80vh;">
+            <h1 style="font-family: 'Syne', sans-serif; font-size: 3.5rem;">Learn Smart Contract Security.</h1>
+            <p>Master the EVM. Build secure protocols. Become a protocol architect. 100% free. 100% technical.</p>
+            <div class="stats-row" style="margin-top: 2rem;">
                 <div class="stat-item">
-                    <span class="stat-value">17</span>
+                    <span class="stat-value">18</span>
                     <span class="stat-label">Stages</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">200+</span>
-                    <span class="stat-label">Topics</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-value">8</span>
                     <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">6 Mo</span>
-                    <span class="stat-label">Duration</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-value">$2B+</span>
@@ -919,19 +568,34 @@ uint128 d; // Slot 1</div>
                 <span class="time-badge">~1 week</span>
             </div>
             
+            <p>Master the tools of the trade. Foundry and Hardhat are your primary workhorses. Practice using them in the interactive lab below.</p>
+
+            <div class="build-lab">
+                <div class="lab-header">
+                    <span>Terminal - foundry-sim</span>
+                    <span>bash</span>
+                </div>
+                <div class="lab-terminal" id="labTerminal">
+                    <div>$ <span style="color: #fff;">curl -L https://foundry.paradigm.xyz | bash</span></div>
+                    <div>Foundry installed successfully.</div>
+                    <div>$ <span style="color: #fff;">foundryup</span></div>
+                    <div>Updated to latest version.</div>
+                    <div class="lab-input-line">
+                        <span class="lab-prompt">$</span>
+                        <input type="text" class="lab-input" id="labInput" placeholder="Try 'forge build' or 'forge test'">
+                    </div>
+                </div>
+            </div>
+
             <div class="framework-grid">
                 <div class="framework-card">
                     <h4>Foundry</h4>
                     <p>The lightning-fast, Rust-based toolkit. Use this to compile, test, and deploy with extreme speed.</p>
-                    <div class="code-block" style="font-size: 0.75rem; padding: 0.75rem; margin-top: 0.5rem;">
-curl -L https://foundry.paradigm.xyz | bash</div>
                     <a href="https://book.getfoundry.sh/" target="_blank" class="framework-link">Download & Install →</a>
                 </div>
                 <div class="framework-card">
                     <h4>Hardhat</h4>
                     <p>The JavaScript-based industry standard. Perfect for complex plugins and extensive JS testing.</p>
-                    <div class="code-block" style="font-size: 0.75rem; padding: 0.75rem; margin-top: 0.5rem;">
-npm install --save-dev hardhat</div>
                     <a href="https://hardhat.org/" target="_blank" class="framework-link">Get Started →</a>
                 </div>
             </div>
@@ -1414,38 +1078,33 @@ function createLock(uint256 amount, uint256 unlockTime) external {
             </ul>
         </section>
 
-        <section id="plan">
+        <section id="certificate-section">
             <div class="stage-header">
-                <h2>6-Month Plan</h2>
-                <span class="time-badge">Timeline</span>
+                <h2>Graduation</h2>
             </div>
-            <div style="border-left: 2px solid var(--accent-purple); padding-left: 1.5rem;">
-                <p><strong>Month 1:</strong> Foundation & Cryptography.</p>
-                <p><strong>Month 2:</strong> EVM & Gas Optimization.</p>
-                <p><strong>Month 3:</strong> Security & Auditing Practice.</p>
-                <p><strong>Month 4-6:</strong> Building the 8 Projects & Competing in Audits.</p>
+            <p>Congratulations, Architect. You have completed the ChainCodeCamp roadmap. Claim your certificate of mastery below.</p>
+            
+            <div class="cert-form">
+                <input type="text" id="studentName" class="cert-input" placeholder="Enter your full name">
+                <button class="cert-btn" id="generateCert">Claim Certificate</button>
+            </div>
+            
+            <canvas id="cert-canvas" width="800" height="600" style="display: none; margin: 2rem auto; border: 5px solid var(--accent-color);"></canvas>
+            <div id="cert-download-link" style="margin-top: 1rem; display: none;">
+                <a href="#" id="downloadBtn" class="framework-link" style="font-size: 1.2rem;">Download Certificate →</a>
             </div>
         </section>
 
-        <section id="elite">
-            <div class="stage-header">
-                <h2>Elite Knowledge</h2>
-                <span class="time-badge">The 1%</span>
-            </div>
-            <p>The final concepts that separate architects from developers. <strong>The best security researchers are adversarial thinkers first, coders second.</strong> Always ask: <em>"What breaks this?"</em>, not <em>"How does this work?"</em>.</p>
-            <div class="callout callout-iron" style="border-color: var(--accent-cyan);">
-                <div>
-                    <span class="callout-title" style="color: var(--accent-cyan);">The Golden Rule</span>
-                    "Build. Break. Learn. Repeat. Security is not a feature. It is the entire job."
-                </div>
-            </div>
-        </section>
+        <footer>
+            <div class="footer-logo">CHAINCODECAMP</div>
+            <p>&copy; 2026. Designed for the Top 1%. Stay Vigilant.</p>
+        </footer>
     </main>
 
     <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
 
     <script>
-        // --- Navigation ---
+        // --- Navigation & Core ---
         const sidebar = document.getElementById('sidebar');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const themeToggle = document.getElementById('themeToggle');
@@ -1454,6 +1113,14 @@ function createLock(uint256 amount, uint256 unlockTime) external {
         const sections = document.querySelectorAll('section');
         const progressBar = document.getElementById('progressBar');
         const progressPercent = document.getElementById('progressPercent');
+        const splash = document.getElementById('splash');
+
+        // Splash Screen
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                splash.classList.add('hidden');
+            }, 1500);
+        });
 
         // Theme Toggle
         themeToggle.addEventListener('click', () => {
@@ -1467,27 +1134,24 @@ function createLock(uint256 amount, uint256 unlockTime) external {
             const term = e.target.value.toLowerCase();
             navItems.forEach(item => {
                 const text = item.innerText.toLowerCase();
-                if (text.includes(term)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+                item.style.display = text.includes(term) ? 'block' : 'none';
             });
         });
 
         mobileMenuBtn.addEventListener('click', () => {
             sidebar.classList.toggle('open');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-            mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
 
-        // Close sidebar on click (mobile)
         navItems.forEach(item => {
             item.addEventListener('click', () => {
                 if (window.innerWidth <= 1024) {
                     sidebar.classList.remove('open');
-                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
                 }
             });
         });
@@ -1513,13 +1177,10 @@ function createLock(uint256 amount, uint256 unlockTime) external {
                 }
             });
 
-            // Progress Update
-            const total = sections.length;
-            const percent = Math.round(((currentIdx + 1) / total) * 100);
+            const percent = Math.round(((currentIdx + 1) / sections.length) * 100);
             if (progressBar) progressBar.style.width = percent + '%';
             if (progressPercent) progressPercent.innerText = percent + '%';
 
-            // Scroll to Top visibility
             const scrollTop = document.getElementById('scrollTop');
             if (scrollPos > 500) {
                 scrollTop.style.display = 'flex';
@@ -1541,6 +1202,86 @@ function createLock(uint256 amount, uint256 unlockTime) external {
                 setTimeout(() => { btn.innerHTML = '<i class="far fa-copy"></i>'; }, 2000);
             });
         });
+
+        // --- Build Lab Simulation ---
+        const labInput = document.getElementById('labInput');
+        const labTerminal = document.getElementById('labTerminal');
+
+        if (labInput) {
+            labInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = labInput.value.toLowerCase().trim();
+                    const output = document.createElement('div');
+                    output.style.marginTop = '0.5rem';
+                    
+                    if (cmd === 'forge build') {
+                        output.innerHTML = 'Compiling 24 files with 0.8.20...<br><span style="color: #feac32;">[SUCCESS]</span> Finished in 1.2s';
+                    } else if (cmd === 'forge test') {
+                        output.innerHTML = 'Running 12 tests...<br><span style="color: #feac32;">[PASS]</span> testWithdrawal()<br><span style="color: #feac32;">[PASS]</span> testOwnershipTransfer()<br><span style="color: #feac32;">Test result: ok. 12 passed; 0 failed.</span>';
+                    } else if (cmd === 'git push') {
+                        output.innerHTML = 'Counting objects: 100% (5/5), done.<br>Writing objects: 100% (3/3), 320 bytes | 320.00 KiB/s, done.<br>To github.com:your-name/smart-contract-roadmap.git<br>   a1b2c3d..e5f6g7h  main -> main';
+                    } else {
+                        output.innerHTML = `Command not found: ${cmd}. Try 'forge build', 'forge test', or 'git push'.`;
+                        output.style.color = '#ff4d4d';
+                    }
+                    
+                    labTerminal.insertBefore(output, labInput.parentElement);
+                    labInput.value = '';
+                    labTerminal.scrollTop = labTerminal.scrollHeight;
+                }
+            });
+        }
+
+        // --- Certificate Generation ---
+        const genBtn = document.getElementById('generateCert');
+        const canvas = document.getElementById('cert-canvas');
+        if (genBtn && canvas) {
+            const ctx = canvas.getContext('2d');
+
+            genBtn.addEventListener('click', () => {
+                const name = document.getElementById('studentName').value || 'Web3 Architect';
+                
+                // Draw Background
+                ctx.fillStyle = '#0a0a23';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw Border
+                ctx.strokeStyle = '#feac32';
+                ctx.lineWidth = 20;
+                ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+                
+                // Draw Text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                
+                ctx.font = 'bold 40px Inter';
+                ctx.fillText('CERTIFICATE OF MASTERY', canvas.width/2, 120);
+                
+                ctx.font = '24px Inter';
+                ctx.fillText('THIS IS TO CERTIFY THAT', canvas.width/2, 200);
+                
+                ctx.fillStyle = '#feac32';
+                ctx.font = 'italic bold 60px Inter';
+                ctx.fillText(name.toUpperCase(), canvas.width/2, 300);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '24px Inter';
+                ctx.fillText('HAS SUCCESSFULLY COMPLETED THE', canvas.width/2, 380);
+                
+                ctx.font = 'bold 32px Inter';
+                ctx.fillText('CHAINCODECAMP ARCHITECT ROADMAP', canvas.width/2, 430);
+                
+                ctx.font = '20px Inter';
+                ctx.fillText('DATED: ' + new Date().toLocaleDateString(), canvas.width/2, 520);
+                
+                canvas.style.display = 'block';
+                document.getElementById('cert-download-link').style.display = 'block';
+                
+                const dataUrl = canvas.toDataURL('image/png');
+                document.getElementById('downloadBtn').href = dataUrl;
+                document.getElementById('downloadBtn').download = `ChainCodeCamp_Cert_${name.replace(/\s+/g, '_')}.png`;
+            });
+        }
     </script>
 </body>
 </html>
