@@ -101,6 +101,9 @@
             color: var(--text); padding: 10px 12px 10px 40px; border-radius: 8px;
             font-size: 0.9rem; outline: none;
         }
+        @media (max-width: 1024px) {
+            .sidebar-search input { font-size: 16px; } /* Prevent iOS zoom */
+        }
         .sidebar-search svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-dim); }
 
         .sidebar-progress { margin-bottom: 40px; }
@@ -121,7 +124,23 @@
 
         /* --- Main Content --- */
         .main-content { margin-left: var(--sidebar-width); padding-top: 64px; }
-        @media (max-width: 1024px) { .main-content { margin-left: 0; } }
+        @media (max-width: 1024px) { 
+            .main-content { margin-left: 0; } 
+            section { padding: 60px 20px; }
+            .stage-card { padding: 24px; }
+            .sidebar-logo span { font-size: 1.5rem; }
+            .splash-text { font-size: 3.5rem; }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.75rem; }
+            .sidebar { width: 280px; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .hero-stats { flex-direction: column; gap: 32px; }
+            .stage-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .completion-footer { flex-direction: column; gap: 20px; align-items: stretch; }
+            .mark-complete-btn { justify-content: center; }
+        }
 
         section { padding: 100px 48px; max-width: 1000px; margin: 0 auto; scroll-margin-top: 80px; border-bottom: 1px solid var(--border); }
         h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; margin-bottom: 24px; }
@@ -134,6 +153,10 @@
         .stage-header { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
         .stage-icon { width: 64px; height: 64px; background: rgba(88, 166, 255, 0.1); border-radius: 14px; color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .stage-icon svg { width: 32px; height: 32px; }
+
+        .simple-terms { background: rgba(88, 166, 255, 0.05); border-left: 4px solid var(--accent); padding: 20px; margin: 24px 0; border-radius: 0 12px 12px 0; }
+        .simple-terms h4 { margin-top: 0; margin-bottom: 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .simple-terms p { margin-bottom: 0; font-size: 1rem; font-style: italic; color: var(--text); }
 
         .code-block-container { position: relative; margin: 32px 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; }
         pre code { font-family: var(--font-code) !important; font-size: 14px; padding: 24px !important; display: block; }
@@ -248,7 +271,7 @@
             <div style="padding: 100px 0;">
                 <h1 style="margin-bottom: 40px; font-weight: 800; letter-spacing: -2px;">The Protocol <br><span style="color: var(--accent); filter: drop-shadow(0 0 20px rgba(88, 166, 255, 0.3));">Architect</span> <br>Roadmap.</h1>
                 <p style="max-width: 750px; font-size: 1.4rem; line-height: 1.6; color: var(--text-dim); margin-bottom: 60px;">A rigorous, academic-grade curriculum for the next generation of smart contract engineers. Master the EVM, secure billions in TVL, and build the future of finance.</p>
-                <div style="display: flex; gap: 64px; margin-top: 80px; border-top: 1px solid var(--border); padding-top: 48px;">
+                <div style="display: flex; gap: 64px; margin-top: 80px; border-top: 1px solid var(--border); padding-top: 48px;" class="hero-stats">
                     <div><div style="font-size: 3.5rem; font-weight: 800; font-family: var(--font-heading); line-height: 1;">18</div><div style="font-weight: 800; color: var(--accent); letter-spacing: 0.1em; font-size: 0.8rem; margin-top: 8px;">STAGES</div></div>
                     <div><div style="font-size: 3.5rem; font-weight: 800; font-family: var(--font-heading); line-height: 1;">12</div><div style="font-weight: 800; color: var(--accent); letter-spacing: 0.1em; font-size: 0.8rem; margin-top: 8px;">PROTOCOLS</div></div>
                     <div><div style="font-size: 3.5rem; font-weight: 800; font-family: var(--font-heading); line-height: 1;">$5B+</div><div style="font-weight: 800; color: var(--accent); letter-spacing: 0.1em; font-size: 0.8rem; margin-top: 8px;">EXPLOITS ANALYZED</div></div>
@@ -271,6 +294,11 @@
                     </div>
                 </div>
                 <p>Before you touch a single line of Solidity, you must understand the environment in which your code will live. Ethereum is not just a computer; it is a <strong>Global, Deterministic State Machine</strong>. Every operation must be verifiable by every node on the planet.</p>
+                
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Imagine a giant, global notebook that everyone can see but no one can erase. To write a new page in this notebook, you don't need a password—you need a mathematical "key." This stage teaches you how those keys are made and why the notebook is impossible to hack.</p>
+                </div>
                 
                 <h3>1. Cryptography: The Invisible Architecture</h3>
                 <p>Identity and ownership in Web3 are purely mathematical. You don't "log in"; you prove ownership through digital signatures. Understanding the underlying math is critical for identifying potential cryptographic flaws in protocols.</p>
@@ -325,6 +353,11 @@
                 </div>
                 <p>The Ethereum Virtual Machine (EVM) is a quasi-Turing complete machine. It is <strong>stack-based</strong>, 256-bit word size, and Big-endian. Every operation costs "Gas", which is a anti-spam mechanism to prevent infinite loops (The Halting Problem).</p>
 
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>The EVM is the "Brain" of Ethereum. It's like a universal computer that lives everywhere at once. "Gas" is like the fuel you pay to make this brain think. If you want it to do something complex, you need more fuel. This stage shows you how the brain stores information while it's thinking.</p>
+                </div>
+
                 <h3>The Anatomy of the State Machine</h3>
                 <div class="table-wrapper">
                     <table>
@@ -378,6 +411,11 @@
                     </div>
                 </div>
                 <p>Solidity is a high-level language that compiles down to EVM bytecode. To be a pro, you must understand how the compiler maps your variables to storage slots and how inheritance affects the final contract.</p>
+                
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Solidity is the "Language" we use to talk to the Ethereum Brain. It's like writing a recipe. But just like a kitchen has limited cabinet space, Ethereum has limited "Storage Slots." If you organize your ingredients (variables) well, you save money. If you're messy, it gets expensive fast!</p>
+                </div>
                 
                 <h3>1. Storage Packing & Slot Layout</h3>
                 <p>The EVM works in 32-byte slots. If you use types smaller than 32 bytes (like <code>uint128</code>, <code>uint8</code>, or <code>bool</code>), the compiler will pack them into a single slot if they are declared sequentially. This saves <strong>20,000 gas</strong> per slot avoided.</p>
@@ -435,6 +473,11 @@ require(msg.sender == owner);</code></pre>
                     </div>
                 </div>
                 <p>When Solidity's high-level abstractions aren't enough, you drop into <strong>Yul</strong>. Yul is the intermediate language for the EVM and provides total control over the stack and memory. It is essentially "typed assembly".</p>
+                
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>If Solidity is like driving an automatic car, Yul is like opening the hood and manually moving the gears with your hands. It's dangerous because there are no safety guards, but it's the only way to get the absolute maximum speed and efficiency out of the engine.</p>
+                </div>
                 
                 <h3>1. Why drop into Yul?</h3>
                 <ul>
@@ -495,6 +538,11 @@ require(msg.sender == owner);</code></pre>
                 </div>
                 <p>Smart contract development has moved away from Hardhat/Truffle towards <strong>Foundry</strong>. It is a portable, fast, and modular toolkit for Ethereum application development written in Rust.</p>
 
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Foundry is the "Power Tool" set for blockchain builders. Before Foundry, testing code was slow and used different languages. Foundry lets you build, test, and break things all in one place, with lightning speed. It's the difference between using a hand-saw and a laser-cutter.</p>
+                </div>
+
                 <h3>1. The Power of Forge</h3>
                 <p>Foundry's <code>forge</code> allows you to write tests in Solidity. This means you don't need to switch contexts between JS/TS and Solidity.</p>
                 <ul>
@@ -543,6 +591,11 @@ require(msg.sender == owner);</code></pre>
                     </div>
                 </div>
                 <p>In Web3, <strong>Code is Law</strong>. A single bug can lead to the permanent loss of hundreds of millions of dollars. You must learn to think like an attacker.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>On the normal internet, if you lose your password, you can click "forgot password." In the world of smart contracts, there is no "undo" button. If there's a tiny crack in your vault's door, a thief will find it and take everything. This stage teaches you how to spot those cracks before they do.</p>
+                </div>
 
                 <h3>1. The DAO Hack (Reentrancy)</h3>
                 <p>The hack that changed Ethereum history. It happens when a contract calls an external address <strong>before</strong> updating its own state. The attacker's contract can then call back into the original contract to withdraw funds multiple times.</p>
@@ -599,6 +652,11 @@ function withdraw() public {
                 </div>
                 <p>Gas is the oxygen of Ethereum. Efficient code isn't just "nice to have"; it's the difference between a usable protocol and a graveyard of expensive transactions. As a Protocol Architect, your goal is to minimize <code>SSTORE</code> operations.</p>
                 
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Every time you do something on Ethereum, it's like taking a taxi. The more "stuff" you carry and the longer the trip, the more you pay. Optimization is the art of packing your bags so perfectly that you can fit everything into the smallest, cheapest car possible.</p>
+                </div>
+                
                 <h3>1. High-Level Gas Saving Techniques</h3>
                 <ul>
                     <li><strong><code>external</code> over <code>public</code>:</strong> External functions are cheaper when receiving large arrays because they read directly from <code>calldata</code>.</li>
@@ -650,6 +708,11 @@ for (uint i = 0; i < length; ) {
                 </div>
                 <p>Standardization is what makes DeFi composable. You must master the core EIPs that power the ecosystem, but also their <strong>Security Pitfalls</strong>.</p>
 
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Think of tokens like different brands of Lego bricks. If they all have the same bumps and holes (Standards), they can stick together to build amazing things. If one brand decides to change its shape, everything breaks. This stage teaches you the "Standard" shapes of the blockchain world.</p>
+                </div>
+
                 <h3>1. ERC-20: The Fungible Standard</h3>
                 <p>The most common standard, but full of "weird" implementations. 
                     <br><strong>Security Mindset:</strong> Use OpenZeppelin's <code>SafeERC20</code>. Some tokens (like USDT) don't return a boolean on <code>transfer</code>, which can cause your contract to revert if not handled correctly.
@@ -695,6 +758,11 @@ interface IERC4626 {
                     </div>
                 </div>
                 <p>Contracts are immutable, but businesses need to evolve. Proxies allow you to update logic while keeping the same state and address. This is achieved via <code>DELEGATECALL</code>.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Normally, once you build a house on the blockchain, you can't move the walls. A "Proxy" is like building a house with a magical front door. You can change the entire house behind the door without ever changing the address or the key. It's powerful, but if you're not careful, the door might lead to a void!</p>
+                </div>
 
                 <h3>1. Proxy Patterns</h3>
                 <ul>
@@ -742,6 +810,11 @@ uint b;</code></pre>
                 </div>
                 <p>DeFi is a game of "Money Legos". You must understand how to integrate with existing protocols safely. The power of DeFi comes from its <strong>Permissionless Composability</strong>.</p>
                 
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>DeFi is like a giant, 24/7 bank that has no employees. Everything is run by robots (Smart Contracts). You can borrow money, trade coins, or earn interest just by talking to these robots. It's open to everyone, but there's no manager to call if the robot makes a mistake!</p>
+                </div>
+                
                 <h3>1. Core DeFi Primitives</h3>
                 <ul>
                     <li><strong>Automated Market Makers (AMMs):</strong> Understanding the Constant Product Formula <code>x * y = k</code>. Study Uniswap v2 and v3.
@@ -780,6 +853,11 @@ uint b;</code></pre>
                     </div>
                 </div>
                 <p>Maximal Extractable Value (MEV) is the profit that can be extracted by reordering, including, or excluding transactions in a block. It is the "Dark Forest" of Ethereum.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>When you send a transaction, it doesn't happen instantly. It sits in a "waiting room" (the mempool). While it's waiting, super-fast bots can see what you're doing and try to "cut in line" to make a profit. It's like a high-speed game of musical chairs where the prize is your money.</p>
+                </div>
 
                 <h3>1. Common MEV Strategies</h3>
                 <ul>
@@ -826,6 +904,11 @@ uint b;</code></pre>
                 </div>
                 <p>Unit tests only prove that your code works for specific inputs. <strong>Formal Verification</strong> proves it works for ALL possible inputs. Property-based testing is the transition from "it works" to "it's secure".</p>
 
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Standard testing is like checking if a key fits in a lock. "Formal Verification" is using a super-computer to mathematically prove that <em>no other key in the universe</em> can open that lock. It's the highest level of certainty you can have that your code is truly safe.</p>
+                </div>
+
                 <h3>1. Invariant Testing (Foundry)</h3>
                 <p>An invariant is a property that must always be true. For example: "The total number of shares in a vault must always equal the sum of all users' share balances." Foundry will generate thousands of random transaction sequences to try and break this.</p>
 
@@ -871,7 +954,12 @@ function invariant_TotalSupply() public {
                         <h2>Layer 2 Architecture & Bridges</h2>
                     </div>
                 </div>
-                <p>Ethereum is scaling through layers. As a developer, you must understand the trade-offs between different L2 solutions.</p>
+                <p>Ethereum is scaling through layers. As a developer, you must understand the trade-offs between different L2 solutions. The goal is to move the execution away from L1 while keeping L1 security.</p>
+                
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Ethereum is like a crowded city where the rent is too high. "Layer 2" is like building high-speed trains to the suburbs. You can live (do transactions) far away for much cheaper, but you still use the city's police force (Ethereum's security) to stay safe.</p>
+                </div>
                 
                 <h3>Rollup Taxonomy</h3>
                 <ul>
@@ -905,7 +993,12 @@ function invariant_TotalSupply() public {
                         <h2>Governance & DAOs</h2>
                     </div>
                 </div>
-                <p>Decentralized Autonomous Organizations (DAOs) are the backbone of protocol management. Governance is how we manage upgrades, risk parameters, and treasury funds.</p>
+                <p>Decentralized Autonomous Organizations (DAOs) are the backbone of protocol management. Governance is how we manage upgrades, risk parameters, and treasury funds without a central leader.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>A DAO is like a company that has no boss. Instead of one person making decisions, everyone who owns a piece of the company (Tokens) gets to vote. The "Rules" are written in code, so the money can only be spent if the majority agrees. It's democracy for the internet.</p>
+                </div>
 
                 <h3>Governance Mechanisms</h3>
                 <ul>
@@ -934,7 +1027,12 @@ function invariant_TotalSupply() public {
                         <h2>Zero-Knowledge Proofs (ZKP)</h2>
                     </div>
                 </div>
-                <p>ZKP is the "Holy Grail" of blockchain technology, enabling privacy and massive scalability without compromising security.</p>
+                <p>ZKP is the "Holy Grail" of blockchain technology, enabling privacy and massive scalability without compromising security. It allows you to prove you know a secret without revealing the secret itself.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Imagine you have a treasure chest and you want to prove to me that you have the key, but you don't want to show me the key itself. Zero-Knowledge Proofs let you prove you "know the secret" mathematically without ever revealing what the secret is. It's the ultimate tool for privacy.</p>
+                </div>
 
                 <h3>Core Concepts</h3>
                 <ul>
@@ -965,7 +1063,12 @@ function invariant_TotalSupply() public {
                         <h2>Account Abstraction (ERC-4337)</h2>
                     </div>
                 </div>
-                <p>The next billion users won't use seed phrases. Account Abstraction turns wallets into smart contracts, enabling seamless UX.</p>
+                <p>The next billion users won't use seed phrases. Account Abstraction (AA) turns wallets into smart contracts, enabling seamless UX like social recovery, gas sponsorship, and batch transactions.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Current crypto wallets are like a physical wallet—if you lose it, the money is gone. Account Abstraction turns your wallet into a "Smart Bank Account." You can have a "Forgot Password" feature, let a friend help you recover it, or even have someone else pay for your transaction fees.</p>
+                </div>
 
                 <h3>Key Components</h3>
                 <ul>
@@ -996,7 +1099,12 @@ function invariant_TotalSupply() public {
                         <h2>Cross-Chain Interoperability</h2>
                     </div>
                 </div>
-                <p>The future is multi-chain. Protocols must be able to move data and value across different networks securely.</p>
+                <p>The future is multi-chain. Protocols must be able to move data and value across different networks securely. This is one of the hardest problems in Web3.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>Blockchain networks are like different countries that don't speak the same language. "Interoperability" is like building bridges and hiring translators between them. It lets you send your digital money from one country to another without having to come back home first.</p>
+                </div>
 
                 <h3>Interoperability Solutions</h3>
                 <ul>
@@ -1025,7 +1133,12 @@ function invariant_TotalSupply() public {
                         <h2>Final Project: The Protocol Architect</h2>
                     </div>
                 </div>
-                <p>To earn your certification, you must build a production-ready DeFi protocol that demonstrates mastery of all previous stages.</p>
+                <p>To earn your certification, you must build a production-ready DeFi protocol that demonstrates mastery of all previous stages. This is your "Thesis" for the Academy.</p>
+
+                <div class="simple-terms">
+                    <h4>💡 In Simple Terms</h4>
+                    <p>This is your "Graduation Project." You've learned the math, the language, the security, and the magic. Now, you must build something real—a working robot that can manage money for people fairly and safely. Once you build it, you'll be a true Architect.</p>
+                </div>
 
                 <h3>Project Requirements</h3>
                 <ul>
@@ -1074,6 +1187,16 @@ function invariant_TotalSupply() public {
             mobileMenuBtn.innerText = sidebar.classList.contains('open') ? 'Close' : 'Menu';
         });
 
+        // Close sidebar when clicking a nav item on mobile
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                    mobileMenuBtn.innerText = 'Menu';
+                }
+            });
+        });
+
         // --- Theme ---
         const themeToggle = document.getElementById('themeToggle');
         const sunIcon = document.querySelector('.sun-icon');
@@ -1095,7 +1218,7 @@ function invariant_TotalSupply() public {
             let current = "";
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 150) current = section.getAttribute('id');
+                if (window.pageYOffset >= sectionTop - 150) current = section.getAttribute('id');
             });
             navItems.forEach(item => {
                 item.classList.remove('active');
