@@ -158,12 +158,14 @@
         .simple-terms h4 { margin-top: 0; margin-bottom: 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
         .simple-terms p { margin-bottom: 0; font-size: 1rem; font-style: italic; color: var(--text); }
 
-        .code-block-container { position: relative; margin: 32px 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #000; }
-        pre code { font-family: var(--font-code) !important; font-size: 14px; padding: 24px !important; display: block; }
-        .copy-btn { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: #FFF; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
-
-        .table-wrapper { margin: 40px 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--card); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
+        .code-block-container { position: relative; margin: 32px 0; border-radius: 12px; border: 1px solid var(--border); background: #000; overflow: hidden; }
+        pre { margin: 0; overflow-x: auto; }
+        pre code { font-family: var(--font-code) !important; font-size: 14px; padding: 24px !important; display: block; white-space: pre; }
+        .copy-btn { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: 1px solid var(--border); color: #FFF; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; z-index: 10; }
+        .copy-btn:hover { background: rgba(255,255,255,0.2); }
+        
+        .table-wrapper { margin: 40px 0; border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; background: var(--card); -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
         th { background: rgba(0,0,0,0.2); padding: 16px 24px; font-weight: 700; color: var(--text); border-bottom: 2px solid var(--border); }
         td { padding: 16px 24px; border-bottom: 1px solid var(--border); color: var(--text-dim); }
         tr:last-child td { border-bottom: none; }
@@ -171,10 +173,12 @@
         .video-wrapper { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:16px; margin:40px 0; border: 1px solid var(--border); }
         .video-wrapper iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
 
-        .completion-footer { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .completion-footer { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
         .mark-complete-btn { display: flex; align-items: center; gap: 12px; background: var(--accent); color: white; padding: 12px 24px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .mark-complete-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
         .mark-complete-btn.completed { background: #238636; }
+        .share-lesson-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .share-lesson-btn:hover { border-color: var(--accent); color: var(--accent); }
 
         #backToTop { position: fixed; bottom: 32px; right: 32px; width: 56px; height: 56px; border-radius: 12px; background: var(--accent); color: white; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,0.3); z-index: 1000; }
         
@@ -332,6 +336,10 @@
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/0UvVOMZqpEA" allowfullscreen loading="lazy"></iframe></div>
                 
                 <div class="completion-footer">
+                    <button class="share-lesson-btn" onclick="shareLesson(0)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Share Lesson
+                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(0)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -391,6 +399,10 @@
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/RxL_1AfV7N4" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
+                    <button class="share-lesson-btn" onclick="shareLesson(1)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Share Lesson
+                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(1)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -453,6 +465,10 @@ require(msg.sender == owner);</code></pre>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/umepbfKp5rI" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
+                    <button class="share-lesson-btn" onclick="shareLesson(2)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Share Lesson
+                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(2)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -517,6 +533,10 @@ require(msg.sender == owner);</code></pre>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/S2C_j7pC8_E" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
+                    <button class="share-lesson-btn" onclick="shareLesson(3)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Share Lesson
+                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(3)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -571,6 +591,10 @@ require(msg.sender == owner);</code></pre>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fNMfM8Y0GZA" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
+                    <button class="share-lesson-btn" onclick="shareLesson(4)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Share Lesson
+                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(4)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -631,6 +655,10 @@ function withdraw() public {
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/DRZogmD647U" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
+                    <button class="share-lesson-btn" onclick="shareLesson(5)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Share Lesson
+                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(5)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -1153,20 +1181,158 @@ function invariant_TotalSupply() public {
             </div>
         </section>
 
+        <!-- Quick Reference / Cheat Sheet -->
+        <section id="cheatsheet">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-icon" style="background: rgba(88, 166, 255, 0.1); color: var(--accent);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 800; color: var(--accent); margin-bottom: 4px;">REFERENCE</div>
+                        <h2>Blockchain Architect's Cheat Sheet</h2>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-top: 32px;">
+                    <div>
+                        <h4 style="color: var(--accent); margin-bottom: 16px;">Core Opcodes (Gas Costs)</h4>
+                        <ul style="font-family: var(--font-mono); font-size: 0.9rem; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">SLOAD: 2100 (Cold) / 100 (Warm)</li>
+                            <li style="margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">SSTORE: 20,000 (New) / 2,900 (Update)</li>
+                            <li style="margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">CALL: 2100 (Cold) / 100 (Warm)</li>
+                            <li style="margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 4px;">KECCAK256: 30 + 6 per word</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent); margin-bottom: 16px;">Common Vulnerabilities</h4>
+                        <ul style="font-size: 0.9rem; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px;">• Reentrancy (DAO Hack)</li>
+                            <li style="margin-bottom: 8px;">• Integer Overflow (Pre-0.8)</li>
+                            <li style="margin-bottom: 8px;">• Oracle Manipulation</li>
+                            <li style="margin-bottom: 8px;">• Front-running (MEV)</li>
+                            <li style="margin-bottom: 8px;">• Unprotected Selfdestruct</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--accent); margin-bottom: 16px;">Security Checklist</h4>
+                        <ul style="font-size: 0.9rem; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 8px;">[ ] Checks-Effects-Interactions</li>
+                            <li style="margin-bottom: 8px;">[ ] Use SafeERC20</li>
+                            <li style="margin-bottom: 8px;">[ ] Validate all Inputs</li>
+                            <li style="margin-bottom: 8px;">[ ] Limit Admin Powers</li>
+                            <li style="margin-bottom: 8px;">[ ] Fuzz & Invariant Tests</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section id="resources">
+            <div class="stage-card">
+                <div class="stage-header">
+                    <div class="stage-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9rem; font-weight: 800; color: #10B981; margin-bottom: 4px;">EXTENSIONS</div>
+                        <h2>Curated Learning Resources</h2>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 32px;">
+                    <a href="https://solidity-by-example.org/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Solidity by Example</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.7;">Quick reference for common Solidity patterns.</p>
+                    </a>
+                    <a href="https://www.damnvulnerabledefi.xyz/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Damn Vulnerable DeFi</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.7;">The industry standard for auditing wargames.</p>
+                    </a>
+                    <a href="https://ethernaut.openzeppelin.com/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Ethernaut</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.7;">Web3/Solidity based wargame by OpenZeppelin.</p>
+                    </a>
+                    <a href="https://rekt.news/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                        <h4 style="margin-bottom: 8px;">Rekt News</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.7;">The dark side of DeFi: documenting every hack.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Certificate -->
         <section id="certificate" style="text-align: center;">
             <div class="stage-card">
-                <h2>Proof of Mastery</h2>
+                <div id="certLocked">
+                    <div class="stage-icon" style="margin: 0 auto 24px; width: 80px; height: 80px; background: rgba(240, 192, 64, 0.1); color: #F0C040;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2 style="margin-bottom: 16px;">Certificate Locked</h2>
+                    <p style="max-width: 500px; margin: 0 auto 32px;">Complete all 18 main stages to unlock your official <strong>Protocol Architect Certificate</strong>. Your mastery must be proven before it is certified.</p>
+                    <div style="font-size: 1.25rem; font-weight: 800; color: var(--accent);"><span id="certProgress">0</span> / 18 STAGES COMPLETE</div>
+                </div>
+
+                <div id="certUnlocked" style="display: none;">
+                    <div class="stage-icon" style="margin: 0 auto 24px; width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); color: #10B981;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h2 style="margin-bottom: 16px;">Mastery Proven</h2>
+                    <p style="margin-bottom: 32px;">You have successfully completed the rigorous ChainCodeCamp roadmap. Enter your name below to generate your verifiable proof of mastery.</p>
+                    <div style="max-width: 400px; margin: 32px auto;">
+                        <input type="text" id="studentName" placeholder="Enter Full Name" style="width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text); margin-bottom: 20px; font-size: 1rem;">
+                        <button id="generateCert" style="width: 100%; padding: 16px; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1rem;">Generate Certificate</button>
+                    </div>
+                </div>
+
+                <canvas id="certCanvas" width="1200" height="800" style="display: none; width: 100%; max-width: 800px; border-radius: 16px; margin: 40px auto 0; box-shadow: 0 20px 50px rgba(0,0,0,0.5);"></canvas>
+                <div id="certActions" style="display: none; margin-top: 32px; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <button id="downloadCert" style="padding: 14px 32px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); cursor: pointer; font-weight: 600; color: var(--text);">Download PNG</button>
+                    <a id="shareTwitter" target="_blank" style="padding: 14px 32px; background: #1DA1F2; color: white; border-radius: 10px; font-weight: 700; text-decoration: none;">Share on X</a>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer style="background: #05070A; color: white; padding: 120px 48px; text-align: center;">
-        <div style="font-size: 2rem; font-weight: 800; margin-bottom: 24px; font-family: var(--font-heading);">⛓ ChainCodeCamp</div>
-        <p style="opacity: 0.6; margin-bottom: 40px; font-size: 1.1rem;">Built for the top 1% of smart contract developers.</p>
-        <div style="display: flex; justify-content: center; gap: 32px; margin-bottom: 60px;">
-            <a href="#" style="color: white; opacity: 0.8; text-decoration: none; font-weight: 600;">Twitter / X</a>
-            <a href="#" style="color: white; opacity: 0.8; text-decoration: none; font-weight: 600;">GitHub</a>
+    <footer style="background: #030508; color: white; padding: 48px 24px; border-top: 1px solid var(--border);">
+        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; text-align: left;">
+            <div style="grid-column: span 2;">
+                <div style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; color: var(--accent);">
+                        <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    ChainCodeCamp
+                </div>
+                <p style="opacity: 0.5; font-size: 0.85rem; line-height: 1.5; max-width: 320px;">The definitive training ground for protocol architects. Built for the top 1%.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);">Curriculum</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.85rem;">
+                    <li style="margin-bottom: 8px;"><a href="#stage00" style="color: white; opacity: 0.6; text-decoration: none;">Foundation</a></li>
+                    <li style="margin-bottom: 8px;"><a href="#stage05" style="color: white; opacity: 0.6; text-decoration: none;">Security</a></li>
+                    <li style="margin-bottom: 8px;"><a href="#stage10" style="color: white; opacity: 0.6; text-decoration: none;">MEV & ZK</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);">Connect</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.85rem;">
+                    <li style="margin-bottom: 8px;"><a href="#" style="color: white; opacity: 0.6; text-decoration: none;">Twitter / X</a></li>
+                    <li style="margin-bottom: 8px;"><a href="#" style="color: white; opacity: 0.6; text-decoration: none;">GitHub</a></li>
+                </ul>
+            </div>
         </div>
-        <p style="font-size: 0.9rem; opacity: 0.4;">Not affiliated with any blockchain foundation. All content is free and open source.</p>
+        <div style="max-width: 1100px; margin: 32px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="opacity: 0.3; font-size: 0.75rem;">© 2026 ChainCodeCamp. All rights reserved.</div>
+            <div style="opacity: 0.3; font-size: 0.75rem;">Master the Machine.</div>
+        </div>
     </footer>
 
     <button id="backToTop">↑</button>
@@ -1246,8 +1412,23 @@ function invariant_TotalSupply() public {
         };
         const updateCompletion = () => {
             const completed = JSON.parse(localStorage.getItem('completedStages') || '[]');
-            const percent = Math.round((completed.length / 18) * 100);
+            const totalStages = 18;
+            const percent = Math.round((completed.length / totalStages) * 100);
             document.getElementById('progressVal').innerText = percent + "%";
+            
+            // Update certificate gate
+            const certLocked = document.getElementById('certLocked');
+            const certUnlocked = document.getElementById('certUnlocked');
+            const certProgress = document.getElementById('certProgress');
+            if (certProgress) certProgress.innerText = completed.length;
+            
+            if (completed.length >= totalStages) {
+                if (certLocked) certLocked.style.display = 'none';
+                if (certUnlocked) certUnlocked.style.display = 'block';
+            } else {
+                if (certLocked) certLocked.style.display = 'block';
+                if (certUnlocked) certUnlocked.style.display = 'none';
+            }
             
             // Update sidebar items
             document.querySelectorAll('.nav-item').forEach(item => {
@@ -1324,6 +1505,16 @@ function invariant_TotalSupply() public {
             const link = document.createElement('a'); link.download = 'certificate.png';
             link.href = canvas.toDataURL(); link.click();
         });
+
+        const shareLesson = (id) => {
+            const url = window.location.href.split('#')[0] + '#stage' + (id < 10 ? '0' + id : id);
+            const text = `I'm learning Protocol Architecture at ChainCodeCamp! Check out Stage ${id}:`;
+            if (navigator.share) {
+                navigator.share({ title: 'ChainCodeCamp', text: text, url: url });
+            } else {
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+            }
+        };
 
         hljs.highlightAll();
     </script>
