@@ -53,8 +53,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background var(--transition), color var(--transition), border-color var(--transition); }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg); color: var(--text); font-family: var(--font-main); font-size: 16px; line-height: 1.75; overflow-x: hidden; }
+        html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+        body { background-color: var(--bg); color: var(--text); font-family: var(--font-main); font-size: 16px; line-height: 1.75; overflow-x: hidden; width: 100%; position: relative; }
 
         /* --- Splash Screen --- */
         #splash {
@@ -62,13 +62,16 @@
             background: #05070A; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 10000;
             transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
-            padding: 20px;
+            padding: 24px; text-align: center;
         }
         #splash.hidden { opacity: 0; visibility: hidden; }
-        .splash-content { text-align: center; transform: translateY(0); transition: transform 0.8s ease; width: 100%; max-width: 400px; }
-        .splash-logo { width: clamp(80px, 20vw, 180px); height: clamp(80px, 20vw, 180px); fill: var(--accent); margin-bottom: 32px; animation: splashPulse 2.5s infinite ease-in-out; filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)); }
-        .splash-text { font-family: var(--font-heading); font-size: clamp(3rem, 15vw, 5rem); color: #FFF; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
-        .splash-sub { font-family: var(--font-main); font-size: clamp(0.9rem, 4vw, 1.5rem); color: var(--accent); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+        .splash-content { 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%; max-width: 400px;
+        }
+        .splash-logo { width: clamp(80px, 20vw, 180px); height: clamp(80px, 20vw, 180px); fill: var(--accent); margin-bottom: 32px; animation: splashPulse 2.5s infinite ease-in-out; filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)); flex-shrink: 0; }
+        .splash-text { font-family: var(--font-heading); font-size: clamp(3rem, 15vw, 5rem); color: #FFF; letter-spacing: -2px; line-height: 1; margin-bottom: 12px; white-space: nowrap; }
+        .splash-sub { font-family: var(--font-main); font-size: clamp(0.8rem, 3.5vw, 1.25rem); color: var(--accent); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; white-space: nowrap; }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
 
         /* --- Header --- */
@@ -127,24 +130,28 @@
         /* --- Main Content --- */
         .main-content { margin-left: var(--sidebar-width); padding-top: 64px; min-width: 0; }
         @media (max-width: 1024px) { 
-            .main-content { margin-left: 0; width: 100%; overflow-x: hidden; } 
-            section { padding: 60px 16px; width: 100%; max-width: 100%; border-bottom: 1px solid var(--border); }
+            .main-content { margin-left: 0; width: 100%; overflow-x: hidden; position: relative; } 
+            section { padding: 60px 16px; width: 100%; max-width: 100%; border-bottom: 1px solid var(--border); overflow: hidden; }
             .stage-card { padding: 24px; margin-bottom: 32px; width: 100%; overflow-wrap: break-word; }
             .sidebar-logo span { font-size: 1.5rem; }
-            .splash-text { font-size: 3rem; }
+            .splash-text { font-size: clamp(2.5rem, 12vw, 4rem); }
             h1 { font-size: 2.25rem; }
             h2 { font-size: 1.5rem; }
             .sidebar { width: 280px; }
+            .hero-stats { flex-wrap: wrap; gap: 32px; }
         }
         @media (max-width: 480px) {
             h1 { font-size: 1.75rem; }
             .hero-stats { flex-direction: column; gap: 24px; }
-            .stage-header { flex-direction: row; align-items: center; gap: 16px; }
+            .stage-header { flex-direction: row; align-items: center; gap: 16px; flex-wrap: wrap; }
             .stage-icon { width: 48px; height: 48px; flex-shrink: 0; }
             .stage-icon svg { width: 24px; height: 24px; }
             .completion-footer { flex-direction: column; gap: 16px; align-items: stretch; }
             .mark-complete-btn, .share-lesson-btn { justify-content: center; width: 100%; }
-            section { padding: 40px 12px; }
+            section { padding: 40px 16px; }
+            .stage-card { padding: 20px; }
+            h2 { font-size: 1.35rem; }
+            h3 { font-size: 1.25rem; padding-left: 12px; margin-top: 32px; }
         }
 
         section { padding: 100px 48px; max-width: 1000px; margin: 0 auto; scroll-margin-top: 80px; border-bottom: 1px solid var(--border); width: 100%; overflow: hidden; }
@@ -1307,36 +1314,36 @@ function invariant_TotalSupply() public {
         </section>
     </main>
 
-    <footer style="background: #030508; color: white; padding: 48px 16px; border-top: 1px solid var(--border);">
-        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 32px; text-align: left;">
+    <footer style="background: var(--sidebar-bg); color: var(--text); padding: 64px 24px; border-top: 1px solid var(--border);">
+        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 40px; text-align: left;">
             <div style="grid-column: 1 / -1;">
-                <div style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; color: var(--accent);">
+                <div style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading); display: flex; align-items: center; gap: 10px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 28px; height: 28px; color: var(--accent);">
                         <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     ChainCodeCamp
                 </div>
-                <p style="opacity: 0.5; font-size: 0.85rem; line-height: 1.5; max-width: 320px;">The definitive training ground for protocol architects. Built for the top 1%.</p>
+                <p style="color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; max-width: 400px; margin-bottom: 0;">The definitive training ground for protocol architects. Built for the top 1%.</p>
             </div>
             <div>
-                <h4 style="margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);">Curriculum</h4>
-                <ul style="list-style: none; padding: 0; font-size: 0.85rem;">
-                    <li style="margin-bottom: 8px;"><a href="#stage00" style="color: white; opacity: 0.6; text-decoration: none;">Foundation</a></li>
-                    <li style="margin-bottom: 8px;"><a href="#stage05" style="color: white; opacity: 0.6; text-decoration: none;">Security</a></li>
-                    <li style="margin-bottom: 8px;"><a href="#stage10" style="color: white; opacity: 0.6; text-decoration: none;">MEV & ZK</a></li>
+                <h4 style="margin-bottom: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 800;">Curriculum</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
+                    <li style="margin-bottom: 12px;"><a href="#stage00" style="color: var(--text-dim); text-decoration: none; transition: 0.2s;">Foundation</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#stage05" style="color: var(--text-dim); text-decoration: none; transition: 0.2s;">Security</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#stage10" style="color: var(--text-dim); text-decoration: none; transition: 0.2s;">MEV & ZK</a></li>
                 </ul>
             </div>
             <div>
-                <h4 style="margin-bottom: 16px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);">Connect</h4>
-                <ul style="list-style: none; padding: 0; font-size: 0.85rem;">
-                    <li style="margin-bottom: 8px;"><a href="#" style="color: white; opacity: 0.6; text-decoration: none;">Twitter / X</a></li>
-                    <li style="margin-bottom: 8px;"><a href="#" style="color: white; opacity: 0.6; text-decoration: none;">GitHub</a></li>
+                <h4 style="margin-bottom: 20px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 800;">Connect</h4>
+                <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
+                    <li style="margin-bottom: 12px;"><a href="#" style="color: var(--text-dim); text-decoration: none; transition: 0.2s;">Twitter / X</a></li>
+                    <li style="margin-bottom: 12px;"><a href="#" style="color: var(--text-dim); text-decoration: none; transition: 0.2s;">GitHub</a></li>
                 </ul>
             </div>
         </div>
-        <div style="max-width: 1100px; margin: 32px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-            <div style="opacity: 0.3; font-size: 0.75rem;">© 2026 ChainCodeCamp.</div>
-            <div style="opacity: 0.3; font-size: 0.75rem;">Master the Machine.</div>
+        <div style="max-width: 1100px; margin: 48px auto 0; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="color: var(--text-dim); font-size: 0.8rem; opacity: 0.6;">© 2026 ChainCodeCamp.</div>
+            <div style="color: var(--text-dim); font-size: 0.8rem; opacity: 0.6;">Master the Machine.</div>
         </div>
     </footer>
 
