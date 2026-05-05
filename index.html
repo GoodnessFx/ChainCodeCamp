@@ -62,12 +62,13 @@
             background: #05070A; display: flex; flex-direction: column;
             justify-content: center; align-items: center; z-index: 10000;
             transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
+            padding: 20px;
         }
         #splash.hidden { opacity: 0; visibility: hidden; }
-        .splash-content { text-align: center; transform: translateY(0); transition: transform 0.8s ease; }
-        .splash-logo { width: 180px; height: 180px; fill: var(--accent); margin-bottom: 32px; animation: splashPulse 2.5s infinite ease-in-out; filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)); }
-        .splash-text { font-family: var(--font-heading); font-size: 5rem; color: #FFF; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
-        .splash-sub { font-family: var(--font-main); font-size: 1.5rem; color: var(--accent); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+        .splash-content { text-align: center; transform: translateY(0); transition: transform 0.8s ease; width: 100%; max-width: 400px; }
+        .splash-logo { width: clamp(80px, 20vw, 180px); height: clamp(80px, 20vw, 180px); fill: var(--accent); margin-bottom: 32px; animation: splashPulse 2.5s infinite ease-in-out; filter: drop-shadow(0 0 30px rgba(88, 166, 255, 0.3)); }
+        .splash-text { font-family: var(--font-heading); font-size: clamp(3rem, 15vw, 5rem); color: #FFF; letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+        .splash-sub { font-family: var(--font-main); font-size: clamp(0.9rem, 4vw, 1.5rem); color: var(--accent); font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
         @keyframes splashPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
 
         /* --- Header --- */
@@ -75,7 +76,7 @@
             position: fixed; top: 0; right: 0; left: var(--sidebar-width);
             height: 64px; background: var(--header-bg); backdrop-filter: blur(12px);
             z-index: 900; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; padding: 0 32px; justify-content: flex-end;
+            display: flex; align-items: center; padding: 0 16px; justify-content: flex-end;
         }
         @media (max-width: 1024px) { header { left: 0; } }
 
@@ -116,6 +117,7 @@
             display: block; padding: 10px 12px; color: var(--text-dim);
             text-decoration: none; font-size: 0.95rem; font-weight: 500;
             border-radius: 6px; transition: 0.2s; margin-bottom: 4px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .nav-item:hover { background: var(--card); color: var(--text); }
         .nav-item.active { background: var(--accent); color: white; }
@@ -123,26 +125,29 @@
         .nav-item.completed-nav::after { content: " ✓"; font-size: 0.8rem; }
 
         /* --- Main Content --- */
-        .main-content { margin-left: var(--sidebar-width); padding-top: 64px; }
+        .main-content { margin-left: var(--sidebar-width); padding-top: 64px; min-width: 0; }
         @media (max-width: 1024px) { 
-            .main-content { margin-left: 0; } 
-            section { padding: 60px 20px; }
-            .stage-card { padding: 24px; }
+            .main-content { margin-left: 0; width: 100%; overflow-x: hidden; } 
+            section { padding: 60px 16px; width: 100%; max-width: 100%; border-bottom: 1px solid var(--border); }
+            .stage-card { padding: 24px; margin-bottom: 32px; width: 100%; overflow-wrap: break-word; }
             .sidebar-logo span { font-size: 1.5rem; }
-            .splash-text { font-size: 3.5rem; }
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.75rem; }
+            .splash-text { font-size: 3rem; }
+            h1 { font-size: 2.25rem; }
+            h2 { font-size: 1.5rem; }
             .sidebar { width: 280px; }
         }
         @media (max-width: 480px) {
-            h1 { font-size: 2rem; }
-            .hero-stats { flex-direction: column; gap: 32px; }
-            .stage-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .completion-footer { flex-direction: column; gap: 20px; align-items: stretch; }
-            .mark-complete-btn { justify-content: center; }
+            h1 { font-size: 1.75rem; }
+            .hero-stats { flex-direction: column; gap: 24px; }
+            .stage-header { flex-direction: row; align-items: center; gap: 16px; }
+            .stage-icon { width: 48px; height: 48px; flex-shrink: 0; }
+            .stage-icon svg { width: 24px; height: 24px; }
+            .completion-footer { flex-direction: column; gap: 16px; align-items: stretch; }
+            .mark-complete-btn, .share-lesson-btn { justify-content: center; width: 100%; }
+            section { padding: 40px 12px; }
         }
 
-        section { padding: 100px 48px; max-width: 1000px; margin: 0 auto; scroll-margin-top: 80px; border-bottom: 1px solid var(--border); }
+        section { padding: 100px 48px; max-width: 1000px; margin: 0 auto; scroll-margin-top: 80px; border-bottom: 1px solid var(--border); width: 100%; overflow: hidden; }
         h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; margin-bottom: 24px; }
         h2 { font-family: var(--font-heading); font-size: clamp(1.75rem, 5vw, 2.75rem); margin-bottom: 1.5rem; }
         h3 { font-size: 1.5rem; margin: 48px 0 20px; font-weight: 700; border-left: 4px solid var(--accent); padding-left: 16px; }
@@ -154,7 +159,7 @@
         .stage-icon { width: 64px; height: 64px; background: rgba(88, 166, 255, 0.1); border-radius: 14px; color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .stage-icon svg { width: 32px; height: 32px; }
 
-        .simple-terms { background: rgba(88, 166, 255, 0.05); border-left: 4px solid var(--accent); padding: 20px; margin: 24px 0; border-radius: 0 12px 12px 0; }
+        .simple-terms { background: rgba(88, 166, 255, 0.05); border-left: 4px solid var(--accent); padding: 20px; margin: 24px 0; border-radius: 0 12px 12px 0; width: 100%; overflow-wrap: break-word; }
         .simple-terms h4 { margin-top: 0; margin-bottom: 8px; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
         .simple-terms p { margin-bottom: 0; font-size: 1rem; font-style: italic; color: var(--text); }
 
@@ -1302,9 +1307,9 @@ function invariant_TotalSupply() public {
         </section>
     </main>
 
-    <footer style="background: #030508; color: white; padding: 48px 24px; border-top: 1px solid var(--border);">
-        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; text-align: left;">
-            <div style="grid-column: span 2;">
+    <footer style="background: #030508; color: white; padding: 48px 16px; border-top: 1px solid var(--border);">
+        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 32px; text-align: left;">
+            <div style="grid-column: 1 / -1;">
                 <div style="font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; font-family: var(--font-heading); display: flex; align-items: center; gap: 8px;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; color: var(--accent);">
                         <path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1330,7 +1335,7 @@ function invariant_TotalSupply() public {
             </div>
         </div>
         <div style="max-width: 1100px; margin: 32px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-            <div style="opacity: 0.3; font-size: 0.75rem;">© 2026 ChainCodeCamp. All rights reserved.</div>
+            <div style="opacity: 0.3; font-size: 0.75rem;">© 2026 ChainCodeCamp.</div>
             <div style="opacity: 0.3; font-size: 0.75rem;">Master the Machine.</div>
         </div>
     </footer>
