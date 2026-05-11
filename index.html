@@ -38,42 +38,53 @@
             --font-code: 'JetBrains Mono', monospace;
             --font-heading: 'Plus Jakarta Sans', sans-serif;
             
+            /* Colors - Premium Designer Palette */
+            --bg: #FFFFFF;
+            --sidebar-bg: #F8FAFC;
+            --card: #FFFFFF;
+            --text: #0F172A;
+            --text-dim: #475569;
+            --border: #F1F5F9;
+            --border-strong: #E2E8F0;
+            --accent: #2563EB;
+            --accent-gradient: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            --accent-soft: rgba(37, 99, 235, 0.05);
+            --header-bg: rgba(255, 255, 255, 0.8);
+            --code-bg: #0F172A;
+            --grid-color: rgba(15, 23, 42, 0.02);
+            --premium-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.05);
+            
+            /* Fonts */
+            --font-main: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            
             /* Layout */
-            --sidebar-width: 300px;
+            --sidebar-width: 280px;
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            --container-width: 1300px;
+            --container-width: 1440px;
             --radius: 16px;
         }
 
-        [data-theme="dark"] {
-            --bg: #020617;
-            --sidebar-bg: #0F172A;
-            --card: #0F172A;
-            --text: #F8FAFC;
-            --text-dim: #94A3B8;
-            --border: #1E293B;
-            --accent: #3882FF;
-            --accent-soft: rgba(56, 130, 255, 0.1);
-            --header-bg: rgba(2, 6, 23, 0.85);
-            --code-bg: #020617;
-            --grid-color: rgba(255, 255, 255, 0.03);
-        }
+        /* Removed Dark Mode for Pure Premium White Theme */
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background var(--transition), color var(--transition), border-color var(--transition); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
         body { 
             background-color: var(--bg); 
             color: var(--text); 
             font-family: var(--font-main); 
             font-size: 16px; 
-            line-height: 1.7; 
+            line-height: 1.6; 
             overflow-x: hidden; 
             width: 100%; 
             position: relative; 
             background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
         /* --- Splash Screen --- */
@@ -83,179 +94,233 @@
             justify-content: center; align-items: center; z-index: 10000;
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s;
             padding: 24px;
-            background-image: 
-                radial-gradient(circle at 20% 20%, var(--accent-soft) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, var(--accent-soft) 0%, transparent 40%),
-                linear-gradient(var(--grid-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
         }
         #splash.hidden { opacity: 0; visibility: hidden; }
         .splash-content { 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             width: 100%; max-width: 600px;
-            animation: splashEnter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: splashEnter 1.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .splash-logo { width: 100px; height: 100px; margin-bottom: 32px; animation: splashPulse 4s infinite ease-in-out; }
-        .splash-logo svg { width: 100%; height: 100%; fill: var(--text); }
-        .splash-text { font-family: var(--font-heading); font-size: 3.5rem; color: var(--text); letter-spacing: -0.04em; font-weight: 800; margin-bottom: 12px; }
-        .splash-sub { font-family: var(--font-main); font-size: 0.9rem; color: var(--accent); font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+        .splash-logo { width: 80px; height: 80px; margin-bottom: 32px; filter: drop-shadow(0 10px 20px rgba(37, 99, 235, 0.2)); }
+        .splash-logo svg { width: 100%; height: 100%; fill: var(--accent); }
+        .splash-text { font-family: var(--font-heading); font-size: 4rem; color: var(--text); letter-spacing: -0.06em; font-weight: 800; margin-bottom: 8px; }
         
         @keyframes splashEnter {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes splashPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
+            from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
         /* --- Header --- */
         header {
             position: fixed; top: 0; right: 0; left: var(--sidebar-width);
-            height: 72px; background: var(--header-bg); backdrop-filter: blur(20px);
+            height: 80px; background: var(--header-bg); backdrop-filter: blur(20px);
             z-index: 900; border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; padding: 0 40px; justify-content: flex-end;
+            display: flex; align-items: center; padding: 0 60px; justify-content: flex-end;
         }
         @media (max-width: 1024px) { header { left: 0; padding: 0 24px; } }
 
-        .progress-container { position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px; background: transparent; }
-        .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s ease; }
+        .progress-container { position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: transparent; }
+        .progress-bar { height: 100%; background: var(--accent-gradient); width: 0%; transition: width 0.2s ease; border-radius: 0 4px 4px 0; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; border: 2px solid var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
         /* --- Sidebar --- */
         .sidebar {
             position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-width);
             background: var(--sidebar-bg); border-right: 1px solid var(--border);
-            padding: 32px 24px; overflow-y: auto; z-index: 950;
+            padding: 40px 32px; overflow-y: auto; z-index: 950;
             display: flex; flex-direction: column;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) transparent;
         }
         @media (max-width: 1024px) { 
-            .sidebar { transform: translateX(-100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); } 
+            .sidebar { transform: translateX(-100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 20px 0 60px rgba(0,0,0,0.05); } 
             .sidebar.open { transform: translateX(0); } 
         }
 
-        .sidebar-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); margin-bottom: 48px; flex-shrink: 0; overflow: hidden; }
-        .sidebar-logo svg { width: 28px; height: 28px; fill: var(--text); flex-shrink: 0; }
-        .sidebar-logo span { font-family: var(--font-heading); font-size: 1.3rem; letter-spacing: -0.03em; font-weight: 800; white-space: nowrap; }
+        .sidebar-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text); margin-bottom: 56px; }
+        .sidebar-logo svg { width: 32px; height: 32px; fill: var(--accent); }
+        .sidebar-logo span { font-family: var(--font-heading); font-size: 1.4rem; letter-spacing: -0.04em; font-weight: 800; }
 
-        .sidebar-search { position: relative; margin-bottom: 40px; flex-shrink: 0; }
+        .sidebar-search { position: relative; margin-bottom: 40px; }
         .sidebar-search input {
-            width: 100%; background: var(--bg); border: 1px solid var(--border);
-            color: var(--text); padding: 12px 12px 12px 44px; border-radius: 12px;
-            font-size: 0.9rem; outline: none; transition: var(--transition);
+            width: 100%; background: var(--bg); border: 1px solid var(--border-strong);
+            color: var(--text); padding: 14px 14px 14px 48px; border-radius: 14px;
+            font-size: 0.85rem; outline: none; transition: var(--transition);
+            font-weight: 500;
         }
-        .sidebar-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-        .sidebar-search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-dim); }
+        .sidebar-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.05); }
+        .sidebar-search svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-dim); }
 
-        .sidebar-progress { margin-bottom: 48px; background: var(--card); padding: 24px; border-radius: 16px; border: 1px solid var(--border); flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-        .sidebar-progress-label { font-size: 0.65rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.15em; }
-        .sidebar-progress-val { font-size: 2.8rem; font-weight: 800; color: var(--text); font-family: var(--font-heading); line-height: 1; letter-spacing: -0.04em; }
+        .sidebar-progress { margin-bottom: 48px; background: var(--bg); padding: 28px; border-radius: 20px; border: 1px solid var(--border-strong); box-shadow: var(--premium-shadow); }
+        .sidebar-progress-label { font-size: 0.65rem; font-weight: 800; color: var(--text-dim); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.2em; }
+        .sidebar-progress-val { font-size: 3rem; font-weight: 800; color: var(--text); font-family: var(--font-heading); line-height: 1; letter-spacing: -0.06em; }
 
-        .nav-group { margin-bottom: 40px; }
-        .nav-group-title { font-size: 0.65rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 20px; }
+        .nav-group { margin-bottom: 48px; }
+        .nav-group-title { font-size: 0.7rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px; opacity: 0.6; }
         .nav-item {
-            display: block; padding: 10px 0; color: var(--text-dim);
-            text-decoration: none; font-size: 0.9rem; font-weight: 600;
-            transition: var(--transition); border-bottom: 1px solid transparent;
-            letter-spacing: -0.01em;
+            display: flex; align-items: center; padding: 12px 0; color: var(--text-dim);
+            text-decoration: none; font-size: 0.95rem; font-weight: 500;
+            transition: var(--transition); position: relative;
         }
-        .nav-item:hover { color: var(--text); transform: translateX(4px); }
-        .nav-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .nav-item:hover { color: var(--accent); padding-left: 8px; }
+        .nav-item::before { content: ''; position: absolute; left: -16px; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--accent); transition: var(--transition); border-radius: 0 4px 4px 0; }
+        .nav-item.active { color: var(--text); font-weight: 700; }
+        .nav-item.active::before { height: 20px; }
         .nav-item.completed-nav { color: #10B981; }
 
         /* --- Main Content --- */
-        .main-content { margin-left: var(--sidebar-width); padding-top: 72px; min-width: 0; }
+        .main-content { margin-left: var(--sidebar-width); padding-top: 80px; }
         @media (max-width: 1024px) { .main-content { margin-left: 0; } }
 
-        section { padding: 100px 60px; max-width: var(--container-width); margin: 0 auto; scroll-margin-top: 100px; width: 100%; }
-        @media (max-width: 1024px) { section { padding: 80px 40px; } }
-        @media (max-width: 640px) { section { padding: 60px 24px; } }
+        section { padding: 60px 40px; max-width: var(--container-width); margin: 0 auto; scroll-margin-top: 100px; }
+        @media (max-width: 1024px) { section { padding: 40px 24px; } }
+        @media (max-width: 640px) { section { padding: 30px 16px; } }
 
-        h1 { font-family: var(--font-heading); font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 0.95; margin-bottom: 40px; color: var(--text); letter-spacing: -0.05em; font-weight: 800; }
-        h2 { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; color: var(--text); letter-spacing: -0.04em; font-weight: 800; }
-        h3 { font-size: 1.6rem; margin: 60px 0 24px; font-weight: 800; color: var(--text); font-family: var(--font-heading); letter-spacing: -0.03em; }
-        h4 { font-size: 1.25rem; margin: 32px 0 16px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
-        p { font-size: 1.15rem; margin-bottom: 1.5rem; color: var(--text-dim); max-width: 850px; line-height: 1.8; font-weight: 450; }
+        h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 24px; color: var(--text); letter-spacing: -0.05em; font-weight: 800; }
+        h2 { font-family: var(--font-heading); font-size: clamp(1.75rem, 3.5vw, 2.75rem); margin-bottom: 20px; color: var(--text); letter-spacing: -0.04em; font-weight: 800; }
+        h3 { font-size: 1.5rem; margin: 40px 0 20px; font-weight: 800; color: var(--text); font-family: var(--font-heading); letter-spacing: -0.03em; }
+        h4 { font-size: 1.2rem; margin: 24px 0 12px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+        p { font-size: 1.05rem; margin-bottom: 16px; color: var(--text-dim); max-width: 850px; line-height: 1.65; font-weight: 450; }
 
         .stage-card { 
             background: var(--card); 
             border: 1px solid var(--border); 
-            border-radius: 32px; 
-            padding: 80px; 
-            margin-bottom: 60px; 
-            box-shadow: 0 30px 100px rgba(0,0,0,0.03); 
+            border-radius: 24px; 
+            padding: 40px; 
+            margin-bottom: 32px; 
+            box-shadow: var(--premium-shadow); 
             position: relative; 
-            overflow: hidden;
+            transition: var(--transition);
         }
-        @media (max-width: 1024px) { .stage-card { padding: 60px; } }
-        @media (max-width: 640px) { .stage-card { padding: 40px; } }
+        @media (max-width: 640px) { .stage-card { padding: 28px 20px; } }
+        .stage-card:hover { transform: translateY(-2px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.06); }
         
-        .stage-header { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 48px; }
-        .stage-icon { width: 56px; height: 56px; background: var(--accent-soft); border-radius: 12px; color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .stage-header { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 32px; }
+        .stage-icon { width: 56px; height: 56px; background: var(--accent-gradient); border-radius: 14px; color: #FFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 16px rgba(37, 99, 235, 0.15); }
         .stage-icon svg { width: 28px; height: 28px; }
 
-        .simple-terms { background: var(--sidebar-bg); border: 1px solid var(--border); padding: 32px; margin: 40px 0; border-radius: 16px; }
-        .simple-terms h4 { margin-top: 0; margin-bottom: 12px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
-        .simple-terms p { margin-bottom: 0; font-size: 1.1rem; color: var(--text); font-weight: 500; font-style: normal; }
+        .simple-terms { background: var(--sidebar-bg); border: 1px solid var(--border-strong); padding: 28px; margin: 32px 0; border-radius: 16px; position: relative; overflow: hidden; }
+        .simple-terms::after { content: '💡'; position: absolute; top: 16px; right: 16px; font-size: 1.25rem; opacity: 0.15; }
+        .simple-terms h4 { margin-top: 0; margin-bottom: 8px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+        .simple-terms p { margin-bottom: 0; font-size: 1rem; color: var(--text); font-weight: 500; }
 
-        .code-block-container { position: relative; margin: 40px 0; border-radius: 16px; background: var(--code-bg); overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-        pre code { font-family: var(--font-code) !important; font-size: 15px; padding: 32px !important; display: block; }
-        .copy-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #FFF; padding: 8px 16px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: 0.2s; }
-        .copy-btn:hover { background: rgba(255,255,255,0.1); }
+        .code-block-container { position: relative; margin: 32px 0; border-radius: 16px; background: var(--code-bg); overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        pre code { font-family: var(--font-code) !important; font-size: 14px; padding: 32px !important; display: block; }
         
-        .table-wrapper { margin: 48px 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: var(--sidebar-bg); padding: 20px 32px; font-weight: 700; color: var(--text); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
-        td { padding: 20px 32px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-size: 1rem; }
-        tr:last-child td { border-bottom: none; }
+        .table-wrapper { margin: 40px 0; border: 1px solid var(--border-strong); border-radius: 16px; overflow: hidden; box-shadow: var(--premium-shadow); }
+        th { background: var(--sidebar-bg); padding: 20px 24px; font-weight: 800; color: var(--text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border-strong); }
+        td { padding: 18px 24px; border-bottom: 1px solid var(--border-strong); color: var(--text-dim); font-size: 0.95rem; }
 
-        .video-wrapper { border-radius: 20px; margin: 40px 0; box-shadow: 0 30px 60px rgba(0,0,0,0.1); overflow: hidden; width: 100%; max-width: 1000px; aspect-ratio: 16 / 9; }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .video-wrapper { 
+            border-radius: 24px; 
+            margin: 40px 0; 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.12); 
+            overflow: hidden; 
+            aspect-ratio: 16 / 9; 
+            position: relative; 
+            background: #000; 
+            border: 1px solid var(--border-strong);
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        .completion-footer { margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 20px; }
-        .mark-complete-btn { background: var(--text); color: var(--bg); padding: 16px 32px; border-radius: 100px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1rem; }
-        .mark-complete-btn:hover { transform: scale(1.05); }
-        .mark-complete-btn.completed { background: #10B981; color: white; }
-        .share-lesson-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 16px 28px; border-radius: 100px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-        .share-lesson-btn:hover { background: var(--sidebar-bg); }
+        footer {
+            margin-top: 100px;
+            background: var(--sidebar-bg);
+            border-top: 1px solid var(--border-strong);
+            padding: 80px 0 40px;
+        }
+        .footer-grid {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 60px;
+        }
+        @media (max-width: 1024px) { 
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } 
+            .footer-brand { grid-column: 1 / -1; }
+        }
+        @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
 
-        .btn-primary { background: var(--accent); color: white; padding: 18px 36px; border-radius: 100px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; font-size: 1.1rem; transition: 0.3s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
-        .btn-secondary { background: var(--sidebar-bg); color: var(--text); padding: 18px 36px; border-radius: 100px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; font-size: 1.1rem; border: 1px solid var(--border); transition: 0.3s; }
-        .btn-secondary:hover { background: var(--border); }
+        .footer-brand { max-width: 360px; }
+        .footer-nav-title { 
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            color: var(--text-dim); 
+            text-transform: uppercase; 
+            letter-spacing: 0.2em; 
+            margin-bottom: 24px; 
+            opacity: 0.6;
+        }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { 
+            color: var(--text-dim); 
+            text-decoration: none; 
+            font-size: 0.95rem; 
+            font-weight: 500; 
+            transition: var(--transition); 
+        }
+        .footer-links a:hover { color: var(--accent); padding-left: 4px; }
 
-        #backToTop { position: fixed; bottom: 40px; right: 40px; width: 60px; height: 60px; border-radius: 50%; background: var(--text); color: var(--bg); border: none; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+        .footer-bottom {
+            max-width: var(--container-width);
+            margin: 60px auto 0;
+            padding: 32px 40px 0;
+            border-top: 1px solid var(--border-strong);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        @media (max-width: 640px) { .footer-bottom { flex-direction: column; gap: 16px; text-align: center; } }
+
+        .completion-footer { margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 16px; }
+        .mark-complete-btn { background: var(--text); color: #FFF; padding: 14px 28px; border-radius: 100px; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.95rem; }
+        .share-lesson-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1.5px solid var(--border-strong); color: var(--text); padding: 14px 24px; border-radius: 100px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 0.95rem; }
+
+        .btn-primary { background: var(--accent-gradient); color: #FFF; padding: 20px 44px; border-radius: 100px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 14px; font-size: 1.15rem; transition: 0.4s; box-shadow: 0 15px 30px rgba(37, 99, 235, 0.2); }
+        .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 25px 50px rgba(37, 99, 235, 0.3); }
+
+        #backToTop { position: fixed; bottom: 48px; right: 48px; width: 64px; height: 64px; border-radius: 50%; background: var(--text); color: #FFF; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.15); z-index: 1000; transition: 0.3s; }
+        #backToTop:hover { transform: translateY(-6px); }
         
-        .theme-toggle { background: transparent; border: 1px solid var(--border); color: var(--text); width: 44px; height: 44px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .theme-toggle:hover { background: var(--sidebar-bg); }
-        .mobile-menu-toggle { width: 44px; height: 44px; display: none !important; }
+        .mobile-menu-toggle { width: 52px; height: 52px; display: none !important; border-radius: 14px; background: var(--sidebar-bg); border: 1px solid var(--border-strong); color: var(--text); align-items: center; justify-content: center; cursor: pointer; }
         @media (max-width: 1024px) { .mobile-menu-toggle { display: flex !important; } }
-        .mobile-menu-toggle svg { width: 24px; height: 24px; }
 
         .hero-visual { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; }
-        .hero-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; width: 100%; max-width: 500px; box-shadow: 0 40px 80px rgba(0,0,0,0.05); position: relative; z-index: 2; }
-        .hero-grid-blob { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%); z-index: 1; filter: blur(40px); }
+        .hero-card { background: var(--card); border: 1px solid var(--border); border-radius: 32px; padding: 48px; width: 100%; max-width: 520px; box-shadow: 0 60px 120px rgba(0,0,0,0.08); position: relative; z-index: 2; transform: perspective(1000px) rotateY(-5deg) rotateX(5deg); transition: 0.5s; }
+        .hero-card:hover { transform: perspective(1000px) rotateY(0) rotateX(0); }
+        .hero-grid-blob { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%); z-index: 1; filter: blur(60px); }
+
+        /* Premium accents */
+        .badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+        .badge-accent { background: var(--accent-soft); color: var(--accent); }
+        
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin-top: 48px; }
+        .feature-item { background: var(--bg); border: 1.5px solid var(--border); padding: 40px; border-radius: 24px; transition: 0.3s; }
+        .feature-item:hover { border-color: var(--accent); transform: translateY(-8px); }
+        .feature-item h4 { color: var(--text); font-size: 1.4rem; margin-bottom: 16px; letter-spacing: -0.02em; }
+        .feature-item p { font-size: 1rem; color: var(--text-dim); }
 
         @media (max-width: 1024px) {
             .hero-content-wrapper { flex-direction: column; text-align: center; gap: 80px; }
             .hero-visual { width: 100%; }
             p { margin-left: auto; margin-right: auto; }
-            .hero-stats { justify-content: center; }
+            .hero-stats { justify-content: center; flex-wrap: wrap; gap: 40px; }
         }
     </style>
 </head>
 <body>
     <div id="splash">
         <div class="splash-content">
-            <div class="splash-logo" style="width: 80px; height: 80px; margin-bottom: 24px;">
+            <div class="splash-logo">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M50 5C35.5 5 23.5 13.5 18.5 25.5C21.5 24 25 23 29 23C42 23 52.5 33.5 52.5 46.5C52.5 50.5 51.5 54 50 57C62 52 70.5 40 70.5 25.5C70.5 14.2 61.3 5 50 5Z" fill="currentColor"/>
                     <path d="M29.5 30.5C18.2 30.5 9 39.7 9 51C9 65.5 17.5 77.5 29.5 82.5C28 79.5 27 76 27 72C27 59 37.5 48.5 50.5 48.5C54.5 48.5 58 49.5 61 51C56 39 44 30.5 29.5 30.5Z" fill="currentColor"/>
@@ -276,75 +341,62 @@
             <span>ChainCodeCamp</span>
         </a>
 
-
         <div class="sidebar-search">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <input type="text" id="lessonSearch" placeholder="Search lessons...">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <input type="text" id="lessonSearch" placeholder="Search curriculum...">
         </div>
 
         <div class="sidebar-progress">
-            <div class="sidebar-progress-label">Your Mastery Progress</div>
+            <div class="sidebar-progress-label">Protocol Mastery</div>
             <div class="sidebar-progress-val" id="progressVal">0%</div>
         </div>
 
         <nav>
             <div class="nav-group">
-                <div class="nav-group-title">1. Foundation</div>
-                <a href="#introduction" class="nav-item">How to Use This Roadmap</a>
+                <div class="nav-group-title">Foundations</div>
+                <a href="#introduction" class="nav-item">The Architect's Path</a>
                 <a href="#missing-topics" class="nav-item">The Missing 1%</a>
                 <a href="#toolstack" class="nav-item">Toolstack Reference</a>
-                <a href="#stage00" class="nav-item" data-nav-stage="0">00 Prerequisites</a>
+                <a href="#stage00" class="nav-item" data-nav-stage="0">00 Mathematical Base</a>
                 <a href="#stage01" class="nav-item" data-nav-stage="1">01 EVM Internals</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Engineering</div>
                 <a href="#stage02" class="nav-item" data-nav-stage="2">02 Solidity Mastery</a>
                 <a href="#stage03" class="nav-item" data-nav-stage="3">03 Yul & Assembly</a>
-                <a href="#stage04" class="nav-item" data-nav-stage="4">04 Foundry Mastery</a>
-            </div>
-
-            <div class="nav-group">
-                <div class="nav-group-title">2. Core Mastery</div>
+                <a href="#stage04" class="nav-item" data-nav-stage="4">04 Foundry Testing</a>
                 <a href="#stage05" class="nav-item" data-nav-stage="5">05 Security Classes</a>
                 <a href="#stage06" class="nav-item" data-nav-stage="6">06 Gas Optimization</a>
-                <a href="#stage07" class="nav-item" data-nav-stage="7">07 Token Standards</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">The Frontier</div>
                 <a href="#stage08" class="nav-item" data-nav-stage="8">08 Proxies & Upgrades</a>
                 <a href="#stage09" class="nav-item" data-nav-stage="9">09 DeFi Architecture</a>
-            </div>
-
-            <div class="nav-group">
-                <div class="nav-group-title">3. The Frontier</div>
-                <a href="#stage10" class="nav-item" data-nav-stage="10">10 MEV & Ordering</a>
                 <a href="#stage11" class="nav-item" data-nav-stage="11">11 Formal Verification</a>
-                <a href="#stage12" class="nav-item" data-nav-stage="12">12 Advanced Crypto</a>
-                <a href="#stage13" class="nav-item" data-nav-stage="13">13 Layer 2 & Rollups</a>
-                <a href="#stage14" class="nav-item" data-nav-stage="14">14 Cross-Chain Bridges</a>
                 <a href="#stage15" class="nav-item" data-nav-stage="15">15 Zero-Knowledge</a>
                 <a href="#stage16" class="nav-item" data-nav-stage="16">16 Account Abstraction</a>
-                <a href="#stage17" class="nav-item" data-nav-stage="17">17 Cryptoeconomics</a>
             </div>
 
             <div class="nav-group">
-                <div class="nav-group-title">4. Execution</div>
-                <a href="#projects" class="nav-item">8 Production Projects</a>
-                <a href="#recognition" class="nav-item">Global Recognition</a>
-                <a href="#routine" class="nav-item">Daily Training Routine</a>
-                <a href="#plan" class="nav-item">6-Month Roadmap</a>
-                <a href="#cheatsheet" class="nav-item">Cheat Sheet</a>
-                <a href="#resources" class="nav-item">Resource Library</a>
-                <a href="#hack-archive" class="nav-item">Hack Archive</a>
+                <div class="nav-group-title">Execution</div>
+                <a href="#projects" class="nav-item">8 Capstone Projects</a>
+                <a href="#routine" class="nav-item">Daily Training</a>
                 <a href="#certificate" class="nav-item">Final Certification</a>
             </div>
         </nav>
-
     </aside>
 
     <header>
         <div class="progress-container"><div class="progress-bar" id="topProgressBar"></div></div>
         <div style="display: flex; align-items: center; gap: 16px;">
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <svg class="sun-icon" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m12.72-12.72l-1.41 1.41" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="theme-toggle mobile-menu-toggle" id="mobileMenuBtn" style="display: none; border-radius: 50%; width: 44px; height: 44px;" aria-label="Toggle menu">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="display: flex; align-items: center; gap: 10px; color: var(--text-dim); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; padding: 12px 24px; background: var(--sidebar-bg); border-radius: 100px; border: 1px solid var(--border-strong);">
+                <div style="width: 6px; height: 6px; background: #10B981; border-radius: 50%; box-shadow: 0 0 10px #10B981;"></div>
+                Mainnet Live
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
         </div>
     </header>
@@ -353,63 +405,48 @@
         <!-- Hero -->
         <section id="hero" style="border-bottom: none; overflow: visible;">
             <div class="hero-content-wrapper" style="display: flex; align-items: center; gap: 80px; position: relative; z-index: 2;">
-                <div style="flex: 1.2;">
-                    <h1 style="margin-bottom: 32px; font-weight: 800; letter-spacing: -3px; color: var(--text);">The Protocol <br><span style="color: var(--accent);">Architect</span> <br>Roadmap.</h1>
-                    <p style="font-size: 1.25rem; line-height: 1.6; color: var(--text-dim); margin-bottom: 48px; max-width: 600px;">The definitive roadmap for engineers who want to surpass the developers behind Uniswap, Aave, and MakerDAO. Master the machine, protect the future.</p>
-                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                        <a href="#introduction" class="btn-primary">Start Learning →</a>
+                <div style="flex: 1.3;">
+                    <div class="badge badge-accent">Elite Engineering Education</div>
+                    <h1 style="margin-bottom: 32px;">The Protocol <br><span style="color: var(--accent);">Architect</span> <br>Roadmap.</h1>
+                    <p style="font-size: 1.25rem; color: var(--text-dim); margin-bottom: 48px; max-width: 650px;">The definitive curriculum for engineers who want to surpass the industry standard. Master the machine, protect the future, and build the world's most secure financial primitives.</p>
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                        <a href="#introduction" class="btn-primary">Begin the Path →</a>
                     </div>
                 </div>
                 <div class="hero-visual">
                     <div class="hero-grid-blob"></div>
                     <div class="hero-card">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="width: 40px; height: 40px; background: var(--sidebar-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <svg viewBox="0 0 100 100" style="width: 20px; height: 20px; fill: var(--text);"><path d="M50 5C35.5 5 23.5 13.5 18.5 25.5C21.5 24 25 23 29 23C42 23 52.5 33.5 52.5 46.5C52.5 50.5 51.5 54 50 57C62 52 70.5 40 70.5 25.5C70.5 14.2 61.3 5 50 5Z"/><path d="M29.5 30.5C18.2 30.5 9 39.7 9 51C9 65.5 17.5 77.5 29.5 82.5C28 79.5 27 76 27 72C27 59 37.5 48.5 50.5 48.5C54.5 48.5 58 49.5 61 51C56 39 44 30.5 29.5 30.5Z"/><path d="M70.5 30.5C56 30.5 44 39 39 51C42 49.5 45.5 48.5 49.5 48.5C62.5 48.5 73 59 73 72C73 76 72 79.5 70.5 82.5C82.5 77.5 91 65.5 91 51C91 39.7 81.8 30.5 70.5 30.5Z"/></svg>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                <div style="width: 44px; height: 44px; background: var(--sidebar-bg); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 100 100" style="width: 22px; height: 22px; fill: var(--accent);"><path d="M50 5C35.5 5 23.5 13.5 18.5 25.5C21.5 24 25 23 29 23C42 23 52.5 33.5 52.5 46.5C52.5 50.5 51.5 54 50 57C62 52 70.5 40 70.5 25.5C70.5 14.2 61.3 5 50 5Z"/><path d="M29.5 30.5C18.2 30.5 9 39.7 9 51C9 65.5 17.5 77.5 29.5 82.5C28 79.5 27 76 27 72C27 59 37.5 48.5 50.5 48.5C54.5 48.5 58 49.5 61 51C56 39 44 30.5 29.5 30.5Z"/><path d="M70.5 30.5C56 30.5 44 39 39 51C42 49.5 45.5 48.5 49.5 48.5C62.5 48.5 73 59 73 72C73 76 72 79.5 70.5 82.5C82.5 77.5 91 65.5 91 51C91 39.7 81.8 30.5 70.5 30.5Z"/></svg>
                                 </div>
-                                <div style="font-weight: 700; font-size: 0.9rem;">Architect_ID</div>
+                                <div style="font-weight: 800; font-size: 1rem; letter-spacing: -0.02em;">Architect_Status</div>
                             </div>
-                            <div style="font-size: 0.75rem; color: var(--accent); font-weight: 800; letter-spacing: 0.1em;">ACTIVE</div>
+                            <div class="badge badge-accent" style="margin-bottom: 0;">Verified</div>
                         </div>
-                        <div style="display: flex; flex-direction: column; gap: 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--sidebar-bg); border-radius: 12px; border: 1px solid var(--border);">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent);">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px;"><path d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    </div>
-                                    <span style="font-size: 0.9rem; font-weight: 600;">EVM Internals</span>
-                                </div>
-                                <div style="font-size: 0.75rem; color: #10B981; font-weight: 700;">Verified</div>
+                        <div style="display: flex; flex-direction: column; gap: 24px;">
+                            <div style="padding: 20px; background: var(--sidebar-bg); border-radius: 16px; border: 1.5px solid var(--border-strong); display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600; font-size: 0.95rem;">EVM Opcodes</span>
+                                <span style="color: #10B981; font-weight: 800; font-size: 0.75rem;">MASTERED</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--sidebar-bg); border-radius: 12px; border: 1px solid var(--border);">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent);">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px;"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.744c0 3.89 2.367 7.232 5.745 8.667.338.144.688.27 1.05.378a12.214 12.214 0 002.41.332c.804-.015 1.587-.132 2.33-.343a12.012 12.012 0 001.05-.378c3.378-1.435 5.745-4.777 5.745-8.667 0-1.303-.209-2.558-.598-3.744A11.959 11.959 0 0112 2.714z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    </div>
-                                    <span style="font-size: 0.9rem; font-weight: 600;">Protocol Security</span>
-                                </div>
-                                <div style="font-size: 0.75rem; color: #10B981; font-weight: 700;">Verified</div>
+                            <div style="padding: 20px; background: var(--sidebar-bg); border-radius: 16px; border: 1.5px solid var(--border-strong); display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600; font-size: 0.95rem;">Invariants</span>
+                                <span style="color: #10B981; font-weight: 800; font-size: 0.75rem;">VERIFIED</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--sidebar-bg); border-radius: 12px; border: 1px solid var(--border); opacity: 0.5;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div style="width: 32px; height: 32px; background: var(--bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-dim);">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px;"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    </div>
-                                    <span style="font-size: 0.9rem; font-weight: 600;">Zero-Knowledge</span>
-                                </div>
-                                <div style="font-size: 0.75rem; color: var(--text-dim); font-weight: 700;">Locked</div>
+                            <div style="padding: 20px; background: var(--sidebar-bg); border-radius: 16px; border: 1.5px solid var(--border-strong); display: flex; justify-content: space-between; align-items: center; opacity: 0.4;">
+                                <span style="font-weight: 600; font-size: 0.95rem;">ZK-Proving</span>
+                                <span style="color: var(--text-dim); font-weight: 800; font-size: 0.75rem;">LOCKED</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div style="display: flex; gap: 80px; margin-top: 120px; border-top: 1px solid var(--border); padding-top: 60px; position: relative; z-index: 2;" class="hero-stats">
-                <div><div style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; color: var(--text); letter-spacing: -1px;">18</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.1em; font-size: 0.75rem; margin-top: 12px; text-transform: uppercase;">Stages</div></div>
-                <div><div style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; color: var(--text); letter-spacing: -1px;">200+</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.1em; font-size: 0.75rem; margin-top: 12px; text-transform: uppercase;">Topics</div></div>
-                <div><div style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; color: var(--text); letter-spacing: -1px;">8</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.1em; font-size: 0.75rem; margin-top: 12px; text-transform: uppercase;">Projects</div></div>
-                <div><div style="font-size: 3rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; color: var(--text); letter-spacing: -1px;">6</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.1em; font-size: 0.75rem; margin-top: 12px; text-transform: uppercase;">Months</div></div>
+            <div style="display: flex; gap: 100px; margin-top: 140px; border-top: 1.5px solid var(--border); padding-top: 80px;" class="hero-stats">
+                <div><div style="font-size: 3.5rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; letter-spacing: -2px;">18</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.2em; font-size: 0.7rem; margin-top: 16px; text-transform: uppercase;">Curriculum Stages</div></div>
+                <div><div style="font-size: 3.5rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; letter-spacing: -2px;">350+</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.2em; font-size: 0.7rem; margin-top: 16px; text-transform: uppercase;">Technical Topics</div></div>
+                <div><div style="font-size: 3.5rem; font-weight: 800; font-family: var(--font-heading); line-height: 1; letter-spacing: -2px;">8</div><div style="font-weight: 700; color: var(--accent); letter-spacing: 0.2em; font-size: 0.7rem; margin-top: 16px; text-transform: uppercase;">Production Builds</div></div>
             </div>
         </section>
 
@@ -678,6 +715,9 @@
                 <h4>Digital Signatures: How Transactions are Verified</h4>
                 <p>A digital signature in Ethereum consists of three components: <code>v</code>, <code>r</code>, and <code>s</code>. The <code>r</code> and <code>s</code> values are the actual cryptographic signature, while <code>v</code> (the recovery id) is used to reconstruct the public key from the signature and the message. This is why you don't need to provide your public key with every transaction—it is "recovered" by the nodes during verification. This recovery process is computationally expensive, which is why there is a small gas cost associated with every signature check in a smart contract (the <code>ecrecover</code> opcode).</p>
 
+                <h4>The Math of Commitments: Merkle Trees</h4>
+                <p>A Merkle Tree is a binary tree where every leaf node is a hash of a data block, and every non-leaf node is a hash of its two children. This allows for <strong>Logarithmic Proofs</strong>. To prove that a specific transaction exists in a block of 1,000,000 transactions, you only need to provide ~20 hashes (the "Merkle Path"). This is the foundation of light clients and Layer 2 security. If you change even one bit in one transaction, the entire Merkle Root changes, making it impossible to tamper with history without being detected.</p>
+
                 <h3>2. Data Structures: Merkle Trees & The World State</h3>
 
                 <p>Ethereum uses a <strong>Modified Merkle Patricia Trie</strong> to store all account balances and contract state. This allows for "Light Clients" to verify data without downloading the whole chain.</p>
@@ -707,10 +747,25 @@
                     <h4>🔬 Deep Dive: The Trilemma</h4>
                     <p>Vitalik Buterin's "Scalability Trilemma" states that a blockchain can only have two of the following three: <strong>Decentralization, Security, and Scalability</strong>. Ethereum prioritizes Decentralization and Security, leaving Scalability to Layer 2 solutions. Your job is to build protocols that respect these constraints.</p>
                 </div>
-                <p><strong>Historical Context:</strong> The transition from Proof of Work (PoW) to Proof of Stake (PoS) in "The Merge" reduced Ethereum's energy consumption by 99.9% and changed the way blocks are produced. Now, instead of miners racing to solve a puzzle, validators are chosen by a random beacon (RANDAO) to propose blocks.</p>
                 
-                <h3>Practical Exercise: Cryptographic Proofs</h3>
-                <p>Try to derive an Ethereum address from a raw public key manually using a tool like <code>cast</code> or a Python script. Understanding the hashing steps (Keccak-256) will demystify how identities are created without a central server.</p>
+                <h4>The P2P Layer: Gossip Protocols</h4>
+                <p>Ethereum nodes communicate via a <strong>Gossip Protocol</strong> (specifically <code>discv5</code>). When a new block or transaction is found, a node "gossips" it to its peers, who gossip it to their peers, until the entire network is aware. This takes time (propagation latency). If your protocol requires ultra-fast execution, you must account for the fact that not all nodes see the same state at the exact same millisecond. This is where <strong>Front-running</strong> and <strong>MEV</strong> originate.</p>
+
+                <h3>Live Example: Deriving an Address</h3>
+                <p>Ethereum addresses are the last 20 bytes of the Keccak-256 hash of the public key. Here is how you can do it in the terminal using <code>cast</code>:</p>
+                <div class="code-block-container">
+                    <button class="copy-btn">Copy</button>
+                    <pre><code class="language-bash"># 1. Generate a private key
+cast wallet new-mnemonic
+
+# 2. Get the public key from a private key
+cast wallet address --private-key <YOUR_PRIVATE_KEY>
+
+# 3. Manually derive (Advanced)
+# Hash the public key (uncompressed, without the 0x04 prefix)
+# Then take the last 40 characters (20 bytes)
+cast keccak <PUBLIC_KEY_HEX> | tail -c 41</code></pre>
+                </div>
 
                 <h3>Required Reading & Watching</h3>
                 <ul>
@@ -768,6 +823,7 @@
                             <tr><td><strong>Memory</strong></td><td>Volatile</td><td>Quadratic Expansion</td><td>Linear up to 724 bytes, then increases exponentially. Scratch space (0x00-0x3F).</td></tr>
                             <tr><td><strong>Storage</strong></td><td>Permanent</td><td>Extremely Expensive</td><td>This is the most expensive place to write. <code>SSTORE</code> costs up to 20k gas.</td></tr>
                             <tr><td><strong>Calldata</strong></td><td>Read-only</td><td>Fixed (16 gas/non-zero)</td><td>The cheapest place to store data for a single transaction. Used heavily by L2s.</td></tr>
+                            <tr><td><strong>Transient Storage</strong></td><td>Transaction-only</td><td>Fixed (100 gas)</td><td>Introduced in EIP-1153. Discarded after tx. Perfect for reentrancy locks.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -775,8 +831,8 @@
                 <h4>The Rationale for 256-bit Words</h4>
                 <p>Why does the EVM use 256-bit (32-byte) words? The reason is <strong>Cryptography</strong>. Most cryptographic operations used in Ethereum (like Keccak-256 hashes and secp256k1 public keys) output 256-bit values. By making the native word size 256 bits, the EVM can handle these values in a single stack operation without needing to split them into multiple registers, which would be significantly more complex and gas-intensive.</p>
 
-                <h3>Low-Level Execution Flow</h3>
-                <p>When you call a contract, the EVM looks at the first 4 bytes of your <code>calldata</code> (The Function Selector). It then jumps to the corresponding code in the contract's bytecode.</p>
+                <h3>Low-Level Execution Flow: The JUMPDEST Analysis</h3>
+                <p>When you call a contract, the EVM looks at the first 4 bytes of your <code>calldata</code> (The Function Selector). It then jumps to the corresponding code in the contract's bytecode. To prevent arbitrary jumps into the middle of instructions, the EVM only allows jumping to the <code>JUMPDEST</code> (0x5B) opcode. This is a critical security feature that prevents "Return-Oriented Programming" (ROP) attacks common in traditional software.</p>
                 <ul>
                     <li><strong>PC (Program Counter):</strong> Tracks which instruction is being executed.</li>
                     <li><strong>Gas Tracker:</strong> Subtracts gas for every opcode. If it hits zero, the transaction reverts (but the gas is still paid!).</li>
@@ -796,7 +852,7 @@
                         <br><a href="https://solidity-by-example.org/delegatecall/" target="_blank" style="color: var(--accent); font-size: 0.9rem;">Example: The Danger of Delegatecall</a>
                     </li>
                     <li><code>STATICCALL</code>: Introduced in EIP-214. It's a "read-only" call. If the called contract tries to modify state, it reverts. Use this for price oracles!</li>
-                    <li><code>SELFDESTRUCT</code>: (Deprecated but important) Removes code and sends balance. <strong>Security Mindset:</strong> Never rely on <code>address(this).balance</code> being constant, as anyone can "force" ether into your contract via selfdestruct.</li>
+                    <li><code>TSTORE / TLOAD</code>: Introduced in EIP-1153. Allows for cheap, temporary storage that persists across calls but not across transactions. <strong>Security Mindset:</strong> This effectively kills the need for "Read-only Reentrancy" protection in many cases.</li>
                 </ul>
 
                 <h4>The Lifecycle of a Transaction</h4>
@@ -818,11 +874,10 @@
                 <p><strong>Memory Expansion Cost:</strong> Memory starts cheap but becomes quadratically more expensive. The formula is <code>C_mem(a) = 3 * a + a^2 / 512</code>, where <code>a</code> is the number of 32-byte words. If you allocate 1MB of memory, the gas cost will bankrupt your transaction. Always clean up after your operations.</p>
                 
                 <h4>The Hidden Efficiency: Precompiled Contracts</h4>
-                <p>The EVM is not good at certain operations, especially complex mathematical ones like elliptic curve pairings or SHA-256 hashing. To handle these, Ethereum provides <strong>Precompiled Contracts</strong>—special addresses (from <code>0x01</code> to <code>0x09</code>) that execute highly optimized, native code instead of bytecode. For example, address <code>0x01</code> is for <code>ecrecover</code>, and <code>0x04</code> is for <code>identity</code>. These precompiles are essential for building ZK-SNARK verifiers and other advanced cryptographic protocols on-chain without spending millions of gas.</p>
+                <p>The EVM is not good at certain operations, especially complex mathematical ones like elliptic curve pairings or SHA-256 hashing. To handle these, Ethereum provides <strong>Precompiled Contracts</strong>—special addresses (from <code>0x01</code> to <code>0x0a</code>) that execute highly optimized, native code instead of bytecode. For example, address <code>0x01</code> is for <code>ecrecover</code>, and <code>0x08</code> is for <code>bn256Pairing</code> (essential for ZK-rollups). These precompiles are essential for building ZK-SNARK verifiers and other advanced cryptographic protocols on-chain without spending millions of gas.</p>
 
-                <h3>The JUMPDEST Analysis</h3>
-
-                <p>To prevent arbitrary jumps into the middle of instructions, the EVM only allows jumping to the <code>JUMPDEST</code> (0x5B) opcode. This is a critical security feature that prevents "Return-Oriented Programming" (ROP) attacks common in traditional software.</p>
+                <h3>EVM Security Pitfalls: The 'Return-to-Stack' Attack</h3>
+                <p>While traditional buffer overflows don't exist in the EVM, sophisticated attackers can use <strong>Unchecked Return Values</strong> from low-level calls to cause the stack to enter an inconsistent state. Always check the success boolean of a <code>call</code>, <code>delegatecall</code>, or <code>staticcall</code>.</p>
 
                 <h3>The EVM Deep Dive</h3>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/RxL_1AfV7N4" allowfullscreen loading="lazy"></iframe></div>
@@ -886,6 +941,23 @@ uint256 b; // Slot 1</code></pre>
                 <h4>Mapping Internals: The Keccak-256 Slot Strategy</h4>
                 <p>How does a <code>mapping(address => uint256)</code> work if storage is just a list of slots? It doesn't store data sequentially. Instead, the storage slot for a key <code>k</code> in a mapping at slot <code>p</code> is calculated as: <code>keccak256(h(k) . p)</code>. Because the output of Keccak-256 is effectively random, mappings can store data anywhere in the 2^256 slots without colliding. This is why you cannot iterate over a mapping in Solidity—the keys are not stored anywhere!</p>
 
+                <h4>Array Storage: Dynamic vs. Fixed</h4>
+                <p>Fixed-size arrays are stored just like multiple variables—sequentially in storage. However, <strong>Dynamic Arrays</strong> (like <code>uint256[]</code>) store their length at slot <code>p</code>, and the actual data is stored starting at <code>keccak256(p)</code>. This prevents collisions between different dynamic arrays in the same contract.</p>
+
+                <h3>Live Example: Visualizing Storage Layout</h3>
+                <p>You can use <code>forge inspect ContractName storage-layout</code> to see exactly how your variables are packed. This is a critical step in gas optimization.</p>
+                <div class="code-block-container">
+                    <button class="copy-btn">Copy</button>
+                    <pre><code class="language-solidity">// Layout of an ERC-20 token
+contract MyToken {
+    uint256 public totalSupply;    // Slot 0
+    mapping(address => uint) balances; // Slot 1 (only the slot itself)
+    uint8 public decimals;         // Slot 2 (offset 0)
+    bool public isPaused;          // Slot 2 (offset 1)
+    address public owner;          // Slot 2 (offset 2 - occupies 20 bytes)
+}</code></pre>
+                </div>
+
                 <h3>2. Memory Management & The Free Memory Pointer</h3>
                 <p>Solidity reserves the first 64 bytes of memory (0x00-0x3F) as "scratch space" for hashing. The 0x40 slot is the <strong>Free Memory Pointer</strong>. <strong>Security Mindset:</strong> If you use inline assembly, you MUST update the free memory pointer if you allocate memory, or Solidity will overwrite your data.</p>
 
@@ -897,7 +969,10 @@ uint256 b; // Slot 1</code></pre>
                     <li><strong>The Diamond Pattern:</strong> Splitting a single logical contract into multiple physical "facets."</li>
                 </ul>
 
-                <h3>3. Security Essentials: tx.origin vs msg.sender</h3>
+                <h3>3. Advanced Function Dispatching</h3>
+                <p>When you call a function, the EVM runs a <strong>Dispatch Loop</strong>. It takes the first 4 bytes of your calldata and compares it against every function in the contract. If your function is at the bottom of the contract, it actually costs slightly more gas to call! This is why many high-performance contracts sort their most-used functions to have the lowest 4-byte selector values.</p>
+
+                <h3>4. Security Essentials: tx.origin vs msg.sender</h3>
                 <p>Never use <code>tx.origin</code> for authorization. An attacker can trick a user into calling a malicious contract that then calls your contract. Since <code>tx.origin</code> is the user, the check passes. Always use <code>msg.sender</code>.</p>
                 <div class="code-block-container">
                     <pre><code class="language-solidity">// VULNERABLE
@@ -908,7 +983,7 @@ require(msg.sender == owner);</code></pre>
                 </div>
 
                 <h3>Case Study: The Fomo3D "Airdrop" Hack</h3>
-                <p>Attackers used the fact that <code>extcodesize(caller()) == 0</code> is true inside a constructor to trick a "contract check" and win the game. <strong>Lesson:</strong> <code>extcodesize</code> is not a reliable way to check if an address is a contract.</p>
+                <p>Attackers used the fact that <code>extcodesize(caller()) == 0</code> is true inside a constructor to trick a "contract check" and win the game. <strong>Lesson:</strong> <code>extcodesize</code> is not a reliable way to check if an address is a contract. Always use the <strong>OpenZeppelin <code>isContract</code></strong> logic which accounts for this edge case.</p>
 
                 <h3>Architect's Masterclass: Inheritance & The Diamond Problem</h3>
                 <p>Solidity uses <strong>C3 Linearization</strong> to resolve multiple inheritance. This means the order in which you inherit contracts matters. The "most derived" contract's functions will override those of its parents.</p>
@@ -924,7 +999,7 @@ contract D is B, C {
                 </div>
 
                 <h4>C3 Linearization: Why Order Matters</h4>
-                <p>Solidity follows the same linearization algorithm as Python. It ensures that a contract always comes after its parents and that the order of parents in the <code>is</code> clause is preserved. If you have a complex inheritance tree, always verify the order using the <code>--ir-optimized</code> output of the compiler to ensure your <code>super</code> calls are going where you expect.</p>
+                <p>Solidity follows the same linearization algorithm as Python. It ensures that a contract always comes after its parents and that the order of parents in the <code>is</code> clause is preserved. If you have a complex inheritance tree, always verify the order using the <code>--ir-optimized</code> output of the compiler to ensure your <code>super</code> calls are going where you expect. <strong>Pro Tip:</strong> Use the <code>override</code> keyword explicitly for every parent to make your intent clear to auditors.</p>
 
                 <p><strong>Private vs. Internal:</strong> Use <code>private</code> for variables and functions that should only be accessible within the same contract. This slightly reduces bytecode size and improves security by limiting the attack surface for child contracts.</p>
                 
@@ -937,6 +1012,9 @@ function sensitiveAction() public {
     if (msg.sender != owner) revert Unauthorized(msg.sender, owner);
 }</code></pre>
                 </div>
+
+                <h3>Transient Storage (EIP-1153) in Solidity</h3>
+                <p>Solidity 0.8.24 introduced support for <strong>Transient Storage</strong>. You can now use the <code>transient</code> keyword for variables that you want to be stored in the transaction's temporary space. This is 20x cheaper than normal storage and is perfect for things like <strong>reentrancy guards</strong> or <strong>inter-contract state passing</strong> within a single transaction.</p>
 
                 <h3>Advanced Solidity Patterns</h3>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/umepbfKp5rI" allowfullscreen loading="lazy"></iframe></div>
@@ -986,15 +1064,19 @@ function sensitiveAction() public {
                     <li><strong>Gas Optimization:</strong> Bypass Solidity's safety checks (like overflow checks in 0.8+) to save gas in tight loops.</li>
                     <li><strong>Memory Manipulation:</strong> Directly read/write to memory using <code>mload</code> and <code>mstore</code>.</li>
                     <li><strong>Custom Error Returns:</strong> Returning data without the overhead of Solidity's <code>abi.encode</code>.</li>
+                    <li><strong>Storage Slot Access:</strong> Reading from arbitrary slots that Solidity might not expose easily (e.g., mapping keys).</li>
                 </ul>
 
                 <h3>2. Memory Layout in Yul</h3>
                 <p>To write secure Yul, you must respect Solidity's memory layout:</p>
                 <ul>
-                    <li><code>0x00 - 0x3F</code> (64 bytes): Scratch space for hashing.</li>
-                    <li><code>0x40 - 0x5F</code> (32 bytes): Free memory pointer.</li>
+                    <li><code>0x00 - 0x3F</code> (64 bytes): Scratch space for hashing and small calculations.</li>
+                    <li><code>0x40 - 0x5F</code> (32 bytes): Free memory pointer (points to the start of unallocated memory).</li>
                     <li><code>0x60 - 0x7F</code> (32 bytes): Zero slot (used as initial value for dynamic arrays).</li>
                 </ul>
+
+                <h4>Advanced Memory Safety</h4>
+                <p>When you allocate memory in Yul (e.g., for a dynamic array), you <strong>must</strong> manually update the free memory pointer at <code>0x40</code>. If you don't, the next time Solidity allocates memory, it will overwrite your data. This is the most common cause of "impossible to debug" memory corruption bugs in assembly.</p>
 
                 <h4>Bitwise Magic: Masking and Shifting</h4>
                 <p>In Yul, you often work with raw 32-byte words that contain multiple pieces of data. To extract a specific value, you use bitwise <code>and</code> (masking) and <code>shr</code>/<code>shl</code> (shifting). For example, to get the last 20 bytes of a word (an address), you use <code>and(word, 0xffffffffffffffffffffffffffffffffffffffff)</code>. Mastering these operations is key to building highly optimized state-packing logic.</p>
@@ -1010,8 +1092,30 @@ function sensitiveAction() public {
 }</code></pre>
                 </div>
 
-                <h3>3. Security Warning: The "Dirty Bits"</h3>
-                <p>When reading small types (like <code>uint8</code>) from memory or storage in Yul, the higher-order bits might contain garbage. Solidity usually cleans these, but in Yul, you must do it manually using <code>and(value, 0xff)</code>.</p>
+                <h3>Live Example: The Yul Bit-Math Masterclass</h3>
+                <p>In Yul, you can perform extremely efficient operations by working directly with bits. Here is how you can check if a number is even or odd using the <code>and</code> opcode, which is cheaper than the <code>%</code> operator in Solidity.</p>
+                <div class="code-block-container">
+                    <button class="copy-btn">Copy</button>
+                    <pre><code class="language-solidity">function isEven(uint256 x) public pure returns (bool result) {
+    assembly {
+        // x & 1 == 0 means the last bit is 0 (even)
+        result := iszero(and(x, 1))
+    }
+}
+
+function getUpper128(uint256 x) public pure returns (uint128 result) {
+    assembly {
+        // Shift right by 128 bits to get the upper half
+        result := shr(128, x)
+    }
+}</code></pre>
+                </div>
+
+                <h3>3. Control Flow: Switch and For Loops</h3>
+                <p>Yul doesn't have <code>if-else</code> in the same way Solidity does. Instead, it uses <code>switch</code> for multi-way branching and a low-level <code>for</code> loop. <strong>Pro Tip:</strong> A Yul <code>switch</code> is much more gas-efficient than a series of Solidity <code>if</code> statements because it uses the <code>JUMPI</code> opcode more effectively.</p>
+
+                <h3>4. Security Warning: The "Dirty Bits"</h3>
+                <p>When reading small types (like <code>uint8</code>) from memory or storage in Yul, the higher-order bits might contain garbage. Solidity usually cleans these, but in Yul, you must do it manually using <code>and(value, 0xff)</code>. Failure to clean bits can lead to incorrect logic checks (e.g., a non-zero value that is technically "false" because the last bit is zero).</p>
 
                 <h4>The Danger of Uninitialized Pointers</h4>
                 <p>In high-level Solidity, variables are initialized to their default values (0). In Yul, variables are initialized to 0 on the stack, but <strong>memory is not cleared</strong>. If you use <code>mload</code> on a memory address that hasn't been written to, you will get whatever data was left there by a previous operation. This "stale data" can lead to subtle bugs and security vulnerabilities if used as a condition or return value.</p>
@@ -1034,6 +1138,9 @@ function sensitiveAction() public {
                 <p>Solidity's default function dispatcher is a series of <code>if-else</code> or <code>switch</code> statements that check the first 4 bytes of calldata. For contracts with many functions, this can be slow and gas-intensive. By writing your own dispatcher in Yul, you can use more efficient methods like <strong>Binary Search</strong> or a <strong>Jump Table</strong> to find the correct function logic, significantly reducing the gas cost of every call to your contract.</p>
 
                 <p><strong>Warning:</strong> Direct storage manipulation bypasses Solidity's variable naming system. If you miscalculate a slot index, you will corrupt your contract's state with no way to recover. Use <code>.slot</code> and <code>.offset</code> whenever possible.</p>
+                
+                <h4>Yul String Handling: The Byte-by-Byte Battle</h4>
+                <p>Solidity's string concatenation is notoriously expensive. In Yul, you can concatenate strings by manually copying bytes into memory using <code>mstore</code> and <code>mstore8</code>. This allows you to build complex error messages or dynamic JSON strings on-chain for a fraction of the gas cost of high-level Solidity.</p>
 
                 <h3>Required Reading</h3>
                 <ul>
@@ -1088,10 +1195,14 @@ function sensitiveAction() public {
                 <ul>
                     <li><strong>Fuzzing:</strong> Forge automatically generates random inputs to try and break your assertions.</li>
                     <li><strong>Cheatcodes:</strong> Use <code>vm.prank(address)</code> to simulate calls from any account, or <code>vm.warp(uint)</code> to manipulate time.</li>
+                    <li><strong>Expectations:</strong> <code>vm.expectRevert</code> and <code>vm.expectEmit</code> ensure your code fails and logs exactly when it should.</li>
                 </ul>
 
-                <h4>Fuzzing & Invariants: Finding the Unthinkable</h4>
-                <p>Standard unit tests are limited by the developer's imagination. You test the cases you <em>think</em> might break. Fuzzing, on the other hand, is limited only by computational power. By defining <strong>Invariants</strong>—properties that must always be true, regardless of the sequence of actions—and letting <code>forge test</code> run thousands of random transactions, you can discover edge cases that no human would ever find. For example, a fuzzer might discover that a specific combination of a <code>deposit</code>, a <code>partial withdraw</code>, and a <code>transfer</code> leads to an insolvency of exactly 1 wei. In the world of DeFi, these "tiny" bugs are where the biggest exploits begin.</p>
+                <h4>Advanced Cheatcode Mastery</h4>
+                <p>Beyond the basics, elite Foundry users master cheatcodes like <code>vm.etch(address, bytes)</code> to manually set bytecode at an address, or <code>vm.mockCall(address, bytes, bytes)</code> to simulate responses from external protocols without needing to deploy them. <strong>Pro Tip:</strong> Use <code>vm.recordLogs()</code> to capture and verify all events emitted during a complex transaction sequence, which is critical for auditing bridge and cross-chain logic.</p>
+
+                <h4>Handler-Based Invariant Testing</h4>
+                <p>Standard invariant testing randomly calls any function in your contract. <strong>Handler-Based Testing</strong> is a more sophisticated approach where you create a "Handler" contract that defines valid sequences of actions. This allows the fuzzer to explore deep state spaces (e.g., "deposit, then borrow, then wait 3 days, then liquidate") that would be statistically impossible to reach with random function calls. Handler-based testing is how protocols like Balancer and Aave achieve 100% confidence in their mathematical correctness.</p>
 
                 <div class="code-block-container">
                     <button class="copy-btn">Copy</button>
@@ -1099,35 +1210,51 @@ function sensitiveAction() public {
     vm.prank(alice);
     token.transfer(bob, 100);
     assertEq(token.balanceOf(bob), 100);
+}
+
+// Invariant Example
+function invariant_Solvency() public {
+    assert(vault.totalAssets() >= vault.totalSupply());
 }</code></pre>
                 </div>
 
-                <h3>2. Cast & Anvil</h3>
+                <h3>Live Example: The Foundry Power-User's Workflow</h3>
+                <p>Foundry is not just for testing; it's for <strong>Exploration</strong>. Use <code>cast</code> to debug transactions on mainnet instantly.</p>
+                <div class="code-block-container">
+                    <button class="copy-btn">Copy</button>
+                    <pre><code class="language-bash"># 1. Trace a transaction to see exactly where it failed
+cast run <TX_HASH> --rpc-url <MAINNET_RPC>
+
+# 2. Get the storage of a contract at a specific slot
+cast storage <CONTRACT_ADDR> <SLOT_HEX> --rpc-url <MAINNET_RPC>
+
+# 3. Simulate a call with any state (using a fork)
+# This lets you test "what if" scenarios without paying gas
+forge test --fork-url <MAINNET_RPC> --match-test testMyHack</code></pre>
+                </div>
+
+                <h3>2. Cast, Anvil & Chisel</h3>
                 <ul>
                     <li><strong>Cast:</strong> A Swiss Army knife for Ethereum CLI. Want to know the balance of an address? <code>cast balance &lt;addr&gt;</code>. Want to convert ETH to Wei? <code>cast to-wei 1 ether</code>.</li>
                     <li><strong>Anvil:</strong> A local Ethereum node that is much faster than Hardhat Network.</li>
+                    <li><strong>Chisel:</strong> A fast, lightweight REPL for Solidity. Perfect for testing small snippets of Yul or bit-math without creating a full project.</li>
                 </ul>
 
                 <h4>FFI: The Ultimate Testing Escape Hatch</h4>
                 <p>Sometimes, the math you need to test is too complex for Solidity, or you want to compare your contract's output against a reference implementation in Python or Rust. Foundry's <strong>FFI (Foreign Function Interface)</strong> allows your Solidity tests to call external shell commands. This enables <strong>Differential Testing</strong>, where you run the same calculation in two different environments and ensure the results match. If your Solidity <code>exp()</code> function gives a different result than Python's <code>math.exp()</code>, you know you have a precision error.</p>
 
-                <h3>Architect's Masterclass: Differential Testing</h3>
-                <p>Differential testing is a powerful technique where you compare the output of your Solidity implementation against a "known good" reference (often in Python or Rust). This is how Uniswap and MakerDAO ensure their complex math is correct.</p>
+                <h3>Architect's Masterclass: Multi-Fork Testing</h3>
+                <p>Modern protocols often span multiple chains. Foundry allows you to create multiple <strong>Forks</strong> in a single test. You can simulate a transaction on Ethereum Mainnet, then switch to an Arbitrum fork to see how the L2 state changes. This is the only way to reliably test cross-chain bridges and message-passing protocols before deployment.</p>
                 <div class="code-block-container">
-                    <pre><code class="language-solidity">function testDifferential_Math(uint256 x, uint256 y) public {
-    uint256 solResult = myContract.complexMath(x, y);
+                    <pre><code class="language-solidity">function testCrossChain_Message() public {
+    uint256 mainnet = vm.createFork("mainnet");
+    uint256 arbitrum = vm.createFork("arbitrum");
     
-    // Call a python script to get the "correct" result
-    string[] memory inputs = new string[](4);
-    inputs[0] = "python3";
-    inputs[1] = "scripts/math_ref.py";
-    inputs[2] = vm.toString(x);
-    inputs[3] = vm.toString(y);
+    vm.selectFork(mainnet);
+    bridge.sendMessage(arbitrumAddr, "Hello L2");
     
-    bytes memory res = vm.ffi(inputs);
-    uint256 refResult = abi.decode(res, (uint256));
-    
-    assertEq(solResult, refResult);
+    vm.selectFork(arbitrum);
+    // Verify message received...
 }</code></pre>
                 </div>
 
@@ -1142,7 +1269,7 @@ function sensitiveAction() public {
                 <h3>Case Study: How Paradigm uses Foundry</h3>
                 <p>The creators of Foundry use it to manage billions in assets. Their focus on speed and correctness is why it has become the industry standard.</p>
 
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fNMfM8Y0GZA" allowfullscreen loading="lazy"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7pWKA_f8YpY" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
                     <button class="share-lesson-btn" onclick="shareLesson(4)">
@@ -1215,6 +1342,9 @@ function withdraw() public {
                 <h4>Price Oracle Manipulation: The Flash Loan Menace</h4>
                 <p>Flash loans allow attackers to borrow millions of dollars with zero collateral, provided they repay it in the same transaction. This capital is often used to manipulate low-liquidity price oracles. By dumping a large amount of a token into a pool, the attacker can move the price, take out a massive loan from a lending protocol that uses that pool as an oracle, and then walk away with the profit. <strong>Solution:</strong> Never use <code>balanceOf(pool)</code> as a price source. Use decentralized, multi-source oracles like <strong>Chainlink</strong> combined with a <strong>Time-Weighted Average Price (TWAP)</strong>.</p>
 
+                <h4>Governance Attacks: Flash-Voting and Bribery</h4>
+                <p>Governance protocols are often the weakest link. Attackers can use flash loans to gain temporary voting power, pass a proposal to "drain the treasury," and execute it before the honest voters can react. <strong>Defense:</strong> Use <strong>Voting Delays</strong> (mandatory waiting period between proposal and vote), <strong>Snapshots</strong> (calculating voting power based on a block in the past), and <strong>Timelocks</strong> (mandatory delay between passing a vote and execution).</p>
+
                 <p><strong>Oracle Manipulation:</strong> Many protocols rely on a single price source (like a Uniswap pool). Attackers can use a Flash Loan to artificially move the price in that pool, tricking your protocol into thinking an asset is worth more or less than it actually is. <strong>Solution:</strong> Use decentralized oracles like Chainlink and combine them with Time-Weighted Average Prices (TWAP).</p>
                 
                 <h3>3. Common Vulnerability Checklist</h3>
@@ -1222,6 +1352,7 @@ function withdraw() public {
                     <li><strong>Integer Overflow/Underflow:</strong> (Solved in 0.8+, but watch out for Yul!)</li>
                     <li><strong>Timestamp Dependence:</strong> Never use <code>block.timestamp</code> for critical randomness.</li>
                     <li><strong>Unprotected Selfdestruct:</strong> Maliciously forcing ether into a contract to break logic that relies on <code>this.balance</code>.</li>
+                    <li><strong>Storage Collisions:</strong> In upgradeable contracts, adding variables in the wrong order.</li>
                 </ul>
 
                 <h3>Security Resources</h3>
@@ -1266,23 +1397,27 @@ function withdraw() public {
                 
                 <h3>1. High-Level Gas Saving Techniques</h3>
                 <ul>
-                    <li><strong><code>external</code> over <code>public</code>:</strong> External functions are cheaper when receiving large arrays because they read directly from <code>calldata</code>.</li>
+                    <li><strong><code>external</code> over <code>public</code>:</strong> External functions are cheaper when receiving large arrays because they read directly from <code>calldata</code>, avoiding a memory copy.</li>
                     <li><strong><code>immutable</code> and <code>constant</code>:</strong> These variables are embedded directly in the bytecode, saving an <code>SLOAD</code> (2,100 gas) every time they are accessed.</li>
                     <li><strong>Short-Circuiting:</strong> Place the cheapest or most likely to fail condition first in <code>require</code> statements.</li>
+                    <li><strong>Errors vs Strings:</strong> Use custom errors (<code>revert MyError()</code>) instead of strings to save bytecode space and deployment gas.</li>
                 </ul>
 
                 <h4>The Bitmap Strategy: Efficient Boolean Storage</h4>
-                <p>Storing a single <code>bool</code> in a storage slot costs 20,000 gas. If you have thousands of booleans (e.g., tracking which users have claimed an airdrop), this is incredibly wasteful. Instead, use a <strong>Bitmap</strong>. A single <code>uint256</code> can store 256 booleans as individual bits. By using bitwise operations to set and check these bits, you can reduce your storage costs by 99%. This is the strategy used by protocols like Merkle Distributor.</p>
+                <p>Storing a single <code>bool</code> in a storage slot costs 20,000 gas. If you have thousands of booleans (e.g., tracking which users have claimed an airdrop), this is incredibly wasteful. Instead, use a <strong>Bitmap</strong>. A single <code>uint256</code> can store 256 booleans as individual bits. By using bitwise operations to set and check these bits, you can reduce your storage costs by 99%. This is the strategy used by protocols like Merkle Distributor and Uniswap v3.</p>
 
                 <h3>2. Low-Level (Assembly) Optimization</h3>
                 <ul>
                     <li><strong>Bit Shifting:</strong> Using <code>shl(5, x)</code> is cheaper than <code>x * 32</code>.</li>
-                    <li><strong>Custom Errors:</strong> Solidity 0.8.4+ custom errors are much cheaper than <code>require(condition, "Very long string that costs gas to store")</code>.</li>
                     <li><strong>Unchecked Blocks:</strong> Use <code>unchecked { ++i; } }</code> in for-loops. Since the loop index will never overflow 2^256-1, you save ~80 gas per iteration.</li>
+                    <li><strong>Calldata Caching:</strong> If you read a value from <code>msg.data</code> multiple times, cache it in a stack variable.</li>
                 </ul>
 
+                <h4>Transient Storage: EIP-1153 Mastery</h4>
+                <p>Introduced in the Cancun upgrade, <strong>Transient Storage</strong> (using the <code>TSTORE</code> and <code>TLOAD</code> opcodes) provides a way to store data that only lasts for the duration of a single transaction. It is 20x cheaper than regular storage (100 gas vs 2,100+ gas) because it doesn't need to be written to disk. This is the perfect solution for reentrancy guards, complex inter-contract state passing, and flash-loan logic, saving thousands of gas per call.</p>
+
                 <h4>Calldata Compression for Layer 2s</h4>
-                <p>For Layer 2 solutions (Rollups), the most expensive part of a transaction is not the computation on L2, but the cost of posting the transaction data back to Layer 1. This is why "Calldata Optimization" is the most important gas-saving technique for L2 developers. By using custom-packed formats instead of the standard ABI encoding, you can significantly reduce the size of your transactions, directly lowering the fees for your users.</p>
+                <p>For Layer 2 solutions (Rollups), the most expensive part of a transaction is not the computation on L2, but the cost of posting the transaction data back to Layer 1. This is why "Calldata Optimization" is the most important gas-saving technique for L2 developers. By using custom-packed formats instead of the standard ABI encoding, you can significantly reduce the size of your transactions, directly lowering the fees for your users. Mastery of <strong>RLP (Recursive Length Prefix)</strong> encoding is a key skill for L2 architects.</p>
 
                 <h3>Architect's Masterclass: Storage Caching & Loop Optimization</h3>
                 <p>One of the most common gas mistakes is reading a storage variable multiple times inside a loop. Each <code>SLOAD</code> costs at least 100 gas.</p>
@@ -1300,25 +1435,8 @@ for (uint i = 0; i < length; ) {
 }</code></pre>
                 </div>
 
-                <h4>Transient Storage: EIP-1153</h4>
-                <p>Introduced in the Cancun upgrade, <strong>Transient Storage</strong> (using the <code>TSTORE</code> and <code>TLOAD</code> opcodes) provides a way to store data that only lasts for the duration of a single transaction. It is much cheaper than regular storage because it doesn't need to be written to disk. This is the perfect solution for reentrancy guards and passing data between different calls in the same transaction, saving thousands of gas per call.</p>
-
-                <p><strong>Packing the Calldata:</strong> For Layer 2 protocols, the primary cost is not execution but <strong>Data Availability</strong> (publishing data to L1). To optimize this, you must compress your calldata as much as possible, using bit-packing and even custom compression algorithms.</p>
-                
-                <h3>Practical Tip: The Zero-Value SSTORE</h3>
-                <p>Setting a storage value from non-zero to zero (<code>SSTORE</code> to 0) provides a <strong>Gas Refund</strong> of up to 4,800 gas. This is why protocols often "clear" their state after use to reduce the net cost to the user.</p>
-
-                <div class="code-block-container">
-                    <button class="copy-btn">Copy</button>
-                    <pre><code class="language-solidity">// GAS OPTIMIZED LOOP
-for (uint i = 0; i < length; ) {
-    // ... logic
-    unchecked { ++i; }
-}</code></pre>
-                </div>
-
                 <h3>Case Study: Gas Optimization in Uniswap v3</h3>
-                <p>Uniswap v3 uses assembly and bit-math extensively to manage tick liquidity. This complexity is the price paid for extreme capital efficiency.</p>
+                <p>Uniswap v3 uses assembly and bit-math extensively to manage tick liquidity. This complexity is the price paid for extreme capital efficiency. They use a <strong>TickBitmap</strong> to store which ticks have liquidity, allowing for logarithmic search time across the entire price range while using minimal storage slots.</p>
                 <a href="https://github.com/Uniswap/v3-core/blob/main/contracts/libraries/TickBitmap.sol" target="_blank" style="color: var(--accent);">Ref: Uniswap v3 TickBitmap.sol</a>
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/8vXp_6X7XpY" allowfullscreen loading="lazy"></iframe></div>
@@ -1355,35 +1473,33 @@ for (uint i = 0; i < length; ) {
                     <br><strong>Security Mindset:</strong> Use OpenZeppelin's <code>SafeERC20</code>. Some tokens (like USDT) don't return a boolean on <code>transfer</code>, which can cause your contract to revert if not handled correctly.
                 </p>
 
+                <h4>Weird ERC-20 Implementation Risks</h4>
+                <p>As an architect, you must account for "Weird Tokens" that don't follow the spec perfectly:</p>
+                <ul>
+                    <li><strong>Fee-on-Transfer:</strong> Tokens like PAXG take a % cut on every transfer. If your protocol expects 100 tokens but only receives 98, your internal accounting will break. Always check the balance before and after a transfer.</li>
+                    <li><strong>Rebasing Tokens:</strong> Tokens like stETH or Ampleforth change their balance over time without a transfer. Your contract must handle <code>balanceOf(address(this))</code> changing dynamically.</li>
+                    <li><strong>Blacklisting:</strong> Tokens like USDC and USDT have a blacklist. If your protocol holds funds for a blacklisted user, those funds might become permanently locked in your contract.</li>
+                </ul>
+
                 <h4>ERC-2612: The Power of Permit</h4>
                 <p>One of the biggest UX hurdles in DeFi is the "Approve-then-Transfer" pattern, which requires two transactions. <strong>ERC-2612</strong> solves this by adding a <code>permit</code> function. This allows users to sign an offline message giving a contract permission to spend their tokens. The contract then submits this signature in the same transaction as the transfer, saving the user time and gas. This is the foundation for "one-click" DeFi interactions.</p>
 
                 <h3>2. ERC-721 & ERC-1155: NFTs</h3>
                 <p>Understand the <code>safeTransferFrom</code> function. It calls <code>onERC721Received</code> on the recipient. <strong>Warning:</strong> This creates a reentrancy opportunity!</p>
 
-                <h4>ERC-2771: Meta-Transactions</h4>
-                <p>Meta-transactions allow a third party (a "Relayer") to pay for a user's gas. The user signs their transaction offline, and the relayer submits it to a <strong>Trusted Forwarder</strong> contract. This contract then calls the target protocol, passing the original user's address as <code>_msgSender()</code>. This is critical for onboarding new users who don't have ETH yet. However, if not implemented correctly, it can lead to severe security flaws where an attacker can spoof the sender's identity.</p>
+                <h4>ERC-721A: Gas-Efficient Batch Minting</h4>
+                <p>Standard ERC-721 minting becomes exponentially expensive as you mint more tokens in a single transaction. <strong>ERC-721A</strong> (pioneered by Azuki) uses a clever storage optimization where ownership data is only stored for the first token in a batch, and subsequent tokens "inherit" that ownership until a transfer occurs. This allows for minting 10+ NFTs for nearly the same gas price as one.</p>
 
                 <h3>3. ERC-4626: The Vault Standard</h3>
                 <p>The Tokenized Vault Standard. It provides a standard API for yield-bearing tokens (like aDAI or cUSDC). <strong>Inflation Attack:</strong> New vaults can be manipulated by a first depositor to steal funds from subsequent users.
                     <br><a href="https://docs.openzeppelin.com/contracts/4.x/erc4626" target="_blank" style="color: var(--accent);">Ref: OpenZeppelin ERC-4626 Guide</a>
                 </p>
 
-                <h4>The Inflation Attack in ERC-4626</h4>
-                <p>The ERC-4626 standard uses a simple ratio to calculate shares: <code>shares = assets * totalShares / totalAssets</code>. If a vault is empty (totalShares == 0), the first depositor gets shares equal to their assets. An attacker can exploit this by depositing a single wei, then "donating" a large amount of assets directly to the vault. This inflates the price of a single share to a massive value. When a subsequent user deposits, their assets might round down to <strong>zero shares</strong> due to integer division, effectively giving their funds to the attacker. <strong>Solution:</strong> Use "Virtual Shares" or "Virtual Assets" to ensure the exchange rate can never be manipulated so easily.</p>
+                <h4>Inflation Protection: Virtual Assets</h4>
+                <p>The ERC-4626 inflation attack occurs because of rounding errors when the vault is empty. To prevent this, elite architects use <strong>Virtual Assets and Shares</strong>. By pretending the vault already has 1 share and 10^18 assets, the exchange rate becomes much harder to manipulate, and the rounding errors become negligible. This is now a built-in feature of the latest OpenZeppelin ERC-4626 implementation.</p>
 
-
-                <h3>Architect's Masterclass: The Hidden Complexity of ERC-20</h3>
-                <p>Most developers treat ERC-20 as a solved problem, but "Weird Tokens" cause more hacks than almost any other category. As an architect, you must account for:</p>
-                <ul>
-                    <li><strong>Fee-on-Transfer Tokens:</strong> Some tokens take a % cut on every transfer. If your protocol expects 100 tokens but only receives 98, your internal accounting will break.</li>
-                    <li><strong>Rebasing Tokens:</strong> Tokens like stETH or Ampleforth change their balance over time without a transfer. Your contract must handle <code>balanceOf(address(this))</code> changing dynamically.</li>
-                    <li><strong>Blacklisting:</strong> Tokens like USDC have a blacklist. If your protocol holds funds for a blacklisted user, those funds might become permanently locked in your contract.</li>
-                </ul>
-                <div class="simple-terms">
-                    <h4>💡 Security Tip: SafeERC20</h4>
-                    <p>Always use OpenZeppelin's <code>SafeERC20</code> wrapper. It handles tokens that don't return a boolean (like USDT) and tokens that revert on failure instead of returning false. It is the "Industry Standard" for a reason.</p>
-                </div>
+                <h3>4. ERC-2771: Meta-Transactions & Trusted Forwarders</h3>
+                <p>Meta-transactions allow a third party (a "Relayer") to pay for a user's gas. The user signs their transaction offline, and the relayer submits it to a <strong>Trusted Forwarder</strong> contract. This contract then calls the target protocol, passing the original user's address as <code>_msgSender()</code>. This is critical for onboarding new users who don't have ETH yet. However, if not implemented correctly, it can lead to severe security flaws where an attacker can spoof the sender's identity. Always use a verified and audited Forwarder implementation.</p>
 
                 <div class="code-block-container">
                     <button class="copy-btn">Copy</button>
@@ -1431,26 +1547,20 @@ interface IERC4626 {
 
                 <h3>1. Proxy Patterns</h3>
                 <ul>
-                    <li><strong>Transparent Proxy:</strong> Uses a "ProxyAdmin" to prevent function selector collisions between the admin and the user.</li>
-                    <li><strong>UUPS (Universal Upgradeable Proxy Standard):</strong> More gas-efficient because the upgrade logic lives in the implementation, not the proxy. Recommended by OpenZeppelin.</li>
-                    <li><strong>Diamond Proxy (EIP-2535):</strong> Allows a contract to be composed of multiple implementation contracts (facets). Great for bypassing the 24KB contract size limit.</li>
+                    <li><strong>Transparent Proxy:</strong> Uses a "ProxyAdmin" to prevent function selector collisions between the admin and the user. Recommended for complex administrative structures.</li>
+                    <li><strong>UUPS (Universal Upgradeable Proxy Standard):</strong> More gas-efficient because the upgrade logic lives in the implementation. This is the modern industry standard for most protocols.</li>
+                    <li><strong>Beacon Proxy:</strong> A single "Beacon" contract stores the implementation address for thousands of proxies. Upgrading the Beacon instantly upgrades every proxy. Essential for factory-based protocols (e.g., Gnosis Safe, lending pools).</li>
+                    <li><strong>Minimal Proxy (ERC-1167):</strong> A non-upgradeable proxy that simply delegates all calls to a fixed implementation. It is extremely cheap to deploy (only ~60k gas) and is used for things like creating new Uniswap v2 pools or individual user vaults.</li>
                 </ul>
 
                 <h4>UUPS vs Transparent: The Battle for Gas</h4>
                 <p>In a <strong>Transparent Proxy</strong>, every single call to the proxy first checks if the caller is the admin. This adds a significant gas overhead to every user interaction. In <strong>UUPS</strong>, this check is moved to the implementation contract, specifically within the <code>upgradeTo</code> function. This means that for regular users, UUPS proxies are much cheaper to interact with. However, UUPS is more dangerous: if you deploy a new implementation that <em>forgets</em> to include the upgrade logic, you will permanently lock the proxy and lose the ability to upgrade ever again.</p>
 
                 <h3>2. The Danger: Storage Collisions</h3>
-                <p>When you upgrade a contract, you MUST NOT change the order of existing state variables. If you do, the new logic will look at the wrong storage slots, leading to catastrophic failure.</p>
-                <div class="code-block-container">
-                    <pre><code class="language-solidity">// V1
-uint a;
-uint b;
+                <p>When you upgrade a contract, you MUST NOT change the order of existing state variables. If you do, the new logic will look at the wrong storage slots, leading to catastrophic failure. <strong>Pro Tip:</strong> Use the <strong>OpenZeppelin Upgrades Plugin</strong> for Hardhat/Foundry to automatically check for storage collisions before you deploy.</p>
 
-// V2 - DANGEROUS (b will now have the value of a)
-uint c; 
-uint a;
-uint b;</code></pre>
-                </div>
+                <h4>EIP-1967: The Standardized Storage Slots</h4>
+                <p>To prevent collisions between the proxy's own storage (like the admin address) and the implementation's storage, EIP-1967 defines specific, "random" storage slots for critical data. For example, the implementation address is always stored at <code>keccak256("eip1967.proxy.implementation") - 1</code>. This ensures that no matter what variables the implementation uses, it will never accidentally overwrite the proxy's internal state.</p>
 
                 <h4>Storage Gaps: Preparing for the Future</h4>
                 <p>When using inheritance in upgradeable contracts, you must be careful about adding new variables to parent contracts. If a parent contract adds a variable, it will shift the storage slots of all its child contracts, causing a collision. To prevent this, architects use <strong>Storage Gaps</strong>—a reserved array of <code>uint256</code> values at the end of a contract's storage. If you need to add a variable later, you simply reduce the size of the gap. This ensures that the storage layout remains stable across upgrades.</p>
@@ -1461,6 +1571,13 @@ uint b;</code></pre>
 
                 <h3>Case Study: The Poly Network Hack ($611M)</h3>
                 <p>The attacker exploited a flaw in the cross-chain manager's ability to call any function. They used this to change the keeper (admin) of the contract to themselves. <strong>Lesson:</strong> Always restrict who can call <code>delegatecall</code> or <code>call</code> on sensitive administrative functions.</p>
+
+                <h3>Architect's Masterclass: Minimal Proxy Bytecode Analysis</h3>
+                <p>An ERC-1167 Minimal Proxy is just 45 bytes of bytecode. It uses a series of opcodes (<code>calldatacopy</code>, <code>delegatecall</code>, <code>returndatacopy</code>, <code>return</code>/<code>revert</code>) to forward all calls. Understanding how this small snippet of assembly works is the "final boss" of proxy mastery.</p>
+                <div class="code-block-container">
+                    <pre><code class="language-solidity">// The standard ERC-1167 bytecode
+363d3d373d3d3d363d73bebebebebebebebebebebebebebebebebebebebe5af43d82803e903d91602b57fd5bf3</code></pre>
+                </div>
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/bdXJm6VvS90" allowfullscreen loading="lazy"></iframe></div>
 
@@ -1492,7 +1609,7 @@ uint b;</code></pre>
                 
                 <h3>1. Core DeFi Primitives</h3>
                 <ul>
-                    <li><strong>Automated Market Makers (AMMs):</strong> Understanding the Constant Product Formula <code>x * y = k</code>. Study Uniswap v2 and v3.
+                    <li><strong>Automated Market Makers (AMMs):</strong> Understanding the Constant Product Formula <code>x * y = k</code>. Study Uniswap v2 and the much more complex v3 (Concentrated Liquidity).
                         <br><a href="https://uniswap.org/whitepaper.pdf" target="_blank" style="color: var(--accent); font-size: 0.9rem;">Ref: Uniswap Whitepaper</a>
                     </li>
                     <li><strong>Lending & Borrowing:</strong> How Aave and Compound use "Interest Rate Models" and "Collateral Factors" to maintain solvency.</li>
@@ -1502,17 +1619,26 @@ uint b;</code></pre>
                 <h4>Liquidity Provision: The Math of x * y = k</h4>
                 <p>The Constant Product Formula (<code>x * y = k</code>) is the foundation of modern DeFi. When a user swaps token <code>X</code> for token <code>Y</code>, the pool ensures that the product of the two balances remains constant (ignoring fees). This means that as one token becomes scarcer in the pool, its price increases automatically. As an architect, you must understand <strong>Impermanent Loss</strong>—the difference between holding tokens and providing them as liquidity. If the price of the tokens changes significantly, liquidity providers may end up with less value than if they had just held the tokens in their wallet.</p>
 
+                <h4>Uniswap v3: Concentrated Liquidity Mastery</h4>
+                <p>Uniswap v3 introduced the concept of <strong>Ticks</strong> and <strong>Concentrated Liquidity</strong>. Instead of providing liquidity across the entire price range (from 0 to infinity), LPs can choose a specific range (e.g., $1800 to $2200 for ETH/USDC). This makes capital 1000x more efficient but also 1000x more complex to manage. As an architect, you must understand the math of <code>sqrt(price)</code> and how ticks are used to track liquidity distribution. This is the "PhD level" of DeFi engineering.</p>
+
                 <h3>2. Composability Risks</h3>
                 <p>When you call another contract, you are trusting its logic. <strong>Security Mindset:</strong> Always assume the external contract is malicious. Use <code>nonReentrant</code> guards and verify price data from multiple oracles (e.g., Chainlink + Uniswap TWAP).</p>
 
                 <h4>Yield Aggregators: Auto-Compounding Logic</h4>
                 <p>Yield aggregators like Yearn Finance automate the process of moving funds between different lending protocols to find the highest interest rate. The core challenge in building an aggregator is the <strong>Harvesting Strategy</strong>. You must find the optimal frequency to sell earned rewards (like AAVE or COMP tokens) and reinvest them into the main asset. If you harvest too often, gas costs eat your profit. If you harvest too rarely, you lose out on compounding interest.</p>
 
+                <h4>Interest Rate Models: The Math of Lending</h4>
+                <p>Lending protocols like Aave don't have a fixed interest rate. Instead, the rate is a function of <strong>Utilization</strong> (the ratio of borrowed funds to total deposited funds). As utilization increases, the interest rate increases to encourage more deposits and discourage more borrowing. Architects must choose between <strong>Linear Models</strong> (where rates grow steadily) and <strong>Jump Rate Models</strong> (where rates spike after a certain utilization threshold, like 90%, to prevent the pool from being completely drained). This is a delicate balance between UX and protocol safety.</p>
+
                 <h3>Case Study: The Beanstalk Governance Hack ($182M)</h3>
                 <p>The attacker used a <strong>Flash Loan</strong> to buy a massive amount of governance tokens, passed a malicious proposal, and drained the protocol in a single transaction. <strong>Lesson:</strong> Use voting delays and snapshots to prevent flash loan governance attacks.</p>
 
                 <h4>The Risk of Recursive Borrowing</h4>
-                <p>Many DeFi protocols allow users to use their borrowed assets as collateral for <em>another</em> loan. This is called "Recursive Borrowing" or "Looping." While this can amplify yield, it also creates massive systemic risk. If the price of the collateral drops slightly, it can trigger a <strong>Liquidation Cascade</strong>, where many users are liquidated at once, putting immense pressure on the market and potentially leaving the protocol with "Bad Debt" that cannot be covered. As an architect, you must set conservative <strong>Loan-to-Value (LTV)</strong> ratios to protect the protocol's solvency.</p>
+                <p>Many DeFi protocols allow users to use their borrowed assets as collateral for <em>another</em> loan. This is called "Recursive Borrowing" or "Looping." While this can amplify yield, it also creates massive systemic risk. If the price of the collateral drops slightly, it can trigger a <strong>Liquidation Cascade</strong>, where many users are liquidated at once, putting immense pressure on the market and potentially leaving the protocol with "Bad Debt" that cannot be covered. As an architect, you must set conservative <strong>Loan-to-Value (LTV)</strong> ratios and use <strong>Liquidation Thresholds</strong> that provide a sufficient safety buffer.</p>
+
+                <h4>Flash Loans: The Architect's Swiss Army Knife</h4>
+                <p>Flash loans allow you to borrow millions of dollars with zero collateral, as long as you repay it in the same transaction. This is used for arbitrage, collateral swapping, and self-liquidation. However, it is also the primary tool for attackers to manipulate price oracles and governance systems. As an architect, you must design your protocol to be <strong>invariant-based</strong>, meaning it should be secure even if an attacker has infinite capital for a single transaction.</p>
 
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fWAbS9-I8M0" allowfullscreen loading="lazy"></iframe></div>
@@ -1546,36 +1672,41 @@ uint b;</code></pre>
 
                 <h3>1. Common MEV Strategies</h3>
                 <ul>
-                    <li><strong>Arbitrage:</strong> Buying low on Uniswap and selling high on SushiSwap. This keeps prices efficient.</li>
-                    <li><strong>Sandwich Attacks:</strong> An attacker sees your large buy order in the mempool, buys before you (pushing price up), you buy (pushing price further up), then they sell. <strong>Defense:</strong> Use private RPCs like Flashbots Protect.</li>
-                    <li><strong>Liquidations:</strong> Competing to be the first to liquidate a position.</li>
+                    <li><strong>Arbitrage:</strong> Buying low on Uniswap and selling high on SushiSwap. This keeps prices efficient across the ecosystem.</li>
+                    <li><strong>Sandwich Attacks:</strong> An attacker sees your large buy order in the mempool, buys before you (pushing price up), you buy (pushing price further up), then they sell. <strong>Defense:</strong> Use private RPCs like Flashbots Protect or implement <strong>Slippage Protection</strong> correctly.</li>
+                    <li><strong>Liquidations:</strong> Competing to be the first to liquidate an underwater position. This is "Good MEV" as it keeps protocols solvent.</li>
+                    <li><strong>Long-Tail MEV:</strong> Niche opportunities like NFT mint snipes, governance parameter manipulation, or cross-chain arbitrage.</li>
                 </ul>
 
                 <h4>The Searcher's Edge: Latency and Logic</h4>
-                <p>MEV searchers are the high-frequency traders of the blockchain world. To be successful, a searcher must have two things: <strong>Low Latency</strong> (getting their transaction to the validator as fast as possible) and <strong>Superior Logic</strong> (finding profitable opportunities that others miss). Searchers often run their own modified Ethereum nodes and use specialized infrastructure to monitor the mempool in real-time. As an architect, you must assume that any profitable opportunity your protocol creates will be claimed by a bot within milliseconds.</p>
+                <p>MEV searchers are the high-frequency traders of the blockchain world. To be successful, a searcher must have two things: <strong>Low Latency</strong> (getting their transaction to the validator as fast as possible) and <strong>Superior Logic</strong> (finding profitable opportunities that others miss). Searchers often run their own modified Ethereum nodes (like <strong>Geth</strong> with custom patches) and use specialized infrastructure to monitor the mempool in real-time. As an architect, you must assume that any profitable opportunity your protocol creates will be claimed by a bot within milliseconds.</p>
+
+                <h4>JIT Liquidity: The Uniswap v3 Frontier</h4>
+                <p><strong>Just-In-Time (JIT) Liquidity</strong> is a sophisticated MEV strategy in Uniswap v3. When a searcher sees a large swap in the mempool, they add a massive amount of concentrated liquidity in the exact tick where the swap will occur, capture the majority of the swap fee, and then immediately remove the liquidity in the same block. While this provides better execution for the swapper, it "steals" fees from passive LPs. Understanding JIT is essential for anyone building on Uniswap v3.</p>
 
                 <h3>2. The Flashbots Architecture</h3>
-                <p>Flashbots was created to mitigate the negative externalities of MEV. It allows searchers to send bundles of transactions directly to miners/validators, bypassing the public mempool.</p>
+                <p>Flashbots was created to mitigate the negative externalities of MEV. It allows searchers to send bundles of transactions directly to builders and validators, bypassing the public mempool.</p>
                 <ul>
-                    <li><strong>Searchers:</strong> Bots that find MEV opportunities.</li>
-                    <li><strong>Builders:</strong> Aggregate bundles into full blocks.</li>
-                    <li><strong>Relayers:</strong> Act as a trust layer between builders and validators.</li>
+                    <li><strong>Searchers:</strong> Bots that find MEV opportunities and create transaction bundles.</li>
+                    <li><strong>Builders:</strong> Aggregate bundles and individual transactions into full, optimized blocks.</li>
+                    <li><strong>Relayers:</strong> Act as a trust layer between builders and validators, ensuring that validators don't "steal" the searchers' MEV.</li>
                 </ul>
 
                 <h4>PGA vs. Bundles: The War for Blockspace</h4>
                 <p>Before Flashbots, searchers engaged in <strong>Priority Gas Auctions (PGAs)</strong>, where they would constantly outbid each other by increasing their gas price. This clogged the network and made gas prices spike for regular users. Flashbots changed this by allowing searchers to bid for blockspace <em>privately</em>. If a searcher's bundle is not included in a block, it is never seen by the public, and they don't pay any gas. This makes the network more stable and efficient, but it also centralizes block production around a few sophisticated builders.</p>
 
                 <h4>Ethical MEV and MEV-Smoothing</h4>
-                <p>Not all MEV is bad. Arbitrage and liquidations are necessary for DeFi to function. However, "Toxic MEV" like sandwich attacks harms users. The community is currently exploring <strong>MEV-Smoothing</strong>—a mechanism where MEV profits are distributed equally among all validators, rather than just the one who proposes the block. This reduces the incentive for validators to collude or centralize, furthering the decentralization of Ethereum.</p>
+                <p>Not all MEV is bad. Arbitrage and liquidations are necessary for DeFi to function. However, "Toxic MEV" like sandwich attacks harms users. The community is currently exploring <strong>MEV-Smoothing</strong>—a mechanism where MEV profits are distributed equally among all validators, rather than just the one who proposes the block. This reduces the incentive for validators to collude or centralize, furthering the decentralization of Ethereum. Architects should also consider <strong>MEV-Share</strong> and <strong>MEV-Tax</strong> mechanisms to return value back to the users who created the MEV in the first place.</p>
 
 
                 <h3>Required Reading</h3>
                 <ul>
                     <li><a href="https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest" target="_blank" style="color: var(--accent);">Ethereum is a Dark Forest (Dan Robinson)</a></li>
                     <li><a href="https://docs.flashbots.net/" target="_blank" style="color: var(--accent);">Flashbots Documentation</a></li>
+                    <li><a href="https://mevboost.pics/" target="_blank" style="color: var(--accent);">MEV-Boost Data & Insights</a></li>
                 </ul>
 
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/SshY_A_607Y" allowfullscreen loading="lazy"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/pIr1xlydm8k" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(10)">Mark Stage Complete</button>
@@ -1597,7 +1728,7 @@ uint b;</code></pre>
                         <h2>Formal Verification & Fuzzing</h2>
                     </div>
                 </div>
-                <p>Unit tests only prove that your code works for specific inputs. <strong>Formal Verification</strong> proves it works for ALL possible inputs. Property-based testing is the transition from "it works" to "it's secure".</p>
+                <p>Unit tests only prove that your code works for specific inputs. <strong>Formal Verification</strong> proves it works for ALL possible inputs. Property-based testing is the transition from "it works" to "it's secure". This stage is where you move beyond simple "it seems to work" testing and start using mathematical proofs to guarantee correctness.</p>
 
                 <div class="simple-terms">
                     <h4>💡 In Simple Terms</h4>
@@ -1736,7 +1867,7 @@ function invariant_TotalSupply() public {
                 <h4>Data Availability: The EIP-4844 Revolution</h4>
                 <p>Before EIP-4844 (Proto-Danksharding), L2s had to store their transaction data as <code>calldata</code> on L1, which was extremely expensive. EIP-4844 introduced <strong>Blobs</strong>—a new type of data storage that is separate from the main execution state. Blobs are much cheaper because they are automatically deleted by Ethereum nodes after about 18 days. This "ephemeral" storage is perfect for L2 transaction data, leading to a 10x-100x reduction in L2 transaction fees.</p>
 
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fNMfM8Y0GZA" allowfullscreen loading="lazy"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/7pWKA_f8YpY" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(13)">Mark Stage Complete</button>
@@ -1774,7 +1905,7 @@ function invariant_TotalSupply() public {
                 <h4>The Bridge Trilemma</h4>
                 <p>Similar to the Scalability Trilemma, the <strong>Bridge Trilemma</strong> states that a bridge can only have two of the following three: <strong>Trustlessness, Extensibility, and Low Latency</strong>. Bridges that use a set of validators are extensible and fast but not trustless. Bridges that use light client verification (like IBC) are trustless and fast but very hard to extend to new chains. As an architect, you must decide which risk your protocol is willing to take when moving assets across chains.</p>
 
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/S2C_j7pC8_E" allowfullscreen loading="lazy"></iframe></div>
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fWAbS9-I8M0" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(14)">Mark Stage Complete</button>
@@ -1814,7 +1945,10 @@ function invariant_TotalSupply() public {
                 <h4>The Math of Privacy: SNARKs Deep Dive</h4>
                 <p>A <strong>zk-SNARK</strong> (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge) relies on complex mathematics like <strong>Polynomial Commitments</strong> and <strong>Bilinear Pairings</strong>. The "Succinct" part is key: even if a computation takes hours to perform, the proof can be verified in milliseconds. This is what allows ZK-rollups to scale Ethereum. However, most SNARKs require a <strong>Trusted Setup</strong>—a one-time ceremony where secret parameters are generated. If the creators of the ceremony collude, they could create fake proofs. <strong>STARKs</strong> solve this by being "Transparent," meaning they don't require a trusted setup, but they have much larger proof sizes.</p>
 
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/RxL_1AfV7N4" allowfullscreen loading="lazy"></iframe></div>
+                <h4>Circuit Development with Circom</h4>
+                <p>Writing ZK circuits is different from writing smart contracts. Instead of imperative code, you define <strong>Constraints</strong>. Circom is the most popular language for writing these circuits. You define inputs (private and public) and the mathematical relationship between them. If an attacker tries to provide inputs that don't satisfy the constraints, the proof generation will fail. Common pitfalls include <strong>Under-constrained Circuits</strong>, where a malicious prover can satisfy the constraints with invalid data. Mastery of R1CS (Rank-1 Constraint Systems) is essential for any ZK architect.</p>
+
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/hEE7p_BAs1o" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(15)">Mark Stage Complete</button>
@@ -1854,6 +1988,12 @@ function invariant_TotalSupply() public {
                 <h4>The EntryPoint Contract: The Heart of AA</h4>
                 <p>ERC-4337 introduces a single, audited <strong>EntryPoint</strong> contract that handles all account abstraction logic. Instead of sending transactions directly to the network, users send <code>UserOperations</code> to a separate mempool. <strong>Bundlers</strong> then pick up these operations, validate them against the EntryPoint, and bundle them into a single Ethereum transaction. This architecture ensures that users don't need to change how the underlying blockchain works to benefit from smart contract wallets.</p>
 
+                <h4>Paymasters: Gasless Onboarding</h4>
+                <p>One of the most powerful features of ERC-4337 is the <strong>Paymaster</strong>. A Paymaster is a contract that can "sponsor" the gas fees for a user's transaction. This allows developers to offer a gasless experience, where the protocol pays for the user's initial interactions, or allows the user to pay for gas in a stablecoin like USDC instead of ETH. This is the key to mass adoption, as it removes the need for new users to buy ETH on an exchange before they can use a DeFi protocol.</p>
+
+                <h4>Session Keys: Permissioned Interactions</h4>
+                <p>With smart contract wallets, you can create <strong>Session Keys</strong>—temporary keys that are only allowed to perform specific actions (e.g., "swap tokens on Uniswap") for a limited time. This is perfect for gaming or automated trading, as it allows the user to pre-approve a series of actions without needing to sign every individual transaction. If the session key is ever compromised, the attacker's power is limited to only the pre-approved actions and timeframe.</p>
+
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/umepbfKp5rI" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
@@ -1889,7 +2029,13 @@ function invariant_TotalSupply() public {
                 <h4>Delegated Voting: Liquid Democracy</h4>
                 <p>Most token holders don't have the time or expertise to vote on every technical proposal. <strong>Delegated Voting</strong> allows them to "delegate" their voting power to a trusted expert (a delegate) without giving up ownership of their tokens. This creates a "Liquid Democracy" where experts can represent thousands of small holders. As an architect, you must ensure that your governance contracts support efficient delegation and that delegates are incentivized to act in the best interest of the protocol.</p>
 
-                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fNMfM8Y0GZA" allowfullscreen loading="lazy"></iframe></div>
+                <h4>The Game Theory of Governance Attacks</h4>
+                <p>Governance is not just about voting; it is a game of incentives. Attackers can use <strong>Flash Loans</strong> to buy massive voting power for a single block, pass a malicious proposal (like "send all treasury funds to my address"), and execute it before anyone can react. To prevent this, architects use <strong>Timelocks</strong> (a mandatory delay between passing and executing a proposal) and <strong>Snapshots</strong> (calculating voting power based on a past block, not the current one). Understanding the Nash Equilibrium of your governance system is critical for long-term survival.</p>
+
+                <h4>veTokenomics: Aligning Long-Term Incentives</h4>
+                <p>Popularized by Curve Finance, <strong>veTokenomics</strong> (Vote-Escrowed Tokenomics) requires users to "lock" their tokens for a period (e.g., 4 years) to receive voting power and a share of protocol fees. The longer the lock, the more power they have. This aligns the incentives of the voters with the long-term health of the protocol, as they cannot dump their tokens if they pass a proposal that harms the protocol in the short term. However, it also creates secondary markets for "Yield" on these locked tokens, adding another layer of complexity to the system.</p>
+
+                <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/y29Y9aXfR4k" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(17)">Mark Stage Complete</button>
@@ -1910,28 +2056,72 @@ function invariant_TotalSupply() public {
                             <h4 style="margin: 0;">1. The Gas-Efficient Vault</h4>
                             <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 02-03</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build an ERC-4626 compliant vault with manual storage packing and Yul-optimized deposit/withdraw logic. Focus: Minimal gas footprint.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build an ERC-4626 compliant vault with manual storage packing and Yul-optimized deposit/withdraw logic. Focus: Minimal gas footprint.
+                            <br><strong>Bonus:</strong> Implement a "Virtual Assets" mechanism to protect against the first-depositor inflation attack.
+                        </p>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">2. The Immutable Multi-Sig</h4>
                             <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 04-05</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">A multi-signature wallet that uses EIP-712 signatures. Must include 100% coverage in Foundry and invariant tests for double-spending signatures.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">A multi-signature wallet that uses EIP-712 signatures. Must include 100% coverage in Foundry and invariant tests for double-spending signatures.
+                            <br><strong>Bonus:</strong> Add support for "Social Recovery" where a majority of signers can change a lost owner's address.
+                        </p>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">3. Constant Product AMM (Uniswap v2 Clone)</h4>
                             <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 06-09</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Implement x*y=k math from scratch. Add a custom TWAP oracle. Focus: Precision handling and slippage protection logic.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Implement x*y=k math from scratch. Add a custom TWAP oracle. Focus: Precision handling and slippage protection logic.
+                            <br><strong>Bonus:</strong> Implement a "Fee-on-Transfer" handling logic that ensures the pool's internal accounting remains solvent even with weird tokens.
+                        </p>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">4. Upgradeable Lending Protocol</h4>
                             <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 08-09</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">A basic Aave-style lending pool using UUPS proxies. Must include a liquidation engine and storage gap analysis for future upgrades.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">A basic Aave-style lending pool using UUPS proxies. Must include a liquidation engine and storage gap analysis for future upgrades.
+                            <br><strong>Bonus:</strong> Add a "Flash Loan" feature that allows users to borrow liquidity for zero collateral, as long as it's repaid in the same transaction.
+                        </p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4 style="margin: 0;">5. On-Chain Governance (DAOs)</h4>
+                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 10-17</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build a Governor contract with delegated voting, timelocks, and snapshot-based voting power.
+                            <br><strong>Bonus:</strong> Add support for "Optimistic Governance" where proposals pass automatically unless someone challenges them with a bond.
+                        </p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4 style="margin: 0;">6. Cross-Chain Message Bridge</h4>
+                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 13-14</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build a simple message bridge between two Anvil instances using a relay script. Focus: Replay protection and state synchronization.
+                            <br><strong>Bonus:</strong> Implement a "Rate Limiter" that prevents massive amounts of funds from being moved in a short period, mitigating the impact of a potential exploit.
+                        </p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4 style="margin: 0;">7. Zero-Knowledge Identity (Semaphore Clone)</h4>
+                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 12-15</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Use Circom to build a circuit that proves you belong to a Merkle tree of addresses without revealing which one you are.
+                            <br><strong>Bonus:</strong> Integrate with a smart contract wallet to enable "Anonymous Voting" in your governance project.
+                        </p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h4 style="margin: 0;">8. ERC-4337 Smart Account</h4>
+                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 16-17</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-dim);">Implement a custom smart account that supports UserOperations, session keys, and a paymaster for gasless transactions.
+                            <br><strong>Bonus:</strong> Add "Multi-Factor Authentication" where high-value transactions require a signature from both the user's phone and their hardware wallet.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -2066,24 +2256,41 @@ function invariant_TotalSupply() public {
                         </ul>
                     </div>
                     <div>
-                        <h4 style="color: var(--accent); margin-bottom: 16px;">Common Vulnerabilities</h4>
+                        <h4 style="color: var(--accent); margin-bottom: 16px;">Memory & Stack Limits</h4>
                         <ul style="font-size: 0.9rem; list-style: none; padding: 0;">
-                            <li style="margin-bottom: 8px;">• Reentrancy (DAO Hack)</li>
-                            <li style="margin-bottom: 8px;">• Integer Overflow (Pre-0.8)</li>
-                            <li style="margin-bottom: 8px;">• Oracle Manipulation</li>
-                            <li style="margin-bottom: 8px;">• Front-running (MEV)</li>
-                            <li style="margin-bottom: 8px;">• Unprotected Selfdestruct</li>
+                            <li style="margin-bottom: 8px;">• Stack Depth: 1024 slots</li>
+                            <li style="margin-bottom: 8px;">• Stack Reach: Top 16 elements</li>
+                            <li style="margin-bottom: 8px;">• Memory Expansion: Quadratic</li>
+                            <li style="margin-bottom: 8px;">• Contract Size: 24,576 bytes</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 style="color: var(--accent); margin-bottom: 16px;">Security Checklist</h4>
+                        <h4 style="color: var(--accent); margin-bottom: 16px;">Advanced Security</h4>
                         <ul style="font-size: 0.9rem; list-style: none; padding: 0;">
-                            <li style="margin-bottom: 8px;">[ ] Checks-Effects-Interactions</li>
-                            <li style="margin-bottom: 8px;">[ ] Use SafeERC20</li>
-                            <li style="margin-bottom: 8px;">[ ] Validate all Inputs</li>
-                            <li style="margin-bottom: 8px;">[ ] Limit Admin Powers</li>
-                            <li style="margin-bottom: 8px;">[ ] Fuzz & Invariant Tests</li>
+                            <li style="margin-bottom: 8px;">• Read-only Reentrancy</li>
+                            <li style="margin-bottom: 8px;">• Signature Malleability (v,r,s)</li>
+                            <li style="margin-bottom: 8px;">• Oracle Price Freshness</li>
+                            <li style="margin-bottom: 8px;">• Cross-chain Replays</li>
                         </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 56px; padding: 32px; background: var(--sidebar-bg); border-radius: 20px; border: 1px solid var(--border-strong);">
+                    <h4 style="margin-top: 0; color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">The EVM Master Table</h4>
+                    <div style="overflow-x: auto;">
+                        <table style="font-size: 0.85rem;">
+                            <thead>
+                                <tr><th>Category</th><th>Opcodes</th><th>Gas Cost</th><th>Architect's Note</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Arithmetic</strong></td><td>ADD, SUB, MUL, DIV</td><td>3-5</td><td>Fixed gas. Multiplication is more expensive than addition.</td></tr>
+                                <tr><td><strong>Comparison</strong></td><td>LT, GT, SLT, SGT, EQ</td><td>3</td><td>Used heavily in conditional branching.</td></tr>
+                                <tr><td><strong>Bitwise</strong></td><td>AND, OR, XOR, NOT</td><td>3</td><td>Essential for bit-masking and storage packing.</td></tr>
+                                <tr><td><strong>Environment</strong></td><td>CALLER, CALLVALUE, BALANCE</td><td>2-20</td><td>Reading state from the current execution context.</td></tr>
+                                <tr><td><strong>Storage</strong></td><td>SLOAD, SSTORE</td><td>100-20k</td><td>The most expensive operations. Cache in memory!</td></tr>
+                                <tr><td><strong>External</strong></td><td>CALL, DELEGATECALL, STATICCALL</td><td>100-2600</td><td>Context-switching is expensive and risky.</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -2227,42 +2434,51 @@ function invariant_TotalSupply() public {
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
-                <div style="display: flex; align-items: center; gap: 12px; color: var(--text);">
-                    <svg viewBox="0 0 100 100" style="width: 32px; height: 32px; fill: currentColor;"><path d="M50 5C35.5 5 23.5 13.5 18.5 25.5C21.5 24 25 23 29 23C42 23 52.5 33.5 52.5 46.5C52.5 50.5 51.5 54 50 57C62 52 70.5 40 70.5 25.5C70.5 14.2 61.3 5 50 5Z"/><path d="M29.5 30.5C18.2 30.5 9 39.7 9 51C9 65.5 17.5 77.5 29.5 82.5C28 79.5 27 76 27 72C27 59 37.5 48.5 50.5 48.5C54.5 48.5 58 49.5 61 51C56 39 44 30.5 29.5 30.5Z"/><path d="M70.5 30.5C56 30.5 44 39 39 51C42 49.5 45.5 48.5 49.5 48.5C62.5 48.5 73 59 73 72C73 76 72 79.5 70.5 82.5C82.5 77.5 91 65.5 91 51C91 39.7 81.8 30.5 70.5 30.5Z"/></svg>
-                    <span style="font-family: var(--font-heading); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;">ChainCodeCamp</span>
+                <div style="display: flex; align-items: center; gap: 14px; color: var(--text); margin-bottom: 24px;">
+                    <div style="width: 40px; height: 40px; background: var(--accent-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white;">
+                        <svg viewBox="0 0 100 100" style="width: 24px; height: 24px; fill: currentColor;"><path d="M50 5C35.5 5 23.5 13.5 18.5 25.5C21.5 24 25 23 29 23C42 23 52.5 33.5 52.5 46.5C52.5 50.5 51.5 54 50 57C62 52 70.5 40 70.5 25.5C70.5 14.2 61.3 5 50 5Z"/><path d="M29.5 30.5C18.2 30.5 9 39.7 9 51C9 65.5 17.5 77.5 29.5 82.5C28 79.5 27 76 27 72C27 59 37.5 48.5 50.5 48.5C54.5 48.5 58 49.5 61 51C56 39 44 30.5 29.5 30.5Z"/><path d="M70.5 30.5C56 30.5 44 39 39 51C42 49.5 45.5 48.5 49.5 48.5C62.5 48.5 73 59 73 72C73 76 72 79.5 70.5 82.5C82.5 77.5 91 65.5 91 51C91 39.7 81.8 30.5 70.5 30.5Z"/></svg>
+                    </div>
+                    <span style="font-family: var(--font-heading); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">ChainCodeCamp</span>
                 </div>
-                <p>The elite curriculum for Protocol Architects. Master the machine, protect the future of decentralization.</p>
-            </div>
-            <div class="footer-nav-group">
-                <div class="footer-nav-title">Academy</div>
-                <ul class="footer-links">
-                    <li><a href="#hero">Roadmap</a></li>
-                    <li><a href="#introduction">Introduction</a></li>
-                    <li><a href="#certificate">Certification</a></li>
-                </ul>
+                <p style="margin-bottom: 32px; font-size: 0.95rem; line-height: 1.6;">The definitive curriculum for engineers who want to surpass the industry standard. Master the machine, protect the future, and build the world's most secure financial primitives.</p>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: var(--transition);"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="#" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; color: var(--text-dim); transition: var(--transition);"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                </div>
             </div>
             <div class="footer-nav-group">
                 <div class="footer-nav-title">Curriculum</div>
                 <ul class="footer-links">
-                    <li><a href="#stage00">Foundation</a></li>
-                    <li><a href="#stage05">Core Mastery</a></li>
-                    <li><a href="#stage10">The Frontier</a></li>
+                    <li><a href="#stage00">Foundations</a></li>
+                    <li><a href="#stage02">Solidity Mastery</a></li>
+                    <li><a href="#stage05">Security Classes</a></li>
+                    <li><a href="#stage09">DeFi Architecture</a></li>
                 </ul>
             </div>
             <div class="footer-nav-group">
-                <div class="footer-nav-title">Social</div>
+                <div class="footer-nav-title">Resources</div>
                 <ul class="footer-links">
-                    <li><a href="#">GitHub</a></li>
-                    <li><a href="#">Twitter / X</a></li>
-                    <li><a href="#">Discord</a></li>
+                    <li><a href="#toolstack">Toolstack</a></li>
+                    <li><a href="#projects">Capstone Projects</a></li>
+                    <li><a href="#routine">Daily Training</a></li>
+                    <li><a href="#cheatsheet">Architect's Cheat Sheet</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav-group">
+                <div class="footer-nav-title">Community</div>
+                <ul class="footer-links">
+                    <li><a href="#">Audit Contests</a></li>
+                    <li><a href="#">Research Forum</a></li>
+                    <li><a href="#">Discord Server</a></li>
+                    <li><a href="#certificate">Certification</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <div>© 2026 ChainCodeCamp. All rights reserved.</div>
+            <div>© 2026 ChainCodeCamp. Built for the next generation of Protocol Architects.</div>
             <div style="display: flex; gap: 32px;">
-                <a href="#" style="color: inherit; text-decoration: none;">Privacy Policy</a>
-                <a href="#" style="color: inherit; text-decoration: none;">Terms of Service</a>
+                <a href="#" style="color: inherit; text-decoration: none; transition: var(--transition);">Privacy Policy</a>
+                <a href="#" style="color: inherit; text-decoration: none; transition: var(--transition);">Terms of Service</a>
             </div>
         </div>
     </footer>
@@ -2296,19 +2512,8 @@ function invariant_TotalSupply() public {
             });
         });
 
-        // --- Theme ---
-        const themeToggle = document.getElementById('themeToggle');
-        const sunIcon = document.querySelector('.sun-icon');
-        const moonIcon = document.querySelector('.moon-icon');
-        const html = document.documentElement;
-        const setTheme = (theme) => {
-            html.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            sunIcon.style.display = theme === 'dark' ? 'block' : 'none';
-            moonIcon.style.display = theme === 'dark' ? 'none' : 'block';
-        };
-        setTheme(localStorage.getItem('theme') || 'dark');
-        themeToggle.addEventListener('click', () => setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+        // --- Theme (Forced Light) ---
+        document.documentElement.setAttribute('data-theme', 'light');
 
         // --- Scroll Spy ---
         const navItems = document.querySelectorAll('.nav-item');
