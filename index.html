@@ -352,15 +352,19 @@
 
         /* --- Hero Section --- */
         .hero {
-            height: 420px;
-            background: linear-gradient(to bottom, var(--white), var(--gray-50));
+            height: 480px;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(249, 250, 251, 0.95)), 
+                        url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start; /* Left-aligned for professional look */
+            align-items: flex-start;
             text-align: left;
             padding: 0 var(--space-12);
             border-bottom: 1px solid var(--gray-200);
+            position: relative;
         }
 
         .hero-accent {
@@ -530,10 +534,28 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
             gap: 8px; /* gap-2 equivalent */
             line-height: 1.25;
+            position: relative;
+            z-index: 0;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            opacity: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: opacity 150ms ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .btn:hover::before {
+            opacity: 1;
         }
 
         .btn-primary {
@@ -543,8 +565,15 @@
 
         .btn-primary:hover {
             background: var(--primary-dark);
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
-            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            background: #048754;
         }
 
         .btn-outline {
@@ -563,11 +592,68 @@
         .completion-footer {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             margin-top: 40px;
             padding-top: 24px;
             border-top: 1px solid var(--gray-100);
             flex-wrap: wrap; /* Allow stacking on small screens */
+        }
+
+        .share-lesson-btn,
+        .mark-complete-btn {
+            padding: 12px 24px !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition-fast) !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 140px;
+            white-space: nowrap;
+        }
+
+        .share-lesson-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: 2px solid var(--primary) !important;
+        }
+
+        .share-lesson-btn:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark) !important;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .share-lesson-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            background: #048754;
+        }
+
+        .mark-complete-btn {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary) !important;
+        }
+
+        .mark-complete-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--primary-dark) !important;
+            transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .mark-complete-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15);
         }
 
         @media (max-width: 480px) {
@@ -661,10 +747,124 @@
             .stage-card { padding: var(--space-6); }
             
             .hamburger-toggle { display: block; }
-            .sidebar { transform: translateX(-100%); width: 280px; }
-            .sidebar.open { transform: translateX(0); }
+            .sidebar { 
+                transform: translateX(-100%); 
+                width: 280px; 
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open { 
+                transform: translateX(0); 
+            }
+            .sidebar-backdrop {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 950;
+                backdrop-filter: blur(2px);
+            }
+            .sidebar-backdrop.active {
+                display: block;
+            }
             header { left: 0 !important; padding: 0 var(--space-4); }
             .main-content { margin-left: 0 !important; }
+
+            /* Fix grids for mobile */
+            .stage-card div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Footer Alignment Fix */
+        .main-footer {
+            padding: var(--space-12) var(--space-6);
+            background: var(--sidebar-bg);
+            border-top: 1px solid var(--gray-200);
+            text-align: center;
+            margin-left: var(--sidebar-width);
+            transition: margin-left var(--transition-sidebar);
+        }
+
+        body.sidebar-collapsed .main-footer {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        @media (max-width: 767px) {
+            .main-footer {
+                margin-left: 0 !important;
+                padding: var(--space-8) var(--space-4);
+            }
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        /* Footer Grid System */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: var(--space-10);
+            padding: 0 var(--space-6);
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: var(--space-4);
+                text-align: center;
+            }
+            .footer-bottom div {
+                justify-content: center;
+            }
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-2);
+        }
+
+        .footer-links a {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
         }
     </style>
 </head>
@@ -772,16 +972,17 @@
 
         <div class="content-inner">
             <!-- Existing content will be preserved here -->
-                <h2 style="color: var(--primary);">Introduction: How to Use This Roadmap</h2>
-                <p>This curriculum is a reference and a map — <span class="emphasis">not a course</span>. Every topic listed here requires you to go build, break things, and read primary sources. The links in each section point you to the best up-to-date resource for that specific topic.</p>
+                <h2 style="color: var(--primary);">How to Use This Roadmap</h2>
+                <p>ChainCodeCamp isn't just another course. It's a hands-on guide for developers who want to truly master smart contracts. We've brought together best practices, crypto fundamentals, and real world optimization techniques used by top engineers. You won't just watch videos; you'll build, test, and break things to understand how they work at the protocol level.</p>
+                <p>Think of this roadmap as your engineering blueprint. It starts with the basics of the EVM and moves up to complex architectural patterns. Every link here points to trusted resources like original whitepapers, official documentation, and code that's running in production today.</p>
                 
                 <div class="simple-terms" style="background: rgba(239, 68, 68, 0.05); border-left: 3px solid #EF4444; padding-left: 20px;">
-                    <h4 style="color: #EF4444;">⚠️ SECURITY WARNING</h4>
-                    <p>Do not read this curriculum linearly and call it studying. Open it, pick the stage you are in, <span class="warning-text">go build the project for that stage</span>, fail, come back and find the answer. That is the loop.</p>
+                    <h4 style="color: #EF4444;">⚠️ THIS IS NOT ENTERTAINMENT</h4>
+                    <p><strong>Don't just read through this.</strong> Find where you are, build the projects from scratch, and push them until they break. Then come back here to learn why. This <span class="warning-text">build, break, learn loop</span> is how great engineers are made. If you skip steps, you'll miss the small details that turn into major security risks later.</p>
                 </div>
 
-                <h3>The Complete Learning Order</h3>
-                <p>Everything below must be learned in this sequence. Each level is required for the next. <span class="emphasis">Skipping causes subtle bugs</span> that take days to debug and vulnerabilities that cost millions.</p>
+                <h3>The Learning Path</h3>
+                <p>Each stage builds on the one before it. This order is important. If you skip the basics, you'll run into bugs that take weeks to fix and security flaws that could cost millions. You're learning how to build, but more importantly, why things work the way they do.</p>
                 
                 <div class="table-wrapper">
                     <table>
@@ -814,7 +1015,7 @@
                                 <td>Solidity Mastery</td>
                                 <td>Weeks 2–5</td>
                                 <td>Storage packing, ABI, inheritance, custom errors.</td>
-                                <td>Writing <span class="emphasis">efficient and secure</span> high-level code.</td>
+                                <td>Writing <span class="emphasis">efficient and secure</span> high level code.</td>
                             </tr>
                             <tr>
                                 <td>03</td>
@@ -881,25 +1082,25 @@
         <!-- Missing Topics -->
         <section id="missing-topics">
             <div class="stage-card">
-                <h2 style="color: var(--primary);">Things Missing from Most Curricula</h2>
-                <p>These topics are rarely covered in courses but are critical for elite-level work. Master these to join the <span class="emphasis">top 1% of developers</span>.</p>
+                <h2 style="color: var(--primary);">What Most Courses Miss</h2>
+                <p>These topics are rarely covered elsewhere but are critical for high level work. Master these to join the top 1% of developers.</p>
                 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;">
                     <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
                         <h4 style="margin-bottom: 12px;">EIP-712 Domain Separators</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);"><span class="emphasis">Elite architects</span> understand what happens when chainId changes or when contracts migrate. Replay protection is an art.</p>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Great architects understand what happens when a chain ID changes or when contracts move. Replay protection is an art form.</p>
                     </div>
                     <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
-                        <h4 style="margin-bottom: 12px;">Fee-on-Transfer Handling</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Tokens like USDT do not behave like standard ERC-20s. Every protocol <span class="emphasis">must test with USDT</span> specifically to avoid internal accounting failures.</p>
+                        <h4 style="margin-bottom: 12px;">Fee on Transfer Handling</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Tokens like USDT don't always behave like standard ERC-20s. Every protocol must test with USDT specifically to avoid accounting failures.</p>
                     </div>
                     <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
                         <h4 style="margin-bottom: 12px;">Liquidation Cascade Modeling</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Does your protocol create <span class="warning-text">bad debt</span>? Modeling maximum loss is essential for solvency.</p>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Does your protocol create bad debt? Modeling maximum loss is essential for keeping the system solvent.</p>
                     </div>
                     <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
                         <h4 style="margin-bottom: 12px;">Sequencer Failure Modes</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">What if the L2 sequencer goes offline? Understanding <span class="emphasis">griefing vectors</span> on L2 is a specialized skill.</p>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">What if the L2 sequencer goes offline? Understanding how to handle these issues on L2 is a specialized skill.</p>
                     </div>
                 </div>
 
@@ -908,15 +1109,15 @@
                     <div style="overflow-x: auto;">
                         <table style="font-size: 0.85rem;">
                             <thead>
-                                <tr><th>Opcode</th><th>Gas Cost</th><th>Architect's Reasoning</th></tr>
+                                <tr><th>Opcode</th><th>Gas Cost</th><th>Architect Reasoning</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td>SSTORE (New)</td><td>20,000</td><td>Encourages state pruning by making new storage expensive.</td></tr>
-                                <tr><td>SSTORE (Update)</td><td>2,900</td><td>Updating existing state is cheaper but still non-trivial.</td></tr>
+                                <tr><td>SSTORE (New)</td><td>20,000</td><td>Makes new storage expensive to encourage keeping state small.</td></tr>
+                                <tr><td>SSTORE (Update)</td><td>2,900</td><td>Updating existing state is cheaper but still adds up.</td></tr>
                                 <tr><td>SLOAD (Cold)</td><td>2,100</td><td>Loading data from disk for the first time is slow.</td></tr>
-                                <tr><td>SLOAD (Warm)</td><td>100</td><td>Subsequent loads from cache are extremely fast.</td></tr>
-                                <tr><td>CALL (Cold)</td><td>2,600</td><td>Context-switching to a new contract requires state lookup.</td></tr>
-                                <tr><td>KECCAK256</td><td>30 + 6/word</td><td>Hashing is computationally intensive.</td></tr>
+                                <tr><td>SLOAD (Warm)</td><td>100</td><td>Loading data again from the cache is very fast.</td></tr>
+                                <tr><td>CALL (Cold)</td><td>2,600</td><td>Switching to a new contract requires a state lookup.</td></tr>
+                                <tr><td>KECCAK256</td><td>30 + 6/word</td><td>Hashing requires significant computation.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1061,68 +1262,59 @@
         <section id="manifesto">
             <div class="stage-card">
                 <h2 style="color: var(--accent);">The Architect's Manifesto</h2>
-                <p>To succeed in this curriculum, you must adopt the <strong>Architect's Mindset</strong>. In traditional software, a bug is a ticket. In protocol architecture, a bug is a catastrophe. You are building in a "Dark Forest" where every line of code you write will be scrutinized by the most sophisticated attackers on the planet.</p>
+                <p>To succeed here, you need the <strong>Architect's Mindset</strong>. In normal software, a bug is just a ticket. In protocol design, a bug is a disaster. You're building in an environment where every line of code will be checked by attackers looking for any weakness.</p>
                 
-                <h3>The Four Pillars of Architecture</h3>
+                <h3>The Four Pillars</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; margin-top: 32px;">
                     <div>
                         <h4 style="margin-bottom: 12px;">1. Deterministic Thinking</h4>
-                        <p style="font-size: 0.95rem;">Understand that on-chain, there is no "maybe." Every state transition must be predictable and verifiable. You must account for every possible edge case, including network congestion, block reorganization, and validator collusion.</p>
+                        <p style="font-size: 0.95rem;">On chain, there is no "maybe." Every state change must be predictable and verifiable. You have to account for every edge case, including network delays, block reorgs, and validator issues.</p>
                     </div>
                     <div>
                         <h4 style="margin-bottom: 12px;">2. Capital Efficiency</h4>
-                        <p style="font-size: 0.95rem;">Every byte of storage costs gas. Every opcode counts. A true architect doesn't just build a working system; they build the most efficient system possible, maximizing utility while minimizing the cost to the user.</p>
+                        <p style="font-size: 0.95rem;">Every byte of storage costs gas. Every opcode counts. A true architect doesn't just build something that works; they build the most efficient system possible to keep costs low for the user.</p>
                     </div>
                     <div>
                         <h4 style="margin-bottom: 12px;">3. Adversarial Design</h4>
-                        <p style="font-size: 0.95rem;">Assume every user is an attacker. Assume every external contract call is a trap. Assume the block timestamp is a lie. By designing for the worst-case scenario, you ensure the best-case survival.</p>
+                        <p style="font-size: 0.95rem;">Assume every user is an attacker. Assume every external contract call is a trap. Assume the block timestamp is a lie. By designing for the worst case, you ensure the system survives.</p>
                     </div>
                     <div>
                         <h4 style="margin-bottom: 12px;">4. Immutable Integrity</h4>
-                        <p style="font-size: 0.95rem;">Once deployed, code is law. We respect the immutability of the blockchain by ensuring that our logic is sound from day zero. We use proxies sparingly and with extreme caution, always prioritizing user safety over developer convenience.</p>
+                        <p style="font-size: 0.95rem;">Once deployed, code is law. We respect the immutability of the blockchain by making sure our logic is solid from day one. We use proxies rarely and with extreme care, always putting user safety first.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION A: Why Blockchain Exists — The Civilizational Case -->
-        <section id="civilizational-case">
+        <!-- Why Blockchain Exists -->
+        <section id="why-blockchain">
             <div class="stage-card">
-                <h2 style="color: var(--accent);">Why Blockchain Exists — The Civilizational Case</h2>
-                <p>The existence of blockchain technology is not a mere technical coincidence; it is a fundamental response to the systemic failures of 20th-century institutions. We are transitioning from a world of "Institutional Trust"—where we rely on the morality and competence of centralized entities—to a world of "Algorithmic Trust," where the rules of civilization are encoded in immutable math. This section explores the deep philosophical and civilizational drivers behind the decentralized revolution.</p>
+                <h2 style="color: var(--accent);">Why Blockchain Matters</h2>
+                <p>Blockchain isn't just a technical trend; it's a response to the failures of centralized institutions. We're moving from a world where we have to trust banks and governments to do the right thing, to a world where we can trust math and code instead. This section looks at why this shift is happening and why it's so important.</p>
 
-                <h3>1. THE LEAPFROG THESIS: Skipping the Legacy Phase</h3>
-                <p>History does not always move linearly; it often "leapfrogs." The most famous example is the adoption of telecommunications in Africa. Most of the continent never built a landline infrastructure because, by the time they were ready to scale, mobile technology had arrived. They skipped the expensive, rigid, and centralized landline phase and went straight to the mobile era. This leapfrog didn't just change how people talked; it changed how they banked. M-Pesa in Kenya proved that a society can skip traditional retail banking and move straight to mobile money.</p>
-                <p>Today, the same pattern is repeating with blockchain. While the developed world is bogged down by legacy financial systems—ACH transfers that take days, credit card networks with 3% fees, and centralized databases prone to hacks—the global south is skipping TradFi and moving straight to DeFi, stablecoins, and smart contracts. "Leapfrog Pattern is the key." For a young, tech-savvy population in Nigeria, Argentina, or Vietnam, crypto is not a "speculative asset class"—it is the baseline infrastructure for their financial lives.</p>
-                <p>The "poverty" that outsiders see in emerging markets is actually "potential." When the local currency fails, you don't panic; you move your value to the cloud via stablecoins. When the local bank denies you a loan because you lack a traditional credit score, you replace the bank with code, using your on-chain history as collateral. Infrastructure plus access is the ultimate unlock. We are witnessing the birth of a global, permissionless financial layer that treats a developer in Lagos the same as a hedge fund manager in New York. The leapfrog is not just about technology; it's about the democratization of opportunity.</p>
-                <p>This leapfrog is fueled by a crypto-native youth. In many emerging markets, the average age is under 25. These are people who grew up with the internet as their primary reality. To them, a digital token is as "real" as a piece of paper in a wallet—if not more so, because it is globally portable and instantly verifiable. They are not waiting for their governments to innovate; they are building the future themselves. By skipping the "gatekeeper" phase of civilization, they are positioning themselves to lead the next century of global economic growth.</p>
+                <h3>1. Skipping the Old Way</h3>
+                <p>History often moves in jumps. For example, many places in Africa never built landlines for phones; they went straight to mobile. This allowed them to build new systems like mobile banking (M-Pesa) while the rest of the world was still stuck with physical banks and slow transfers.</p>
+                <p>We're seeing the same thing with blockchain. While the developed world is tied to old financial systems with high fees and slow speeds, people in emerging markets are going straight to DeFi and stablecoins. For them, crypto isn't just for speculation—it's the infrastructure they use every day to protect their savings and move money without a middleman.</p>
 
-                <h3>2. BLOCKCHAIN AS GOVERNANCE LAYER: The Evolution of Trust</h3>
-                <p>The matrix is cracked. The systems we once relied on for governance—from central banks to legal systems—are showing their age. They are opaque, slow, and increasingly prone to capture by special interests. Blockchain represents a new governance layer for civilization. It encodes rules, trust, and enforcement without the need for a central authority. It is a programmable layer of law, reputation, and economics that is accessible to anyone with an internet connection.</p>
-                <p>"Blockchain is the evolution of human trust from institutions to math." In a traditional system, if a contract is breached, you hire a lawyer and go to court. This is expensive, slow, and dependent on the quality of the local judicial system. In a smart contract, the enforcement is built into the code. If the conditions are met, the transaction executes. If not, it doesn't. There is no "maybe." This shift from human-enforced rules to code-enforced rules is the most significant advancement in human cooperation since the invention of the joint-stock company.</p>
-                <p>There is a hidden utility here: the "Time Stable Truth Machine." In the age of AI and deepfakes, verifiable truth is becoming priceless. As AI models become capable of generating indistinguishable fake images, videos, and text, we require a way to prove what is real. Blockchain provides an immutable ledger where the origin and history of data can be verified. Governments, journalism, the military, and AI outputs will all eventually require blockchain to prove their origin. A signature from a private key is the only thing that an AI cannot hallucinate. This is the foundation of a new era of information integrity.</p>
-                <p>Furthermore, blockchain allows for "Programmable Law." We can now create self-executing agreements that handle complex escrow, dispute resolution, and revenue sharing without a single human intermediary. This reduces the cost of trust to near zero, allowing for micro-interactions that were previously impossible. We are not just building financial tools; we are building the infrastructure for a more transparent, efficient, and fair society. The governance of the future is not a building in a capital city; it is a protocol running on thousands of nodes around the world.</p>
+                <h3>2. A New Way to Trust</h3>
+                <p>The systems we rely on—banks, legal systems, and governments—are often slow and opaque. Blockchain offers a new layer of trust that doesn't need a central authority. It encodes rules and enforcement directly into code.</p>
+                <p>In a traditional system, if someone breaks a contract, you have to hire a lawyer and go to court. In a smart contract, the code handles it. If the conditions are met, the transaction happens. This shift from human rules to code rules is a massive step forward for global cooperation.</p>
 
-                <h3>3. FULL SCALE USE — A PARALLEL CIVILIZATION</h3>
-                <p>We are no longer in the "experiment" phase. We are building a parallel civilization. Every core function of modern society now has a decentralized counterpart. Money is being replaced by Crypto—not just as a store of value, but as a programmable unit of account. Identity is moving to on-chain soulbound tokens (SBTs) that prove your credentials, reputation, and membership without compromising your privacy. Voting is being moved to the blockchain, where every ballot is cryptographically verifiable and the results are transparent to the world.</p>
-                <p>The nature of work is changing through DAOs and smart contract gig tasks. Instead of working for a corporation, individuals can contribute to protocols and earn "Protocol Equity." Property is being tokenized—from real estate to intellectual property—allowing for fractional ownership and instant, global liquidity. Even the legal system has a decentralized equivalent in protocols like Kleros or Aragon Court, which use crowdsourced "jurors" and game theory to resolve disputes in a trustless manner.</p>
-                <p>The digital infrastructure of this parallel civilization is also being decentralized. Data storage is moving from centralized servers to Filecoin and Arweave. Browsing is moving to protocols like Lens or CyberConnect, where you own your social graph and your data. "The Real Profit is in Protocol Equity, not tokens." The tokens are just the unit of account; the equity is the right to participate in the governance and revenue of the underlying infrastructure. We are building a world where the users are the owners, and the protocols are the public goods that serve them.</p>
-                <p>This parallel civilization is not meant to "overthrow" the existing one; it is meant to provide a superior alternative. Just as the internet didn't "destroy" the post office but made it irrelevant for most communication, blockchain will make many centralized intermediaries obsolete. The choice will be simple: stay in a system that is slow, expensive, and opaque, or move to a system that is fast, cheap, and transparent. The migration has already begun, and it is accelerating every day.</p>
+                <h3>3. Building a Parallel System</h3>
+                <p>We're no longer just experimenting. We're building a parallel system for everything society needs. Money is being replaced by programmable tokens. Identity is moving to on chain records that you own. Voting is becoming transparent and verifiable on the blockchain.</p>
+                <p>The goal isn't necessarily to replace everything overnight, but to provide a better alternative. Just as the internet didn't destroy the post office but made it less relevant for most things, blockchain will make many old intermediaries obsolete. The migration has already started.</p>
 
-                <h3>4. PROTOCOL EQUITY: Owning the Foundation</h3>
-                <p>In the Web2 era, value was captured by the platforms—Facebook, Google, Amazon. They owned the data, the users, and the profits. In the Web3 era, value is captured by the protocols and their early contributors. Being an early contributor to a successful DAO is equivalent to owning early equity in a fundamental internet protocol like TCP/IP or HTTP. Imagine if you owned a piece of the protocol that powers all global email or all web traffic. That is the scale of the opportunity in "Protocol Equity."</p>
-                <p>Early contributors are not just "employees"; they are DAO governors and Protocol Co-founders. They have a direct say in the direction of the protocol and a direct share in its success. Examples are already all around us: Synthetix DAO governors earn from platform fees; Lido validators earn a cut from the total staked ETH; early users of protocols like Friend.tech or Uniswap gained lifetime value from the code they helped bootstrap. You are not just building a product; you are building and owning revenue-producing rights in the new digital economy.</p>
-                <p>This shift from "Platform Capitalism" to "Protocol Equity" is the ultimate empowerment for creators and developers. It aligns the incentives of the builders with the long-term health of the system. Instead of being "extracted" by a centralized platform, you are "invested" in a decentralized protocol. This is the foundation of a more sustainable and equitable digital world. The real wealth of the next decade will not be found in bank accounts; it will be found in the ownership of the core protocols that power human interaction.</p>
+                <h3>4. Owning the Protocols</h3>
+                <p>In the Web2 era, platforms like Facebook and Google owned everything—the data, the users, and the profits. In the Web3 era, the users and builders own the protocols. If you contribute to a successful DAO or protocol early on, you're essentially an owner of that foundation.</p>
+                <p>This aligns everyone's interests. Instead of being a user who gets "extracted" for data, you're a participant who benefits as the system grows. This is the foundation of a more fair digital world where the value stays with the people who create it.</p>
 
-                <h3>5. BLOCKCHAIN THREATENS THE DIGITAL WARLORDS</h3>
-                <p>The centralized powers of the world—central banks, government opacity, unfair legal systems, and rigged global finance—are the "Digital Warlords" of our time. They maintain their power through censorship, control of the money supply, and the ability to act as the ultimate gatekeepers of value. Blockchain is a direct threat to this power structure. It provides a way for people to innovate, transact, and organize without needing permission from these warlords.</p>
-                <p>In corrupt countries, blockchain becomes a trust and escrow system that the local legal system fails to provide. It allows an entrepreneur to protect their assets from seizure and their contracts from being ignored. In over-regulated countries, it allows for innovation to happen at the speed of code, rather than the speed of bureaucracy. In supply chains, it replaces mountains of paper and manual verification with programmable proof, making it impossible for middlemen to hide their inefficiencies or their corruption.</p>
-                <p>In emerging markets, blockchain leapfrogs the need for traditional banking IDs and legal systems. A person with a smartphone can access a global financial market that was previously reserved for the elite. This is the ultimate tool for financial inclusion and economic sovereignty. The digital warlords are fighting back with regulation and rhetoric, but they are fighting against math. You cannot "ban" a protocol that runs on every continent. The warlords are defending a world that is already disappearing; the architects are building the world that is already here.</p>
+                <h3>5. Power to the People</h3>
+                <p>Centralized powers often maintain control through censorship and gatekeeping. Blockchain is a direct challenge to this. it provides a way for anyone to innovate and transact without needing permission.</p>
+                <p>In countries with unstable currencies or corrupt systems, blockchain is a lifeline. It allows people to protect their assets and trade freely. The old powers might try to regulate it, but it's hard to stop a protocol that runs everywhere. We're moving from a world of gatekeepers to a world of architects.</p>
 
-                <h3>6. MODULAR FUTURE: The Endgame Architecture</h3>
-                <p>The future of blockchain is not monolithic; it is modular. The "one chain to rule them all" era is over. The endgame is a modular architecture where different layers specialize in different tasks. Rollups handle execution—performing the calculations and state changes at high speed. Data Availability (DA) layers like Celestia or EigenDA ensure that the data behind those transactions is always accessible. Settlement layers handle the finality and security of the entire system.</p>
-                <p>This modular future also includes "Shared Sequencers" like Espresso or Astria, which ensure that transactions are ordered fairly and efficiently across different rollups. "Modular Wallets" powered by Account Abstraction and Social Recovery make the user experience as seamless as a Web2 app, while maintaining the security of a hardware wallet. "Composable dApps" act as DeFi Legos, allowing developers to build complex new financial products by combining existing protocols in innovative ways.</p>
-                <p>This architecture is designed for resilience and scalability. It allows the system to grow without becoming centralized or slow. It is the architecture of a global financial system that can handle billions of users and trillions of dollars in value. As an architect, your job is to understand how these layers interact and how to build protocols that can thrive in this modular environment. The monolithic chains of the past were the prototypes; the modular future is the production-ready infrastructure for a new civilization.</p>
+                <h3>6. The Modular Future</h3>
+                <p>The future of blockchain isn't one single chain that does everything. It's a modular system where different layers handle different tasks. Some layers focus on speed, others on security, and others on storing data.</p>
+                <p>This modular approach makes the whole system more resilient and scalable. It's how we'll build a global financial system that can handle billions of users. As an architect, your job is to understand how these layers fit together and how to build protocols that thrive in this new environment.</p>
             </div>
         </section>
 
@@ -1137,78 +1329,76 @@
                     </div>
                     <div>
                         <div style="font-size: 0.9rem; font-weight: 800; color: var(--accent); margin-bottom: 4px;">STAGE 00</div>
-                        <h2>Prerequisites & Mathematical Foundation</h2>
+                        <h2>The Basics & Math</h2>
                     </div>
                 </div>
                 
                 <div class="objectives-card">
-                    <div class="objectives-label">Learning Objectives</div>
-                    <p>Computer science basics, how blockchains work, what a transaction is, public/private key cryptography, basic JavaScript or Python, command line fundamentals.</p>
+                    <div class="objectives-label">What You'll Learn</div>
+                    <p>Computer science basics, how blockchains work, what a transaction is, how keys work, and basic coding in JavaScript or Python.</p>
                     <div class="objectives-divider"></div>
                     <div class="objectives-label">Why It's Required</div>
-                    <p>Without these basics, you will copy code without understanding <em>why</em> it works. Foundational knowledge is the antidote to subtle bugs.</p>
+                    <p>Without the basics, you'll just be copying code without knowing why it works. This knowledge is what keeps you from making simple mistakes.</p>
                 </div>
 
-                <p>Before you touch a single line of Solidity, you must understand the environment in which your code will live. Ethereum is not just a computer; it is a <strong>Global, Deterministic State Machine</strong>. Every operation must be verifiable by every node on the planet.</p>
+                <p>Before you write any code, you need to understand where it lives. Ethereum isn't just a database; it's a <strong>Global Computer</strong>. Every action must be verified by every node on the network.</p>
 
                 
                 <div class="simple-terms">
                     <h4>💡 In Simple Terms</h4>
-                    <p>Imagine a giant, global notebook that everyone can see but no one can erase. To write a new page in this notebook, you don't need a password—you need a mathematical "key." This stage teaches you how those keys are made and why the notebook is impossible to hack.</p>
+                    <p>Imagine a giant, global notebook that everyone can see but no one can erase. To write a new page, you don't need a password—you need a mathematical "key." This stage teaches you how those keys work and why the notebook is secure.</p>
                 </div>
                 
-                <h3>1. Cryptography: The Invisible Architecture</h3>
-                <p>Identity and ownership in Web3 are purely mathematical. You don't "log in"; you prove ownership through digital signatures. Understanding the underlying math is critical for identifying potential cryptographic flaws in protocols.</p>
+                <h3>1. Cryptography: The Foundation</h3>
+                <p>In Web3, identity is based on math. You don't "log in" with a username; you prove you own an account with a digital signature. Understanding this is key to building secure protocols.</p>
                 <ul>
-                    <li><strong>Elliptic Curve Cryptography (ECDSA):</strong> Ethereum uses the <code>secp256k1</code> curve. Your private key is essentially a scalar (a very large random number), and your public key is a point on this curve derived by multiplying the generator point by your private key.
+                    <li><strong>Public Key Math (ECDSA):</strong> Ethereum uses a specific type of curve (secp256k1) to create keys. Your private key is a large random number, and your public key is derived from it.
                         <br><a href="https://en.bitcoin.it/wiki/Secp256k1" target="_blank" style="color: var(--accent); font-size: 0.9rem;">Ref: Secp256k1 Wiki</a>
                     </li>
-                    <li><strong>Hashing (Keccak-256):</strong> Ethereum uses the Keccak-256 algorithm (part of the SHA-3 family). It's used for everything from address derivation to Merkle Tree construction. <strong>Security Mindset:</strong> Never use a weak hash function (like MD5) for state commitments.</li>
-                    <li><strong>Address Derivation:</strong> <code>Addr = Rightmost_20_bytes(Keccak256(PubKey))</code>. Notice that public keys are longer than addresses, which is why we have "Checksum" addresses (EIP-55) to prevent typing errors.</li>
+                    <li><strong>Hashing (Keccak-256):</strong> This is like a digital fingerprint for data. It's used for everything from creating addresses to securing the whole network. <strong>Pro Tip:</strong> Never use old or weak hash functions for anything important.</li>
+                    <li><strong>Address Creation:</strong> Your address is just a part of the hash of your public key. This is why we use "Checksum" addresses to make sure you don't send money to the wrong place by mistake.</li>
                 </ul>
 
-                <h4>The Mathematics of Trust: ECDSA Deep Dive</h4>
-                <p>To truly understand Ethereum, you must understand the Elliptic Curve Digital Signature Algorithm (ECDSA). In traditional web security, we trust a central authority (like a bank or Google) to verify our identity. In Web3, we trust the <strong>hardness of the Discrete Logarithm Problem</strong>.</p>
-                <p>The <code>secp256k1</code> curve is defined by the equation <code>y^2 = x^3 + 7</code> over a finite field. When you "sign" a transaction, you are providing a proof that you know the scalar <code>k</code> (your private key) that corresponds to the point <code>P = k * G</code> (your public key) on the curve, without revealing <code>k</code>. If an attacker could solve the discrete logarithm problem, they could derive your private key from your public key and steal your funds. Fortunately, with current technology, this would take billions of years.</p>
+                <h4>How Trust Works: A Deep Dive</h4>
+                <p>To really understand Ethereum, you need to know how signatures work. In the old world, we trust banks or companies like Google to verify who we are. In Web3, we trust math.</p>
+                <p>When you sign a transaction, you're proving you have the private key without ever showing it to anyone. It's practically impossible for anyone else to guess your key, which is why your funds are safe as long as you keep your key private.</p>
                 
-                <h4>Digital Signatures: How Transactions are Verified</h4>
-                <p>A digital signature in Ethereum consists of three components: <code>v</code>, <code>r</code>, and <code>s</code>. The <code>r</code> and <code>s</code> values are the actual cryptographic signature, while <code>v</code> (the recovery id) is used to reconstruct the public key from the signature and the message. This is why you don't need to provide your public key with every transaction—it is "recovered" by the nodes during verification. This recovery process is computationally expensive, which is why there is a small gas cost associated with every signature check in a smart contract (the <code>ecrecover</code> opcode).</p>
+                <h4>Digital Signatures: Verifying Transactions</h4>
+                <p>A digital signature tells the network three things: who is sending the message, what the message says, and that it hasn't been changed. This process is what allows nodes to verify your transactions without ever needing your password. This check happens every time you send a transaction, which is why there's a small cost for it in the EVM.</p>
 
-                <h4>The Math of Commitments: Merkle Trees</h4>
-                <p>A Merkle Tree is a binary tree where every leaf node is a hash of a data block, and every non-leaf node is a hash of its two children. This allows for <strong>Logarithmic Proofs</strong>. To prove that a specific transaction exists in a block of 1,000,000 transactions, you only need to provide ~20 hashes (the "Merkle Path"). This is the foundation of light clients and Layer 2 security. If you change even one bit in one transaction, the entire Merkle Root changes, making it impossible to tamper with history without being detected.</p>
+                <h4>Commitments: Merkle Trees</h4>
+                <p>A Merkle Tree is a way to group lots of data into a single hash. This allows you to prove that a specific transaction exists in a block without needing to look at every single transaction. This is how mobile wallets and new scaling solutions (Layer 2s) stay fast and secure.</p>
 
-                <h3>2. Data Structures: Merkle Trees & The World State</h3>
+                <h3>2. Data Structures: How State is Stored</h3>
 
-                <p>Ethereum uses a <strong>Modified Merkle Patricia Trie</strong> to store all account balances and contract state. This allows for "Light Clients" to verify data without downloading the whole chain.</p>
+                <p>Ethereum uses a special structure called a <strong>Trie</strong> to store all account balances and contract data. This allows "Light Clients" to verify information quickly.</p>
                 <ul>
-                    <li><strong>Merkle Root:</strong> A single hash that represents thousands of transactions. If one transaction changes, the root changes entirely.</li>
+                    <li><strong>Merkle Root:</strong> A single hash that represents thousands of transactions. If even one bit changes, the whole hash changes.</li>
                     <li><strong>State Root:</strong> The "Fingerprint" of the entire Ethereum database at a specific block.</li>
                 </ul>
 
-                <h4>Merkle Patricia Tries: The World State Architecture</h4>
-                <p>Unlike Bitcoin, which uses a simple Merkle Tree for transactions, Ethereum uses a more complex structure called a Merkle Patricia Trie (MPT). The MPT is a combination of a <strong>Patricia Trie</strong> (for efficient prefix-based searching) and a <strong>Merkle Tree</strong> (for cryptographic verification).</p>
-                <p>The "World State" of Ethereum is a mapping between addresses and account states. Each account state contains four pieces of data: <code>nonce</code>, <code>balance</code>, <code>storageRoot</code>, and <code>codeHash</code>. When a transaction occurs, the MPT is updated, and a new <code>stateRoot</code> is generated. This architecture allows Ethereum to provide <strong>Merkle Proofs</strong>—short proofs that a specific piece of data (like your balance) exists in the state without needing the entire database. This is the foundation of light clients and Layer 2 security.</p>
+                <h4>World State Architecture</h4>
+                <p>Ethereum's state is basically a giant map of addresses to account info. Each account tracks its balance, how many transactions it has sent, its code, and its storage. This setup allows the network to provide short "proofs" for any piece of data, which is essential for security and speed.</p>
 
-                <h3>3. Distributed Systems & Consensus: The Path to Finality</h3>
-                <p>Smart contracts are deterministic. Every node in the network must execute the code and reach the exact same result (State Root). If your code relies on "Randomness" from the block timestamp, it can be manipulated by miners/validators.</p>
+                <h3>3. Consensus: Reaching Agreement</h3>
+                <p>Smart contracts are predictable. Every node in the network must run the code and get the exact same result. If your code depends on things like "randomness" from a timestamp, it can be manipulated.</p>
                 <ul>
-                    <li><strong>Proof of Stake (Casper/LMD-GHOST):</strong> The mechanism ensuring finality. Understanding finality is key to building secure cross-chain bridges.</li>
-                    <li><strong>The Mempool:</strong> The "waiting room" where transactions sit before being included. This is where MEV (Maximal Extractable Value) searchers look for opportunities to front-run you.</li>
+                    <li><strong>Proof of Stake:</strong> The system that makes sure everyone agrees on the current state. Understanding this is vital for building bridges between different blockchains.</li>
+                    <li><strong>The Mempool:</strong> The "waiting room" for transactions. This is where bots look for opportunities to jump ahead of you (MEV).</li>
                 </ul>
 
-                <h4>The Evolution of Consensus: From PoW to PoS</h4>
-                <p>In the early days, Ethereum used Proof of Work (PoW), where miners competed to solve a computational puzzle. This was secure but extremely energy-intensive. With "The Merge" in 2022, Ethereum transitioned to Proof of Stake (PoS). In PoS, validators stake 32 ETH to participate in the network. Instead of competing, they are randomly chosen to propose blocks via the <strong>RANDAO</strong> mechanism.</p>
-                <p>PoS introduces the concept of <strong>Finality</strong>. In PoW, a block was only "probabilistically" final (the more blocks on top of it, the less likely it was to be reverted). In PoS, once a block has been "finalized" by the Casper FFG mechanism, it cannot be reverted without slashing a massive amount of staked ETH. This provides a much stronger security guarantee for high-value protocols and bridges.</p>
+                <h4>The Evolution of Consensus</h4>
+                <p>Ethereum used to use Proof of Work (mining), but moved to Proof of Stake in 2022. Now, "validators" stake their ETH to help run the network. This change made Ethereum much more energy efficient and introduced "Finality"—the point where a transaction can no longer be reversed.</p>
 
-                <h3>Architect's Masterclass: The Physics of Blockchains</h3>
-                <p>As an architect, you must understand that the blockchain is a <strong>latency-bound environment</strong>. Every byte of data sent over the wire and every calculation performed adds to the propagation time of a block. This is why "State Bloat" is the greatest existential threat to Ethereum.</p>
+                <h3>Architect Masterclass: The Physics of Blockchains</h3>
+                <p>As an architect, you have to remember that the blockchain is a slow environment. Every byte of data and every calculation adds time. This is why keeping the "state" small is one of the biggest challenges for Ethereum.</p>
                 <div class="simple-terms">
                     <h4>🔬 Deep Dive: The Trilemma</h4>
-                    <p>Vitalik Buterin's "Scalability Trilemma" states that a blockchain can only have two of the following three: <strong>Decentralization, Security, and Scalability</strong>. Ethereum prioritizes Decentralization and Security, leaving Scalability to Layer 2 solutions. Your job is to build protocols that respect these constraints.</p>
+                    <p>The "Scalability Trilemma" says a blockchain can only have two of these three: <strong>Decentralization, Security, and Scalability</strong>. Ethereum focuses on Decentralization and Security, using other layers (Layer 2s) for speed. Your job is to build with these limits in mind.</p>
                 </div>
                 
-                <h4>The P2P Layer: Gossip Protocols</h4>
-                <p>Ethereum nodes communicate via a <strong>Gossip Protocol</strong> (specifically <code>discv5</code>). When a new block or transaction is found, a node "gossips" it to its peers, who gossip it to their peers, until the entire network is aware. This takes time (propagation latency). If your protocol requires ultra-fast execution, you must account for the fact that not all nodes see the same state at the exact same millisecond. This is where <strong>Front-running</strong> and <strong>MEV</strong> originate.</p>
+                <h4>The P2P Layer</h4>
+                <p>Ethereum nodes talk to each other using a "Gossip Protocol." When a new transaction is found, it's shared from node to node until everyone knows about it. This takes a bit of time, which is where things like front running come from.</p>
 
                 <h3>Live Example: Deriving an Address</h3>
                 <p>Ethereum addresses are the last 20 bytes of the Keccak-256 hash of the public key. Here is how you can do it in the terminal using <code>cast</code>:</p>
@@ -1226,39 +1416,40 @@ cast wallet address --private-key <YOUR_PRIVATE_KEY>
 cast keccak <PUBLIC_KEY_HEX> | tail -c 41</code></pre>
                 </div>
 
-                <h3>SECTION G: Bitcoin Whitepaper — Line by Line Walkthrough</h3>
-                <p>To understand Ethereum, you must first understand its predecessor. The Bitcoin Whitepaper, published in 2008 by Satoshi Nakamoto, is the most important document in the history of decentralized systems. It solved the "Double Spend Problem" without a central authority for the first time. Below is a line-by-line architectural breakdown of the paper that started it all.</p>
+                <h3>Bitcoin Whitepaper: A Simple Breakdown</h3>
+                <p>To understand Ethereum, you first need to understand where it all started. The Bitcoin Whitepaper, released in 2008 by Satoshi Nakamoto, is the foundation for everything we build today. It solved the problem of "Double Spending"—making sure you can't spend the same digital money twice—without needing a bank. Here's how it works in plain English.</p>
                 
-                <h4>Abstract & Introduction: The P2P Cash Vision</h4>
-                <p>"A purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to another without going through a financial institution." This opening line is a declaration of independence from the banking system. The paper identifies the core problem: the "trust-based model." Banks act as middlemen, which adds costs, limits transaction sizes, and allows for censorship. Bitcoin's goal was to replace "Trust" with "Cryptographic Proof."</p>
-                <p>The "Double Spend Problem" is the challenge of ensuring that a digital asset isn't sent to two people at the same time. In a centralized system, the bank's database prevents this. In a decentralized system, you need a way for the entire network to agree on the order of transactions. Satoshi's solution was a <strong>Distributed Timestamp Server</strong> that uses Proof of Work to create a chronological record of transactions. This ledger is the "Single Source of Truth" that everyone can verify but no one can control.</p>
+                <h4>The Vision: Peer to Peer Payments</h4>
+                <p>"A purely peer to peer version of electronic cash would allow online payments to be sent directly from one person to another without going through a bank." This first line was a huge deal. It meant we could move value without needing a middleman. The goal was to replace trust in institutions with trust in math.</p>
+                <p>The "Double Spending Problem" is the challenge of making sure digital assets aren't copied or spent twice. In a normal system, a bank's database prevents this. In a decentralized system, you need the whole network to agree on the order of transactions. Satoshi's solution was a shared ledger that uses "Proof of Work" to keep a permanent record of every transaction.</p>
                 
-                <h4>Section 2: Transactions & Digital Signatures</h4>
-                <p>Bitcoin defines an electronic coin as a "chain of digital signatures." When you send Bitcoin, you are not sending a "file"; you are signing a hash of the previous transaction and the public key of the next owner. This signature is appended to the coin. A payee can verify the signatures to verify the chain of ownership. However, signatures alone don't solve the double-spend problem because the payee can't verify that one of the owners didn't sign the coin twice. This is where the <strong>Timestamp Server</strong> comes in.</p>
+                <h4>How Transactions Work</h4>
+                <p>Bitcoin defines a coin as a chain of digital signatures. When you send Bitcoin, you're signing a record of the previous transaction and the public key of the next owner. Anyone can check these signatures to verify who owns what. To prevent someone from signing the same coin twice, the network uses a shared clock to time every transaction.</p>
                 
-                <h4>Section 3 & 4: The Timestamp Server & Proof of Work</h4>
-                <p>The timestamp server works by taking a hash of a block of items to be timestamped and widely publishing the hash. The hash proves that the data must have existed at the time, obviously, in order to get into the hash. Each timestamp includes the previous timestamp in its hash, forming a chain. This is the "Blockchain." To implement this in a peer-to-peer way, Satoshi used a <strong>Proof-of-Work (PoW)</strong> system similar to Adam Back's Hashcash.</p>
-                <p>PoW involves searching for a value that, when hashed (using SHA-256), the hash begins with a certain number of zero bits. This is a "one-way function"—it's very hard to find the value (the "nonce"), but very easy for anyone else to verify it. The PoW also solves the problem of "one-IP-address-one-vote" (which can be subverted by anyone who can allocate many IPs). In Bitcoin, it is "one-CPU-one-vote." The longest chain not only serves as proof of the sequence of events witnessed, but proof that it came from the largest pool of CPU power.</p>
+                <h4>The Shared Clock & Proof of Work</h4>
+                <p>The network keeps track of time by grouping transactions into blocks and hashing them. Each block includes the hash of the previous one, forming a "Blockchain." To add a new block, a node has to solve a difficult math puzzle. This is called Proof of Work.</p>
+                <p>Solving this puzzle is hard, but checking the answer is easy. This system ensures that the network agrees on the history of transactions. It also prevents any single person from controlling the network, because they would need more computing power than everyone else combined. The longest chain of blocks is the version of history that the network trusts.</p>
                 
-                <h4>Section 5: The Network Step-by-Step</h4>
-                <p>The paper outlines the 6 steps of the network: 1) New transactions are broadcast to all nodes. 2) Each node collects new transactions into a block. 3) Each node works on finding a difficult proof-of-work for its block. 4) When a node finds a proof-of-work, it broadcasts the block to all nodes. 5) Nodes accept the block only if all transactions in it are valid and not already spent. 6) Nodes express their acceptance of the block by working on creating the next block in the chain, using the hash of the accepted block as the previous hash.</p>
+                <h4>How the Network Stays Honest</h4>
+                <p>The network follows 6 simple steps: 1) New transactions are shared with everyone. 2) Nodes group them into blocks. 3) Nodes work on the Proof of Work puzzle. 4) When a node finds the answer, it shares the block. 5) Other nodes only accept the block if all transactions are valid. 6) Nodes show they accept the block by starting work on the next one.</p>
                 
-                <h4>Section 6 & 7: Incentives & Reclaiming Disk Space</h4>
-                <p>The first transaction in a block is a special "Coinbase" transaction that starts a new coin owned by the creator of the block. This provides an incentive for nodes to support the network and stay honest. If an attacker could assemble more CPU power than all the honest nodes, they would have to choose between using it to defraud people by stealing back his payments, or using it to generate new coins. He ought to find it more profitable to play by the rules. This is the <strong>Game Theory</strong> of Bitcoin.</p>
-                <p>To prevent the blockchain from growing too large, Satoshi proposed using a <strong>Merkle Tree</strong>. Once the latest transaction in a coin is buried under enough blocks, spent transactions before it can be discarded to save disk space. Only the root of the Merkle Tree is kept in the block header. This allows a block header with no transactions to be only 80 bytes, meaning the entire chain of headers for several years would only be a few megabytes.</p>
+                <h4>Incentives: Why People Participate</h4>
+                <p>The first transaction in every block creates new Bitcoin for the node that found it. This rewards people for helping run the network and keeps them honest. An attacker would find it more profitable to play by the rules and earn new coins than to try and cheat the system. This "Game Theory" is what keeps Bitcoin secure.</p>
                 
-                <h4>Section 8: Simplified Payment Verification (SPV)</h4>
-                <p>It is possible to verify payments without running a full network node. A user only needs to keep a copy of the block headers of the longest proof-of-work chain. While they can't check the transaction themselves, by linking it to a place in the chain, they can see that a network node has accepted it, and blocks added after it further confirm the network has accepted it. This is the foundation of <strong>Mobile Wallets</strong> and <strong>Light Clients</strong>. It allows for security without the need for massive hardware.</p>
+                <h4>Saving Space</h4>
+                <p>To keep the blockchain from getting too big, old transactions can be compressed using a "Merkle Tree." This allows you to verify a transaction without needing the entire history of the blockchain. It's how we can have Bitcoin wallets on our phones without needing hundreds of gigabytes of storage.</p>
                 
-                <h4>Section 9 & 10: Combining and Splitting Value & Privacy</h4>
-                <p>Although it would be possible to handle coins individually, it would be unwieldy to make a separate transaction for every cent in a transfer. To allow value to be split and combined, transactions contain multiple inputs and outputs. This allows for complex transfers where one input from a large previous transaction is split into a payment to someone else and a "change" output back to the sender.</p>
-                <p>Traditional banking achieves privacy by limiting access to information to the parties involved and the trusted third party. In Bitcoin, all transactions are public, but privacy is maintained by keeping <strong>Public Keys Anonymous</strong>. The public can see that someone is sending an amount to someone else, but without information linking the transaction to anyone. This is similar to the level of information released by stock exchanges. As an additional firewall, a new key pair should be used for each transaction to keep them from being linked to a common owner.</p>
+                <h4>Verifying Payments Quickly</h4>
+                <p>You don't need to run a full node to check if a payment went through. You only need the headers of the blocks. By linking a transaction to a block, you can see that the network has accepted it. This is the basis for mobile wallets and light clients, making Bitcoin accessible to everyone.</p>
                 
-                <h4>Section 11: Calculations (The 51% Attack Math)</h4>
-                <p>Satoshi concludes with a mathematical analysis of the probability of an attacker catching up to the honest chain. The race between the honest chain and an attacker chain can be characterized as a <strong>Binomial Random Walk</strong>. The probability of an attacker catching up from a deficit is analogous to a <strong>Gambler's Ruin</strong> problem. The paper proves that the probability drops exponentially as the number of blocks the attacker must catch up with increases. This is why "6 Confirmations" is the standard for high-value Bitcoin transactions.</p>
+                <h4>Privacy</h4>
+                <p>In a normal bank, privacy comes from the bank keeping your data secret. In Bitcoin, all transactions are public, but your identity is hidden behind your public keys. People can see that money is moving, but they don't know who is sending it. For better privacy, you should use a new address for every transaction.</p>
                 
-                <h4>Conclusion: The Immutable Truth</h4>
-                <p>The Bitcoin Whitepaper provided a solution for electronic transactions without relying on trust. It combined digital signatures, a peer-to-peer network, and proof-of-work to create an immutable ledger. "Smart people don't throw away banners — they use blockchain where banks fail." The paper didn't just create a currency; it created a new way for humanity to agree on the truth. As an architect, every line of your code is built on the foundations laid in these 8 pages.</p>
+                <h4>The 51% Attack</h4>
+                <p>Satoshi showed that as long as most of the computing power is in honest hands, the network is secure. The chance of an attacker catching up to the honest chain drops very quickly as more blocks are added. This is why we wait for "confirmations" before trusting a large transaction.</p>
+                
+                <h4>Conclusion: A New Truth</h4>
+                <p>The Bitcoin Whitepaper gave us a way to agree on the truth without needing to trust anyone. It combined math, networking, and game theory to create a ledger that can't be changed. As an architect, your work is built on these 8 pages.</p>
 
                 <h3>Required Reading & Watching</h3>
                 
@@ -1360,90 +1551,89 @@ function addModern(uint256 a, uint256 b) public pure returns (uint256) {
                     </div>
                     <div>
                         <div class="stage-tag">STAGE 01</div>
-                        <h2>EVM Internals & The Stack Machine</h2>
+                        <h2>EVM Internals & How it Works</h2>
                     </div>
                 </div>
 
                 <div class="objectives-card">
-                    <div class="objectives-label">Learning Objectives</div>
-                    <p>Stack, memory, storage, calldata. Opcodes and their gas costs. How transactions execute. What DELEGATECALL actually does. How storage slots are derived.</p>
+                    <div class="objectives-label">What You'll Learn</div>
+                    <p>Stack, memory, storage, and calldata. Opcodes and gas costs. How transactions run. What DELEGATECALL does and how storage slots work.</p>
                     <div class="objectives-divider"></div>
                     <div class="objectives-label">Why It's Required</div>
-                    <p>Without this: you write Solidity but do not understand what it compiles to. You will not understand why exploits happen.</p>
+                    <p>If you don't know this, you're writing code without understanding what it actually does. You won't understand why security flaws happen.</p>
                 </div>
 
-                <p>The Ethereum Virtual Machine (EVM) is a quasi-Turing complete machine. It is <strong>stack-based</strong>, 256-bit word size, and Big-endian. Every operation costs "Gas", which is a anti-spam mechanism to prevent infinite loops (The Halting Problem).</p>
+                <p>The Ethereum Virtual Machine (EVM) is the heart of Ethereum. It's a stack based machine where every action costs "Gas." This is a way to prevent spam and infinite loops on the network.</p>
 
 
                 <div class="simple-terms">
                     <h4>💡 In Simple Terms</h4>
-                    <p>The EVM is the "Brain" of Ethereum. It's like a universal computer that lives everywhere at once. "Gas" is like the fuel you pay to make this brain think. If you want it to do something complex, you need more fuel. This stage shows you how the brain stores information while it's thinking.</p>
+                    <p>The EVM is the "Brain" of Ethereum. It's a universal computer that lives everywhere at once. "Gas" is the fuel you pay to make it think. If you want it to do something complex, you need more fuel. This stage shows you how the brain stores information while it's working.</p>
                 </div>
 
-                <h3>The Anatomy of the State Machine</h3>
+                <h3>Where Data is Stored</h3>
                 <div class="table-wrapper">
                     <table>
-                        <thead><tr><th>Location</th><th>Persistence</th><th>Gas Cost Pattern</th><th>Security Significance</th></tr></thead>
+                        <thead><tr><th>Location</th><th>Persistence</th><th>Gas Cost</th><th>Security Tips</th></tr></thead>
                         <tbody>
-                            <tr><td><strong>Stack</strong></td><td>Volatile</td><td>Cheap (3-5 gas)</td><td>Limited to 1024 depth. "Stack too deep" errors happen here.</td></tr>
-                            <tr><td><strong>Memory</strong></td><td>Volatile</td><td>Quadratic Expansion</td><td>Linear up to 724 bytes, then increases exponentially. Scratch space (0x00-0x3F).</td></tr>
-                            <tr><td><strong>Storage</strong></td><td>Permanent</td><td>Extremely Expensive</td><td>This is the most expensive place to write. <code>SSTORE</code> costs up to 20k gas.</td></tr>
-                            <tr><td><strong>Calldata</strong></td><td>Read-only</td><td>Fixed (16 gas/non-zero)</td><td>The cheapest place to store data for a single transaction. Used heavily by L2s.</td></tr>
-                            <tr><td><strong>Transient Storage</strong></td><td>Transaction-only</td><td>Fixed (100 gas)</td><td>Introduced in EIP-1153. Discarded after tx. Perfect for reentrancy locks.</td></tr>
+                            <tr><td><strong>Stack</strong></td><td>Temporary</td><td>Cheap</td><td>Limited depth. This is where "Stack too deep" errors come from.</td></tr>
+                            <tr><td><strong>Memory</strong></td><td>Temporary</td><td>Increases with use</td><td>Scratch space for calculations. Costs more as you use more.</td></tr>
+                            <tr><td><strong>Storage</strong></td><td>Permanent</td><td>Very Expensive</td><td>The most expensive place to write. Use it only when you have to.</td></tr>
+                            <tr><td><strong>Calldata</strong></td><td>Read only</td><td>Fixed cost</td><td>Cheapest place for data in a single transaction. Heavily used by Layer 2s.</td></tr>
+                            <tr><td><strong>Transient Storage</strong></td><td>Transaction only</td><td>Fixed cost</td><td>Introduced recently. Great for temporary locks and reentrancy protection.</td></tr>
                         </tbody>
                     </table>
                 </div>
 
-                <h4>The Rationale for 256-bit Words</h4>
-                <p>Why does the EVM use 256-bit (32-byte) words? The reason is <strong>Cryptography</strong>. Most cryptographic operations used in Ethereum (like Keccak-256 hashes and secp256k1 public keys) output 256-bit values. By making the native word size 256 bits, the EVM can handle these values in a single stack operation without needing to split them into multiple registers, which would be significantly more complex and gas-intensive.</p>
+                <h4>Why 256-bit Words?</h4>
+                <p>The EVM uses 256 bit words because that's the size of most crypto operations in Ethereum, like hashes and public keys. By using this size, the EVM can handle these values in one go instead of splitting them up, which would be slower and cost more gas.</p>
 
-                <h3>Low-Level Execution Flow: The JUMPDEST Analysis</h3>
-                <p>When you call a contract, the EVM looks at the first 4 bytes of your <code>calldata</code> (The Function Selector). It then jumps to the corresponding code in the contract's bytecode. To prevent arbitrary jumps into the middle of instructions, the EVM only allows jumping to the <code>JUMPDEST</code> (0x5B) opcode. This is a critical security feature that prevents "Return-Oriented Programming" (ROP) attacks common in traditional software.</p>
+                <h3>How Code Runs</h3>
+                <p>When you call a contract, the EVM looks at the first 4 bytes of your data to find the right function. It then jumps to that part of the code. To keep things secure, it only allows jumping to specific "marker" points in the code. This prevents many types of attacks that are common in traditional software.</p>
                 <ul>
-                    <li><strong>PC (Program Counter):</strong> Tracks which instruction is being executed.</li>
-                    <li><strong>Gas Tracker:</strong> Subtracts gas for every opcode. If it hits zero, the transaction reverts (but the gas is still paid!).</li>
+                    <li><strong>Gas Tracker:</strong> Subtracts gas for every action. If you run out, the transaction stops and any changes are reversed.</li>
                 </ul>
 
-                <h4>Stack Mastery: Avoiding 'Stack Too Deep'</h4>
-                <p>The EVM stack is limited to 1024 elements, but more importantly, most opcodes can only access the top 16 elements (using <code>DUP1</code>-<code>DUP16</code> and <code>SWAP1</code>-<code>SWAP16</code>). This is why you often see the "Stack too deep" error in Solidity. To master the EVM, you must learn to manage the stack by:</p>
+                <h4>Avoiding 'Stack Too Deep'</h4>
+                <p>The EVM stack is limited, and you can only easily access the top 16 items. This is why you often see "Stack too deep" errors in Solidity. To fix this, you can:</p>
                 <ul>
-                    <li><strong>Scoping:</strong> Use curly braces <code>{}</code> to limit the lifetime of variables.</li>
-                    <li><strong>Structs:</strong> Pass complex data as structs to reduce the number of stack slots used.</li>
-                    <li><strong>Memory Caching:</strong> Move variables from the stack to memory if you have more than 16 active local variables.</li>
+                    <li><strong>Use Braces:</strong> Limit where variables live by using <code>{}</code>.</li>
+                    <li><strong>Use Structs:</strong> Group variables together to save space on the stack.</li>
+                    <li><strong>Use Memory:</strong> Move some variables to memory if you have too many on the stack.</li>
                 </ul>
 
-                <h3>Critical Opcodes for Security</h3>
+                <h3>Important Opcodes for Security</h3>
                 <ul>
-                    <li><code>DELEGATECALL</code>: Executes code from another contract but keeps the <strong>caller's context</strong> (storage, balance, etc.). This is how most hacks in proxy contracts happen.
+                    <li><code>DELEGATECALL</code>: Runs code from another contract but keeps your own storage and balance. This is powerful but very dangerous if not handled correctly.
                         <br><a href="https://solidity-by-example.org/delegatecall/" target="_blank" style="color: var(--accent); font-size: 0.9rem;">Example: The Danger of Delegatecall</a>
                     </li>
-                    <li><code>STATICCALL</code>: Introduced in EIP-214. It's a "read-only" call. If the called contract tries to modify state, it reverts. Use this for price oracles!</li>
-                    <li><code>TSTORE / TLOAD</code>: Introduced in EIP-1153. Allows for cheap, temporary storage that persists across calls but not across transactions. <strong>Security Mindset:</strong> This effectively kills the need for "Read-only Reentrancy" protection in many cases.</li>
+                    <li><code>STATICCALL</code>: A "read only" call. It prevents any changes to the state. Always use this for things like price checks.</li>
+                    <li><code>TSTORE / TLOAD</code>: Temporary storage that only lasts for one transaction. This is a cheaper way to handle certain security checks.</li>
                 </ul>
 
-                <h4>The Lifecycle of a Transaction</h4>
-                <p>Every transaction on Ethereum follows a strict path. First, it is digitally signed by the user and broadcast to the mempool. A validator then picks it up, validates the nonce and signature, and begins execution. The EVM creates a <strong>Transient State</strong>. If the transaction completes successfully, this state is committed to the World State. If it reverts, all changes are discarded, but the gas consumed up to the point of revert is still subtracted from the user's balance. This ensures that the network is compensated for the computation even if the transaction fails.</p>
+                <h4>A Transaction's Journey</h4>
+                <p>Every transaction starts with a signature and is sent to the "waiting room" (mempool). A validator then runs the code. If everything works, the changes are saved forever. If something fails, everything is undone, but the user still pays for the gas used so far.</p>
 
 
-                <h3>Architect's Masterclass: Memory vs. Storage Gas Mechanics</h3>
-                <p>The EVM uses a <strong>gas schedule</strong> that is constantly evolving (e.g., EIP-1559, EIP-2929). You must understand the difference between <strong>Cold</strong> and <strong>Warm</strong> storage access.</p>
+                <h3>Architect Masterclass: Gas Costs</h3>
+                <p>Gas costs are always changing as Ethereum evolves. You need to know the difference between accessing "cold" data (first time) and "warm" data (already accessed).</p>
                 <div class="table-wrapper">
                     <table>
                         <thead><tr><th>Opcode</th><th>Gas (Cold)</th><th>Gas (Warm)</th><th>Notes</th></tr></thead>
                         <tbody>
-                            <tr><td><code>SLOAD</code></td><td>2,100</td><td>100</td><td>First access is expensive, subsequent are cheap.</td></tr>
-                            <tr><td><code>SSTORE</code></td><td>20,000</td><td>2,900 / 100</td><td>Creating a new slot vs. updating an existing one.</td></tr>
-                            <tr><td><code>CALL</code></td><td>2,100</td><td>100</td><td>Includes <code>DELEGATECALL</code> and <code>STATICCALL</code>.</td></tr>
+                            <tr><td><code>SLOAD</code></td><td>2,100</td><td>100</td><td>First time is expensive, after that it's cheap.</td></tr>
+                            <tr><td><code>SSTORE</code></td><td>20,000</td><td>2,900 / 100</td><td>Creating new data vs updating old data.</td></tr>
+                            <tr><td><code>CALL</code></td><td>2,100</td><td>100</td><td>Includes all types of calls to other contracts.</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p><strong>Memory Expansion Cost:</strong> Memory starts cheap but becomes quadratically more expensive. The formula is <code>C_mem(a) = 3 * a + a^2 / 512</code>, where <code>a</code> is the number of 32-byte words. If you allocate 1MB of memory, the gas cost will bankrupt your transaction. Always clean up after your operations.</p>
+                <p><strong>Memory Costs:</strong> Memory starts cheap but gets much more expensive as you use more. If you try to use too much, your transaction will fail because of the high cost. Always be mindful of how much memory your code needs.</p>
                 
-                <h4>The Hidden Efficiency: Precompiled Contracts</h4>
-                <p>The EVM is not good at certain operations, especially complex mathematical ones like elliptic curve pairings or SHA-256 hashing. To handle these, Ethereum provides <strong>Precompiled Contracts</strong>—special addresses (from <code>0x01</code> to <code>0x0a</code>) that execute highly optimized, native code instead of bytecode. For example, address <code>0x01</code> is for <code>ecrecover</code>, and <code>0x08</code> is for <code>bn256Pairing</code> (essential for ZK-rollups). These precompiles are essential for building ZK-SNARK verifiers and other advanced cryptographic protocols on-chain without spending millions of gas.</p>
+                <h4>Precompiled Contracts</h4>
+                <p>Some tasks, like complex math, are too slow for the EVM. Ethereum handles these with "Precompiled Contracts"—special built in functions that run very fast. These are used for things like verifying signatures and advanced privacy features.</p>
 
-                <h3>EVM Security Pitfalls: The 'Return-to-Stack' Attack</h3>
-                <p>While traditional buffer overflows don't exist in the EVM, sophisticated attackers can use <strong>Unchecked Return Values</strong> from low-level calls to cause the stack to enter an inconsistent state. Always check the success boolean of a <code>call</code>, <code>delegatecall</code>, or <code>staticcall</code>.</p>
+                <h3>Security Risks: Return Values</h3>
+                <p>In the EVM, you always need to check if a call to another contract worked. If you don't check the return value, an attacker might be able to trick your contract into thinking something succeeded when it actually failed.</p>
 
                 <h3>The EVM Deep Dive</h3>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/RxL_1AfV7N4" allowfullscreen loading="lazy"></iframe></div>
@@ -1607,7 +1797,7 @@ function withdrawModern() public onlyOwner {
                     <p>Without this: you write contracts that waste gas and contain subtle bugs you cannot see.</p>
                 </div>
 
-                <p>Solidity is a high-level language that compiles down to EVM bytecode. To be a pro, you must understand how the compiler maps your variables to storage slots and how inheritance affects the final contract.</p>
+                <p>Solidity is a high level language that compiles down to EVM bytecode. To be a pro, you must understand how the compiler maps your variables to storage slots and how inheritance affects the final contract.</p>
 
                 
                 <div class="simple-terms">
@@ -1876,7 +2066,7 @@ struct UserInfo {
                     <p style="font-size: 0.95rem; margin-bottom: 0;">Without this: you cannot optimize gas below what the Solidity compiler produces. You cannot read most DeFi production code.</p>
                 </div>
 
-                <p>When Solidity's high-level abstractions aren't enough, you drop into <strong>Yul</strong>. Yul is the intermediate language for the EVM and provides total control over the stack and memory. It is essentially "typed assembly".</p>
+                <p>When Solidity's high level abstractions aren't enough, you drop into <strong>Yul</strong>. Yul is the intermediate language for the EVM and provides total control over the stack and memory. It is essentially "typed assembly".</p>
 
                 
                 <div class="simple-terms">
@@ -1937,13 +2127,13 @@ function getUpper128(uint256 x) public pure returns (uint128 result) {
                 </div>
 
                 <h3>3. Control Flow: Switch and For Loops</h3>
-                <p>Yul doesn't have <code>if-else</code> in the same way Solidity does. Instead, it uses <code>switch</code> for multi-way branching and a low-level <code>for</code> loop. <strong>Pro Tip:</strong> A Yul <code>switch</code> is much more gas-efficient than a series of Solidity <code>if</code> statements because it uses the <code>JUMPI</code> opcode more effectively.</p>
+                <p>Yul doesn't have <code>if-else</code> in the same way Solidity does. Instead, it uses <code>switch</code> for multi-way branching and a low level for loop. <strong>Pro Tip:</strong> A Yul <code>switch</code> is much more gas-efficient than a series of Solidity <code>if</code> statements because it uses the <code>JUMPI</code> opcode more effectively.</p>
 
                 <h3>4. Security Warning: The "Dirty Bits"</h3>
                 <p>When reading small types (like <code>uint8</code>) from memory or storage in Yul, the higher-order bits might contain garbage. Solidity usually cleans these, but in Yul, you must do it manually using <code>and(value, 0xff)</code>. Failure to clean bits can lead to incorrect logic checks (e.g., a non-zero value that is technically "false" because the last bit is zero).</p>
 
                 <h4>The Danger of Uninitialized Pointers</h4>
-                <p>In high-level Solidity, variables are initialized to their default values (0). In Yul, variables are initialized to 0 on the stack, but <strong>memory is not cleared</strong>. If you use <code>mload</code> on a memory address that hasn't been written to, you will get whatever data was left there by a previous operation. This "stale data" can lead to subtle bugs and security vulnerabilities if used as a condition or return value.</p>
+                <p>In high level Solidity, variables are initialized to their default values (0). In Yul, variables are initialized to 0 on the stack, but <strong>memory is not cleared</strong>. If you use <code>mload</code> on a memory address that hasn't been written to, you will get whatever data was left there by a previous operation. This "stale data" can lead to subtle bugs and security vulnerabilities if used as a condition or return value.</p>
 
                 <h3>Architect's Masterclass: Bitwise Operations & Storage Optimization</h3>
                 <p>Yul allows you to pack multiple variables into a single 32-byte slot manually, giving you more control than the Solidity compiler.</p>
@@ -1965,7 +2155,7 @@ function getUpper128(uint256 x) public pure returns (uint128 result) {
                 <p><strong>Warning:</strong> Direct storage manipulation bypasses Solidity's variable naming system. If you miscalculate a slot index, you will corrupt your contract's state with no way to recover. Use <code>.slot</code> and <code>.offset</code> whenever possible.</p>
                 
                 <h4>Yul String Handling: The Byte-by-Byte Battle</h4>
-                <p>Solidity's string concatenation is notoriously expensive. In Yul, you can concatenate strings by manually copying bytes into memory using <code>mstore</code> and <code>mstore8</code>. This allows you to build complex error messages or dynamic JSON strings on-chain for a fraction of the gas cost of high-level Solidity.</p>
+                <p>Solidity's string concatenation is notoriously expensive. In Yul, you can concatenate strings by manually copying bytes into memory using <code>mstore</code> and <code>mstore8</code>. This allows you to build complex error messages or dynamic JSON strings on-chain for a fraction of the gas cost of high level Solidity.</p>
 
                 <h3>Required Reading</h3>
                 <ul>
@@ -2005,7 +2195,7 @@ function getUpper128(uint256 x) public pure returns (uint128 result) {
                 <p><strong>Nomad Bridge Hack (2022):</strong> 
                     <br><strong>Date:</strong> August 1, 2022
                     <br><strong>Amount:</strong> $190M
-                    <br><strong>Vector:</strong> Initialization / Logic Error. A botched upgrade set the "trusted root" to <code>0x00</code>, making every message appear valid. While not strictly a Yul error, it highlights the danger of low-level state manipulation.
+                    <br><strong>Vector:</strong> Initialization / Logic Error. A botched upgrade set the "trusted root" to <code>0x00</code>, making every message appear valid. While not strictly a Yul error, it highlights the danger of low level state manipulation.
                     <br><strong>Lesson:</strong> When manually manipulating storage or state, always verify that your "trusted" values are not accidentally reset.
                 </p>
 
@@ -2094,7 +2284,7 @@ function safeAssembly() internal pure {
                 </ul>
 
                 <h4>Advanced Cheatcode Mastery</h4>
-                <p>Beyond the basics, elite Foundry users master cheatcodes like <code>vm.etch(address, bytes)</code> to manually set bytecode at an address, or <code>vm.mockCall(address, bytes, bytes)</code> to simulate responses from external protocols without needing to deploy them. <strong>Pro Tip:</strong> Use <code>vm.recordLogs()</code> to capture and verify all events emitted during a complex transaction sequence, which is critical for auditing bridge and cross-chain logic.</p>
+                <p>Beyond the basics, elite Foundry users master cheatcodes like <code>vm.etch(address, bytes)</code> to manually set bytecode at an address, or <code>vm.mockCall(address, bytes, bytes)</code> to simulate responses from external protocols without needing to deploy them. <strong>Pro Tip:</strong> Use <code>vm.recordLogs()</code> to capture and verify all events emitted during a complex transaction sequence, which is critical for auditing bridge and cross chain logic.</p>
 
                 <h4>Handler-Based Invariant Testing</h4>
                 <p>Standard invariant testing randomly calls any function in your contract. <strong>Handler-Based Testing</strong> is a more sophisticated approach where you create a "Handler" contract that defines valid sequences of actions. This allows the fuzzer to explore deep state spaces (e.g., "deposit, then borrow, then wait 3 days, then liquidate") that would be statistically impossible to reach with random function calls. Handler-based testing is how protocols like Balancer and Aave achieve 100% confidence in their mathematical correctness.</p>
@@ -2139,7 +2329,7 @@ forge test --fork-url <MAINNET_RPC> --match-test testMyHack</code></pre>
                 <p>Sometimes, the math you need to test is too complex for Solidity, or you want to compare your contract's output against a reference implementation in Python or Rust. Foundry's <strong>FFI (Foreign Function Interface)</strong> allows your Solidity tests to call external shell commands. This enables <strong>Differential Testing</strong>, where you run the same calculation in two different environments and ensure the results match. If your Solidity <code>exp()</code> function gives a different result than Python's <code>math.exp()</code>, you know you have a precision error.</p>
 
                 <h3>Architect's Masterclass: Multi-Fork Testing</h3>
-                <p>Modern protocols often span multiple chains. Foundry allows you to create multiple <strong>Forks</strong> in a single test. You can simulate a transaction on Ethereum Mainnet, then switch to an Arbitrum fork to see how the L2 state changes. This is the only way to reliably test cross-chain bridges and message-passing protocols before deployment.</p>
+                <p>Modern protocols often span multiple chains. Foundry allows you to create multiple <strong>Forks</strong> in a single test. You can simulate a transaction on Ethereum Mainnet, then switch to an Arbitrum fork to see how the L2 state changes. This is the only way to reliably test cross chain bridges and message-passing protocols before deployment.</p>
                 <div class="code-block-container">
                     <pre><code class="language-solidity">function testCrossChain_Message() public {
     uint256 mainnet = vm.createFork("mainnet");
@@ -2935,7 +3125,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
                 <p>Blockchain allows for the fair and transparent distribution of wealth through mechanisms like <strong>Quadratic Funding</strong> and crypto staking yields. <strong>Gitcoin Grants</strong> is a masterclass in this, using mathematical formulas to ensure that community-driven projects receive the most funding. DAOs can also stream a basic income to their contributors, creating a new model for social safety nets.</p>
 
                 <h3>5. ON-CHAIN REPUTATION (Decentralized LinkedIn)</h3>
-                <p>Your on-chain history is your new resume. <strong>Soulbound Tokens (SBTs)</strong> can store your credentials, certifications, and referral history. This creates a "Decentralized LinkedIn" where your reputation is verifiable and owned by you, not a centralized platform. Referral economics can be built directly into the protocol, rewarding users for bringing value to the ecosystem.</p>
+                <p>Your on chain history is your new resume. <strong>Soulbound Tokens (SBTs)</strong> can store your credentials, certifications, and referral history. This creates a "Decentralized LinkedIn" where your reputation is verifiable and owned by you, not a centralized platform. Referral economics can be built directly into the protocol, rewarding users for bringing value to the ecosystem.</p>
 
                 <h3>6. NEXT BULLISH OPPORTUNITIES</h3>
                 <ul>
@@ -3059,8 +3249,8 @@ function executeModern(bytes memory message, bytes memory signature) public {
                             <li style="margin-bottom: 20px;"><strong>5. CREATE2 REBIRTH ATTACKS:</strong> How EIP-6780 changed the <code>SELFDESTRUCT</code> behavior and why you can no longer assume a contract at an address is "fixed."</li>
                             <li style="margin-bottom: 20px;"><strong>6. GOVERNANCE PARAMETER RISK:</strong> Why the <em>values</em> (thresholds, delays) matter as much as the code. A 1% quorum is a vulnerability.</li>
                             <li style="margin-bottom: 20px;"><strong>7. STORAGE BLOAT:</strong> Ethereum's existential threat. Understanding state expiry and the push for "Verkle Trees."</li>
-                            <li style="margin-bottom: 20px;"><strong>8. BRIDGE TRILEMMA:</strong> The trade-off between Trustlessness, Extensibility, and Latency in cross-chain design.</li>
-                            <li style="margin-bottom: 0;"><strong>9. REPUTATION PROTOCOLS:</strong> How on-chain credentials (SBTs) are becoming the backbone of decentralized trust and credit.</li>
+                            <li style="margin-bottom: 20px;"><strong>8. BRIDGE TRILEMMA:</strong> The trade-off between Trustlessness, Extensibility, and Latency in cross chain design.</li>
+                            <li style="margin-bottom: 0;"><strong>9. REPUTATION PROTOCOLS:</strong> How on chain credentials (SBTs) are becoming the backbone of decentralized trust and credit.</li>
                         </ul>
                     </div>
                 </div>
@@ -3093,7 +3283,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
                     <li><strong>Arbitrage:</strong> Buying low on Uniswap and selling high on SushiSwap. This keeps prices efficient across the ecosystem.</li>
                     <li><strong>Sandwich Attacks:</strong> An attacker sees your large buy order in the mempool, buys before you (pushing price up), you buy (pushing price further up), then they sell. <strong>Defense:</strong> Use private RPCs like Flashbots Protect or implement <strong>Slippage Protection</strong> correctly.</li>
                     <li><strong>Liquidations:</strong> Competing to be the first to liquidate an underwater position. This is "Good MEV" as it keeps protocols solvent.</li>
-                    <li><strong>Long-Tail MEV:</strong> Niche opportunities like NFT mint snipes, governance parameter manipulation, or cross-chain arbitrage.</li>
+                    <li><strong>Long-Tail MEV:</strong> Niche opportunities like NFT mint snipes, governance parameter manipulation, or cross chain arbitrage.</li>
                 </ul>
 
                 <h4>The Searcher's Edge: Latency and Logic</h4>
@@ -4212,13 +4402,13 @@ function executeModern(uint256 proposalId) public {
                     <!-- Plan 4 -->
                     <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
                         <h4>Day 46-60: Deep Research and Networking</h4>
-                        <p>Read the research papers from a16z crypto, Paradigm, Vitalik Buterin, and Justin Drake. Understand the cutting-edge of MEV, PBS (Proposer-Builder Separation), and Danksharding. Attend virtual conferences and join high-level research forums. Your edge as an architect is your ability to see the trends before they become mainstream. This is the period where you build your mental model of the next 5-10 years of the ecosystem.</p>
+                        <p>Read the research papers from a16z crypto, Paradigm, Vitalik Buterin, and Justin Drake. Understand the cutting-edge of MEV, PBS (Proposer-Builder Separation), and Danksharding. Attend virtual conferences and join high level research forums. Your edge as an architect is your ability to see the trends before they become mainstream. This is the period where you build your mental model of the next 5-10 years of the ecosystem.</p>
                     </div>
 
                     <!-- Plan 5 -->
                     <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
                         <h4>Day 61-75: Teach and Attract Talent</h4>
-                        <p>The best way to learn is to teach. Write a series of technical blog posts or record a deep-dive video series on a complex topic like "Account Abstraction" or "ZK Proof Systems." Your goal is to attract high-level talent and minds to your orbit. By becoming a "Public Teacher," you establish yourself as an authority in the field and create opportunities for collaboration and investment. Talent follows knowledge.</p>
+                        <p>The best way to learn is to teach. Write a series of technical blog posts or record a deep-dive video series on a complex topic like "Account Abstraction" or "ZK Proof Systems." Your goal is to attract high level talent and minds to your orbit. By becoming a "Public Teacher," you establish yourself as an authority in the field and create opportunities for collaboration and investment. Talent follows knowledge.</p>
                     </div>
 
                     <!-- Plan 6 -->
@@ -4742,7 +4932,7 @@ function executeModern(uint256 proposalId) public {
         </div> <!-- Close content-inner -->
     </main>
 
-    <footer style="background: var(--gray-50); border-top: 1px solid var(--gray-200); padding: var(--space-12) 0 var(--space-8);">
+    <footer class="main-footer">
         <div class="footer-grid container">
             <div class="footer-brand">
                 <div style="display: flex; align-items: center; gap: var(--space-3); color: var(--gray-900); margin-bottom: var(--space-6);">
@@ -4811,7 +5001,12 @@ function executeModern(uint256 proposalId) public {
         function toggleSidebar(e) {
             if (e) e.preventDefault();
             if (window.innerWidth < 768) {
-                sidebar.classList.toggle('open');
+                const isOpen = sidebar.classList.toggle('open');
+                if (isOpen) {
+                    sidebarBackdrop.classList.add('active');
+                } else {
+                    sidebarBackdrop.classList.remove('active');
+                }
             } else {
                 body.classList.toggle('sidebar-collapsed');
                 localStorage.setItem('sidebarCollapsed', body.classList.contains('sidebar-collapsed'));
@@ -4821,13 +5016,17 @@ function executeModern(uint256 proposalId) public {
         if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
         if (sidebarLogo) sidebarLogo.addEventListener('click', toggleSidebar);
         if (headerLogo) headerLogo.addEventListener('click', toggleSidebar);
-        if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', () => sidebar.classList.remove('open'));
+        if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            sidebarBackdrop.classList.remove('active');
+        });
 
         // Close sidebar on mobile link click
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 if (window.innerWidth < 768) {
                     sidebar.classList.remove('open');
+                    sidebarBackdrop.classList.remove('active');
                 }
             });
         });
@@ -4898,6 +5097,43 @@ function executeModern(uint256 proposalId) public {
                     }
                 }
             });
+        }
+
+        // --- Share Lesson Function ---
+        function shareLesson(stageId) {
+            // Get stage title/topic
+            const stageCard = document.querySelector(`[data-stage="${stageId}"]`);
+            let stageName = 'ChainCodeCamp Stage ' + stageId;
+            
+            if (stageCard) {
+                const stageTitle = stageCard.querySelector('h3');
+                if (stageTitle) {
+                    stageName = stageTitle.innerText;
+                }
+            }
+            
+            // Create share message
+            const shareText = `I just completed "${stageName}" on ChainCodeCamp — a world-class curriculum for smart contract engineering. Join me: https://chaincodecamp.dev`;
+            
+            // Check if Web Share API is available
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ChainCodeCamp',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    if (err.name !== 'AbortError') {
+                        console.log('Share error:', err);
+                    }
+                });
+            } else {
+                // Fallback: Copy to clipboard
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Share message copied to clipboard!');
+                }).catch(() => {
+                    alert('Share message: ' + shareText);
+                });
+            }
         }
 
         // Initialize UI
