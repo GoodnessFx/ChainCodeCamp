@@ -4402,35 +4402,39 @@ require(block.timestamp - oracle.updatedAt < 3600, "stale price");</code></pre>
                     <li><strong>RegTech:</strong> Build middleware for tax reporting, AML, and real-time DeFi accounting. Compliance is a multi-billion dollar opportunity.</li>
                 </ul>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: The Candy Shop Line & The Invisible Hand</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Candy Shop Line</h5>
+                            <p>Imagine you are standing in line at a candy shop. You want to buy a chocolate bar for $1. Just as you are about to pay, a kid named "Bot" jumps in front of you, buys all the chocolate bars for $1 each, and then turns around and offers to sell one to you for $2! This is called **Frontrunning**. Now imagine the shopkeeper is also in on it, and he lets "Bot" cut the line because "Bot" gives him an extra candy. This is how MEV works in the "Dark Forest" of the blockchain.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: MEV Infrastructure</h5>
+                            <p>MEV (Maximal Extractable Value) is the profit that a block producer (validator) can extract by reordering, including, or excluding transactions in a block.</p>
+                            
+                            <h6>1. Flashbots & PBS (Proposer-Builder Separation)</h6>
+                            <p>To prevent a centralized "Dark Forest" where only the biggest validators win, the Ethereum community introduced **PBS**. In this system, "Builders" create optimized blocks to maximize MEV and "Proposers" (Validators) simply pick the highest-paying block. **Flashbots** is the most popular relay that facilitates this communication, ensuring that MEV is distributed more fairly across the network.</p>
+                            
+                            <h6>2. Sandwich Attacks & Slippage</h6>
+                            <p>A **Sandwich Attack** is the most common form of MEV. A bot sees your trade on a DEX, sends a transaction *before* yours to push the price up (Frontrun), and another transaction *after* yours to sell at the new, higher price (Backrun). You end up buying at the worst possible price allowed by your **Slippage Tolerance**. This is why setting a low slippage (e.g., 0.1%) is critical for large trades.</p>
+                            
+                            <h6>3. Searchers & Arbitrage</h6>
+                            <p>**Searchers** are independent developers who write sophisticated algorithms to find MEV opportunities. They look for price differences between DEXes (Arbitrage), underwater loans (Liquidations), or even bugs in new contracts. They compete in a "Priority Gas Auction" (PGA) to have their transactions included first, which often results in massive gas spikes for everyone else.</p>
+
+                            <h6>4. MEV-Resistance & Batch Auctions</h6>
+                            <p>Protocol architects can fight MEV by using **Commit-Reveal Schemes** (where the transaction intent is hidden until it's too late to frontrun) or by using **Batch Auctions** (where all trades in a block are executed at the same price). In the future, "Shared Sequencers" and "Enshrinement" of PBS into the Ethereum protocol itself will likely change the MEV landscape forever.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(10)">Mark Stage Complete</button>
                 </div>
-
-                <details class="interactive-card" style="margin-top: 32px; border-color: var(--primary);">
-                    <summary>
-                        <h4 style="color: var(--primary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">The "Dark Forest" of MEV and the search for fairness.</p>
-                    </summary>
-                    <div class="interactive-card-content">
-                        <h5>💡 The Childlike Analogy: The Candy Shop Line</h5>
-                        <p>Imagine you are standing in line at a candy shop. You want to buy a chocolate bar for $1. Just as you are about to pay, a kid named "Bot" jumps in front of you, buys all the chocolate bars for $1 each, and then turns around and offers to sell one to you for $2! This is called "Frontrunning." Now imagine the shopkeeper is also in on it, and he lets "Bot" cut the line because "Bot" gives him a extra candy. This is how MEV works in the "Dark Forest" of the blockchain.</p>
-                        
-                        <h5>🧠 Exhaustive Technical Deep-Dive: MEV Infrastructure</h5>
-                        <p>MEV (Maximal Extractable Value) is the profit that a block producer (validator) can extract by reordering, including, or excluding transactions in a block.</p>
-                        
-                        <h6>1. Flashbots & PBS (Proposer-Builder Separation)</h6>
-                        <p>To prevent a centralized "Dark Forest" where only the biggest validators win, the Ethereum community introduced **PBS**. In this system, "Builders" create optimized blocks to maximize MEV and "Proposers" (Validators) simply pick the highest-paying block. **Flashbots** is the most popular relay that facilitates this communication, ensuring that MEV is distributed more fairly across the network.</p>
-                        
-                        <h6>2. Sandwich Attacks & Slippage</h6>
-                        <p>A **Sandwich Attack** is the most common form of MEV. A bot sees your trade on a DEX, sends a transaction *before* yours to push the price up (Frontrun), and another transaction *after* yours to sell at the new, higher price (Backrun). You end up buying at the worst possible price allowed by your **Slippage Tolerance**. This is why setting a low slippage (e.g., 0.1%) is critical for large trades.</p>
-                        
-                        <h6>3. Searchers & Arbitrage</h6>
-                        <p>**Searchers** are independent developers who write sophisticated algorithms to find MEV opportunities. They look for price differences between DEXes (Arbitrage), underwater loans (Liquidations), or even bugs in new contracts. They compete in a "Priority Gas Auction" (PGA) to have their transactions included first, which often results in massive gas spikes for everyone else.</p>
-
-                        <h5>🛡️ Security Perspective: MEV-Resistance</h5>
-                        <p>Protocol architects can fight MEV by using **Commit-Reveal Schemes** (where the transaction intent is hidden until it's too late to frontrun) or by using **Batch Auctions** (where all trades in a block are executed at the same price). In the future, "Shared Sequencers" and "Enshrinement" of PBS into the Ethereum protocol itself will likely change the MEV landscape forever.</p>
-                    </div>
-                </details>
             </div>
         </section>
 
@@ -4683,7 +4687,7 @@ function getRateSafe(uint x) public pure returns (uint) {
 /// @dev spec { assert getRate(x) <= x * 10**18; }</code></pre>
                 </div>
 
-                <div class="completion-footer">>,old_str:
+                <div class="completion-footer">
                     <button class="share-lesson-btn" onclick="shareLesson(11)">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         Share Lesson
@@ -4726,11 +4730,34 @@ function getRateSafe(uint x) public pure returns (uint) {
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/RxL_1AfV7N4" allowfullscreen loading="lazy"></iframe></div>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--accent);">
+                    <summary>
+                        <h4 style="color: var(--accent);">Masterclass: The Secret Code & The Magic Mirror</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Secret Handshake</h5>
+                            <p>Imagine you have a secret handshake that only you and your best friend know. To enter your secret club, you have to do the handshake. But what if a bully is watching? If you do the handshake, the bully will learn it! So, you use a "Magic Mirror." You stand behind the mirror and do the handshake. Your friend can see that you are doing it right, but the bully can only see a blurry shape. Your friend knows it's you, but the bully can't copy you. This is **Cryptography**. Your "Private Key" is the secret handshake, and the "Signature" is the blurry shape in the mirror.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: The Foundation of Truth</h5>
+                            <p>Advanced cryptography is what separates "Smart Contract Developers" from "Protocol Architects." You must understand the underlying math to prevent signature-based exploits.</p>
+                            
+                            <h6>1. Hashing: The Keccak-256 vs SHA-3 Trap</h6>
+                            <p>Ethereum uses **Keccak-256**, which is the original version of what eventually became the NIST SHA-3 standard. However, they are NOT the same. The padding rules are different. If you use a SHA-3 library in your backend (like Python's `hashlib.sha3_256`) instead of a Keccak library, your hashes will never match the on-chain `keccak256()` output. Always use a library specifically marked as Keccak-256 (like `ethers.utils.keccak256` or `pysha3`).</p>
+                            
+                            <h6>2. EIP-712: Structured Data Hashing</h6>
+                            <p>Standard hashing (`keccak256(abi.encodePacked(...))`) is dangerous because it's hard for users to read what they are signing. **EIP-712** solves this by introducing a "Domain Separator" and a "Type Hash." This makes the signature human-readable in wallets like MetaMask. From a security perspective, EIP-712 prevents **Cross-Protocol Replay Attacks**. If you sign a message for Protocol A, a malicious dev can't use that same signature on Protocol B because the Domain Separators won't match.</p>
+                            
+                            <h6>3. Merkle Trees & Proofs</h6>
+                            <p>A Merkle Tree is a way to summarize a large amount of data into a single 32-byte hash (the **Root**). To prove that a piece of data (like a whitelist address) is part of that tree, you only need to provide a few intermediate hashes (the **Proof**). This is $O(\log n)$ efficiency. In Solidity, checking a Merkle Proof for a 1,000-person whitelist only takes about 10-15 hashes, saving massive amounts of gas compared to storing the whole list in a mapping.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
-                    <button class="share-lesson-btn" onclick="shareLesson(12)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Share Lesson
-                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(12)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -4841,7 +4868,34 @@ interface IOptimismGasPriceOracle {
 }</code></pre>
                 </div>
 
-                <div class="completion-footer">>,old_str:
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Island Kingdoms & The Magic Portals</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Magic Portals</h5>
+                            <p>Imagine there are many different islands in the ocean. Each island has its own rules and its own kind of money. To move your money from Island A to Island B, you have to go to a special "Magic Portal." You give your money to the portal guard on Island A, and he locks it in a giant safe. Then, he sends a bird with a secret letter to Island B. The guard on Island B reads the letter and gives you some new "Island B Money" from his own safe. If the bird gets lost, or if someone writes a fake letter, the money might disappear forever! This is how **Bridges** and **L2s** work.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Scaling & Interoperability</h5>
+                            <p>Scaling Ethereum requires moving transaction execution off the main chain (L1) while maintaining its security. This is achieved through **Rollups** and **Bridges**.</p>
+                            
+                            <h6>1. Optimistic vs. ZK Rollups</h6>
+                            <p>**Optimistic Rollups** (like Arbitrum and Optimism) assume all transactions are valid by default. They use a "Fraud Proof" window (usually 7 days) where anyone can challenge a transaction. If a challenge is successful, the state is rolled back. **ZK Rollups** (like ZKSync or Starknet) use "Validity Proofs" (Zero-Knowledge Proofs). Every batch of transactions includes a mathematical proof that the state change is correct. ZK Rollups provide instant finality but are computationally much more expensive to generate proofs for.</p>
+                            
+                            <h6>2. Bridge Architectures: Lock-and-Mint vs. Burn-and-Mint</h6>
+                            <p>Most bridges use the **Lock-and-Mint** pattern: assets are locked on the source chain, and "wrapped" representations are minted on the destination chain. This creates a massive single point of failure: the bridge's vault. **Burn-and-Mint** (like Circle's CCTP) is more secure: the actual asset is destroyed on the source chain and a native version is minted on the destination chain, eliminating the need for a central vault.</p>
+                            
+                            <h6>3. The Risk of Message Replay</h6>
+                            <p>When a bridge sends a message from Chain A to Chain B, it usually includes a signature or a proof. If the bridge doesn't include a **Chain ID** or a **Nonce** in the message, an attacker can capture that message and "replay" it on a third chain, or on the same chain multiple times, to double-spend the assets. This is why strict **Replay Protection** is the most important part of bridge security.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(13)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -4878,6 +4932,33 @@ interface IOptimismGasPriceOracle {
                 <p>Similar to the Scalability Trilemma, the <strong>Bridge Trilemma</strong> states that a bridge can only have two of the following three: <strong>Trustlessness, Extensibility, and Low Latency</strong>. Bridges that use a set of validators are extensible and fast but not trustless. Bridges that use light client verification (like IBC) are trustless and fast but very hard to extend to new chains. As an architect, you must decide which risk your protocol is willing to take when moving assets across chains.</p>
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/fWAbS9-I8M0" allowfullscreen loading="lazy"></iframe></div>
+
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: The Messenger Bird & The Fake News</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Messenger Bird</h5>
+                            <p>Imagine you want to send a secret message to your friend on another island. You write it on a tiny piece of paper and tie it to a messenger bird. But what if a bad kid catches the bird and changes your message? Or what if he sends 10 birds with the same message to trick your friend into giving him 10 toys? To stop this, you use a "Magic Seal" that only you can make. If the seal is broken, your friend knows the message is fake. You also give each message a "Number" so your friend knows if he's already seen it. This is how **Interoperability Protocols** like LayerZero or Wormhole keep messages safe.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: General Message Passing (GMP)</h5>
+                            <p>GMP protocols allow contracts on one chain to call functions on contracts on another chain. This is the foundation of "Omnichain" DApps.</p>
+                            
+                            <h6>1. The Oracle & Relayer Collision</h6>
+                            <p>Most GMP protocols rely on two independent parties: an **Oracle** (to relay the block header) and a **Relayer** (to relay the transaction proof). If they both agree, the message is executed. The security assumption is that the Oracle and Relayer will not collude. If they do, they can forge any message and drain any bridged asset. Modern protocols like LayerZero v2 move toward **DVNs (Decentralized Verifier Networks)** to mitigate this collusion risk.</p>
+                            
+                            <h6>2. Replay Protection: Nonces and GUIDs</h6>
+                            <p>A "Replay Attack" occurs when an attacker captures a valid cross-chain message and submits it multiple times to the destination chain. Professional protocols use a **Nonce** (a sequence number) for every sender-receiver pair. The destination contract keeps track of the last processed nonce and rejects any message with a lower or equal number. This ensures that every cross-chain action happens exactly once.</p>
+                            
+                            <h6>3. Handling "Asynchronous" Failures</h6>
+                            <p>Cross-chain calls are asynchronous. Unlike a local function call, a cross-chain call can fail on the destination chain *after* it succeeded on the source chain (e.g., due to insufficient gas or a revert). Professional architects implement **Retry Logic** and **Manual Execution** fallbacks. If a message fails, it is stored in a "Blocked" state, allowing the user or a relayer to resubmit it with more gas later.</p>
+                        </div>
+                    </div>
+                </details>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(14)">Mark Stage Complete</button>
@@ -5018,7 +5099,34 @@ function verifyModern(uint[] memory proof, uint[] memory publicInputs) public {
 }</code></pre>
                 </div>
 
-                <div class="completion-footer">>,old_str:
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Treasure Map & The Invisible Key</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Invisible Key</h5>
+                            <p>Imagine you have a giant treasure chest with a secret code. You want to prove to your friends that you know the code, but you don't want them to see what it is! So, you go behind a curtain and open the chest. You then come out holding the treasure. Your friends can see the treasure, so they know you opened the chest, but they still don't know the code! **Zero-Knowledge Proofs** are like that curtain. They let you prove you "know a secret" using math, without ever showing the secret itself.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: SNARKs vs. STARKs</h5>
+                            <p>Zero-Knowledge Proofs are the ultimate tool for both **Privacy** and **Scalability**. They allow for "Succinct" verification of complex computations.</p>
+                            
+                            <h6>1. ZK-SNARKs (Groth16, PLONK)</h6>
+                            <p>**SNARKs** (Succinct Non-interactive Arguments of Knowledge) are small and fast to verify on-chain. **Groth16** is the most popular SNARK; it's extremely small but requires a "Trusted Setup"—a one-time ceremony where secret parameters are generated and then destroyed. If the secrets aren't destroyed, the participants can forge proofs! **PLONK** is a newer SNARK that uses a "Universal Trusted Setup," meaning the same setup can be used for any circuit.</p>
+                            
+                            <h6>2. ZK-STARKs (Scalable Transparent Arguments of Knowledge)</h6>
+                            <p>**STARKs** (pioneered by Starknet) are the "Bigger, Faster" cousin of SNARKs. They are **Transparent**, meaning they don't require a trusted setup. They are also **Quantum-Resistant**, meaning they won't be broken by future quantum computers. However, STARK proofs are much larger than SNARK proofs, making them more expensive to store on Ethereum L1. They are best suited for high-throughput L2s where proof size is less of a bottleneck.</p>
+                            
+                            <h6>3. Circuit Design: R1CS and Constraints</h6>
+                            <p>To use ZK, you don't write Solidity; you write "Circuits" in languages like **Circom** or **Cairo**. A circuit is a series of mathematical equations (constraints) that define the rules of your program. For example, a constraint might be `a * b === c`. If the prover can find values for `a`, `b`, and `c` that satisfy all constraints, the proof is valid. A major security risk is **Under-constrained Circuits**, where you forget to add a rule (e.g., `a` must not be zero), allowing an attacker to generate a "valid" proof for an invalid state.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(15)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -5107,6 +5215,36 @@ function verifyModern(uint[] memory proof, uint[] memory publicInputs) public {
                     <br><strong>Lock Sniping:</strong> Ensuring that the developer has locked the liquidity and renounced ownership of the contract.
                     <br><strong>Contract Verification:</strong> Only interact with contracts that have verified source code and no "mint" or "blacklist" functions.
                 </p>
+
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: The Universal Key & The Smart Toy Box</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Smart Toy Box</h5>
+                            <p>Imagine your toys are kept in a regular box with a lock. To get a toy, you need a heavy metal key. If you lose the key, the toys are gone forever! This is a regular wallet (EOA). But what if you had a **Smart Toy Box**? This box is special: you can tell it, "If I lose my key, let my mom open it." Or, "Don't let me take out more than 2 toys a day." You can even set it so it only opens if you and your friend both turn your keys at the same time. This is **Account Abstraction**. Your wallet is now a smart robot that follows your rules.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: ERC-4337 & The EntryPoint</h5>
+                            <p>Account Abstraction (AA) is the transition from Externally Owned Accounts (EOAs) to Smart Contract Wallets (SCWs) as the primary way users interact with the blockchain.</p>
+                            
+                            <h6>1. ERC-4337: The Standard for AA</h6>
+                            <p>ERC-4337 achieves AA without requiring a hard fork of the Ethereum protocol. It introduces a new transaction type called a **UserOperation**. Users sign these operations and send them to a separate "Mempool" (the **Bundler** mempool). Bundlers then package multiple UserOperations into a single transaction and send it to a global singleton contract called the **EntryPoint**.</p>
+                            
+                            <h6>2. The EntryPoint Workflow</h6>
+                            <p>The EntryPoint handles the heavy lifting of security. It calls `validateUserOp` on the user's smart wallet to check the signature and ensure the wallet has enough funds to pay for gas. If validation succeeds, it then calls `executeUserOp` to perform the actual transaction logic. This separation ensures that even if a wallet's logic is complex, the core validation remains standardized and secure.</p>
+                            
+                            <h6>3. Paymasters: Gasless Transactions</h6>
+                            <p>A **Paymaster** is a contract that can pay the gas fees for a user's transaction. This allows for "Gasless" onboarding (DApps paying for their users) or for users to pay gas in ERC-20 tokens (like USDC) instead of native ETH. The Paymaster must also implement a `validatePaymasterUserOp` function to ensure it agrees to pay for the specific operation.</p>
+
+                            <h6>4. Session Keys & Role-Based Access</h6>
+                            <p>One of the most powerful features of AA is **Session Keys**. You can grant a specific contract (like a game) the right to perform certain actions (like "Buy Item") on your behalf for a limited time (e.g., 1 hour) without needing you to sign every transaction. This is achieved by the smart wallet checking a "Scoped Permission" signature before executing the call.</p>
+                        </div>
+                    </div>
+                </details>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(16)">Mark Stage Complete</button>
@@ -5218,7 +5356,37 @@ function executeModern(uint256 proposalId) public {
 }</code></pre>
                 </div>
 
-                <div class="completion-footer">>,old_str:
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Council of Wise Toys & The Magic Gavel</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Playground Council</h5>
+                            <p>Imagine all the kids on the playground want to decide what game to play. Usually, the kid with the most toys decides. But in a **DAO**, everyone gets "Voting Stickers." If you have 10 stickers, your vote is worth 10. Once the council decides on a game, they put the decision in a "Magic Time Box" (the Timelock). The box stays locked for 2 days. This gives the kids who don't like the game time to leave the playground before it starts! This is how **Governance** works: voting, deciding, and waiting to make sure it's fair.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: On-Chain Governance & Game Theory</h5>
+                            <p>Governance is the mechanism by which decentralized protocols manage upgrades, parameters, and treasury allocations.</p>
+                            
+                            <h6>1. Compound-style Governance (GovernorAlpha/Bravo)</h6>
+                            <p>Most DAOs use the Compound model. It involves three main components: the **Governance Token** (ERC-20 with delegation), the **Governor Contract** (manages proposals and voting), and the **Timelock** (holds the protocol's power). A user must have a minimum "Proposal Threshold" of tokens to create a proposal. Once a proposal passes with a "Quorum" (minimum number of votes), it is sent to the Timelock.</p>
+                            
+                            <h6>2. Delegation & Checkpointing</h6>
+                            <p>To prevent gas-intensive calculations during a vote, governance tokens use **Checkpointing**. Every time a user's balance changes, the contract records their new balance and a timestamp (block number). When a vote starts, the contract looks at the user's balance at a specific "Snapshot" block in the past. This prevents attackers from buying tokens, voting, and selling them in the same block (**Flash Loan Governance Attacks**).</p>
+                            
+                            <h6>3. The Timelock: The Last Line of Defense</h6>
+                            <p>The **Timelock** is a contract that acts as the "Admin" of the protocol. It has a mandatory delay (e.g., 2 days) between when an action is scheduled and when it can be executed. This is critical for security: if a malicious proposal passes, users have a window of time to withdraw their funds before the proposal can change the protocol's rules or drain the treasury.</p>
+
+                            <h6>4. Optimistic Governance & L2 Risks</h6>
+                            <p>Some protocols use "Optimistic Governance" (like Snapshot + Zodiac) where voting happens off-chain to save gas, and the result is pushed on-chain via an Oracle. The risk here is **Oracle Collusion**. Additionally, for protocols on L2, governance usually happens on L1 and messages are sent across a bridge. If the bridge is slow or congested, an emergency fix could be delayed for days.</p>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(17)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -5264,21 +5432,39 @@ function executeModern(uint256 proposalId) public {
                 <h3>8. CRYPTOECONOMIC SECURITY: THE COST OF ATTACK</h3>
                 <p>The security of a blockchain is defined by the <strong>Cost to Attack</strong> it. In PoW, this is the cost of hash power. In PoS, it is the cost of the staked tokens. <strong>Slashing Design</strong> is critical here—if a validator acts maliciously, their stake must be taken. This creates a massive financial deterrent. Long-range attacks and 51% attacks must be made mathematically and economically impossible. As an architect, you are not just writing code; you are designing a fortress of incentives.</p>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Magic Sticker Economy & The Incentive Flywheel</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Magic Sticker Economy</h5>
+                            <p>Imagine your school starts giving out "Magic Stickers" for good grades. At first, everyone wants them because you can trade 10 stickers for a pizza party. But then the principal starts giving out millions of stickers to everyone, and suddenly they aren't worth much because there's too many of them. This is **Inflation**. Now imagine if the principal says "Every time you trade a sticker, we burn one!" This makes them rarer and more valuable. This is **Deflation**. Tokenomics is just the set of rules for how these stickers are born, how they live, and how they die to keep everyone behaving nicely.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Tokenomics & Game Theory</h5>
+                            <p>Tokenomics is the engineering of economic systems. It involves issuance, distribution, utility, and governance to create a self-sustaining protocol.</p>
+                            
+                            <h6>1. Supply Dynamics: Inflation vs. Deflation</h6>
+                            <p>A protocol's value is often tied to its **Circulating Supply**. High inflation (minting many new tokens) dilutes existing holders and can lead to a "Death Spiral" if demand doesn't keep up. Deflationary mechanisms (like EIP-1559 fee burning or Buyback-and-Burn) reduce supply over time, creating upward price pressure. The "Holy Grail" is a **Net-Deflationary** state where protocol usage burns more tokens than are minted as rewards.</p>
+                            
+                            <h6>2. Liquidity Mining & The "Mercenary Capital" Trap</h6>
+                            <p>Many protocols use "Liquidity Mining" (giving tokens to LPs) to attract capital. The problem is **Mercenary Capital**: yield farmers who provide liquidity only for the rewards and dump the tokens as soon as they receive them. This creates massive sell pressure. Professional architects design "Locked Staking" or "veTokens" (vote-escrowed tokens) where users must lock their tokens for months or years to receive rewards, aligning long-term incentives.</p>
+                            
+                            <h6>3. Game Theory: The Prisoner's Dilemma in Staking</h6>
+                            <p>Staking is a coordination game. If everyone stakes, the network is secure and the token price is stable. If everyone sells, the price crashes. Protocols use **Slashing** (taking away tokens for bad behavior) to change the payoff matrix. The cost of acting maliciously (e.g., a 51% attack) must be significantly higher than the potential profit from the attack. This is **Cryptoeconomic Security**.</p>
+
+                            <h6>4. The Flywheel Effect & Ecosystem Growth</h6>
+                            <p>A successful protocol creates a "Flywheel": more users -> more protocol fees -> more tokens burned/distributed -> higher token value -> more developers/liquidity attracted. The key is finding the **Initial Spark** (the core utility) that starts the flywheel without relying solely on speculative hype.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(18)">Mark Stage Complete</button>
                 </div>
-
-                <details class="interactive-card" style="margin-top: 32px; border-color: var(--secondary);">
-                    <summary>
-                        <h4 style="color: var(--secondary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Tokenomics, Game Theory, and the "Incentive Machine".</p>
-                    </summary>
-                    <div class="interactive-card-content">
-                        <h5>💡 The Childlike Analogy: The Magic Sticker Economy</h5>
-                        <p>Imagine your school starts giving out "Magic Stickers" for good grades. At first, everyone wants them because you can trade 10 stickers for a pizza party. But then the principal starts giving out millions of stickers to everyone, and suddenly they aren't worth much because there's too many of them. This is "Inflation." Now imagine if the principal says "Every time you trade a sticker, we burn one!" This makes them rarer and more valuable. This is "Deflation." Tokenomics is just the set of rules for how these stickers are born, how they live, and how they die to keep everyone behaving nicely.</p>
-                        
-                        <h5>🧠 Exhaustive Technical Deep-Dive: Tokenomics & Governance</h5>
-                        <p>Tokenomics is the study of the economic systems and incentives designed into a cryptocurrency protocol. It involves the issuance, distribution, and utility of tokens to align the interests of all stakeholders.</p>
                         
                         <h6>1. Supply & Demand Dynamics</h6>
                         <p>The value of a token is driven by its **Circulating Supply** and its **Utility**. If a token is required to pay for gas (like ETH) or to access a specific service, demand will naturally rise with usage. To manage supply, protocols use mechanisms like **Halvings** (reducing issuance over time), **Buyback-and-Burn** (using protocol fees to buy and destroy tokens), or **Lock-ups** (preventing investors from selling their tokens too early).</p>
