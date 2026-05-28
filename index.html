@@ -8,10 +8,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <!-- Highlight.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/solidity.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
@@ -20,32 +20,37 @@
 
     <style>
         :root {
-            /* Claude-like Professional Palette */
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --primary-light: #d1fae5;
+            /* Unique Technical "Field Guide" Palette */
+            --primary: #ff4d00; /* Safety Orange */
+            --primary-dark: #cc3d00;
+            --primary-light: #fff0eb;
             
-            --gray-900: #1f2937;
-            --gray-800: #374151;
-            --gray-600: #6b7280;
-            --gray-400: #9ca3af;
-            --gray-300: #d1d5db;
-            --gray-200: #e5e5e5;
-            --gray-100: #f3f4f6;
-            --gray-50: #f9fafb;
+            --secondary: #2a4ad0; /* Blueprint Blue */
+            
+            --ink: #1a1a1a;
+            --paper: #f8f7f4;
+            
+            --gray-900: #1a1a1a;
+            --gray-800: #333333;
+            --gray-600: #555555;
+            --gray-400: #888888;
+            --gray-300: #cccccc;
+            --gray-200: #e0e0e0;
+            --gray-100: #f0f0f0;
+            --gray-50: #f9f9f9;
             --white: #ffffff;
             
-            --sidebar-bg: #f5f5f5;
-            --sidebar-border: #e5e5e5;
-            --header-bg: #ffffff;
-            --header-border: #e5e5e5;
+            --sidebar-bg: #f0efe9;
+            --sidebar-border: #1a1a1a;
+            --header-bg: #f8f7f4;
+            --header-border: #1a1a1a;
             
-            --focus-blue: #3b82f6;
-            --focus-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            --focus-blue: #2a4ad0;
+            --focus-shadow: 4px 4px 0px rgba(42, 74, 208, 0.2);
             
-            --success: #10b981;
-            --error: #ef4444;
-            --warning: #f59e0b;
+            --success: #008556;
+            --error: #d70000;
+            --warning: #ff4d00;
 
             /* Spacing System (8px Grid) */
             --space-1: 4px;
@@ -59,26 +64,34 @@
             --space-12: 48px;
 
             /* Layout Constants */
-            --sidebar-width: 260px;
-            --sidebar-collapsed-width: 64px;
-            --header-height: 56px;
-            --max-content-width: 1400px;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 72px;
+            --header-height: 64px;
+            --max-content-width: 1200px;
             
             /* Transitions */
-            --transition-fast: 150ms ease;
-            --transition-sidebar: 250ms ease-in-out;
+            --transition-fast: 100ms ease;
+            --transition-sidebar: 300ms cubic-bezier(0.4, 0, 0.2, 1);
             
             /* Typography */
-            --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'IBM Plex Serif', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-stack: var(--font-body);
 
             /* Compatibility with old styles */
             --accent: var(--primary);
-            --border: var(--gray-200);
-            --border-strong: var(--gray-300);
-            --text: var(--gray-900);
+            --border: 2px solid var(--ink);
+            --border-strong: 3px solid var(--ink);
+            --text: var(--ink);
             --text-dim: var(--gray-600);
-            --bg: var(--white);
+            --bg: var(--paper);
             --card: var(--white);
+            
+            /* New Shadow System */
+            --shadow-hard: 4px 4px 0px var(--ink);
+            --shadow-hard-lg: 8px 8px 0px var(--ink);
+            --shadow-hover: 2px 2px 0px var(--ink);
         }
 
         /* --- Global Reset & Base Styles --- */
@@ -93,39 +106,42 @@
         }
 
         body {
-            font-family: var(--font-stack);
-            font-size: 16px;
-            line-height: 1.7; /* Better readability */
-            color: var(--gray-800);
-            background-color: var(--white);
+            font-family: var(--font-body);
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--ink);
+            background-color: var(--paper);
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            letter-spacing: -0.01em;
         }
 
         h1, h2, h3, h4, h5, h6 {
-            color: var(--gray-900);
-            font-weight: 600;
-            line-height: 1.25;
-            letter-spacing: -0.02em;
+            font-family: var(--font-heading);
+            color: var(--ink);
+            font-weight: 700;
+            line-height: 1.1;
             margin-bottom: var(--space-4);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
         }
 
-        h1 { font-size: 42px; font-weight: 700; margin-bottom: var(--space-6); }
-        h2 { font-size: 32px; margin-top: var(--space-12); margin-bottom: var(--space-6); }
-        h3 { font-size: 24px; margin-top: var(--space-10); margin-bottom: var(--space-4); }
-        h4 { font-size: 18px; font-weight: 600; }
+        h1 { font-size: 56px; margin-bottom: var(--space-8); }
+        h2 { font-size: 36px; margin-top: var(--space-12); margin-bottom: var(--space-8); border-bottom: 4px solid var(--ink); padding-bottom: 8px; display: inline-block; }
+        h3 { font-size: 28px; margin-top: var(--space-10); margin-bottom: var(--space-4); }
+        h4 { font-size: 20px; font-weight: 600; }
         
         p { margin-bottom: var(--space-6); }
         
         a {
-            color: var(--primary);
-            text-decoration: none;
+            color: var(--secondary);
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
             transition: var(--transition-fast);
         }
         a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+            color: var(--primary);
+            background: var(--primary-light);
         }
 
         /* Utility Classes */
@@ -143,7 +159,7 @@
             bottom: 0;
             width: var(--sidebar-width);
             background: var(--sidebar-bg);
-            border-right: 1px solid var(--sidebar-border);
+            border-right: var(--border);
             z-index: 1000;
             transition: width var(--transition-sidebar);
             display: flex;
@@ -160,19 +176,21 @@
             display: flex;
             align-items: center;
             padding: 0 var(--space-4);
-            border-bottom: 1px solid var(--sidebar-border);
+            border-bottom: var(--border);
         }
 
         .sidebar-logo {
             display: flex;
             align-items: center;
             gap: var(--space-3);
+            font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 18px;
-            color: var(--gray-900);
+            font-size: 20px;
+            color: var(--ink);
             white-space: nowrap;
             cursor: pointer;
             text-decoration: none !important;
+            text-transform: uppercase;
         }
         
         body.sidebar-collapsed .sidebar-logo span {
@@ -203,19 +221,18 @@
 
         .sidebar-search input {
             width: 100%;
-            background: var(--gray-100);
-            border: 1px solid var(--gray-200);
-            border-radius: 6px;
-            padding: 10px 14px;
-            font-size: 14px;
+            background: var(--white);
+            border: var(--border);
+            padding: 12px 14px;
+            font-family: var(--font-mono);
+            font-size: 13px;
             outline: none;
             transition: var(--transition-fast);
         }
 
         .sidebar-search input:focus {
-            background: var(--white);
-            border-color: var(--focus-blue);
-            box-shadow: var(--focus-shadow);
+            box-shadow: var(--shadow-hard);
+            transform: translate(-2px, -2px);
         }
 
         .nav-section {
@@ -223,7 +240,8 @@
         }
 
         .nav-section-title {
-            font-size: 11px;
+            font-family: var(--font-heading);
+            font-size: 12px;
             font-weight: 700;
             color: var(--gray-400);
             text-transform: uppercase;
@@ -240,32 +258,36 @@
             display: flex;
             align-items: center;
             gap: var(--space-3);
-            padding: 10px var(--space-3);
-            color: var(--gray-600);
-            border-radius: 6px;
+            padding: 12px var(--space-3);
+            color: var(--ink);
+            border: 2px solid transparent;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
             transition: var(--transition-fast);
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            text-decoration: none;
         }
 
         .nav-item:hover {
-            background: var(--gray-100);
-            color: var(--gray-900);
+            background: var(--white);
+            border-color: var(--ink);
+            box-shadow: var(--shadow-hard);
+            transform: translate(-2px, -2px);
             text-decoration: none;
         }
 
         .nav-item.active {
-            color: var(--primary);
-            background: var(--primary-light);
-            font-weight: 600;
+            color: var(--white);
+            background: var(--ink);
+            border-color: var(--ink);
         }
 
         .nav-item svg {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             flex-shrink: 0;
-            margin-top: 1px; /* Visual centering with text */
         }
 
         body.sidebar-collapsed .nav-item span {
@@ -274,8 +296,8 @@
 
         body.sidebar-collapsed .nav-item {
             justify-content: center;
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             padding: 0;
             margin-bottom: var(--space-2);
         }
@@ -288,7 +310,7 @@
             left: var(--sidebar-width);
             height: var(--header-height);
             background: var(--header-bg);
-            border-bottom: 1px solid var(--header-border);
+            border-bottom: var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -309,24 +331,26 @@
 
         .hamburger-toggle {
             display: none;
-            background: none;
-            border: none;
+            background: var(--white);
+            border: var(--border);
             cursor: pointer;
             padding: var(--space-2);
-            border-radius: 4px;
-            color: var(--gray-800);
+            color: var(--ink);
             transition: var(--transition-fast);
         }
 
         .hamburger-toggle:hover {
-            background: var(--gray-100);
+            box-shadow: var(--shadow-hard);
+            transform: translate(-2px, -2px);
         }
 
         .header-logo {
             display: none;
+            font-family: var(--font-heading);
             font-weight: 700;
-            font-size: 18px;
-            color: var(--gray-900);
+            font-size: 20px;
+            text-transform: uppercase;
+            color: var(--ink);
         }
 
         body.sidebar-collapsed .header-logo {
@@ -342,50 +366,73 @@
         .badge-mainnet {
             background: var(--primary);
             color: var(--white);
-            font-size: 11px;
+            border: var(--border);
+            font-size: 12px;
             font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 100px;
+            padding: 6px 12px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            box-shadow: 2px 2px 0px var(--ink);
         }
 
         /* --- Hero Section --- */
         .hero {
-            height: 480px;
-            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(249, 250, 251, 0.95)), 
-                        url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            height: 520px;
+            background: var(--primary);
+            color: var(--white);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
             text-align: left;
             padding: 0 var(--space-12);
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: var(--border-strong);
             position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(var(--primary-dark) 2px, transparent 2px);
+            background-size: 32px 32px;
+            opacity: 0.3;
         }
 
         .hero-accent {
-            width: 48px;
-            height: 2px;
-            background: var(--primary);
+            width: 80px;
+            height: 8px;
+            background: var(--ink);
             margin-bottom: var(--space-6);
+            position: relative;
         }
 
         .hero h1 {
-            font-size: 48px;
-            max-width: 800px;
+            font-size: 72px;
+            max-width: 900px;
             margin-bottom: var(--space-4);
-            color: var(--gray-900);
+            color: var(--white);
+            -webkit-text-stroke: 2px var(--ink);
+            text-shadow: 6px 6px 0px var(--ink);
+            position: relative;
         }
 
         .hero p {
-            font-size: 18px;
-            color: var(--gray-600);
-            max-width: 600px;
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--ink);
+            max-width: 700px;
             margin-bottom: var(--space-10);
+            background: var(--white);
+            padding: 8px 16px;
+            border: var(--border);
+            box-shadow: var(--shadow-hard);
+            position: relative;
         }
 
         /* --- Main Content Area --- */
@@ -401,7 +448,7 @@
         }
 
         .content-inner {
-            max-width: 900px; /* Better for reading */
+            max-width: 1000px;
             margin: 0 auto;
             padding: var(--space-12) var(--space-6);
         }
@@ -409,16 +456,31 @@
         /* Card/Module Styling */
         .stage-card {
             background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
+            border: var(--border);
             padding: var(--space-8);
             margin-bottom: var(--space-12);
+            box-shadow: var(--shadow-hard-lg);
             transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .stage-card::after {
+            content: 'TOP SECRET // UNCLASSIFIED';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--primary);
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 2px 8px;
+            border: var(--border);
+            font-weight: 700;
         }
 
         .stage-card:hover {
-            border-color: var(--gray-300);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--ink);
         }
 
         .stage-header {
@@ -426,24 +488,25 @@
             align-items: center;
             gap: var(--space-4);
             margin-bottom: var(--space-8);
+            border-bottom: var(--border);
+            padding-bottom: var(--space-4);
         }
 
         .stage-icon {
-            width: 48px;
-            height: 48px;
+            width: 64px;
+            height: 64px;
             background: var(--white);
-            border: 1.5px solid var(--gray-200);
-            border-radius: 12px;
+            border: var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            color: var(--ink);
+            box-shadow: var(--shadow-hard);
         }
 
         .stage-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 32px;
+            height: 32px;
         }
 
         /* Video Styles */
@@ -452,10 +515,10 @@
             padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             overflow: hidden;
-            border-radius: 12px;
+            border: var(--border);
             margin: var(--space-8) 0;
-            background: var(--gray-900);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: var(--ink);
+            box-shadow: var(--shadow-hard-lg);
         }
 
         .video-wrapper iframe {
@@ -470,58 +533,58 @@
         /* Tables */
         .table-wrapper {
             margin: var(--space-8) 0;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            overflow-x: auto; /* Enable horizontal scroll */
+            border: var(--border);
+            overflow-x: auto;
             background: var(--white);
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Add a subtle indicator for scrollable tables on mobile */
-        @media (max-width: 767px) {
-            .table-wrapper {
-                position: relative;
-                box-shadow: inset -10px 0 10px -10px rgba(0,0,0,0.1);
-            }
+            box-shadow: var(--shadow-hard);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            font-family: var(--font-mono);
             font-size: 14px;
-            min-width: 600px; /* Ensure table doesn't get too cramped */
+            min-width: 700px;
         }
 
         th {
-            background: var(--gray-50);
-            padding: 12px 16px;
+            background: var(--ink);
+            padding: 16px;
             text-align: left;
-            font-weight: 600;
-            color: var(--gray-900);
-            border-bottom: 1px solid var(--gray-200);
+            font-weight: 700;
+            color: var(--white);
+            text-transform: uppercase;
         }
 
         td {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--gray-100);
-            color: var(--gray-600);
+            padding: 16px;
+            border-bottom: var(--border);
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         /* Simple Terms / Info Boxes */
         .simple-terms {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
+            background: var(--primary-light);
+            border: var(--border);
             padding: var(--space-6);
-            border-radius: 8px;
-            margin: var(--space-6) 0;
+            margin: var(--space-8) 0;
+            box-shadow: var(--shadow-hard);
+            position: relative;
         }
 
         .simple-terms h4 {
-            font-size: 14px;
+            font-family: var(--font-heading);
+            font-size: 16px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--primary);
+            color: var(--ink);
             margin-bottom: var(--space-2);
+            border-bottom: 2px solid var(--ink);
+            display: inline-block;
         }
 
         /* --- Buttons --- */
@@ -529,219 +592,143 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 20px; /* py-2.5 px-5 equivalent */
-            border-radius: 8px; /* more modern rounded corners */
-            font-size: 14px;
-            font-weight: 600;
+            padding: 14px 28px;
+            border: var(--border);
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            border: none;
-            gap: 8px; /* gap-2 equivalent */
-            line-height: 1.25;
+            transition: var(--transition-fast);
+            gap: 12px;
             position: relative;
-            z-index: 0;
+            background: var(--white);
+            color: var(--ink);
+            text-decoration: none !important;
         }
         
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 8px;
-            opacity: 0;
-            background: rgba(255, 255, 255, 0.1);
-            transition: opacity 150ms ease;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .btn:hover::before {
-            opacity: 1;
-        }
-
         .btn-primary {
             background: var(--primary);
             color: var(--white);
+            box-shadow: var(--shadow-hard);
         }
 
         .btn-primary:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-            transform: translateY(-3px) scale(1.02);
-            transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px var(--ink);
         }
 
         .btn-primary:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
-            background: #048754;
+            transform: translate(0px, 0px);
+            box-shadow: none;
         }
 
         .btn-outline {
             background: var(--white);
-            border: 1.5px solid var(--gray-200);
-            color: var(--gray-700);
+            color: var(--ink);
+            box-shadow: var(--shadow-hard);
         }
 
         .btn-outline:hover {
-            background: var(--gray-50);
-            border-color: var(--gray-300);
-            color: var(--gray-900);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px var(--ink);
         }
 
         .completion-footer {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid var(--gray-100);
-            flex-wrap: wrap; /* Allow stacking on small screens */
+            gap: 24px;
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: var(--border-strong);
+            flex-wrap: wrap;
         }
 
         .share-lesson-btn,
         .mark-complete-btn {
-            padding: 12px 24px !important;
-            font-size: 15px !important;
-            font-weight: 600 !important;
-            border-radius: 8px !important;
-            cursor: pointer;
-            border: none;
-            transition: all var(--transition-fast) !important;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-width: 140px;
-            white-space: nowrap;
-        }
-
-        .share-lesson-btn {
-            background: var(--primary);
-            color: var(--white);
-            border: 2px solid var(--primary) !important;
-        }
-
-        .share-lesson-btn:hover {
-            background: var(--primary-dark);
-            border-color: var(--primary-dark) !important;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-            transform: translateY(-3px) scale(1.02);
-            transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .share-lesson-btn:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
-            background: #048754;
-        }
-
-        .mark-complete-btn {
-            background: var(--white);
-            color: var(--primary);
-            border: 2px solid var(--primary) !important;
-        }
-
-        .mark-complete-btn:hover {
-            background: var(--primary-light);
-            color: var(--primary-dark);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
-            transform: translateY(-3px) scale(1.02);
-            border-color: var(--primary-dark) !important;
-            transition: all 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .mark-complete-btn:active {
-            transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15);
-        }
-
-        @media (max-width: 480px) {
-            .completion-footer {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .completion-footer .btn {
-                width: 100%;
-            }
+            padding: 16px 32px !important;
+            min-width: 200px;
         }
 
         /* Objectives Card - Modern Technical Style */
         .objectives-card {
-            margin-bottom: 40px;
-            padding: 24px;
+            margin-bottom: 48px;
+            padding: 32px;
             background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px; /* rounded-xl */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            transition: border-color 0.2s ease;
-        }
-
-        .objectives-card:hover {
-            border-color: var(--gray-300);
+            border: var(--border);
+            box-shadow: var(--shadow-hard);
         }
 
         .objectives-label {
-            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 12px;
             font-weight: 700;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            display: block;
         }
 
         .objectives-card p {
-            font-size: 0.95rem;
-            color: var(--gray-700);
-            line-height: 1.6;
+            font-size: 18px;
+            color: var(--ink);
+            line-height: 1.4;
             margin-bottom: 0;
+            font-family: var(--font-heading);
+            font-weight: 600;
         }
 
         .objectives-divider {
-            height: 1px;
-            background: var(--gray-100);
-            margin: 20px 0;
+            height: 2px;
+            background: var(--ink);
+            margin: 24px 0;
         }
 
         .stage-tag {
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--primary);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--white);
+            background: var(--ink);
+            padding: 4px 8px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             display: inline-block;
         }
 
         /* Semantic Emphasis */
         .emphasis {
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
+            background: var(--primary-light);
+            padding: 0 4px;
         }
 
         .warning-text {
-            color: #ef4444;
-            font-weight: 600;
+            color: var(--error);
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-style: wavy;
         }
 
         /* --- Mobile Responsiveness --- */
         @media (max-width: 1199px) {
-            h1 { font-size: 38px; }
-            .hero { height: 360px; padding: 0 var(--space-8); }
+            h1 { font-size: 56px; }
+            .hero { height: 440px; padding: 0 var(--space-8); }
         }
 
         @media (max-width: 767px) {
-            h1 { font-size: 32px; }
-            h2 { font-size: 26px; }
+            h1 { font-size: 42px; }
+            h2 { font-size: 32px; }
             .hero { 
                 height: auto; 
-                min-height: 300px; 
+                min-height: 400px; 
                 padding: var(--space-12) var(--space-6); 
                 align-items: center; 
                 text-align: center;
             }
             .hero-accent { margin-left: auto; margin-right: auto; }
-            .hero p { font-size: 16px; }
+            .hero p { font-size: 20px; }
             
             .content-inner { padding: var(--space-8) var(--space-4); }
             .stage-card { padding: var(--space-6); }
@@ -750,7 +737,8 @@
             .sidebar { 
                 transform: translateX(-100%); 
                 width: 280px; 
-                transition: transform 0.3s ease;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                border-right: var(--border);
             }
             .sidebar.open { 
                 transform: translateX(0); 
@@ -762,9 +750,9 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                background: rgba(0,0,0,0.5);
+                background: rgba(26, 26, 26, 0.8);
                 z-index: 950;
-                backdrop-filter: blur(2px);
+                backdrop-filter: blur(4px);
             }
             .sidebar-backdrop.active {
                 display: block;
@@ -776,14 +764,22 @@
             .stage-card div[style*="grid-template-columns"] {
                 grid-template-columns: 1fr !important;
             }
+
+            .completion-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .completion-footer .btn {
+                width: 100%;
+            }
         }
 
         /* Footer Alignment Fix */
         .main-footer {
             padding: var(--space-12) var(--space-6);
             background: var(--sidebar-bg);
-            border-top: 1px solid var(--gray-200);
-            text-align: center;
+            border-top: var(--border-strong);
+            text-align: left;
             margin-left: var(--sidebar-width);
             transition: margin-left var(--transition-sidebar);
         }
@@ -795,29 +791,13 @@
         @media (max-width: 767px) {
             .main-footer {
                 margin-left: 0 !important;
-                padding: var(--space-8) var(--space-4);
+                padding: var(--space-12) var(--space-4);
             }
         }
 
         .footer-content {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-4);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: var(--space-6);
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .footer-copyright {
-            font-size: 14px;
-            color: var(--gray-400);
         }
 
         /* Footer Grid System */
@@ -825,7 +805,67 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: var(--space-10);
-            padding: 0 var(--space-6);
+        }
+
+        .footer-brand h3 {
+            font-size: 24px;
+            margin-bottom: var(--space-4);
+        }
+
+        .footer-brand p {
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--gray-600);
+            max-width: 300px;
+        }
+
+        .footer-section h4 {
+            font-size: 14px;
+            color: var(--ink);
+            margin-bottom: var(--space-6);
+            border-bottom: 2px solid var(--ink);
+            display: inline-block;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: var(--space-3);
+        }
+
+        .footer-links a {
+            color: var(--gray-600);
+            font-size: 14px;
+            text-decoration: none;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            margin-top: var(--space-12);
+            padding-top: var(--space-8);
+            border-top: var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-6);
+        }
+
+        .footer-copyright {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--gray-400);
         }
 
         @media (max-width: 1024px) {
@@ -837,34 +877,77 @@
         @media (max-width: 640px) {
             .footer-grid {
                 grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .footer-brand {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
             }
             .footer-bottom {
                 flex-direction: column;
-                gap: var(--space-4);
                 text-align: center;
             }
-            .footer-bottom div {
-                justify-content: center;
-            }
+        }
+        /* Interactive Cards (Dropdowns) */
+        .interactive-card {
+            background: var(--white);
+            border: var(--border);
+            padding: 0;
+            margin-bottom: var(--space-6);
+            box-shadow: var(--shadow-hard);
+            transition: var(--transition-fast);
+            overflow: hidden;
         }
 
-        .footer-links li {
-            margin-bottom: var(--space-2);
+        .interactive-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--ink);
         }
 
-        .footer-links a {
-            color: var(--gray-600);
-            font-size: 14px;
+        .interactive-card summary {
+            padding: 24px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .footer-links a:hover {
+        .interactive-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .interactive-card h4 {
+            margin: 0;
+            color: var(--ink);
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .interactive-card h4::after {
+            content: '+';
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
             color: var(--primary);
+        }
+
+        .interactive-card[open] h4::after {
+            content: '-';
+        }
+
+        .interactive-card-content {
+            padding: 0 24px 24px 24px;
+            border-top: 1px dashed var(--gray-300);
+            padding-top: 24px;
+            font-size: 0.95rem;
+            color: var(--gray-800);
+        }
+
+        .interactive-card-content h5 {
+            margin-top: 24px;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .interactive-card-content pre {
+            margin: 16px 0;
         }
     </style>
 </head>
@@ -872,7 +955,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="#" class="sidebar-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" style="color: var(--primary);">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28" style="color: var(--ink);">
                     <path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z" clip-rule="evenodd" />
                 </svg>
                 <span>ChainCodeCamp</span>
@@ -942,6 +1025,66 @@
                     </svg>
                     <span>06: Gas Optimization</span>
                 </a>
+                <a href="#stage07" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.74c0 3.821 1.782 7.222 4.585 9.41a11.956 11.956 0 0014.83 0A11.99 11.99 0 0021 9.74c0-3.821-1.782-7.222-4.585-9.41A11.959 11.959 0 0112 2.714z" />
+                    </svg>
+                    <span>07: EIPs & ERCs</span>
+                </a>
+                <a href="#stage08" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>08: Proxies</span>
+                </a>
+                <a href="#stage09" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v14.25A2.25 2.25 0 006 19.5h13.5A2.25 2.25 0 0021.75 17.25V5.25A2.25 2.25 0 0019.5 3H6a2.25 2.25 0 00-2.25 2.25zm13.5 0v14.25" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>09: DeFi Architecture</span>
+                </a>
+                <a href="#stage10" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.96 14.96 0 01-5.96 5.96m5.96-5.96L9.63 8.41m0 0a14.98 14.98 0 01-6.16 12.12A14.98 14.98 0 019.63 8.41m0 0L15.59 14.37" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>10: MEV & Flashbots</span>
+                </a>
+                <a href="#stage13" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>13: L2 Scaling</span>
+                </a>
+                <a href="#stage14" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>14: Bridges</span>
+                </a>
+                <a href="#stage15" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>15: ZK Systems</span>
+                </a>
+                <a href="#stage16" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>16: Account Abstraction</span>
+                </a>
+                <a href="#stage17" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.174L3 12l1.26 1.826m15.48 0L21 12l-1.26-1.826m-14.74 0a1.5 1.5 0 011.24-1.321l5.952-1.488a1.5 1.5 0 011.594 1.594l-1.488 5.952a1.5 1.5 0 01-1.321 1.24L4.26 17.74a1.5 1.5 0 01-1.594-1.594l1.592-5.972z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>17: Governance</span>
+                </a>
+                <a href="#stage18" class="nav-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>18: Tokenomics</span>
+                </a>
             </div>
         </div>
     </aside>
@@ -965,9 +1108,9 @@
     <main class="main-content">
         <section class="hero" id="hero">
             <div class="hero-accent"></div>
-            <h1>The Definitive Curriculum for Elite Engineers</h1>
-            <p>Master blockchain protocols, secure financial systems, and build the future of decentralized technology</p>
-            <a href="#introduction" class="btn btn-primary">Start Learning</a>
+            <h1>The Field Guide for Protocol Architects</h1>
+            <p>Master the Ethereum Virtual Machine, secure the world's financial protocols, and build the future of decentralized systems.</p>
+            <a href="#introduction" class="btn btn-primary">Begin Training</a>
         </section>
 
         <div class="content-inner">
@@ -1085,28 +1228,227 @@
                 <h2 style="color: var(--primary);">What Most Courses Miss</h2>
                 <p>These topics are rarely covered elsewhere but are critical for high level work. Master these to join the top 1% of developers.</p>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;">
-                    <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
-                        <h4 style="margin-bottom: 12px;">EIP-712 Domain Separators</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Great architects understand what happens when a chain ID changes or when contracts move. Replay protection is an art form.</p>
-                    </div>
-                    <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
-                        <h4 style="margin-bottom: 12px;">Fee on Transfer Handling</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Tokens like USDT don't always behave like standard ERC-20s. Every protocol must test with USDT specifically to avoid accounting failures.</p>
-                    </div>
-                    <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
-                        <h4 style="margin-bottom: 12px;">Liquidation Cascade Modeling</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Does your protocol create bad debt? Modeling maximum loss is essential for keeping the system solvent.</p>
-                    </div>
-                    <div style="background: var(--gray-50); padding: 24px; border-radius: 12px; border: 1px solid var(--gray-200);">
-                        <h4 style="margin-bottom: 12px;">Sequencer Failure Modes</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">What if the L2 sequencer goes offline? Understanding how to handle these issues on L2 is a specialized skill.</p>
-                    </div>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 32px;">
+                    <!-- Card 1: EIP Foundations -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>EIP Foundations & Lifecycle</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">The technical governance and development stages of the Ethereum protocol.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>EIP vs ERC: The Final Word</h5>
+                            <p>An <strong>EIP (Ethereum Improvement Proposal)</strong> is the umbrella term for any technical improvement to the network. An <strong>ERC (Ethereum Request for Comments)</strong> is a specific sub-category of EIPs that defines <em>application-level</em> standards. Think of EIPs as the "Engine Specs" and ERCs as the "Dashboard Layout".</p>
+                            
+                            <h5>The EIP Lifecycle</h5>
+                            <p>Understanding the lifecycle is critical for risk management. Implementing a "Draft" EIP in a production protocol is an audit red flag.</p>
+                            <ul>
+                                <li><strong>Idea:</strong> The initial brainstorming phase on the Ethereum Magicians forum.</li>
+                                <li><strong>Draft:</strong> The first formal version of the proposal. Rapid changes are expected.</li>
+                                <li><strong>Review:</strong> The proposal is being vetted by core devs and the community.</li>
+                                <li><strong>Last Call:</strong> A 14-day window for final objections before moving to Final.</li>
+                                <li><strong>Final:</strong> The standard is frozen. Any changes require a new EIP.</li>
+                                <li><strong>Stagnant:</strong> No activity for 6+ months. Abandoned.</li>
+                                <li><strong>Withdrawn:</strong> The author has formally removed the proposal.</li>
+                            </ul>
+                            
+                            <h5>Core vs. ERC Layers</h5>
+                            <p><strong>Core EIPs</strong> (like EIP-1559) require a hard fork because they change the consensus rules or the EVM itself. <strong>ERCs</strong> (like ERC-20) do not require a fork because they are simply patterns implemented in Solidity code. As a security researcher, you must distinguish between protocol-level risks (Core) and implementation-level risks (ERC).</p>
+
+                            <h5>Audit Perspective: The "Stagnant" Standard Risk</h5>
+                            <p>Protocols often claim to follow "Industry Standards," but sometimes they implement EIPs that never reached the **Final** state. For example, implementing an early draft of a gas-saving EIP that was later found to have security flaws. As an auditor, your first step is to verify the EIP status on [eips.ethereum.org](https://eips.ethereum.org/). If a protocol is using a **Stagnant** or **Withdrawn** EIP, it is a high-risk finding because the community has effectively abandoned that technical path.</p>
+
+                            <h5>Architect Reasoning: Choosing the Right Standard</h5>
+                            <p>When designing a new protocol, you must decide whether to use a battle-tested standard like **ERC-20** or a more modern but complex one like **ERC-777** (which is now considered legacy due to reentrancy risks). A great architect prioritizes **security over features**. It is better to have a simple, secure token than a complex one with "hooks" that can be exploited by malicious actors. Always look for the **Final** status and the **security track record** of any EIP you choose to implement.</p>
+                        </div>
+                    </details>
+
+                    <!-- Card 2: The Exhaustive EIP Index -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>The Exhaustive EIP Index</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">A master reference of every proposal that actually matters in modern development.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr><th>EIP/ERC</th><th>Technical Purpose</th><th>Status</th><th>Architectural Implication</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="background: var(--primary-light);"><td colspan="4"><strong>Core EVM & Execution</strong></td></tr>
+                                        <tr><td>EIP-155</td><td>Replay protection.</td><td>Final</td><td>Prevents L1 txs from being valid on L2.</td></tr>
+                                        <tr><td>EIP-1559</td><td>Fee burning.</td><td>Final</td><td>Introduces <code>block.basefee</code>.</td></tr>
+                                        <tr><td>EIP-4844</td><td>Blobs.</td><td>Final</td><td>Drastically reduces L2 costs.</td></tr>
+                                        <tr><td>EIP-7702</td><td>EOA Code.</td><td>Draft</td><td>EOAs can behave like smart accounts temporarily.</td></tr>
+                                        <tr style="background: var(--primary-light);"><td colspan="4"><strong>Token Standards</strong></td></tr>
+                                        <tr><td>ERC-20</td><td>Fungible.</td><td>Final</td><td>The industry baseline.</td></tr>
+                                        <tr><td>ERC-721</td><td>NFTs.</td><td>Final</td><td>Ownership of unique assets.</td></tr>
+                                        <tr><td>ERC-4626</td><td>Vaults.</td><td>Final</td><td>Standardizes yield-bearing assets.</td></tr>
+                                        <tr style="background: var(--primary-light);"><td colspan="4"><strong>Auth & Signatures</strong></td></tr>
+                                        <tr><td>EIP-191</td><td>Signed Data.</td><td>Final</td><td>Adds <code>\x19</code> prefix to prevent phishing.</td></tr>
+                                        <tr><td>EIP-712</td><td>Typed Data.</td><td>Final</td><td>Human-readable signatures.</td></tr>
+                                        <tr><td>ERC-1271</td><td>Contract Sigs.</td><td>Final</td><td>Allows Multisigs to "sign" messages.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Card 3: EIP-712 Domain Separators -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>EIP-712 Domain Separators</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">Why "Simple Signatures" lead to $100M bridge drains and replay attacks.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>The Anatomy of a Domain Separator</h5>
+                            <p>EIP-712 was designed to make signatures both human-readable and <strong>context-specific</strong>. A domain separator is a unique hash that includes the contract's address, the chain ID, and a version string. This ensures that a signature for a withdrawal on Ethereum cannot be "replayed" on Polygon or on a different version of the contract.</p>
+                            
+                            <h5>The Replay Attack Vector</h5>
+                            <p>If a developer forgets to include the <code>chainId</code> in the domain separator, an attacker can capture a signature on a testnet and use it to drain funds on mainnet. Worse, if the <code>verifyingContract</code> address is missing, a signature for Contract A can be used on Contract B if they share the same owner.</p>
+                            
+                            <h5>The "Immutable" Pitfall</h5>
+                            <p>Many developers calculate the domain separator in the <code>constructor</code> and store it in an <code>immutable</code> variable. <strong>This is a critical error for upgradeable contracts.</strong> If the contract is moved to a new address or a new chain via a fork, the immutable separator will still point to the old context, making the contract vulnerable or unusable. The correct pattern is to calculate the separator dynamically or use a logic that checks if the current <code>address</code> and <code>chainId</code> still match the cached version.</p>
+                            
+                            <h5>Signature Malleability (EIP-2)</h5>
+                            <p>Every ECDSA signature <code>(v, r, s)</code> has a "malleable" twin. Specifically, for any valid <code>s</code>, the value <code>N - s</code> (where N is the curve order) is also valid. If your protocol uses signatures as unique identifiers (e.g., to prevent a user from claiming a reward twice), an attacker can submit the same signature twice by flipping the <code>s</code> value. <strong>Architect Solution:</strong> Always use OpenZeppelin's <code>ECDSA.recover</code> which enforces the "low-s" range, or keep track of used hashes rather than raw signatures.</p>
+
+                            <div class="code-block-container">
+                                <pre><code class="language-solidity">// CORRECT: Dynamic Domain Separator for Upgradeable Contracts
+function _domainSeparatorV4() internal view returns (bytes32) {
+    if (address(this) == _cachedThis && block.chainid == _cachedChainId) {
+        return _cachedDomainSeparator;
+    }
+    return _buildDomainSeparator();
+}</code></pre>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Card 4: Fee on Transfer & Weird ERC-20s -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>Fee on Transfer & Weird ERC-20s</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">Accounting for tokens that "steal" their own balance during transfer.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>The "Tax" Token Nightmare</h5>
+                            <p>Standard ERC-20 logic assumes that <code>transfer(A, 100)</code> results in A's balance increasing by exactly 100. "Fee-on-Transfer" tokens (like PAXG or various "safemoon" clones) take a percentage cut (e.g., 2%) during the transfer. If your vault contract records a deposit of 100 but only receives 98, it is now <strong>insolvent</strong>. Subsequent users will be unable to withdraw their full balance.</p>
+                            
+                            <h5>The Balance-Diff Pattern</h5>
+                            <p>To handle these tokens safely, you must never trust the <code>amount</code> parameter. Instead, you must check the balance of the contract before and after the transfer to calculate the <em>actual</em> amount received.</p>
+                            
+                            <h5>Rebasing Tokens (stETH, AMPL)</h5>
+                            <p>Tokens that "rebase" change the balance of all holders automatically. If your contract stores <code>userBalance = 100</code> but the token rebases downward, your contract will attempt to send 100 tokens it no longer has. In DeFi, this usually leads to "Read-Only Reentrancy" or accounting mismatches in lending pools.</p>
+                            
+                            <h5>USDT's "Missing Return" Bug</h5>
+                            <p>USDT (Tether) does not return a boolean on its <code>transfer</code> function. Standard Solidity <code>IERC20</code> interfaces expect a <code>bool</code> return value. If you call <code>token.transfer()</code> on USDT, the transaction will revert because the EVM expects a return value that isn't there. You must use OpenZeppelin's <strong>SafeERC20</strong> wrapper to handle these non-standard implementations.</p>
+
+                            <h5>The "Approve-to-Zero" Requirement</h5>
+                            <p>Some tokens (like USDT) require you to set the allowance to zero before you can set it to a new non-zero value. If you try to change an allowance from 100 to 200 directly, the transaction will revert. This is a safety feature intended to prevent the "Approval Race Condition," but it breaks many naive DeFi integrations. Always use <code>safeApprove</code> or <code>forceApprove</code> from the SafeERC20 library.</p>
+                        </div>
+                    </details>
+
+                    <!-- Card 5: Liquidation Cascade Modeling -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>Liquidation Cascade Modeling</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">Modeling the "Death Spiral" of protocol insolvency during market crashes.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>The Liquidation Invariant</h5>
+                            <p>Lending protocols stay solvent by ensuring <code>CollateralValue > DebtValue * (1 + Buffer)</code>. If the market price of collateral drops, the protocol must liquidate the user's position before it becomes "underwater" (Debt > Collateral). If the protocol fails to liquidate fast enough, it incurs <strong>Bad Debt</strong>, which is socialized across all depositors.</p>
+                            
+                            <h5>The Cascade Effect</h5>
+                            <p>A "Liquidation Cascade" occurs when large liquidations cause the market price to drop further, triggering <em>more</em> liquidations. This creates a feedback loop that can drain an entire protocol's liquidity. Great architects model these scenarios using <strong>Agent-Based Simulations</strong> to determine the safe "Loan-to-Value" (LTV) ratio for different assets.</p>
+                            
+                            <h5>Oracle Dependency & Latency</h5>
+                            <p>Liquidations are only as good as the price oracle. If an oracle is slow (latency) or can be manipulated (flash loans), an attacker can artificially trigger liquidations or prevent their own liquidation. Always check the <code>updatedAt</code> timestamp on Chainlink feeds to prevent stale price attacks during high volatility.</p>
+
+                            <h5>The "Insolvent Collateral" Attack</h5>
+                            <p>An attacker can use a flash loan to pump the price of a low-liquidity token on a DEX, use that inflated token as collateral to borrow a blue-chip asset (like USDC) from a lending protocol, and then let the price of the collateral crash. The lending protocol is left with worthless collateral and a massive hole in its books. This is why top-tier protocols like Aave have **Asset Listing Committees** and strict **Collateral Caps**.</p>
+
+                            <h5>Bad Debt Socialization</h5>
+                            <p>When liquidations fail, the protocol must decide who pays. Some protocols use a "Safety Module" (staked tokens) to cover the loss, while others "haircut" all depositors, meaning everyone loses a small percentage of their funds. As an architect, you must clearly define this **Solvency Policy** in your smart contracts to prevent a total protocol collapse.</p>
+                        </div>
+                    </details>
+
+                    <!-- Card 6: Sequencer Failure Modes -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>Sequencer Failure Modes & L2 Security</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">What happens when the "Centralized" part of your L2 goes dark?</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>The Sequencer: A Single Point of Failure</h5>
+                            <p>Most L2s (Optimism, Arbitrum, Base) rely on a single "Sequencer" to order transactions. If this sequencer goes offline, users cannot interact with the L2. For a DeFi protocol, this means liquidations cannot be processed, and users cannot exit their positions during a crash.</p>
+                            
+                            <h5>The L1 Escape Hatch</h5>
+                            <p>True L2s include an "Escape Hatch" or "Forced Inclusion" mechanism on L1. This allows users to send a transaction to an L1 contract that <em>forces</em> the L2 to process it after a certain delay (usually 24 hours). If your protocol doesn't account for this delay, users might be stuck while their positions are drained by market movement.</p>
+                            
+                            <h5>The Sequencer Uptime Feed</h5>
+                            <p>To mitigate these risks, protocols must check the <strong>Chainlink Sequencer Uptime Feed</strong>. If the feed indicates the sequencer has just come back online after a period of downtime, the protocol should implement a "Grace Period" (e.g., 30 minutes) where liquidations are disabled, allowing users to re-collateralize their positions before they are sniped by bots.</p>
+
+                            <h5>L2 MEV & Sequencer Frontrunning</h5>
+                            <p>Because the sequencer controls the transaction ordering, it can theoretically frontrun any user. This is known as **L2 MEV**. Unlike L1, where MEV is a competitive market (Flashbots), L2 MEV is often centralized. Great L2 protocols are moving towards **Shared Sequencers** or **Time-Boosted Orderbooks** to provide fairer execution for users. As an architect, you must assume that your L2 transactions can be reordered unless the protocol provides strong **Pre-Confirmation** guarantees.</p>
+
+                            <h5>The "Cross-Chain Message" Latency</h5>
+                            <p>Bridging assets from L1 to L2 is fast, but bridging back from L2 to L1 (especially on Optimistic Rollups) takes **7 days** due to the fraud-proof window. If your protocol relies on instant L1 liquidity, you must account for this 7-day delay or use a **Liquidity Provider (LP) Bridge** that takes a fee to provide instant exits. This is a common point of failure in "Omnichain" protocols that don't understand the underlying rollup economics.</p>
+                        </div>
+                    </details>
+
+                    <!-- Card 7: ERC-4626 Inflation Attacks -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>ERC-4626 Inflation Attacks</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">The mathematical exploit that allows first-depositors to steal every subsequent cent.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>The Math of Rounding to Zero</h5>
+                            <p>In ERC-4626, shares are calculated as: <code>shares = assets * totalSupply / totalAssets</code>. If a vault is empty (totalSupply = 0), the first depositor gets shares equal to their assets. An attacker can deposit 1 wei, receive 1 share, and then <strong>donate</strong> 100 ETH directly to the vault. Now, <code>totalAssets = 100 ETH + 1 wei</code> and <code>totalSupply = 1</code>.</p>
+                            
+                            <h5>The Exploit</h5>
+                            <p>When the next user tries to deposit 50 ETH, the formula becomes: <code>50 ETH * 1 / (100 ETH + 1 wei)</code>. Because Solidity math rounds down, this results in <strong>0 shares</strong>. The user's 50 ETH is added to the vault, but they receive nothing, and the attacker (who owns the only share) now owns 150 ETH.</p>
+                            
+                            <h5>The Virtual Assets Solution</h5>
+                            <p>To prevent this, elite architects use <strong>Virtual Assets and Shares</strong>. The vault acts as if it already has a small amount of liquidity (e.g., 10^12 units) even when it's empty. This makes the exchange rate stable and ensures that even the smallest deposits receive a proportional amount of shares, making the inflation attack economically unfeasible.</p>
+
+                            <h5>The "Slippage" Attack on Vaults</h5>
+                            <p>Even without an inflation attack, vaults are vulnerable to **Slippage Attacks**. If a vault uses a DEX to swap assets (e.g., during a harvest), an attacker can use a flash loan to manipulate the DEX price right before the vault's transaction. The vault will execute its swap at a terrible price, losing value for all depositors. Always use **Slippage Limits** and **TWAP Oracles** when performing on-chain swaps within a vault.</p>
+
+                            <h5>Governance Risks in ERC-4626</h5>
+                            <p>Many vaults allow an admin to change the "Strategy" (where the money is invested). If the admin is compromised, they can point the vault to a malicious contract that steals all funds. As a security best practice, implement a **Timelock** on strategy changes, giving users enough time to withdraw their funds if they don't trust the new investment path.</p>
+                        </div>
+                    </details>
+
+                    <!-- Card 8: ERC-1271 & Signature Malleability -->
+                    <details class="interactive-card">
+                        <summary>
+                            <h4>ERC-1271 & Signature Standards</h4>
+                            <p style="font-size: 0.9rem; color: var(--gray-600);">Enabling Multisigs and Smart Wallets to "Sign" without Private Keys.</p>
+                        </summary>
+                        <div class="interactive-card-content">
+                            <h5>Why ecrecover Fails</h5>
+                            <p>The standard <code>ecrecover</code> opcode only works for ECDSA signatures from private keys (EOAs). Smart contracts (like Gnosis Safe or Argent) do not have private keys and cannot produce ECDSA signatures. If your protocol only uses <code>ecrecover</code>, it <strong>locks out all institutional users</strong> and multisigs.</p>
+                            
+                            <h5>The ERC-1271 Magic Value</h5>
+                            <p>ERC-1271 provides a standard function: <code>isValidSignature(hash, signature)</code>. When a protocol needs to verify a signature from a contract, it calls this function on the contract. If the contract returns the "Magic Value" (<code>0x1626ba7e</code>), the signature is valid. This allows the multisig's own logic (e.g., 3-of-5 owners) to determine what constitutes a valid signature.</p>
+                            
+                            <h5>Signature Malleability (EIP-2)</h5>
+                            <p>ECDSA signatures are "malleable," meaning for every valid <code>(r, s)</code> pair, there is another valid <code>(r, -s)</code> pair that resolves to the same address. If your protocol uses signatures as unique identifiers (e.g., to prevent double-spending), an attacker can flip the <code>s</code> value and submit the "same" signature twice. Always use OpenZeppelin's <strong>ECDSA library</strong>, which enforces the "low-s" value to prevent this entire class of attacks.</p>
+
+                            <h5>Smart Contract Replay Attacks</h5>
+                            <p>Unlike EOAs, where the `nonce` is managed by the network, smart contract wallets must manage their own nonces for signatures. If a multisig doesn't include a unique `nonce` in its signed hash, an attacker can capture a "Withdraw" signature and submit it multiple times until the multisig is empty. When auditing **ERC-1271 implementations**, always check that the signature verification logic includes a **Nonce** and a **Deadline**.</p>
+
+                            <h5>The "isValidSignature" Reentrancy Risk</h5>
+                            <p>The call to `isValidSignature` is an external call to an arbitrary address. If your contract performs state changes <em>after</em> verifying a signature but <em>before</em> finishing the transaction, the `isValidSignature` call could trigger a **Reentrancy Attack**. Always apply the **Checks-Effects-Interactions** pattern: Verify the signature LAST, or use a reentrancy guard.</p>
+                        </div>
+                    </details>
                 </div>
 
-                <div style="margin-top: 56px; padding: 32px; background: var(--sidebar-bg); border-radius: 20px; border: 1px solid var(--border-strong);">
-                    <h4 style="margin-top: 0; color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Gas Cost Comparison (EIP-3860)</h4>
-                    <div style="overflow-x: auto;">
+                <div style="margin-top: 56px; padding: 32px; background: var(--white); border: var(--border-strong); box-shadow: var(--shadow-hard-lg);">
+                    <h4 style="margin-top: 0; color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Gas Cost Comparison (EIP-3860)</h4>
+                    <div class="table-wrapper">
                         <table style="font-size: 0.85rem;">
                             <thead>
                                 <tr><th>Opcode</th><th>Gas Cost</th><th>Architect Reasoning</th></tr>
@@ -1123,9 +1465,9 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 56px; padding: 32px; background: var(--sidebar-bg); border-radius: 20px; border: 1px solid var(--border-strong);">
-                    <h4 style="margin-top: 0; color: #EF4444; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Exploit Timeline (2016-2024)</h4>
-                    <div style="overflow-x: auto;">
+                <div style="margin-top: 56px; padding: 32px; background: var(--white); border: var(--border-strong); box-shadow: var(--shadow-hard-lg);">
+                    <h4 style="margin-top: 0; color: var(--error); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Exploit Timeline (2016-2024)</h4>
+                    <div class="table-wrapper">
                         <table style="font-size: 0.85rem;">
                             <thead>
                                 <tr><th>Year</th><th>Protocol</th><th>Amount</th><th>Vulnerability Type</th></tr>
@@ -1143,9 +1485,9 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 56px; padding: 32px; background: var(--sidebar-bg); border-radius: 20px; border: 1px solid var(--border-strong);">
-                    <h4 style="margin-top: 0; color: var(--accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Storage Slot Packing Reference</h4>
-                    <div style="overflow-x: auto;">
+                <div style="margin-top: 56px; padding: 32px; background: var(--white); border: var(--border-strong); box-shadow: var(--shadow-hard-lg);">
+                    <h4 style="margin-top: 0; color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Storage Slot Packing Reference</h4>
+                    <div class="table-wrapper">
                         <table style="font-size: 0.85rem;">
                             <thead>
                                 <tr><th>Type</th><th>Size (Bytes)</th><th>Packing Behavior</th></tr>
@@ -1161,23 +1503,23 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 56px; padding: 32px; background: var(--sidebar-bg); border-radius: 20px; border: 1px solid var(--border-strong);">
-                    <h4 style="margin-top: 0; color: #10B981; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Protocol Audit Checklist</h4>
+                <div style="margin-top: 56px; padding: 32px; background: var(--white); border: var(--border-strong); box-shadow: var(--shadow-hard-lg);">
+                    <h4 style="margin-top: 0; color: var(--success); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Protocol Audit Checklist</h4>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
                         <div>
-                            <h5 style="margin-bottom: 12px; color: var(--accent);">Security Basics</h5>
+                            <h5 style="margin-bottom: 12px; color: var(--primary);">Security Basics</h5>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Reentrancy guards on all external calls</label>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Access control (OnlyOwner/OnlyAdmin)</label>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Integer overflow (Solidity 0.8+ default)</label>
                         </div>
                         <div>
-                            <h5 style="margin-bottom: 12px; color: var(--accent);">Oracle & Price</h5>
+                            <h5 style="margin-bottom: 12px; color: var(--primary);">Oracle & Price</h5>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Use Chainlink with staleness check</label>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Implement Slippage Protection</label>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Handle Oracle down-time</label>
                         </div>
                         <div>
-                            <h5 style="margin-bottom: 12px; color: var(--accent);">Advanced</h5>
+                            <h5 style="margin-bottom: 12px; color: var(--primary);">Advanced</h5>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Signature Malleability check</label>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Proxy storage collision check</label>
                             <label style="display: block; margin-bottom: 8px;"><input type="checkbox"> Logic order (Checks-Effects-Interactions)</label>
@@ -1185,9 +1527,9 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 56px; padding: 32px; background: var(--sidebar-bg); border-radius: 20px; border: 1px solid var(--border-strong);">
-                    <h4 style="margin-top: 0; color: #F59E0B; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Tokenomics Reference Table</h4>
-                    <div style="overflow-x: auto;">
+                <div style="margin-top: 56px; padding: 32px; background: var(--white); border: var(--border-strong); box-shadow: var(--shadow-hard-lg);">
+                    <h4 style="margin-top: 0; color: var(--secondary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Tokenomics Reference Table</h4>
+                    <div class="table-wrapper">
                         <table style="font-size: 0.85rem;">
                             <thead>
                                 <tr><th>Mechanism</th><th>Protocol Example</th><th>Key Benefit</th></tr>
@@ -1454,7 +1796,7 @@ cast keccak <PUBLIC_KEY_HEX> | tail -c 41</code></pre>
                 <h3>Required Reading & Watching</h3>
                 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -1706,7 +2048,7 @@ address signer = hash.recover(signature); // Handles malleability automatically.
                 </div>
 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(139, 92, 246, 0.1); color: #8B5CF6;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -1976,7 +2318,7 @@ function isValidSignature(bytes32 hash, bytes memory signature) public view retu
                 </div>
 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(88, 166, 255, 0.1); color: var(--accent);">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -2260,7 +2602,7 @@ function safeAssembly() internal pure {
                     </div>
                 </div>
 
-                <div style="margin-bottom: 32px; padding: 20px; background: rgba(88, 166, 255, 0.05); border-radius: 12px; border-left: 4px solid var(--accent);">
+                <div style="margin-bottom: 32px; padding: 20px; background: var(--white); border: var(--border); box-shadow: var(--shadow-hard); border-left: 4px solid var(--accent);">
                     <div style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; margin-bottom: 8px;">Learning Objectives</div>
                     <p style="font-size: 0.95rem; margin-bottom: 0;">forge test, fuzz testing, invariant testing, fork tests, cast commands, anvil cheatcodes, gas snapshots, deployment scripts in Solidity.</p>
                     <div style="font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; margin: 16px 0 8px;">Why It's Required</div>
@@ -2515,7 +2857,7 @@ function withdraw() public {
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/DRZogmD647U" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(239, 68, 68, 0.1); color: #EF4444;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -2669,7 +3011,7 @@ for (uint i = 0; i < length; ) {
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/8vXp_6X7XpY" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(34, 197, 94, 0.1); color: #22C55E;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -2774,33 +3116,11 @@ sum = _sum;</code></pre>
                     <br><strong>Security Mindset:</strong> Use OpenZeppelin's <code>SafeERC20</code>. Some tokens (like USDT) don't return a boolean on <code>transfer</code>, which can cause your contract to revert if not handled correctly.
                 </p>
 
-                <h4>Weird ERC-20 Implementation Risks</h4>
-                <p>As an architect, you must account for "Weird Tokens" that don't follow the spec perfectly:</p>
-                <ul>
-                    <li><strong>Fee-on-Transfer:</strong> Tokens like PAXG take a % cut on every transfer. If your protocol expects 100 tokens but only receives 98, your internal accounting will break. Always check the balance before and after a transfer.</li>
-                    <li><strong>Rebasing Tokens:</strong> Tokens like stETH or Ampleforth change their balance over time without a transfer. Your contract must handle <code>balanceOf(address(this))</code> changing dynamically.</li>
-                    <li><strong>Blacklisting:</strong> Tokens like USDC and USDT have a blacklist. If your protocol holds funds for a blacklisted user, those funds might become permanently locked in your contract.</li>
-                </ul>
-
-                <h4>ERC-2612: The Power of Permit</h4>
-                <p>One of the biggest UX hurdles in DeFi is the "Approve-then-Transfer" pattern, which requires two transactions. <strong>ERC-2612</strong> solves this by adding a <code>permit</code> function. This allows users to sign an offline message giving a contract permission to spend their tokens. The contract then submits this signature in the same transaction as the transfer, saving the user time and gas. This is the foundation for "one-click" DeFi interactions.</p>
-
                 <h3>2. ERC-721 & ERC-1155: NFTs</h3>
                 <p>Understand the <code>safeTransferFrom</code> function. It calls <code>onERC721Received</code> on the recipient. <strong>Warning:</strong> This creates a reentrancy opportunity!</p>
 
-                <h4>ERC-721A: Gas-Efficient Batch Minting</h4>
-                <p>Standard ERC-721 minting becomes exponentially expensive as you mint more tokens in a single transaction. <strong>ERC-721A</strong> (pioneered by Azuki) uses a clever storage optimization where ownership data is only stored for the first token in a batch, and subsequent tokens "inherit" that ownership until a transfer occurs. This allows for minting 10+ NFTs for nearly the same gas price as one.</p>
-
                 <h3>3. ERC-4626: The Vault Standard</h3>
-                <p>The Tokenized Vault Standard. It provides a standard API for yield-bearing tokens (like aDAI or cUSDC). <strong>Inflation Attack:</strong> New vaults can be manipulated by a first depositor to steal funds from subsequent users.
-                    <br><a href="https://docs.openzeppelin.com/contracts/4.x/erc4626" target="_blank" style="color: var(--accent);">Ref: OpenZeppelin ERC-4626 Guide</a>
-                </p>
-
-                <h4>Inflation Protection: Virtual Assets</h4>
-                <p>The ERC-4626 inflation attack occurs because of rounding errors when the vault is empty. To prevent this, elite architects use <strong>Virtual Assets and Shares</strong>. By pretending the vault already has 1 share and 10^18 assets, the exchange rate becomes much harder to manipulate, and the rounding errors become negligible. This is now a built-in feature of the latest OpenZeppelin ERC-4626 implementation.</p>
-
-                <h3>4. ERC-2771: Meta-Transactions & Trusted Forwarders</h3>
-                <p>Meta-transactions allow a third party (a "Relayer") to pay for a user's gas. The user signs their transaction offline, and the relayer submits it to a <strong>Trusted Forwarder</strong> contract. This contract then calls the target protocol, passing the original user's address as <code>_msgSender()</code>. This is critical for onboarding new users who don't have ETH yet. However, if not implemented correctly, it can lead to severe security flaws where an attacker can spoof the sender's identity. Always use a verified and audited Forwarder implementation.</p>
+                <p>The Tokenized Vault Standard. It provides a standard API for yield-bearing tokens (like aDAI or cUSDC). <strong>Inflation Attack:</strong> New vaults can be manipulated by a first depositor to steal funds from subsequent users.</p>
 
                 <div class="code-block-container">
                     <button class="copy-btn">Copy</button>
@@ -3084,7 +3404,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
         <section id="underrated-use-cases">
             <div class="stage-card">
                 <div class="stage-header">
-                    <div class="stage-icon" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -3141,7 +3461,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
         <section id="builders-arsenal">
             <div class="stage-card">
                 <div class="stage-header">
-                    <div class="stage-icon" style="background: rgba(37, 99, 235, 0.1); color: var(--accent);">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.25 14.15v4.25c0 .21-.15.39-.35.43-1.35.25-2.71.37-4.1.37s-2.75-.12-4.1-.37c-.2-.04-.35-.22-.35-.43v-4.25m10.5 0a1.5 1.5 0 00-1.5-1.5H16.5m3.75 1.5H16.5m-3 0h3m-3 0a1.5 1.5 0 01-1.5-1.5H9.75m3.75 1.5H9.75m-3 0h3m-3 0a1.5 1.5 0 00-1.5-1.5H3.75m3.75 1.5H3.75m16.5-6h-16.5c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5h16.5c.83 0 1.5-.67 1.5-1.5v-6c0-.83-.67-1.5-1.5-1.5z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -3155,7 +3475,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px; margin-top: 32px;">
                     <!-- Startup 1 -->
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 24px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>1. PRIVACY LAYER FOR WALLETS</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 12px;"><strong>Problem:</strong> Public addresses reveal your entire financial history. 
                         <br><strong>Solution:</strong> A middleware that auto-rotates addresses, splits transactions into decoy patterns, and uses delays to obfuscate timing.
@@ -3165,7 +3485,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
                     </div>
 
                     <!-- Startup 2 -->
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 24px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>2. CHANGEBACK — UTXO Optimizer</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 12px;"><strong>Problem:</strong> Bitcoin "Dust" (tiny unspent outputs) clutters wallets and increases fees. 
                         <br><strong>Solution:</strong> A plugin that auto-combines UTXOs during low-fee periods and uses "Smart Send" to avoid creating new dust.
@@ -3174,7 +3494,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
                     </div>
 
                     <!-- Startup 3 -->
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 24px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>3. BLOCKCHAIN FORENSICS TOOL</h4>
                         <p style="font-size: 0.9rem; margin-bottom: 12px;"><strong>Problem:</strong> Re-orgs and 51% attacks are hard to detect in real-time. 
                         <br><strong>Solution:</strong> A visualization tool that flags abnormal chain behavior and shows how close a fork is to overtaking the main chain.
@@ -3183,7 +3503,7 @@ function executeModern(bytes memory message, bytes memory signature) public {
                     </div>
 
                     <!-- Ideas 4-13 (Briefly) -->
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 24px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>More Arsenal Tools</h4>
                         <ul style="font-size: 0.9rem; list-style: none; padding: 0;">
                             <li style="margin-bottom: 16px;"><strong>4. CHAINBOUND:</strong> AI-driven on-chain threat detection for DeFi protocols.</li>
@@ -3200,10 +3520,10 @@ function executeModern(bytes memory message, bytes memory signature) public {
                     </div>
                 </div>
 
-                <div style="margin-top: 56px; padding: 32px; background: #0A0E1A; border-radius: 20px; color: #FFF;">
-                    <h4 style="margin-top: 0; color: #F59E0B; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">The Math of the 51% Attack</h4>
+                <div style="margin-top: 56px; padding: 32px; background: var(--ink); border: var(--border-strong); color: var(--white); box-shadow: var(--shadow-hard-lg);">
+                    <h4 style="margin-top: 0; color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">The Math of the 51% Attack</h4>
                     <p style="font-size: 0.95rem; line-height: 1.7; opacity: 0.9;">The race between an attacker and the honest chain is a <strong>Binomial Random Walk</strong>. The probability of an attacker catching up from <code>z</code> blocks behind is:
-                    <br><code style="display: block; margin: 20px 0; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; text-align: center;">P = (q / p)^z if p > q, else P = 1</code>
+                    <br><code style="display: block; margin: 20px 0; padding: 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); text-align: center; font-family: var(--font-mono);">P = (q / p)^z if p > q, else P = 1</code>
                     where <code>p</code> is the probability an honest node finds the next block, and <code>q</code> is the probability the attacker finds it. This is the <strong>Gambler's Ruin</strong> problem. If the attacker has less than 50% of the hash power, their probability of success drops exponentially as the chain length increases. This is why "Wait for 6 confirmations" is the law.</p>
                 </div>
             </div>
@@ -3213,46 +3533,303 @@ function executeModern(bytes memory message, bytes memory signature) public {
         <section id="missing-curriculum">
             <div class="stage-card">
                 <div class="stage-header">
-                    <div class="stage-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18c-2.305 0-4.408.867-6 2.292m0-14.25v14.25" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
                     <div>
-                        <div style="font-size: 0.9rem; font-weight: 800; color: #10B981; margin-bottom: 4px;">SECTION</div>
+                        <div style="font-size: 0.9rem; font-weight: 800; color: var(--primary); margin-bottom: 4px;">ARCHITECT LEVEL</div>
                         <h2>The Missing Curriculum</h2>
                     </div>
                 </div>
-                <p>These are the topics that are never taught in bootcamps but are the difference between a junior developer and a world-class protocol architect.</p>
+                <p>These are the "Unknown Unknowns" that often lead to the most severe exploits. Master these to join the elite 1% of protocol architects.</p>
 
-                <div style="display: grid; gap: 32px; margin-top: 32px;">
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4>1. SEQUENCER CENTRALIZATION RISK</h4>
-                        <p style="font-size: 0.95rem;">Most Layer 2s currently run on a single sequencer. If that sequencer goes offline, the network stops. Elite architects design <strong>Force-Exit</strong> mechanisms that allow users to withdraw their funds directly on L1 if the sequencer is malicious or down.</p>
+                <div style="display: grid; gap: 32px; margin-top: 40px;">
+                    
+                    <!-- Topic 1: EIP-712 -->
+                    <div style="padding: 32px; background: var(--white); border: var(--border); box-shadow: var(--shadow-hard);">
+                        <h3 style="margin-top: 0; color: var(--primary);">1. EIP-712 Domain Separators</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.6;">Imagine you sign a note that says "give Bob 100 USDC". Without EIP-712, that signature could be replayed on a different app, chain, or even the same app at a new address. Domain separators are a padlock binding your signature to one specific app, chain, and contract version.</p>
+                        
+                        <div style="margin: 24px 0; padding: 20px; background: var(--primary-light); border-left: 4px solid var(--primary);">
+                            <p style="font-weight: 700; margin-bottom: 8px;">The Child Analogy: The Signed Cheque</p>
+                            <p style="font-size: 0.9rem;">Think of it like a signed cheque. A normal cheque has your bank name, account number, and date. Without those fields, anyone could copy your signature and cash it at any bank forever. EIP-712 adds those fields to your on-chain signature: chain ID, contract address, name, version. Now your signature is only valid for that exact combination.</p>
+                        </div>
+
+                        <details style="border: var(--border); background: var(--paper); margin-top: 20px;">
+                            <summary style="padding: 16px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">View Technical Implementation & Edge Cases</summary>
+                            <div style="padding: 24px; border-top: var(--border);">
+                                <h4 style="margin-top: 0; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">What a domain separator contains: The five fields</h4>
+                                <pre><code class="language-solidity">// This struct defines the "envelope" your signature goes into 
+struct EIP712Domain { 
+    string  name;              // "Uniswap V3" — the app name 
+    string  version;           // "1" — the contract version 
+    uint256 chainId;           // 1 = Ethereum, 137 = Polygon etc. 
+    address verifyingContract; // the exact contract address 
+    bytes32 salt;              // optional extra uniqueness 
+} 
+
+// All 5 fields get hashed together into one bytes32 "domain separator" 
+bytes32 DOMAIN_SEPARATOR = keccak256(abi.encode( 
+    keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"), 
+    keccak256(bytes("MyProtocol")), 
+    keccak256(bytes("1")), 
+    block.chainid,   // auto-reads the chain you deployed on 
+    address(this)    // the contract's own address 
+));</code></pre>
+
+                                <p style="font-size: 0.9rem; color: var(--gray-600); margin-top: 16px;"><strong>Why chainId matters:</strong> When Ethereum forked, the chain ID stayed the same on mainnet but changed on test forks. A signature made on mainnet cannot be replayed on a fork because the chainId won't match. This is replay protection.</p>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Full permit() example — ERC-20 permit (zero gas approval)</h4>
+                                <pre><code class="language-solidity">// User signs this struct off-chain (in their wallet, zero gas) 
+struct Permit { 
+    address owner;    // who is approving 
+    address spender;  // who gets the allowance 
+    uint256 value;    // how much 
+    uint256 nonce;    // prevents replay — increments each use 
+    uint256 deadline; // signature expires after this timestamp 
+} 
+
+// On-chain verification (runs in permit() function) 
+function permit(address owner, address spender, uint256 value, 
+    uint256 deadline, uint8 v, bytes32 r, bytes32 s) external { 
+
+    require(block.timestamp <= deadline, "expired"); 
+
+    bytes32 structHash = keccak256(abi.encode( 
+        PERMIT_TYPEHASH, owner, spender, value, 
+        nonces[owner]++,  // nonce increments — can't reuse sig 
+        deadline 
+    )); 
+
+    bytes32 digest = keccak256(abi.encodePacked( 
+        "\x19\x01",       // EIP-712 magic prefix 
+        DOMAIN_SEPARATOR, // chain + contract lock 
+        structHash         // the actual data being signed 
+    )); 
+
+    address signer = ecrecover(digest, v, r, s); // recover who signed 
+    require(signer == owner, "bad sig"); 
+
+    _approve(owner, spender, value); // now set the allowance 
+}</code></pre>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">What breaks if you get this wrong</h4>
+                                <div style="display: grid; gap: 12px; margin-top: 16px;">
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>Hardcoded chainId?</strong> If you hardcode chainId = 1, a user on Polygon signs a permit — an attacker takes that signature to Ethereum mainnet and replays it. Always use block.chainid dynamically.
+                                    </div>
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>Contract migration?</strong> If you redeploy to a new address, old signatures become invalid — which is correct. Users must re-sign.
+                                    </div>
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>No nonce?</strong> An attacker could take your signed permit and call permit() again and again, draining approvals. Nonce increments prevent this.
+                                    </div>
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>Missing \x19\x01?</strong> This magic prefix prevents collisions with raw transactions, ensuring a signature intended for a permit can't be used as a transfer.
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
                     </div>
 
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4>2. CROSS-CONTRACT READ-ONLY REENTRANCY</h4>
-                        <p style="font-size: 0.95rem;">The Curve 2023 hack proved that even <code>view</code> functions can be dangerous. If a pool's internal state is inconsistent during a reentrant call, any other contract that reads its "Virtual Price" will get a manipulated value. Defense: Use <code>nonReentrant</code> on all sensitive getters.</p>
+                    <!-- Topic 2: Token Behavior -->
+                    <div style="padding: 32px; background: var(--white); border: var(--border); box-shadow: var(--shadow-hard);">
+                        <h3 style="margin-top: 0; color: var(--primary);">2. Token Behaviour: Fee on Transfer</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.6;">Most devs assume send 100, receive 100. But some tokens — USDT on BSC, PAXG, some rebasing tokens — silently take a fee mid-transfer. If your contract doesn't account for this, the accounting breaks.</p>
+                        
+                        <div style="margin: 24px 0; padding: 20px; background: var(--primary-light); border-left: 4px solid var(--primary);">
+                            <p style="font-weight: 700; margin-bottom: 8px;">The Child Analogy: The Leaky Bucket Problem</p>
+                            <p style="font-size: 0.9rem;">You pour 10 litres of water into a bucket to give to a friend. But the bucket has a small hole — by the time it reaches them, only 9.5 litres are inside. If you wrote down "friend has 10 litres" in your notebook, your records are wrong. Your contract must measure what actually arrived, not what you sent.</p>
+                        </div>
+
+                        <details style="border: var(--border); background: var(--paper); margin-top: 20px;">
+                            <summary style="padding: 16px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">View Bug, Fix & Risk Matrix</summary>
+                            <div style="padding: 24px; border-top: var(--border);">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                    <div>
+                                        <h4 style="color: var(--error); margin-top: 0; font-size: 0.8rem;">NAIVE DEPOSIT (Vulnerable)</h4>
+                                        <pre><code class="language-solidity">// BAD — assumes amount == received 
+function deposit(uint256 amount) external { 
+    IERC20(token).transferFrom(msg.sender, address(this), amount); 
+    balances[msg.sender] += amount;  // WRONG 
+}</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4 style="color: var(--primary); margin-top: 0; font-size: 0.8rem;">SAFE DEPOSIT (Balance-Diff)</h4>
+                                        <pre><code class="language-solidity">// GOOD — measure actual balance change 
+function deposit(uint256 amount) external { 
+    uint256 before = tok.balanceOf(address(this)); 
+    tok.transferFrom(msg.sender, address(this), amount); 
+    uint256 received = tok.balanceOf(address(this)) - before; 
+    balances[msg.sender] += received;  // CORRECT 
+}</code></pre>
+                                    </div>
+                                </div>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Where this bites you in DeFi</h4>
+                                <div class="table-wrapper">
+                                    <table>
+                                        <thead>
+                                            <tr><th>Sector</th><th>Failure Mode</th><th>Impact</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>Liquidity Pools</td><td>K Breaks</td><td>AMM invariant corrupted silently.</td></tr>
+                                            <tr><td>Lending</td><td>Bad Debt</td><td>Collateral overstated; liquidations fail.</td></tr>
+                                            <tr><td>Yield Vaults</td><td>Price Drift</td><td>ERC-4626 share/asset ratio drifts.</td></tr>
+                                            <tr><td>Bridges</td><td>Undercollateralized</td><td>Mint 100 on L2 for 97 locked on L1.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Tokens to always test with</h4>
+                                <ul style="font-size: 0.9rem; columns: 2;">
+                                    <li><strong>USDT (BSC):</strong> Fee exists, can activate.</li>
+                                    <li><strong>PAXG:</strong> 0.02% transfer fee.</li>
+                                    <li><strong>STA:</strong> 1% fee (major Balancer exploit).</li>
+                                    <li><strong>Deflationary:</strong> Burn on transfer.</li>
+                                    <li><strong>Rebasing:</strong> AMPL, stETH (balance shifts).</li>
+                                    <li><strong>SafeERC20:</strong> For return-value-missing tokens.</li>
+                                </ul>
+                            </div>
+                        </details>
                     </div>
 
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4>3. GAS LIMIT DoS & THE 1/64 RULE</h4>
-                        <p style="font-size: 0.95rem;">EIP-150 states that a contract can only forward 63/64ths of its gas to a sub-call. This "1/64 rule" can lead to subtle <strong>Denial of Service</strong> attacks where a deep call stack runs out of gas while the parent call continues, leading to inconsistent state.</p>
+                    <!-- Topic 3: Risk Modeling -->
+                    <div style="padding: 32px; background: var(--white); border: var(--border); box-shadow: var(--shadow-hard);">
+                        <h3 style="margin-top: 0; color: var(--primary);">3. Liquidation Cascade Modeling</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.6;">Liquidation is when a protocol forcibly closes a position to protect itself. The problem: liquidations cause price drops, which trigger more liquidations. This spiral is a <strong>Liquidation Cascade</strong>.</p>
+                        
+                        <div style="margin: 24px 0; padding: 20px; background: var(--primary-light); border-left: 4px solid var(--primary);">
+                            <p style="font-weight: 700; margin-bottom: 8px;">The Child Analogy: Dominos Falling at School</p>
+                            <p style="font-size: 0.9rem;">Imagine 1000 kids borrow a toy with a rare Pokémon card as collateral. If the card's value drops, the school sells them all at once, crashing the price further. Now even kids who weren't in danger get liquidated. Architects ask: "what if all dominos fall at once?"</p>
+                        </div>
+
+                        <details style="border: var(--border); background: var(--paper); margin-top: 20px;">
+                            <summary style="padding: 16px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">View Mechanics & Simulation Code</summary>
+                            <div style="padding: 24px; border-top: var(--border);">
+                                <h4 style="margin-top: 0; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">How a lending protocol creates bad debt</h4>
+                                <ol style="font-size: 0.9rem; line-height: 1.7;">
+                                    <li><strong>Alice deposits 1 ETH ($3k)</strong> and borrows $2000 USDC. Health factor = 1.5.</li>
+                                    <li><strong>ETH drops to $2200.</strong> Health factor hits liquidation threshold (e.g. 1.1).</li>
+                                    <li><strong>Liquidator buys collateral</strong> at a discount (e.g. 5% bonus).</li>
+                                    <li><strong>Mass liquidations hit:</strong> 10k users sell ETH simultaneously, crashing price further.</li>
+                                    <li><strong>Bad Debt:</strong> ETH drops so fast that collateral < debt before liquidators act. Protocol goes insolvent.</li>
+                                </ol>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Parameters to Stress-Test</h4>
+                                <pre><code class="language-solidity">uint256 liqThreshold = 82_5; // 82.5% - Bad debt risk if too high
+uint256 liqBonus = 5_00;     // 5% - Liquidators won't bother if too low
+uint256 closeFactor = 50_00; // 50% - Prevents over-liquidation
+require(block.timestamp - oracle.updatedAt < 3600, "stale price");</code></pre>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Simulation Logic (Off-Chain)</h4>
+                                <pre><code class="language-javascript">function simulateCascade(ethDropPercent, minutesElapsed) {
+    let badDebt = 0;
+    const positions = getPositionsNearLiquidation();
+    const liquidationsPerHour = 1800; // throughput limit
+    
+    positions.forEach((pos, i) => {
+        if (isUndercollateralized(pos, newPrice)) {
+            if (i > liquidationsPerHour * minutesElapsed / 60) {
+                badDebt += getShortfall(pos, newPrice);
+            }
+        }
+    });
+    return badDebt;
+}</code></pre>
+                                <p style="font-size: 0.9rem; color: var(--gray-600);">Real protocol failures: Venus ($200M), Iron Finance (Spiral), Euler ($197M).</p>
+                            </div>
+                        </details>
                     </div>
 
-                    <!-- More topics briefly -->
-                    <div style="background: var(--sidebar-bg); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4>Advanced Architect Topics</h4>
-                        <ul style="font-size: 0.95rem; list-style: none; padding: 0;">
-                            <li style="margin-bottom: 20px;"><strong>4. MEV-RESISTANT RANDOMNESS:</strong> Why every naive solution (blockhash, timestamp) fails and how to use VDFs or Chainlink VRF correctly.</li>
-                            <li style="margin-bottom: 20px;"><strong>5. CREATE2 REBIRTH ATTACKS:</strong> How EIP-6780 changed the <code>SELFDESTRUCT</code> behavior and why you can no longer assume a contract at an address is "fixed."</li>
-                            <li style="margin-bottom: 20px;"><strong>6. GOVERNANCE PARAMETER RISK:</strong> Why the <em>values</em> (thresholds, delays) matter as much as the code. A 1% quorum is a vulnerability.</li>
-                            <li style="margin-bottom: 20px;"><strong>7. STORAGE BLOAT:</strong> Ethereum's existential threat. Understanding state expiry and the push for "Verkle Trees."</li>
-                            <li style="margin-bottom: 20px;"><strong>8. BRIDGE TRILEMMA:</strong> The trade-off between Trustlessness, Extensibility, and Latency in cross chain design.</li>
-                            <li style="margin-bottom: 0;"><strong>9. REPUTATION PROTOCOLS:</strong> How on chain credentials (SBTs) are becoming the backbone of decentralized trust and credit.</li>
-                        </ul>
+                    <!-- Topic 4: L2 Infrastructure -->
+                    <div style="padding: 32px; background: var(--white); border: var(--border); box-shadow: var(--shadow-hard);">
+                        <h3 style="margin-top: 0; color: var(--primary);">4. Sequencer Failure Modes</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.6;">On L2s, a sequencer orders transactions. If it goes offline, the network stops. But your smart contract doesn't know — it might still read prices and process liquidations based on stale data.</p>
+                        
+                        <div style="margin: 24px 0; padding: 20px; background: var(--primary-light); border-left: 4px solid var(--primary);">
+                            <p style="font-weight: 700; margin-bottom: 8px;">The Child Analogy: The School Secretary</p>
+                            <p style="font-size: 0.9rem;">The sequencer is like the school secretary who orders all messages for the teacher. If the secretary goes home sick, no messages get through. But the teacher doesn't know — they might still act on yesterday's information. Your contract needs to check: "has the secretary been seen recently?"</p>
+                        </div>
+
+                        <details style="border: var(--border); background: var(--paper); margin-top: 20px;">
+                            <summary style="padding: 16px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">View Uptime Fix & Failure Scenarios</summary>
+                            <div style="padding: 24px; border-top: var(--border);">
+                                <h4 style="margin-top: 0; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Production Fix: Chainlink Sequencer Feed</h4>
+                                <pre><code class="language-solidity">function _checkSequencer() internal view { 
+    (, int256 answer, uint256 startedAt,,) = AggregatorV3Interface(SEQ_FEED).latestRoundData(); 
+    require(answer == 0, "sequencer offline"); 
+    // Wait for GRACE_PERIOD (e.g. 1 hour) after restart to let prices normalize
+    require((block.timestamp - startedAt) >= 3600, "grace period active"); 
+}</code></pre>
+
+                                <div style="margin: 24px 0; padding: 20px; background: var(--ink); color: var(--white); border: var(--border);">
+                                    <h5 style="margin-top: 0; color: var(--primary); font-size: 0.75rem; text-transform: uppercase;">L2 Sequencer Simulator</h5>
+                                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                                        <button onclick="simulateSequencer('offline')" style="padding: 6px 12px; background: var(--error); border: none; color: white; cursor: pointer; font-size: 0.7rem;">OFFLINE</button>
+                                        <button onclick="simulateSequencer('online')" style="padding: 6px 12px; background: var(--success); border: none; color: white; cursor: pointer; font-size: 0.7rem;">ONLINE</button>
+                                        <button onclick="simulateSequencer('liquidate')" style="padding: 6px 12px; background: var(--secondary); border: none; color: white; cursor: pointer; font-size: 0.7rem;">LIQUIDATE</button>
+                                    </div>
+                                    <div id="sequencer-log" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary);">Waiting for actions...</div>
+                                </div>
+
+                                <h4 style="margin-top: 32px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Other Sequencer Failure Scenarios</h4>
+                                <div style="display: grid; gap: 12px; margin-top: 16px;">
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>Forced Inclusion:</strong> L2s have an "escape hatch" where users post to L1 directly. It's slow (7+ days) but guarantees exit. Users approaching liquidation must know this!
+                                    </div>
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>Censorship:</strong> A centralized sequencer could theoretically ignore your tx. This is why decentralized sequencers (Espresso, Astria) are being built.
+                                    </div>
+                                    <div style="padding: 12px; background: var(--white); border: 1px solid var(--border);">
+                                        <strong>zkEVMs:</strong> The same downtime problem exists. ZK proofs prevent lying about state, but liveness still depends on the central sequencer/prover.
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
                     </div>
+
+                    <!-- Topic 5: Gas Reference -->
+                    <div style="padding: 32px; background: var(--white); border: var(--border); box-shadow: var(--shadow-hard);">
+                        <h3 style="margin-top: 0; color: var(--primary);">5. Reference: EIP-3860 & Opcode Costs</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.6;">Gas is the price of computation. Every opcode has a cost set by Ethereum's architects. The prices encode priorities: storage is permanent and global, so it's expensive.</p>
+                        
+                        <div style="margin: 24px 0; padding: 20px; background: var(--primary-light); border-left: 4px solid var(--primary);">
+                            <p style="font-weight: 700; margin-bottom: 8px;">The Mental Model in One Sentence</p>
+                            <p style="font-size: 0.9rem;">Stack (3 gas) → Warm SLOAD (100) → Cold SLOAD (2,100) → SSTORE update (2,900) → SSTORE new (20,000).</p>
+                        </div>
+
+                        <details style="border: var(--border); background: var(--paper); margin-top: 20px;">
+                            <summary style="padding: 16px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem;">View Detailed Gas Cost Table</summary>
+                            <div style="padding: 24px; border-top: var(--border);">
+                                <div class="table-wrapper">
+                                    <table>
+                                        <thead>
+                                            <tr><th>Opcode</th><th>Gas Cost</th><th>Category</th><th>Why this price?</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>SSTORE (new)</td><td>20,000</td><td>Critical</td><td>Permanent allocation on every node.</td></tr>
+                                            <tr><td>SSTORE (update)</td><td>2,900</td><td>Expensive</td><td>Updating disk; state trie update.</td></tr>
+                                            <tr><td>SLOAD (cold)</td><td>2,100</td><td>Expensive</td><td>First pull from disk (global state trie).</td></tr>
+                                            <tr><td>CALL (cold)</td><td>2,600</td><td>Expensive</td><td>Look up account in state + execution.</td></tr>
+                                            <tr><td>SLOAD (warm)</td><td>100</td><td>Cheap</td><td>Already in tx-local cache (21x cheaper).</td></tr>
+                                            <tr><td>KECCAK256</td><td>30 + 6/word</td><td>Scaled</td><td>Hashing scales with data size.</td></tr>
+                                            <tr><td>ADD / SUB / MUL</td><td>3–5</td><td>Near Free</td><td>Pure stack arithmetic. Irrelevant.</td></tr>
+                                            <tr><td>LOG (events)</td><td>375 base</td><td>Cheap</td><td>Receipts, not state. Prunable by nodes.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p style="font-size: 0.9rem; color: var(--gray-600); margin-top: 16px;"><strong>Architect Tip:</strong> Design your contracts to live as far left as possible in the mental model — keep data on stack, minimize storage writes, cache reads.</p>
+                            </div>
+                        </details>
+                    </div>
+
+                </div>
+
+                <div class="completion-footer" style="margin-top: 48px;">
+                    <button class="mark-complete-btn" onclick="toggleStage('missing-curriculum')">Mark Section Complete</button>
                 </div>
             </div>
         </section>
@@ -3847,7 +4424,7 @@ interface IOptimismGasPriceOracle {
                 <p>Writing ZK circuits is different from writing smart contracts. Instead of imperative code, you define <strong>Constraints</strong>. Circom is the most popular language for writing these circuits. You define inputs (private and public) and the mathematical relationship between them. If an attacker tries to provide inputs that don't satisfy the constraints, the proof generation will fail. Common pitfalls include <strong>Under-constrained Circuits</strong>, where a malicious prover can satisfy the constraints with invalid data. Mastery of R1CS (Rank-1 Constraint Systems) is essential for any ZK architect.</p>
 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366F1;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -3991,7 +4568,7 @@ function verifyModern(uint[] memory proof, uint[] memory publicInputs) public {
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/umepbfKp5rI" allowfullscreen loading="lazy"></iframe></div>
 
                 <div class="stage-header" style="margin-top: 40px;">
-                    <div class="stage-icon" style="background: rgba(236, 72, 153, 0.1); color: #EC4899;">
+                    <div class="stage-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
@@ -4196,93 +4773,30 @@ function executeModern(uint256 proposalId) public {
             </div>
         </section>
 
-        <!-- SECTION: The Missing Curriculum -->
-        <section id="missing-curriculum">
-            <div class="stage-card">
-                <div class="stage-header">
-                    <div class="stage-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366F1;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div style="font-size: 0.9rem; font-weight: 800; color: #6366F1; margin-bottom: 4px;">SECTION</div>
-                        <h2>The Missing Curriculum</h2>
-                    </div>
-                </div>
-                <p>There are things that are rarely taught in standard bootcamps but are essential for the elite architect. These are the "Unknown Unknowns" that often lead to the most severe exploits and architectural failures.</p>
-
-                <div style="display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 24px;">
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
-                        <h4>1. Sequencer Centralization Risk on L2s</h4>
-                        <p>Most L2s today rely on a single, centralized sequencer to order transactions. This creates a single point of failure and a censorship vector. While the L2's state is secured by L1, the sequencer can choose to ignore your transactions or front-run them. As an architect, you must understand the roadmap to decentralized sequencers (like Espresso or Astria) and how your dApp can remain functional even if the primary sequencer goes offline.</p>
-                    </div>
-
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
-                        <h4>2. Cross-Contract Read-Only Reentrancy</h4>
-                        <p>This is a subtle but deadly vulnerability. Even if a function is <code>view</code> and doesn't modify state, it can return incorrect data if called during a reentrant state of <em>another</em> contract. The Curve 2023 exploit is the textbook example. To prevent this, architects must use <code>nonReentrant</code> on any function that reads sensitive state from a contract that could be in an inconsistent state during a transaction.</p>
-                    </div>
-
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
-                        <h4>3. Gas Limit DoS Attacks + 1/64 Rule</h4>
-                        <p>The 1/64 rule states that an external call can only use at most 63/64 of the available gas. This means that even if a call reverts due to out-of-gas, the parent contract still has a small amount of gas left. An attacker can exploit this to "poison" a contract's logic by ensuring that a specific call always fails, while the rest of the transaction succeeds. This is often used in Denial-of-Service attacks against loops or shared resources.</p>
-                    </div>
-
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
-                        <h4>4. MEV-Resistant Randomness</h4>
-                        <p>Every naive solution for on-chain randomness (like using <code>block.timestamp</code> or <code>blockhash</code>) is exploitable by miners or validators. They can choose to only produce blocks where the randomness benefits them. The only truly secure way to get randomness is through a <strong>Verifiable Random Function (VRF)</strong> like Chainlink VRF or through a commit-reveal scheme with a long enough delay to prevent manipulation.</p>
-                    </div>
-
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
-                        <h4>5. CREATE2 Rebirth Attack + EIP-6780</h4>
-                        <p><code>CREATE2</code> allows you to deploy a contract at a deterministic address. However, if a contract at that address is destroyed (via <code>SELFDESTRUCT</code>), a <em>different</em> contract can be redeployed at the same address later. This "Rebirth Attack" can be used to bypass security checks that rely on the contract's code hash. EIP-6780 has limited the power of <code>SELFDESTRUCT</code>, but architects must still be aware of the risks of redeployable addresses.</p>
-                    </div>
-
-                    <!-- More topics (Summarized for space) -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
-                        <h4>6-14. THE ARCHITECT'S CHECKLIST</h4>
-                        <ul style="font-size: 0.95rem;">
-                            <li><strong>6. Governance Parameter Risk:</strong> The values (fees, LTVs, thresholds) matter as much as the code. A safe contract with unsafe parameters is a liability.</li>
-                            <li><strong>7. EIP-712 Edge Cases:</strong> ChainId changes during hard forks can invalidate signed messages. Use <code>DOMAIN_SEPARATOR</code> correctly.</li>
-                            <li><strong>8. Storage Bloat:</strong> The existential threat to Ethereum. Every byte of state you store costs the network forever. Use <code>SSTORE2</code> or off-chain DA for large data.</li>
-                            <li><strong>9. Liquid Governance Markets:</strong> The "bribing" of voters is inevitable. Design your governance to be resilient to vote-buying.</li>
-                            <li><strong>10. Modular Architecture Deep Dive:</strong> Understand the trade-offs between Celestia, Avail, and EigenDA.</li>
-                            <li><strong>11. Bridge Trilemma:</strong> Trustlessness vs. Extensibility vs. Latency. You can only have two.</li>
-                            <li><strong>12. Blockchain Storage Layer:</strong> The "Web3 Dropbox" concept (Filecoin/Arweave).</li>
-                            <li><strong>13. Reputation Protocols:</strong> The backbone of on-chain trust and decentralized credit.</li>
-                            <li><strong>14. Smart Contract Standardization:</strong> The power of composable standards (ERC-20, 721, 4626).</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        </section>
-
         <!-- INTERACTIVE CONTENT BLOCKS -->
         <section id="interactive-blocks">
             <div class="stage-card">
                 <h2 style="color: var(--accent);">Interactive Reference Hub</h2>
                 <p>Use these tables and checklists as a quick reference during your architectural design and auditing process.</p>
 
-                <!-- 1. Gas Cost Comparison Table -->
+                <!-- 1. Gas Cost Comparison Table (EIP-3860 Reference) -->
                 <div style="margin-top: 40px;">
-                    <h4>1. Gas Cost Comparison Table</h4>
+                    <h4>1. Gas Cost Comparison Table (EIP-3860 Reference)</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: 16px;">The mental model: <strong>Stack (3 gas) → Warm SLOAD (100) → Cold SLOAD (2,100) → SSTORE update (2,900) → SSTORE new (20,000)</strong>.</p>
                     <div class="table-wrapper">
                         <table>
                             <thead>
-                                <tr><th>Opcode</th><th>Gas Cost</th><th>Reasoning / Context</th></tr>
+                                <tr><th>Opcode</th><th>Gas Cost</th><th>Architect's Reasoning</th></tr>
                             </thead>
                             <tbody>
-                                <tr><td><code>SSTORE</code> (New)</td><td>20,000</td><td>Creating a new storage slot from 0 to non-zero.</td></tr>
-                                <tr><td><code>SSTORE</code> (Update)</td><td>2,900</td><td>Updating an existing "warm" storage slot.</td></tr>
-                                <tr><td><code>SLOAD</code> (Cold)</td><td>2,100</td><td>First time reading a slot in a transaction.</td></tr>
-                                <tr><td><code>SLOAD</code> (Warm)</td><td>100</td><td>Subsequent reads of the same slot.</td></tr>
-                                <tr><td><code>CALL</code> / <code>DELEGATECALL</code></td><td>2,100</td><td>Base cost for external contract interaction.</td></tr>
-                                <tr><td><code>CREATE</code></td><td>32,000</td><td>Deploying a new contract.</td></tr>
-                                <tr><td><code>SELFDESTRUCT</code></td><td>5,000</td><td>Deleting a contract (limited by EIP-6780).</td></tr>
-                                <tr><td><code>LOG0-4</code></td><td>375 - 1875</td><td>Emitting events (plus 8 gas per byte of data).</td></tr>
+                                <tr><td><code>SSTORE</code> (New)</td><td>20,000</td><td>New permanent allocation on global state. Very expensive to discourage bloat.</td></tr>
+                                <tr><td><code>SSTORE</code> (Update)</td><td>2,900</td><td>Updating existing value on disk. Significant cost for state trie update.</td></tr>
+                                <tr><td><code>SLOAD</code> (Cold)</td><td>2,100</td><td>First time pulling from global state disk in this tx.</td></tr>
+                                <tr><td><code>CALL</code> (Cold)</td><td>2,600</td><td>First lookup of an external account in the state trie.</td></tr>
+                                <tr><td><code>SLOAD</code> (Warm)</td><td>100</td><td>Already in tx-local cache. Cache your storage reads!</td></tr>
+                                <tr><td><code>KECCAK256</code></td><td>30 + 6/word</td><td>Hashing computation cost. Scales with data size.</td></tr>
+                                <tr><td><code>LOG</code> (Events)</td><td>375 base</td><td>Events go to receipts, not state. Cheaper because nodes can prune.</td></tr>
+                                <tr><td><code>ADD/SUB/MUL</code></td><td>3–5</td><td>Pure stack arithmetic. Statistically irrelevant for gas optimization.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -4382,37 +4896,37 @@ function executeModern(uint256 proposalId) public {
 
                 <div style="display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 24px;">
                     <!-- Plan 1 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>Day 1-15: Master the Languages (Solidity + Cairo)</h4>
                         <p>Spend the first two weeks deep-diving into the core languages of the EVM and ZK worlds. For Solidity, focus on assembly (Yul), storage layout, and gas optimization. For Cairo, understand the provable computation model and how STARKs are generated. Build a simple but secure decentralized exchange (DEX) on both Ethereum and a ZK-rollup like Starknet. Your goal is not just to "write code" but to understand how that code is translated into opcodes and constraints.</p>
                     </div>
 
                     <!-- Plan 2 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>Day 16-30: Deploy and Scale</h4>
                         <p>Deploy a smart contract that people actually use and pay for. This could be a niche NFT project, a simple yield aggregator, or a specialized DeFi tool. The goal is to experience the entire lifecycle of a production contract: deployment, security monitoring, user feedback, and upgrades. Seeing real money flow through your code will teach you more about security and UX than any tutorial. This is where you learn the "Real World" constraints of the blockchain.</p>
                     </div>
 
                     <!-- Plan 3 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>Day 31-45: Explore Modular Architecture</h4>
                         <p>The future is modular. Spend this period studying Celestia, Fuel, StarkEx, and Zama. Understand how data availability layers interact with execution layers. Build a custom rollup using a framework like the OP Stack or Arbitrum Orbit. Your goal is to understand the "Endgame Architecture" of Ethereum and how to position your protocols to take advantage of it. Modularity is the ultimate hedge against centralization and scalability bottlenecks.</p>
                     </div>
 
                     <!-- Plan 4 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>Day 46-60: Deep Research and Networking</h4>
                         <p>Read the research papers from a16z crypto, Paradigm, Vitalik Buterin, and Justin Drake. Understand the cutting-edge of MEV, PBS (Proposer-Builder Separation), and Danksharding. Attend virtual conferences and join high level research forums. Your edge as an architect is your ability to see the trends before they become mainstream. This is the period where you build your mental model of the next 5-10 years of the ecosystem.</p>
                     </div>
 
                     <!-- Plan 5 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>Day 61-75: Teach and Attract Talent</h4>
                         <p>The best way to learn is to teach. Write a series of technical blog posts or record a deep-dive video series on a complex topic like "Account Abstraction" or "ZK Proof Systems." Your goal is to attract high level talent and minds to your orbit. By becoming a "Public Teacher," you establish yourself as an authority in the field and create opportunities for collaboration and investment. Talent follows knowledge.</p>
                     </div>
 
                     <!-- Plan 6 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>Day 76-90: The Dog Advantage</h4>
                         <p>"Your edge is that you're broke." Use your hunger, time, and low cost as weapons. While established protocols are slow and risk-averse, you can move fast and break things. Use this final period to build your "Masterpiece"— a protocol that solves a real problem in a way that no one else has. This is your ticket to the top 1%. The world doesn't need more "me-too" projects; it needs bold, architect-level innovation.</p>
                     </div>
@@ -4439,75 +4953,75 @@ function executeModern(uint256 proposalId) public {
                 <p>Build these in sequence. Do not move to the next until the current one is audited by yourself and passes all invariant tests.</p>
                 
                 <div style="display: grid; gap: 24px; margin-top: 32px;">
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">1. The Gas-Efficient Vault</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 02-03</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 02-03</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build an ERC-4626 compliant vault with manual storage packing and Yul-optimized deposit/withdraw logic. Focus: Minimal gas footprint.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Build an ERC-4626 compliant vault with manual storage packing and Yul-optimized deposit/withdraw logic. Focus: Minimal gas footprint.
                             <br><strong>Bonus:</strong> Implement a "Virtual Assets" mechanism to protect against the first-depositor inflation attack.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">2. The Immutable Multi-Sig</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 04-05</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 04-05</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">A multi-signature wallet that uses EIP-712 signatures. Must include 100% coverage in Foundry and invariant tests for double-spending signatures.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">A multi-signature wallet that uses EIP-712 signatures. Must include 100% coverage in Foundry and invariant tests for double-spending signatures.
                             <br><strong>Bonus:</strong> Add support for "Social Recovery" where a majority of signers can change a lost owner's address.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">3. Constant Product AMM (Uniswap v2 Clone)</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 06-09</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 06-09</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Implement x*y=k math from scratch. Add a custom TWAP oracle. Focus: Precision handling and slippage protection logic.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Implement x*y=k math from scratch. Add a custom TWAP oracle. Focus: Precision handling and slippage protection logic.
                             <br><strong>Bonus:</strong> Implement a "Fee-on-Transfer" handling logic that ensures the pool's internal accounting remains solvent even with weird tokens.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">4. Upgradeable Lending Protocol</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 08-09</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 08-09</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">A basic Aave-style lending pool using UUPS proxies. Must include a liquidation engine and storage gap analysis for future upgrades.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">A basic Aave-style lending pool using UUPS proxies. Must include a liquidation engine and storage gap analysis for future upgrades.
                             <br><strong>Bonus:</strong> Add a "Flash Loan" feature that allows users to borrow liquidity for zero collateral, as long as it's repaid in the same transaction.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">5. On-Chain Governance (DAOs)</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 10-17</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 10-17</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build a Governor contract with delegated voting, timelocks, and snapshot-based voting power.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Build a Governor contract with delegated voting, timelocks, and snapshot-based voting power.
                             <br><strong>Bonus:</strong> Add support for "Optimistic Governance" where proposals pass automatically unless someone challenges them with a bond.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">6. Cross-Chain Message Bridge</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 13-14</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 13-14</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Build a simple message bridge between two Anvil instances using a relay script. Focus: Replay protection and state synchronization.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Build a simple message bridge between two Anvil instances using a relay script. Focus: Replay protection and state synchronization.
                             <br><strong>Bonus:</strong> Implement a "Rate Limiter" that prevents massive amounts of funds from being moved in a short period, mitigating the impact of a potential exploit.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">7. Zero-Knowledge Identity (Semaphore Clone)</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 12-15</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 12-15</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Use Circom to build a circuit that proves you belong to a Merkle tree of addresses without revealing which one you are.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Use Circom to build a circuit that proves you belong to a Merkle tree of addresses without revealing which one you are.
                             <br><strong>Bonus:</strong> Integrate with a smart contract wallet to enable "Anonymous Voting" in your governance project.
                         </p>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 24px; border-radius: 12px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <h4 style="margin: 0;">8. ERC-4337 Smart Account</h4>
-                            <span style="font-size: 0.75rem; background: var(--accent); padding: 4px 8px; border-radius: 4px;">STAGE 16-17</span>
+                            <span style="font-size: 0.75rem; background: var(--primary); color: var(--white); border: var(--border); padding: 4px 8px; font-weight: 700; text-transform: uppercase;">STAGE 16-17</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--text-dim);">Implement a custom smart account that supports UserOperations, session keys, and a paymaster for gasless transactions.
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Implement a custom smart account that supports UserOperations, session keys, and a paymaster for gasless transactions.
                             <br><strong>Bonus:</strong> Add "Multi-Factor Authentication" where high-value transactions require a signature from both the user's phone and their hardware wallet.
                         </p>
                     </div>
@@ -4546,21 +5060,21 @@ function executeModern(uint256 proposalId) public {
                 <h2 style="color: var(--accent);">Daily Training Routine</h2>
                 <p>Success is a result of daily habits. Follow this routine to accelerate your progress.</p>
                 
-                <div style="background: rgba(88, 166, 255, 0.05); padding: 32px; border-radius: 16px; border: 1px solid var(--border); margin-top: 32px;">
+                <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard); margin-top: 32px;">
                     <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; margin-bottom: 24px;">
-                        <div style="font-weight: 800; color: var(--accent);">08:00 AM</div>
+                        <div style="font-weight: 800; color: var(--primary);">08:00 AM</div>
                         <div><strong>Code Reading:</strong> Read 100 lines of production Solidity (Uniswap, Aave, or Compound). No tutorials, just the source.</div>
                     </div>
                     <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; margin-bottom: 24px;">
-                        <div style="font-weight: 800; color: var(--accent);">09:30 AM</div>
+                        <div style="font-weight: 800; color: var(--primary);">09:30 AM</div>
                         <div><strong>Adversarial Analysis:</strong> Open a past Code4rena contest. Try to find bugs for 2 hours with no hints. Compare to report.</div>
                     </div>
                     <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; margin-bottom: 24px;">
-                        <div style="font-weight: 800; color: var(--accent);">01:00 PM</div>
+                        <div style="font-weight: 800; color: var(--primary);">01:00 PM</div>
                         <div><strong>Deep Work:</strong> 4 hours of focused coding on your current stage's production project.</div>
                     </div>
                     <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px;">
-                        <div style="font-weight: 800; color: var(--accent);">06:00 PM</div>
+                        <div style="font-weight: 800; color: var(--primary);">06:00 PM</div>
                         <div><strong>Primary Sources:</strong> Read one EIP or one section of the Ethereum Yellow Paper.</div>
                     </div>
                 </div>
@@ -4699,21 +5213,21 @@ function executeModern(uint256 proposalId) public {
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 32px;">
-                    <a href="https://solidity-by-example.org/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                    <a href="https://solidity-by-example.org/" target="_blank" style="text-decoration: none; color: var(--ink); padding: 20px; border: var(--border); background: var(--white); box-shadow: var(--shadow-hard); transition: var(--transition-fast);">
                         <h4 style="margin-bottom: 8px;">Solidity by Example</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.7;">Quick reference for common Solidity patterns.</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-600);">Quick reference for common Solidity patterns.</p>
                     </a>
-                    <a href="https://www.damnvulnerabledefi.xyz/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                    <a href="https://www.damnvulnerabledefi.xyz/" target="_blank" style="text-decoration: none; color: var(--ink); padding: 20px; border: var(--border); background: var(--white); box-shadow: var(--shadow-hard); transition: var(--transition-fast);">
                         <h4 style="margin-bottom: 8px;">Damn Vulnerable DeFi</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.7;">The industry standard for auditing wargames.</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-600);">The industry standard for auditing wargames.</p>
                     </a>
-                    <a href="https://ethernaut.openzeppelin.com/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                    <a href="https://ethernaut.openzeppelin.com/" target="_blank" style="text-decoration: none; color: var(--ink); padding: 20px; border: var(--border); background: var(--white); box-shadow: var(--shadow-hard); transition: var(--transition-fast);">
                         <h4 style="margin-bottom: 8px;">Ethernaut</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.7;">Web3/Solidity based wargame by OpenZeppelin.</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-600);">Web3/Solidity based wargame by OpenZeppelin.</p>
                     </a>
-                    <a href="https://rekt.news/" target="_blank" style="text-decoration: none; color: var(--text); padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg); transition: 0.3s;">
+                    <a href="https://rekt.news/" target="_blank" style="text-decoration: none; color: var(--ink); padding: 20px; border: var(--border); background: var(--white); box-shadow: var(--shadow-hard); transition: var(--transition-fast);">
                         <h4 style="margin-bottom: 8px;">Rekt News</h4>
-                        <p style="font-size: 0.85rem; opacity: 0.7;">The dark side of DeFi: analyzing every hack.</p>
+                        <p style="font-size: 0.85rem; color: var(--gray-600);">The dark side of DeFi: analyzing every hack.</p>
                     </a>
                 </div>
             </div>
@@ -4740,7 +5254,7 @@ function executeModern(uint256 proposalId) public {
 
                 <div style="display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 24px;">
                     <!-- Idea 1 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>1. PRIVACY LAYER FOR WALLETS (Middleware)</h4>
                         <p><strong>Problem:</strong> Every transaction you make is public. If someone knows your wallet address, they know your entire financial history.</p>
                         <p><strong>Solution:</strong> A middleware that auto-rotates addresses, splits transactions into decoy patterns, and uses delays to obfuscate timing. It acts as a "Privacy Shield" for your everyday transactions.</p>
@@ -4750,7 +5264,7 @@ function executeModern(uint256 proposalId) public {
                     </div>
 
                     <!-- Idea 2 -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>2. CHANGEBACK — Bitcoin UTXO Optimizer</h4>
                         <p><strong>Problem:</strong> Bitcoin transactions often leave "dust" (tiny amounts of BTC) in multiple UTXOs, making future transactions more expensive and cluttering the wallet.</p>
                         <p><strong>Solution:</strong> A plugin that automatically combines UTXOs during low-fee periods and uses "Smart Send" to avoid creating new dust.</p>
@@ -4760,7 +5274,7 @@ function executeModern(uint256 proposalId) public {
                     </div>
 
                     <!-- Ideas 3-13 (Grouped for space) -->
-                    <div style="background: var(--sidebar-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border);">
+                    <div style="background: var(--white); padding: 24px; border: var(--border); box-shadow: var(--shadow-hard);">
                         <h4>3-13. QUICKFIRE STARTUP IDEAS</h4>
                         <ul style="font-size: 0.95rem;">
                             <li><strong>3. BLOCKCHAIN FORENSICS TOOL:</strong> Detects abnormal chain behavior and flags potential 51% attacks in real-time.</li>
@@ -4855,31 +5369,31 @@ function executeModern(uint256 proposalId) public {
                     </div>
 
                     <!-- Hack 8: Wormhole -->
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4 style="color: #EF4444; margin-bottom: 8px;">8. Wormhole Bridge Hack (2022) - $320M</h4>
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard-lg);">
+                        <h4 style="color: var(--error); margin-bottom: 8px;">8. Wormhole Bridge Hack (2022) - $320M</h4>
                         <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>The Vulnerability:</strong> Signature Verification Bypass. The attacker exploited a flaw in the way the Wormhole bridge contract on Solana verified signatures from the "Guardians" (the bridge validators). By providing a malicious <code>Sysvar</code> account, the attacker tricked the contract into thinking that a 120,000 wETH mint request had been signed by the guardians, when it had not. The attacker was then able to mint the wETH and bridge it back to Ethereum.</p>
                         <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>The Attack:</strong> 1) Attacker finds the <code>verify_signatures</code> function. 2) They provide a fake <code>instruction_acc</code> that bypasses the real signature check. 3) The contract mints 120k wETH to the attacker's address. 4) The attacker swaps the wETH for ETH on Ethereum.</p>
-                        <p style="font-size: 0.95rem; color: var(--text-dim);"><strong>Architect's Lesson:</strong> Cross-chain bridges are high-value targets. Always use <strong>Multiple Layers of Verification</strong> and never trust input accounts provided by the user without strict validation against a known-good registry.</p>
+                        <p style="font-size: 0.95rem; color: var(--gray-600);"><strong>Architect's Lesson:</strong> Cross-chain bridges are high-value targets. Always use <strong>Multiple Layers of Verification</strong> and never trust input accounts provided by the user without strict validation against a known-good registry.</p>
                     </div>
 
                     <!-- Hack 9: Cream Finance -->
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4 style="color: #EF4444; margin-bottom: 8px;">9. Cream Finance Flash Loan Attack (2021) - $130M</h4>
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard-lg);">
+                        <h4 style="color: var(--error); margin-bottom: 8px;">9. Cream Finance Flash Loan Attack (2021) - $130M</h4>
                         <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>The Vulnerability:</strong> Flash Loan Reentrancy & Oracle Manipulation. The attacker used a massive flash loan to manipulate the price of <code>yUSD</code> (a Yearn vault token) used as collateral on Cream Finance. By artificially inflating the price of the collateral, the attacker was able to borrow far more than their real collateral was worth, draining the protocol's liquidity.</p>
                         <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>The Attack:</strong> 1) Take flash loan. 2) Deposit collateral. 3) Use reentrancy or price manipulation to inflate the collateral's value. 4) Borrow all available assets. 5) Repay flash loan with the stolen funds.</p>
-                        <p style="font-size: 0.95rem; color: var(--text-dim);"><strong>Architect's Lesson:</strong> Never use a single, manipulatable source for price oracles. Always use <strong>Time-Weighted Average Prices (TWAP)</strong> or a decentralized oracle like Chainlink with a price freshness check.</p>
+                        <p style="font-size: 0.95rem; color: var(--gray-600);"><strong>Architect's Lesson:</strong> Never use a single, manipulatable source for price oracles. Always use <strong>Time-Weighted Average Prices (TWAP)</strong> or a decentralized oracle like Chainlink with a price freshness check.</p>
                     </div>
 
                     <!-- Hack 10: BadgerDAO -->
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4 style="color: #EF4444; margin-bottom: 8px;">10. BadgerDAO Frontend Injection (2021) - $120M</h4>
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard-lg);">
+                        <h4 style="color: var(--error); margin-bottom: 8px;">10. BadgerDAO Frontend Injection (2021) - $120M</h4>
                         <p style="font-size: 0.95rem; margin-bottom: 12px;"><strong>The Vulnerability:</strong> Frontend Compromise. Unlike most DeFi hacks which target smart contracts, this attack targeted the user interface. The attacker gained access to BadgerDAO's Cloudflare account and injected a malicious script into the frontend. This script intercepted user transactions and replaced the intended recipient address with the attacker's address.</p>
-                        <p style="font-size: 0.95rem; color: var(--text-dim);"><strong>Architect's Lesson:</strong> Security is only as strong as the weakest link. <strong>Frontend Security</strong> (2FA, limited access, subresource integrity) is just as critical as smart contract security. Users should be educated to always verify the recipient address in their wallet before signing.</p>
+                        <p style="font-size: 0.95rem; color: var(--gray-600);"><strong>Architect's Lesson:</strong> Security is only as strong as the weakest link. <strong>Frontend Security</strong> (2FA, limited access, subresource integrity) is just as critical as smart contract security. Users should be educated to always verify the recipient address in their wallet before signing.</p>
                     </div>
 
                     <!-- Hack 11-17 (Briefly summarized to fit) -->
-                    <div style="background: rgba(255, 255, 255, 0.02); padding: 32px; border-radius: 20px; border: 1px solid var(--border);">
-                        <h4 style="color: #EF4444; margin-bottom: 16px;">More Protocol Failures (2022-2024)</h4>
+                    <div style="background: var(--white); padding: 32px; border: var(--border); box-shadow: var(--shadow-hard-lg);">
+                        <h4 style="color: var(--error); margin-bottom: 16px;">More Protocol Failures (2022-2024)</h4>
                         <ul style="font-size: 0.95rem; list-style: none; padding: 0;">
                             <li style="margin-bottom: 24px;"><strong>11. Ankr $5M (2022):</strong> Infinite mint via compromised private key. An internal developer's key was stolen, allowing the attacker to mint unlimited aBNBc tokens. <strong>Lesson:</strong> Use <strong>Multi-Sig Wallets</strong> and hardware security modules for all administrative keys.</li>
                             <li style="margin-bottom: 24px;"><strong>12. Transit Swap $29M (2022):</strong> Unchecked external call. The swap contract allowed users to provide an arbitrary address for a call, which the attacker used to call the <code>transferFrom</code> function on the USDC contract, stealing user funds. <strong>Lesson:</strong> Never allow arbitrary external calls from your contract.</li>
@@ -4918,8 +5432,8 @@ function executeModern(uint256 proposalId) public {
                     <h2 style="margin-bottom: 16px;">Mastery Proven</h2>
                     <p style="margin-bottom: 32px;">You have successfully completed the rigorous ChainCodeCamp roadmap. Enter your name below to generate your verifiable proof of mastery.</p>
                     <div style="max-width: 400px; margin: 32px auto;">
-                        <input type="text" id="studentName" placeholder="Enter Full Name" style="width: 100%; padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text); margin-bottom: 20px; font-size: 1rem;">
-                        <button id="generateCert" style="width: 100%; padding: 16px; background: var(--accent); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 1rem;">Generate Certificate</button>
+                        <input type="text" id="studentName" placeholder="ENTER FULL NAME" style="width: 100%; padding: 16px; border: var(--border); background: var(--white); color: var(--ink); margin-bottom: 20px; font-size: 1rem; font-family: var(--font-mono); text-transform: uppercase;">
+                        <button id="generateCert" style="width: 100%; padding: 16px; background: var(--primary); color: var(--white); border: var(--border); box-shadow: var(--shadow-hard); font-weight: 700; cursor: pointer; font-size: 1rem; font-family: var(--font-heading); text-transform: uppercase; transition: var(--transition-fast);">Generate Certification</button>
                     </div>
                 </div>
 
@@ -4933,49 +5447,46 @@ function executeModern(uint256 proposalId) public {
     </main>
 
     <footer class="main-footer">
-        <div class="footer-grid container">
-            <div class="footer-brand">
-                <div style="display: flex; align-items: center; gap: var(--space-3); color: var(--gray-900); margin-bottom: var(--space-6);">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32" style="color: var(--primary);">
-                        <path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z" clip-rule="evenodd" />
-                    </svg>
-                    <span style="font-weight: 700; font-size: 20px;">ChainCodeCamp</span>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="sidebar-logo">ChainCodeCamp</h3>
+                    <p>The definitive engineering curriculum for elite blockchain developers. Built for those who build the future.</p>
                 </div>
-                <p style="margin-bottom: var(--space-8); font-size: 14px; color: var(--gray-600);">The definitive curriculum for engineers who want to surpass the industry standard. Master the machine, protect the future, and build the world's most secure financial primitives.</p>
+                <div class="footer-section">
+                    <h4>Curriculum</h4>
+                    <ul class="footer-links">
+                        <li><a href="#introduction">Foundations</a></li>
+                        <li><a href="#stage01">EVM Internals</a></li>
+                        <li><a href="#stage02">Solidity</a></li>
+                        <li><a href="#stage05">Security</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Whitepapers</a></li>
+                        <li><a href="#">Security Checklist</a></li>
+                        <li><a href="#">Gas Benchmarks</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-nav-group">
-                <div class="nav-section-title">Curriculum</div>
-                <ul class="footer-links" style="list-style: none;">
-                    <li><a href="#stage00">Foundations</a></li>
-                    <li><a href="#stage02">Solidity Mastery</a></li>
-                    <li><a href="#stage05">Security Classes</a></li>
-                    <li><a href="#stage09">DeFi Architecture</a></li>
-                </ul>
-            </div>
-            <div class="footer-nav-group">
-                <div class="nav-section-title">Resources</div>
-                <ul class="footer-links" style="list-style: none;">
-                    <li><a href="#toolstack">Toolstack</a></li>
-                    <li><a href="#projects">Capstone Projects</a></li>
-                    <li><a href="#routine">Daily Training</a></li>
-                    <li><a href="#cheatsheet">Architect's Cheat Sheet</a></li>
-                </ul>
-            </div>
-            <div class="footer-nav-group">
-                <div class="nav-section-title">Community</div>
-                <ul class="footer-links" style="list-style: none;">
-                    <li><a href="#">Audit Contests</a></li>
-                    <li><a href="#">Research Forum</a></li>
-                    <li><a href="#">Discord Server</a></li>
-                    <li><a href="#certificate">Certification</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom container" style="margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid var(--gray-200); display: flex; justify-content: space-between; font-size: 14px; color: var(--gray-400);">
-            <div>© 2026 ChainCodeCamp. Built for the next generation of Protocol Architects.</div>
-            <div style="display: flex; gap: var(--space-8);">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    &copy; 2026 CHAINCODECAMP. ALL RIGHTS RESERVED. // VERIFIED ON-CHAIN.
+                </div>
+                <div style="display: flex; gap: var(--space-6);">
+                    <a href="#" style="font-family: var(--font-mono); font-size: 12px; color: var(--gray-400); text-decoration: none;">PRIVACY_POLICY.MD</a>
+                    <a href="#" style="font-family: var(--font-mono); font-size: 12px; color: var(--gray-400); text-decoration: none;">TERMS_OF_SERVICE.MD</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -5046,6 +5557,21 @@ function executeModern(uint256 proposalId) public {
         // --- Completion Tracking ---
         const totalStages = 18;
         
+        function simulateSequencer(action) {
+            const log = document.getElementById('sequencer-log');
+            if (!log) return;
+            if (action === 'offline') {
+                log.innerText = "STATUS: OFFLINE. Network stalled. Messages queued.";
+                log.style.color = "var(--primary)";
+            } else if (action === 'online') {
+                log.innerText = "STATUS: ONLINE. Processing backlog... (Grace period active)";
+                log.style.color = "var(--primary)";
+            } else if (action === 'liquidate') {
+                log.innerText = "ERROR: Sequencer offline or grace period active. Transaction rejected.";
+                log.style.color = "var(--primary)";
+            }
+        }
+
         function toggleStage(id) {
             let completed = JSON.parse(localStorage.getItem('completedStages') || '[]');
             if (completed.includes(id)) {
@@ -5087,13 +5613,16 @@ function executeModern(uint256 proposalId) public {
                 if (stageCard) {
                     const stageId = parseInt(stageCard.dataset.stage);
                     if (completed.includes(stageId)) {
-                        btn.innerText = "✓ Completed";
+                        btn.innerText = "✓ COMPLETED // VERIFIED";
                         btn.style.background = "var(--gray-200)";
                         btn.style.color = "var(--gray-600)";
+                        btn.style.boxShadow = "none";
+                        btn.style.transform = "none";
                     } else {
-                        btn.innerText = "Mark Stage Complete";
+                        btn.innerText = "MARK STAGE COMPLETE";
                         btn.style.background = "var(--primary)";
                         btn.style.color = "var(--white)";
+                        btn.style.boxShadow = "var(--shadow-hard)";
                     }
                 }
             });
@@ -5152,34 +5681,50 @@ function executeModern(uint256 proposalId) public {
                 ctx.fillRect(0, 0, certCanvas.width, certCanvas.height);
                 
                 // Border
-                ctx.strokeStyle = '#10b981';
-                ctx.lineWidth = 20;
+                ctx.strokeStyle = '#1A1A1A';
+                ctx.lineWidth = 10;
                 ctx.strokeRect(40, 40, certCanvas.width - 80, certCanvas.height - 80);
                 
+                // Secondary Border (Inner)
+                ctx.strokeStyle = '#10B981';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(60, 60, certCanvas.width - 120, certCanvas.height - 120);
+                
                 // Content
-                ctx.fillStyle = '#1f2937';
+                ctx.fillStyle = '#1A1A1A';
                 ctx.textAlign = 'center';
                 
-                ctx.font = 'bold 60px sans-serif';
-                ctx.fillText('ChainCodeCamp', certCanvas.width / 2, 200);
+                ctx.font = 'bold 60px "Outfit", sans-serif';
+                ctx.fillText('CHAINCODECAMP', certCanvas.width / 2, 200);
                 
-                ctx.font = '30px sans-serif';
-                ctx.fillText('CERTIFICATE OF MASTERY', certCanvas.width / 2, 280);
+                ctx.font = 'bold 24px "IBM Plex Mono", monospace';
+                ctx.fillText('PROTOCOL ARCHITECT CERTIFICATION', certCanvas.width / 2, 260);
                 
-                ctx.font = 'italic 24px serif';
-                ctx.fillText('This certifies that', certCanvas.width / 2, 380);
+                ctx.font = '24px "IBM Plex Serif", serif';
+                ctx.fillText('THIS DOCUMENT VERIFIES THAT', certCanvas.width / 2, 360);
                 
-                ctx.font = 'bold 50px sans-serif';
-                ctx.fillStyle = '#10b981';
-                ctx.fillText(name.toUpperCase(), certCanvas.width / 2, 460);
+                ctx.font = 'bold 64px "Outfit", sans-serif';
+                ctx.fillStyle = '#10B981';
+                ctx.fillText(name.toUpperCase(), certCanvas.width / 2, 450);
                 
-                ctx.fillStyle = '#1f2937';
-                ctx.font = '24px sans-serif';
-                ctx.fillText('has successfully completed the definitive curriculum for', certCanvas.width / 2, 540);
-                ctx.font = 'bold 30px sans-serif';
-                ctx.fillText('Elite Blockchain Protocol Engineering', certCanvas.width / 2, 600);
+                ctx.fillStyle = '#1A1A1A';
+                ctx.font = '20px "IBM Plex Mono", monospace';
+                ctx.fillText('HAS MASTERED THE ADVERSARIAL DESIGN AND SECURITY PRINCIPLES OF', certCanvas.width / 2, 540);
+                ctx.font = 'bold 28px "IBM Plex Mono", monospace';
+                ctx.fillText('ELITE SMART CONTRACT ENGINEERING', certCanvas.width / 2, 590);
                 
-                const date = new Date().toLocaleDateString();
+                const date = new Date().toLocaleDateString().toUpperCase();
+                ctx.font = 'bold 16px "IBM Plex Mono", monospace';
+                ctx.fillText('VERIFIED ON: ' + date, certCanvas.width / 2, 700);
+                ctx.fillText('ID: ' + Math.random().toString(36).substr(2, 9).toUpperCase(), certCanvas.width / 2, 730);
+                
+                // Stamp
+                ctx.strokeStyle = '#10B981';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(certCanvas.width - 250, certCanvas.height - 180, 150, 80);
+                ctx.fillStyle = '#10B981';
+                ctx.font = 'bold 20px "IBM Plex Mono", monospace';
+                ctx.fillText('CERTIFIED', certCanvas.width - 175, certCanvas.height - 135);
                 ctx.font = '20px sans-serif';
                 ctx.fillStyle = '#6b7280';
                 ctx.fillText(`Issued on ${date}`, certCanvas.width / 2, 700);
