@@ -713,65 +713,99 @@
 
         /* --- Mobile Responsiveness --- */
         @media (max-width: 1199px) {
-            h1 { font-size: 56px; }
-            .hero { height: 440px; padding: 0 var(--space-8); }
+            h1 { font-size: 48px; }
+            .hero { height: auto; min-height: 400px; padding: var(--space-10) var(--space-8); }
         }
 
         @media (max-width: 767px) {
-            h1 { font-size: 42px; }
-            h2 { font-size: 32px; }
+            body { font-size: 16px; }
+            h1 { font-size: 32px; line-height: 1.2; }
+            h2 { font-size: 24px; }
+            h3 { font-size: 20px; }
+            
             .hero { 
-                height: auto; 
-                min-height: 400px; 
-                padding: var(--space-12) var(--space-6); 
+                padding: var(--space-12) var(--space-4); 
                 align-items: center; 
                 text-align: center;
             }
+            .hero h1 { font-size: 36px; text-shadow: 4px 4px 0px var(--ink); }
             .hero-accent { margin-left: auto; margin-right: auto; }
-            .hero p { font-size: 20px; }
+            .hero p { font-size: 18px; width: 100%; max-width: 100%; }
             
-            .content-inner { padding: var(--space-8) var(--space-4); }
-            .stage-card { padding: var(--space-6); }
+            .content-inner { padding: var(--space-6) var(--space-3); }
+            .stage-card { padding: var(--space-4); width: 100%; overflow-x: hidden; }
             
-            .hamburger-toggle { display: block; }
+            .hamburger-toggle { display: block; z-index: 1001; }
             .sidebar { 
                 transform: translateX(-100%); 
-                width: 280px; 
+                width: 85vw; 
+                max-width: 300px;
                 transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 border-right: var(--border);
             }
             .sidebar.open { 
                 transform: translateX(0); 
             }
-            .sidebar-backdrop {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(26, 26, 26, 0.8);
-                z-index: 950;
-                backdrop-filter: blur(4px);
+            
+            header { 
+                left: 0 !important; 
+                width: 100% !important;
+                padding: 0 var(--space-4); 
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
-            .sidebar-backdrop.active {
-                display: block;
+            .main-content { 
+                margin-left: 0 !important; 
+                width: 100% !important;
+                overflow-x: hidden;
             }
-            header { left: 0 !important; padding: 0 var(--space-4); }
-            .main-content { margin-left: 0 !important; }
 
             /* Fix grids for mobile */
-            .stage-card div[style*="grid-template-columns"] {
+            div[style*="grid-template-columns"] {
                 grid-template-columns: 1fr !important;
+                gap: 16px !important;
             }
 
             .completion-footer {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 16px;
             }
             .completion-footer .btn {
                 width: 100%;
+                min-width: unset;
             }
+
+            /* Fix code blocks and tables */
+            pre, code {
+                font-size: 12px !important;
+                white-space: pre-wrap !important;
+                word-break: break-all !important;
+            }
+            .table-wrapper {
+                width: 100%;
+                margin: 16px 0;
+            }
+            table {
+                min-width: 600px; /* Allow some scrolling but not too much */
+            }
+
+            .stage-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .stage-icon {
+                width: 48px;
+                height: 48px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 28px !important; }
+            .hero p { font-size: 16px !important; }
+            .stage-card { padding: 16px !important; }
         }
 
         /* Footer Alignment Fix */
@@ -1446,6 +1480,31 @@ function _domainSeparatorV4() internal view returns (bytes32) {
                     </details>
                 </div>
 
+                <details class="interactive-card" style="margin-top: 56px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: The "Elite 1%" Secret Knowledge</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive breakdowns of the industry's hardest problems.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Playground Rules</h5>
+                        <p>Imagine a playground where everyone is trying to trade toys. Most kids just hand over a toy and take another one. But the "Elite Kids" (The Architects) have secret tricks. One kid has a special "Magic Sticker" (EIP-712) that only works on his specific slide. Another kid has a "Taxing Toy" (Fee on Transfer) that takes a tiny piece of every toy it touches. A third kid has a "Time-Travel Machine" (MEV) that lets him see who is about to trade and jump in front of them to get a better deal. To play with the big kids, you have to know all these secret rules, or they will take all your toys before you even know what happened!</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: Advanced Protocol Security</h5>
+                        
+                        <h6>1. Read-Only Reentrancy: The Silent Killer</h6>
+                        <p>Standard reentrancy involves state changes. **Read-Only Reentrancy** occurs when a contract reads state from another contract that is in the middle of a state transition. For example, if a user is removing liquidity from a pool, the pool's `totalSupply` might be updated *before* the assets are sent out. If a third contract reads the pool's price during this window, it will get an inflated price. This was the vector for the **Euler Finance Hack ($197M)**. **Fix:** Use `nonReentrant` guards even on `view` functions that are critical for price calculations.</p>
+                        
+                        <h6>2. Oracle Manipulation & Flash Loans</h6>
+                        <p>Attackers use Flash Loans to temporarily manipulate the price of an asset on a decentralized exchange (DEX). If your protocol uses that DEX as its only price source, the attacker can "trick" your protocol into thinking an asset is worth 100x its actual value. This allows them to take out massive loans they never intend to repay. **Fix:** Always use a decentralized oracle like **Chainlink** with a built-in "Staleness Check" and "Deviation Threshold."</p>
+                        
+                        <h6>3. The "Infinite Approval" Trap</h6>
+                        <p>Most DApps ask users for "Infinite Approval" (type(uint256).max) to save gas. This is a massive security risk. If the protocol is hacked, the attacker can drain *every user's wallet* of that specific token, even if the funds weren't in the protocol! **Architect Solution:** Use **ERC-2612 Permit** for one-click, specific approvals, or implement a "Limited Approval" UI that encourages users to only approve what they need.</p>
+
+                        <h5>🛡️ Security Perspective: The MEV Dark Forest</h5>
+                        <p>Ethereum is a **Dark Forest**. Every transaction you send is visible to bots before it's included in a block. These bots use MEV (Maximal Extractable Value) to frontrun, backrun, or sandwich your trades. As an architect, you must design protocols that are "MEV-Resistant" by using **Slippage Protection**, **Commit-Reveal Schemes**, or by routing transactions through private RPCs like **Flashbots Protect**.</p>
+                    </div>
+                </details>
+
                 <div style="margin-top: 56px; padding: 32px; background: var(--white); border: var(--border-strong); box-shadow: var(--shadow-hard-lg);">
                     <h4 style="margin-top: 0; color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Gas Cost Comparison (EIP-3860)</h4>
                     <div class="table-wrapper">
@@ -2113,6 +2172,32 @@ function withdrawModern() public onlyOwner {
     payable(msg.sender).transfer(address(this).balance);
 }</code></pre>
                 </div>
+
+                <details class="interactive-card" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">The "Why" and the "How" of the EVM explained for everyone from 5 to 55.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Global Calculator</h5>
+                        <p>Imagine a giant calculator that sits in the middle of a playground. This calculator is special because it never forgets what you typed into it, and everyone in the world can see the numbers on its screen. But there's a catch: the calculator is very slow and expensive to run. To use it, you have to give a few candies (gas) to the playground guards. If you try to do a really hard math problem that takes too long, the guards will take your candies and stop the calculator so it doesn't get too hot. The "Memory" is like a small notebook the calculator keeps for quick notes, but it throws the notes away when the problem is finished. The "Storage" is like a giant stone wall where the calculator carves the final answer forever.</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: The EVM Architecture</h5>
+                        <p>The **Ethereum Virtual Machine (EVM)** is a stack-based, quasi-Turing complete state machine. Unlike your laptop, which uses a register-based architecture (like x86 or ARM), the EVM performs all operations on a **Stack** with a depth of 1024 elements. Each element is exactly 256 bits (32 bytes) wide, which is optimized for the Keccak-256 hashes and secp256k1 elliptic curve math that power Ethereum.</p>
+                        
+                        <h6>1. The Stack & The 16-Element Limit</h6>
+                        <p>While the stack can hold 1024 items, the EVM opcodes only allow you to access the top 16 items. This is why you often see the dreaded "Stack Too Deep" error in Solidity. Architects solve this by using **Memory** or **Storage** to "park" variables, or by using block-scoping to limit the number of active variables in a function.</p>
+                        
+                        <h6>2. Memory vs. Storage: The Cost of Persistence</h6>
+                        <p>**Memory** is a byte-array that starts at size zero and grows in 32-byte increments. It is linear and volatile. The cost of memory is quadratic—the more you use, the more expensive each additional byte becomes. This prevents developers from bloated memory usage that would slow down nodes. **Storage**, on the other hand, is a key-value mapping (mapping 32-byte slots to 32-byte values). Writing to a new storage slot costs 20,000 gas, while updating an existing one costs 2,900 gas. This is the most expensive operation in the EVM because it requires every node in the world to update their disk.</p>
+                        
+                        <h6>3. Calldata: The Read-Only Input</h6>
+                        <p>**Calldata** is where the inputs to your function are stored. It is read-only and behaves like memory but is significantly cheaper. Great architects pass large arrays as `calldata` instead of `memory` to save gas, as the EVM doesn't need to copy the data into its active memory space.</p>
+
+                        <h5>🛡️ Security Perspective: The World State</h5>
+                        <p>The EVM doesn't just run code; it manages the **World State**. Every transaction is a state transition function: `Apply(State, Transaction) -> NewState`. If a transaction fails (e.g., out of gas or a revert), the EVM discards all changes, ensuring the state remains consistent. This atomicity is the bedrock of DeFi security—either the entire trade happens, or nothing happens at all.</p>
+                    </div>
+                </details>
             </div>
         </section>
 
@@ -2584,6 +2669,32 @@ function safeAssembly() internal pure {
     }
 }</code></pre>
                 </div>
+
+                <details class="interactive-card" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Packing your "Blockchain Drawers" and avoiding the "Assembly Traps".</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Messy Room</h5>
+                        <p>Imagine your room has a giant wall of 1,000 tiny drawers. Each drawer can hold one big toy or many small toys. If you put a small toy in its own big drawer, you are wasting space. If you want to move your toys to a friend's house, the moving company charges you for every drawer they have to open. To save money, you should pack as many small toys as possible into one drawer. In Solidity, the drawers are "Storage Slots," and the moving fee is "Gas." Assembly (Yul) is like being allowed to crawl behind the drawers and move things manually, but if you trip, you might break the whole wall!</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: Storage Layout & Yul</h5>
+                        <p>Solidity storage is a contiguous array of 32-byte slots. The EVM treats storage as a key-value store where both keys and values are 32 bytes. However, the Solidity compiler is smart: it tries to pack multiple variables into a single slot to save gas.</p>
+                        
+                        <h6>1. Storage Packing (The Tetris Rule)</h6>
+                        <p>Variables are packed from right to left in a single 32-byte slot if they fit. For example, a `uint128`, a `uint64`, and another `uint64` will all fit into one 32-byte slot (16+8+8 = 32). This is critical because `SSTORE` (writing) and `SLOAD` (reading) operate on full 32-byte slots. Packing reduces the number of expensive storage operations. **Pro Tip:** Order your variables by size to ensure the compiler packs them efficiently.</p>
+                        
+                        <h6>2. Inheritance Linearization (C3 Superclass Linearization)</h6>
+                        <p>Solidity supports multiple inheritance, which can get messy. When a contract inherits from multiple parents, Solidity uses the **C3 Linearization** algorithm to determine the order of functions and variables. This prevents the "Diamond Problem" where a contract might inherit the same function from two different paths. As an architect, you must understand that the order in the `is` clause matters—the rightmost parent is the "most derived."</p>
+                        
+                        <h6>3. Yul: The Language of the Gods</h6>
+                        <p>**Yul** is an intermediate language that sits between Solidity and EVM bytecode. It gives you direct access to opcodes like `mload`, `mstore`, `sload`, and `sstore`. While Solidity is safe, Yul is dangerous because it bypasses all of Solidity's safety checks (like type checking and overflow protection). We use Yul for extreme gas optimization and for accessing features not available in high-level Solidity, such as custom function dispatchers or manual memory management.</p>
+
+                        <h5>🛡️ Security Perspective: Memory Corruption</h5>
+                        <p>One of the most dangerous things in Yul is overwriting Solidity's **Free Memory Pointer**. Solidity keeps track of the next available memory address at slot `0x40`. If you manually store data in memory without updating this pointer, Solidity might overwrite your data later, leading to "Memory Corruption." Always read from `0x40` before using memory in assembly, and update it when you're done.</p>
+                    </div>
+                </details>
             </div>
         </section>
 
@@ -3084,6 +3195,34 @@ for (uint256 i = 0; i < len; ) {
 sum = _sum;</code></pre>
                 </div>
 
+                <details class="interactive-card" style="margin-top: 32px; border-color: var(--accent);">
+                    <summary>
+                        <h4 style="color: var(--accent);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Saving "Gas Pennies" and the math behind efficient code.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Gas-Guzzling Bus</h5>
+                        <p>Imagine you are the driver of a special bus on a long highway. Every time you turn the steering wheel, press the brakes, or even look in the mirror, you have to throw some coins out the window. If you run out of coins, the bus stops immediately, and everyone has to walk home! To be a good driver, you want to drive in a straight line as much as possible and avoid doing anything you don't have to. In Solidity, the "bus" is your contract, the "highway" is the blockchain, and the "coins" are Gas. Every line of code is an action that costs coins.</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: Gas Optimization Patterns</h5>
+                        <p>Gas optimization is not just about writing shorter code; it's about understanding how the EVM opcodes are priced. The goal is to minimize expensive operations like `SSTORE` (storage writes) and `SLOAD` (storage reads).</p>
+                        
+                        <h6>1. The "Unchecked" Increment</h6>
+                        <p>In Solidity 0.8.0+, all math operations have built-in overflow and underflow checks. While safe, these checks cost extra gas. In a `for` loop, we know that the counter `i` will never overflow the maximum value of a `uint256` because it's limited by the array length. By wrapping the increment in an `unchecked { ++i; }` block, we save about 30-40 gas per iteration. For a large array, this adds up significantly.</p>
+                        
+                        <h6>2. Caching State Variables</h6>
+                        <p>Reading from storage (`SLOAD`) costs 100 gas for a "warm" slot and 2,100 gas for a "cold" slot. Reading from memory or a stack variable is much cheaper (3 gas). If you use a state variable multiple times in a function (like `arr.length`), you should "cache" it into a local variable. This ensures you only pay for the expensive `SLOAD` once.</p>
+                        
+                        <h6>3. Bitwise Magic vs. Boolean Arrays</h6>
+                        <p>A `bool` in Solidity takes up 8 bits in memory but a full 256-bit slot in storage if not packed. A `uint256` can store 256 individual bits. Using a single `uint256` as a **Bitmask** is much more efficient than using an array of booleans. You can use bitwise operators like `AND`, `OR`, and `XOR` to check and set multiple flags at once for the cost of a single storage operation.</p>
+
+                        <h5>🛡️ Security Perspective: Gas Limit DoS</h5>
+                        <p>If your function iterates over a dynamic array that can grow indefinitely, an attacker can bloat that array until the gas required to iterate exceeds the **Block Gas Limit**. This is called a **Gas Limit Denial of Service (DoS)**. The protocol becomes "bricked" because the function can never be successfully executed again. Always use a pattern that allows users to process arrays in batches, or use fixed-size arrays where possible.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(6)">Mark Stage Complete</button>
                 </div>
@@ -3391,6 +3530,34 @@ function executeModern(bytes memory message, bytes memory signature) public {
     _process(message);
 }</code></pre>
                 </div>
+
+                <details class="interactive-card" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Bridges, L2s, and the "Magic Portals" of the Blockchain.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Island Kingdoms</h5>
+                        <p>Imagine there are many different islands in the ocean. Each island has its own rules and its own kind of money. To move your money from Island A to Island B, you have to go to a special "Magic Portal." You give your money to the portal guard on Island A, and he locks it in a giant safe. Then, he sends a bird with a secret letter to Island B. The guard on Island B reads the letter and gives you some new "Island B Money" from his own safe. If the bird gets lost, or if someone writes a fake letter, the money might disappear forever! This is how "Bridges" work.</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: L2 Scaling & Interoperability</h5>
+                        <p>Scaling Ethereum requires moving transaction execution off the main chain (L1) while maintaining its security. This is achieved through **Rollups** and **Bridges**.</p>
+                        
+                        <h6>1. Optimistic vs. ZK Rollups</h6>
+                        <p>**Optimistic Rollups** (like Arbitrum and Optimism) assume all transactions are valid by default. They use a "Fraud Proof" window (usually 7 days) where anyone can challenge a transaction. If a challenge is successful, the state is rolled back. **ZK Rollups** (like ZKSync or Starknet) use "Validity Proofs" (Zero-Knowledge Proofs). Every batch of transactions includes a mathematical proof that the state change is correct. ZK Rollups provide instant finality but are computationally much more expensive to generate proofs for.</p>
+                        
+                        <h6>2. Bridge Architectures: Lock-and-Mint vs. Burn-and-Mint</h6>
+                        <p>Most bridges use the **Lock-and-Mint** pattern: assets are locked on the source chain, and "wrapped" representations are minted on the destination chain. This creates a massive single point of failure: the bridge's vault. **Burn-and-Mint** (like Circle's CCTP) is more secure: the actual asset is destroyed on the source chain and a native version is minted on the destination chain, eliminating the need for a central vault.</p>
+                        
+                        <h6>3. The Risk of Message Replay</h6>
+                        <p>When a bridge sends a message from Chain A to Chain B, it usually includes a signature or a proof. If the bridge doesn't include a **Chain ID** or a **Nonce** in the message, an attacker can capture that message and "replay" it on a third chain, or on the same chain multiple times, to double-spend the assets. This is why strict **Replay Protection** is the most important part of bridge security.</p>
+
+                        <h5>🛡️ Security Perspective: The L2 Sequencer Risk</h5>
+                        <p>While Rollups inherit L1 security for data, they often rely on a single **Sequencer** for execution. If the sequencer is malicious, it can frontrun your transactions or censor you. While you can always "Escape Hatch" back to L1, the delay and gas cost make this a last resort. Modern L2 architecture is moving toward **Decentralized Sequencers** to mitigate this centralized risk.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
 
                 <div class="completion-footer">>,old_str:
                     <button class="mark-complete-btn" onclick="toggleStage(9)">Mark Stage Complete</button>
