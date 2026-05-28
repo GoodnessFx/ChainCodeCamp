@@ -718,87 +718,118 @@
         }
 
         @media (max-width: 767px) {
-            body { font-size: 16px; }
-            h1 { font-size: 32px; line-height: 1.2; }
-            h2 { font-size: 24px; }
-            h3 { font-size: 20px; }
+            body { 
+                font-size: 16px; 
+                overflow-x: hidden; 
+                width: 100%;
+                position: relative;
+            }
+            
+            h1 { font-size: 28px !important; line-height: 1.2; }
+            h2 { font-size: 22px !important; }
+            h3 { font-size: 18px !important; }
             
             .hero { 
-                padding: var(--space-12) var(--space-4); 
-                align-items: center; 
-                text-align: center;
+                padding: 60px 20px !important;
+                height: auto !important;
+                min-height: 300px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                text-align: center !important;
             }
-            .hero h1 { font-size: 36px; text-shadow: 4px 4px 0px var(--ink); }
-            .hero-accent { margin-left: auto; margin-right: auto; }
-            .hero p { font-size: 18px; width: 100%; max-width: 100%; }
+            .hero h1 { font-size: 32px !important; }
+            .hero p { font-size: 16px !important; padding: 0 !important; }
             
-            .content-inner { padding: var(--space-6) var(--space-3); }
-            .stage-card { padding: var(--space-4); width: 100%; overflow-x: hidden; }
-            
-            .hamburger-toggle { display: block; z-index: 1001; }
             .sidebar { 
-                transform: translateX(-100%); 
-                width: 85vw; 
-                max-width: 300px;
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                border-right: var(--border);
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                z-index: 2000 !important;
+                height: 100% !important;
+                width: 80% !important;
+                max-width: 300px !important;
+                transform: translateX(-100%) !important;
+                transition: transform 0.3s ease !important;
             }
-            .sidebar.open { 
-                transform: translateX(0); 
-            }
+            .sidebar.open { transform: translateX(0) !important; }
             
-            header { 
-                left: 0 !important; 
-                width: 100% !important;
-                padding: 0 var(--space-4); 
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
             .main-content { 
                 margin-left: 0 !important; 
                 width: 100% !important;
-                overflow-x: hidden;
+                padding: 0 !important;
+                overflow-x: hidden !important;
+            }
+            
+            .content-inner { 
+                padding: 20px 15px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            .stage-card { 
+                padding: 20px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                box-sizing: border-box !important;
+                overflow-x: hidden !important;
             }
 
-            /* Fix grids for mobile */
+            .interactive-card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .interactive-card summary {
+                padding: 15px !important;
+            }
+            
+            .interactive-card h4 {
+                font-size: 0.9rem !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+            }
+
+            /* Force all grids to stack */
+            div[style*="display: grid"], 
+            div[style*="display:grid"] {
+                display: block !important;
+            }
+            
             div[style*="grid-template-columns"] {
                 grid-template-columns: 1fr !important;
-                gap: 16px !important;
             }
 
-            .completion-footer {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 16px;
-            }
-            .completion-footer .btn {
-                width: 100%;
-                min-width: unset;
-            }
-
-            /* Fix code blocks and tables */
-            pre, code {
-                font-size: 12px !important;
-                white-space: pre-wrap !important;
-                word-break: break-all !important;
-            }
             .table-wrapper {
-                width: 100%;
-                margin: 16px 0;
+                margin: 10px -5px !important;
+                width: calc(100% + 10px) !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch;
             }
+            
             table {
-                min-width: 600px; /* Allow some scrolling but not too much */
+                min-width: 450px !important;
             }
 
-            .stage-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
+            pre, code {
+                white-space: pre-wrap !important;
+                word-wrap: break-word !important;
+                font-size: 11px !important;
             }
-            .stage-icon {
-                width: 48px;
-                height: 48px;
+            
+            .completion-footer {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            
+            .btn, .mark-complete-btn, .share-lesson-btn {
+                width: 100% !important;
+                margin: 0 !important;
             }
         }
 
@@ -982,6 +1013,35 @@
 
         .interactive-card-content pre {
             margin: 16px 0;
+        }
+        .interactive-card summary h4 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .masterclass-dropdown {
+            border-left: 8px solid var(--secondary) !important;
+        }
+
+        .childlike-explanation {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+        }
+
+        .technical-deep-dive {
+            line-height: 1.8;
+        }
+
+        @media (max-width: 767px) {
+            .interactive-card summary h4 {
+                font-size: 1rem;
+            }
+            .masterclass-dropdown {
+                border-left: 4px solid var(--secondary) !important;
+            }
         }
     </style>
 </head>
@@ -1931,11 +1991,40 @@ function addModern(uint256 a, uint256 b) public pure returns (uint256) {
                 </ul>
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/0UvVOMZqpEA" allowfullscreen loading="lazy"></iframe></div>
                 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Global Brain & The "Candy" Economy</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Playground Notebook</h5>
+                            <p>Imagine a giant notebook that sits in the middle of a playground. This notebook is special because it never forgets what you typed into it, and everyone in the world can see the pages. But there's a catch: the notebook is very slow to write in, and to use it, you have to give a few candies (gas) to the playground guards. If you try to write a whole book at once, the guards will take your candies and stop you so you don't use up all the space for everyone else. Your "Key" is like a magic pen that only you can use to sign your name. If you lose your pen, someone else can pretend to be you and take your toys! This stage is about learning how that notebook works and how to keep your magic pen safe.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: The Foundation of Truth</h5>
+                            <p>To build secure protocols, you must understand the "First Principles" of the Ethereum network. It is not just a database; it is a **State Machine** that transition based on cryptographic proofs.</p>
+                            
+                            <h6>1. Cryptography: The secp256k1 Curve</h6>
+                            <p>Ethereum uses the **Elliptic Curve Digital Signature Algorithm (ECDSA)** with the `secp256k1` curve. This curve is defined by the equation \(y^2 = x^3 + 7\). Your private key is simply a random integer between 1 and \(n-1\), where \(n\) is the order of the curve. Your public key is a point on that curve calculated by multiplying the generator point \(G\) by your private key \(k\). This is easy to do in one direction but practically impossible to reverse, which is the "trapdoor" that makes the system secure.</p>
+                            
+                            <h6>2. Hashing: Keccak-256 vs SHA-3</h6>
+                            <p>One of the most common points of confusion is the difference between Keccak-256 and the official FIPS SHA-3 standard. Ethereum uses the original Keccak-256 algorithm. The difference lies in the "Padding" of the message. If you use a SHA-3 library instead of a Keccak library in your off-chain code, your hashes won't match the on-chain results, leading to failed proofs and "Signature Mismatch" errors. Always verify your library is using the **Keccak-256** variant.</p>
+                            
+                            <h6>3. The State Trie: Merkle Patricia Trees</h6>
+                            <p>Ethereum stores its data in a **Modified Merkle Patricia Trie**. This is a complex hybrid that combines the "Merkle Tree" (for security) and a "Patricia Trie" (for efficient lookups). Each node in the tree is a hash of its children. The "Root Hash" of this tree is what is stored in every block header. This allows for **SPV (Simplified Payment Verification)**, where a light client can prove that a transaction exists or an account has a certain balance by only looking at a small "Branch" of the tree rather than the whole database.</p>
+
+                            <h6>4. The Mempool & Transaction Ordering</h6>
+                            <p>When you send a transaction, it enters the **Mempool** (Memory Pool). This is a decentralized "Waiting Room" where transactions sit before being picked up by a validator. Validators don't pick transactions randomly; they usually pick the ones that pay the most "Gas." This creates an auction-style market where users can pay more to have their transactions processed faster. However, this also opens the door to **MEV (Maximal Extractable Value)**, where sophisticated bots can see your transaction and jump ahead of you (Frontrunning) to profit from your trade.</p>
+
+                            <h6>5. Checksum Addresses (EIP-55)</h6>
+                            <p>Because hexadecimal is case-insensitive, it's easy to make a typo when copying an address. **EIP-55** introduced a way to encode a "Check" into the capitalization of the letters in an address. By hashing the lowercase address and looking at the bits of the result, we can decide which letters should be uppercase. If even one character is wrong, the checksum won't match, and most wallets will warn you before you send funds to a void.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
-                    <button class="share-lesson-btn" onclick="shareLesson(0)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Share Lesson
-                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(0)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -2592,11 +2681,40 @@ function getUpper128(uint256 x) public pure returns (uint128 result) {
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/S2C_j7pC8_E" allowfullscreen loading="lazy"></iframe></div>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: The Messy Room & The Assembly Trap</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Messy Room</h5>
+                            <p>Imagine your room has a giant wall of 1,000 tiny drawers. Each drawer can hold one big toy or many small toys. If you put a small toy in its own big drawer, you are wasting space. If you want to move your toys to a friend's house, the moving company charges you for every drawer they have to open. To save money, you should pack as many small toys as possible into one drawer. In Solidity, the drawers are "Storage Slots," and the moving fee is "Gas." Assembly (Yul) is like being allowed to crawl behind the drawers and move things manually, but if you trip, you might break the whole wall!</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Storage Layout & Yul</h5>
+                            <p>Solidity storage is a contiguous array of 32-byte slots, from `0` to `2^256 - 1`. The EVM treats storage as a key-value store where both keys and values are 32 bytes. However, the Solidity compiler is smart: it tries to pack multiple variables into a single slot to save gas, following a specific set of rules.</p>
+                            
+                            <h6>1. Storage Packing (The Tetris Rule)</h6>
+                            <p>Variables are packed from right to left in a single 32-byte slot if they fit. For example, a `uint128`, a `uint64`, and another `uint64` will all fit into one 32-byte slot (16+8+8 = 32). This is critical because `SSTORE` (writing) costs 20,000 gas for a cold slot and 2,900 for a warm one, while `SLOAD` (reading) costs 2,100 for a cold slot and 100 for a warm one. Packing reduces the number of expensive storage operations. **Pro Tip:** Order your variables by size to ensure the compiler packs them efficiently. For example, group `uint8`, `address`, and `bool` together.</p>
+                            
+                            <h6>2. Inheritance Linearization (C3 Superclass Linearization)</h6>
+                            <p>Solidity supports multiple inheritance, which can get messy. When a contract inherits from multiple parents, Solidity uses the **C3 Linearization** algorithm to determine the order of functions and variables. This prevents the "Diamond Problem" where a contract might inherit the same function from two different paths. As an architect, you must understand that the order in the `is` clause matters—the rightmost parent is the "most derived" and its functions override the ones to its left. Misunderstanding this order can lead to **Shadowing Vulnerabilities** where you think you're calling a secure parent function but are actually calling an overridden version.</p>
+                            
+                            <h6>3. Yul: The Language of the Gods</h6>
+                            <p>**Yul** is an intermediate language that sits between Solidity and EVM bytecode. It gives you direct access to opcodes like `mload`, `mstore`, `sload`, and `sstore`. While Solidity is safe, Yul is dangerous because it bypasses all of Solidity's safety checks (like type checking and overflow protection). We use Yul for extreme gas optimization and for accessing features not available in high-level Solidity, such as custom function dispatchers or manual memory management. For example, using `mload(0x40)` in Yul is how you manually grab the free memory pointer.</p>
+
+                            <h6>4. Function Selectors & Dispatching</h6>
+                            <p>When a contract receives a call, it doesn't "know" which function to run. It takes the first 4 bytes of the calldata (the **Function Selector**) and runs a series of `if/else` checks (the **Dispatch Table**) to find a match. If you have 50 functions, calling the 50th one is slightly more expensive than calling the 1st one. High-performance protocols like Uniswap or Curve often pre-calculate function names to ensure their most-used functions have "low" selectors (e.g., starting with `0000...`) to save gas in the dispatch loop.</p>
+
+                            <h5>🛡️ Security Perspective: Memory Corruption & The Scratch Space</h5>
+                            <p>One of the most dangerous things in Yul is overwriting Solidity's **Free Memory Pointer**. Solidity keeps track of the next available memory address at slot `0x40`. If you manually store data in memory without updating this pointer, Solidity might overwrite your data later, leading to "Memory Corruption." Additionally, slots `0x00` to `0x3F` are used as "scratch space" for hashing operations. If you use them in Yul, be aware that any subsequent `keccak256` call in Solidity will wipe your data. This is a common source of "Ghost Bugs" in complex DeFi protocols.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
-                    <button class="share-lesson-btn" onclick="shareLesson(3)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Share Lesson
-                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(3)">Mark Stage Complete</button>
                 </div>
 
@@ -2874,11 +2992,40 @@ function invariant_BalanceSum() public {
 }</code></pre>
                 </div>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--accent);">
+                    <summary>
+                        <h4 style="color: var(--accent);">Masterclass: The Power Tool Set & The Mirror Test</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Magic Workshop</h5>
+                            <p>Imagine you are building a giant Lego castle. Before, you had to build it piece by piece, and if you made a mistake, you had to take the whole thing apart. But now, you have a "Magic Workshop" (Foundry). In this workshop, you have a robot that can build your castle 1,000 times in one second and tell you if any piece falls off. You also have a "Mirror" (Forking) that lets you see exactly what your castle would look like if you built it in the middle of a busy park, without actually having to go to the park! This workshop is how pro builders make sure their castles never fall down.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Foundry & The Forge Workflow</h5>
+                            <p>Foundry is a Rust-based development framework that has largely superseded Hardhat due to its speed and its "Solidity-first" testing philosophy. It consists of four main tools: **Forge**, **Cast**, **Anvil**, and **Chisel**.</p>
+                            
+                            <h6>1. Forge: High-Performance Testing</h6>
+                            <p>Forge runs tests in a stripped-down EVM environment, which is significantly faster than the Node.js-based environment used by Hardhat. It supports **Fuzz Testing**, where you provide a function with random inputs and Forge tries to find an input that causes a failure. For example, if you have a `deposit(uint256 amount)` function, Forge will try `0`, `max_uint`, `1`, etc. If it finds a failure, it performs "Shrinking" to find the smallest possible input that still causes the error, making debugging much easier.</p>
+                            
+                            <h6>2. Invariant Testing (Stateful Fuzzing)</h6>
+                            <p>Unlike standard fuzzing which tests a single function call, **Invariant Testing** tests a sequence of calls to ensure a global property (the "Invariant") is never broken. For example, in a lending protocol, an invariant might be `totalCollateral >= totalDebt`. Forge will randomly call `deposit`, `borrow`, `liquidate`, and `withdraw` thousands of times in different orders to see if the invariant ever breaks. This is the most powerful tool for catching deep economic vulnerabilities.</p>
+                            
+                            <h6>3. Fork Testing & Cheatcodes</h6>
+                            <p>Foundry's `vm.createFork` allows you to pull the state of any live network (Ethereum, Arbitrum, etc.) into your local test environment. This is critical for testing integrations with protocols like Uniswap or Aave. You can use **Cheatcodes** (the `vm` object) to bypass standard EVM rules. For example, `vm.prank(address)` changes the `msg.sender` for the next call, and `vm.deal(address, amount)` gives an address a specific amount of ETH. These are essential for simulating complex attack scenarios.</p>
+
+                            <h6>4. Cast: The CLI Swiss Army Knife</h6>
+                            <p>`cast` allows you to interact with the blockchain directly from your terminal. You can encode function calls (`cast calldata "transfer(address,uint256)" <addr> <val>`), query storage slots (`cast storage <contract> <slot>`), and even perform math on-chain. It's the primary tool for rapid debugging and exploration during an audit or a production emergency.</p>
+
+                            <h6>5. Chisel: The Solidity REPL</h6>
+                            <p>`chisel` is a lightweight Read-Eval-Print Loop for Solidity. It allows you to test small snippets of code, verify bitwise operations, or check ABI encoding logic instantly without setting up a full project. It's an invaluable tool for mastering the nuances of the Solidity language and the EVM.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
-                    <button class="share-lesson-btn" onclick="shareLesson(4)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Share Lesson
-                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(4)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -3044,11 +3191,40 @@ abstract contract ReentrancyGuard {
 }</code></pre>
                 </div>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: #EF4444;">
+                    <summary>
+                        <h4 style="color: #EF4444;">Masterclass: The Vault Cracker & The Ghost Twin</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Magic ATM</h5>
+                            <p>Imagine a magic ATM where you can take out money. Usually, you ask for $10, the ATM gives it to you, and then it writes down in its notebook: "This person has $10 less." But what if the ATM was slow at writing? You could ask for $10, and while the ATM is busy counting the money, you quickly ask for another $10 before it can write in its notebook! You could keep doing this until the ATM is empty. This is **Reentrancy**. Also, imagine you have a special signature to get your money, but someone finds a way to "wiggle" your signature so it looks different but still works. They could use that wiggled signature to trick the ATM into giving them your money again. This is **Signature Malleability**.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Advanced Security Vectors</h5>
+                            <p>Security in Web3 is a game of "Invariants." You must identify the core truths of your protocol and ensure they can never be violated, even under extreme conditions.</p>
+                            
+                            <h6>1. Reentrancy: Beyond the Basics</h6>
+                            <p>While most developers know about "Single-Function Reentrancy," elite auditors look for **Cross-Function** and **Cross-Contract Reentrancy**. In Cross-Function reentrancy, an attacker calls Function A, which makes an external call, and then calls back into Function B of the same contract. If Function B relies on state that Function A hasn't finished updating, the system breaks. **Fix:** Use the `Checks-Effects-Interactions` pattern globally and implement a centralized `ReentrancyGuard` across all state-changing functions.</p>
+                            
+                            <h6>2. Signature Malleability (EIP-2)</h6>
+                            <p>Every ECDSA signature `(v, r, s)` has a "malleable" twin. Specifically, for any valid `s`, the value `N - s` (where N is the curve order) is also valid. If your protocol uses signatures as unique identifiers (e.g., to prevent a user from claiming a reward twice), an attacker can submit the same signature twice by flipping the `s` value. **Architect Solution:** Always use OpenZeppelin's `ECDSA.recover` which enforces the "low-s" range, or keep track of used hashes rather than raw signatures.</p>
+                            
+                            <h6>3. Price Oracle Manipulation & Flash Loans</h6>
+                            <p>Flash loans allow attackers to borrow millions of dollars with zero collateral for a single transaction. This capital is often used to manipulate low-liquidity price oracles. If your protocol calculates a token's price as `poolBalanceA / poolBalanceB`, an attacker can use a flash loan to "pump" one side of the pool, execute a trade on your protocol at the manipulated price, and then return the loan. **Defense:** Never use raw pool balances. Use **TWAP (Time-Weighted Average Price)** or decentralized oracles like **Chainlink** that aggregate data from multiple sources.</p>
+
+                            <h6>4. Read-Only Reentrancy: The Silent Killer</h6>
+                            <p>Occurs when a contract reads state from an AMM **mid-transaction**. If pool tokens are burned but reserves haven't been sent, the `pricePerShare` calculation peaks transiently, allowing an attacker to take a massive loan against inflated collateral. This was the vector for the **Euler Finance Hack ($197M)**. **Fix:** Use `nonReentrant` guards even on `view` functions that are critical for price calculations, or use EIP-1153 transient storage to track "mid-call" status.</p>
+
+                            <h6>5. Governance Attacks & Timelocks</h6>
+                            <p>Attackers can use flash loans to gain temporary voting power and pass a malicious proposal to drain the protocol's treasury. To prevent this, architects use **Snapshots** (calculating voting power based on a block in the past) and **Timelocks** (a mandatory delay between a vote passing and its execution). A timelock gives honest users time to withdraw their funds if they see a malicious proposal is about to be executed.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
-                    <button class="share-lesson-btn" onclick="shareLesson(5)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Share Lesson
-                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(5)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -3195,33 +3371,41 @@ for (uint256 i = 0; i < len; ) {
 sum = _sum;</code></pre>
                 </div>
 
-                <details class="interactive-card" style="margin-top: 32px; border-color: var(--accent);">
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--accent);">
                     <summary>
-                        <h4 style="color: var(--accent);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
-                        <p style="font-size: 0.9rem; color: var(--gray-600);">Saving "Gas Pennies" and the math behind efficient code.</p>
+                        <h4 style="color: var(--accent);">Masterclass: The Gas-Guzzling Bus & The Bit-Math Magic</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
                     </summary>
                     <div class="interactive-card-content">
-                        <h5>💡 The Childlike Analogy: The Gas-Guzzling Bus</h5>
-                        <p>Imagine you are the driver of a special bus on a long highway. Every time you turn the steering wheel, press the brakes, or even look in the mirror, you have to throw some coins out the window. If you run out of coins, the bus stops immediately, and everyone has to walk home! To be a good driver, you want to drive in a straight line as much as possible and avoid doing anything you don't have to. In Solidity, the "bus" is your contract, the "highway" is the blockchain, and the "coins" are Gas. Every line of code is an action that costs coins.</p>
-                        
-                        <h5>🧠 Exhaustive Technical Deep-Dive: Gas Optimization Patterns</h5>
-                        <p>Gas optimization is not just about writing shorter code; it's about understanding how the EVM opcodes are priced. The goal is to minimize expensive operations like `SSTORE` (storage writes) and `SLOAD` (storage reads).</p>
-                        
-                        <h6>1. The "Unchecked" Increment</h6>
-                        <p>In Solidity 0.8.0+, all math operations have built-in overflow and underflow checks. While safe, these checks cost extra gas. In a `for` loop, we know that the counter `i` will never overflow the maximum value of a `uint256` because it's limited by the array length. By wrapping the increment in an `unchecked { ++i; }` block, we save about 30-40 gas per iteration. For a large array, this adds up significantly.</p>
-                        
-                        <h6>2. Caching State Variables</h6>
-                        <p>Reading from storage (`SLOAD`) costs 100 gas for a "warm" slot and 2,100 gas for a "cold" slot. Reading from memory or a stack variable is much cheaper (3 gas). If you use a state variable multiple times in a function (like `arr.length`), you should "cache" it into a local variable. This ensures you only pay for the expensive `SLOAD` once.</p>
-                        
-                        <h6>3. Bitwise Magic vs. Boolean Arrays</h6>
-                        <p>A `bool` in Solidity takes up 8 bits in memory but a full 256-bit slot in storage if not packed. A `uint256` can store 256 individual bits. Using a single `uint256` as a **Bitmask** is much more efficient than using an array of booleans. You can use bitwise operators like `AND`, `OR`, and `XOR` to check and set multiple flags at once for the cost of a single storage operation.</p>
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Gas-Guzzling Bus</h5>
+                            <p>Imagine you are the driver of a special bus on a long highway. Every time you turn the steering wheel, press the brakes, or even look in the mirror, you have to throw some coins out the window. If you run out of coins, the bus stops immediately, and everyone has to walk home! To be a good driver, you want to drive in a straight line as much as possible and avoid doing anything you don't have to. In Solidity, the "bus" is your contract, the "highway" is the blockchain, and the "coins" are Gas. If you can carry 10 people in one trip instead of taking 10 trips, you save a mountain of coins!</p>
+                        </div>
 
-                        <h5>🛡️ Security Perspective: Gas Limit DoS</h5>
-                        <p>If your function iterates over a dynamic array that can grow indefinitely, an attacker can bloat that array until the gas required to iterate exceeds the **Block Gas Limit**. This is called a **Gas Limit Denial of Service (DoS)**. The protocol becomes "bricked" because the function can never be successfully executed again. Always use a pattern that allows users to process arrays in batches, or use fixed-size arrays where possible.</p>
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Gas Optimization Patterns</h5>
+                            <p>Gas optimization is not just about writing shorter code; it's about understanding how the EVM opcodes are priced. The goal is to minimize expensive operations like `SSTORE` (storage writes) and `SLOAD` (storage reads), and to use the most efficient data locations.</p>
+                            
+                            <h6>1. The "Unchecked" Increment & Loop Optimization</h6>
+                            <p>In Solidity 0.8.0+, all math operations have built-in overflow and underflow checks. While safe, these checks cost extra gas because the EVM has to run extra instructions to verify the result. In a `for` loop, we know that the counter `i` will never overflow the maximum value of a `uint256` because it's limited by the array length. By wrapping the increment in an `unchecked { ++i; }` block, we save about 30-40 gas per iteration. For a large array, this adds up significantly. Additionally, caching the array length (`uint256 len = arr.length`) outside the loop prevents an expensive `MLOAD` or `SLOAD` on every single iteration.</p>
+                            
+                            <h6>2. Caching State Variables (Warm vs Cold Slots)</h6>
+                            <p>Reading from storage (`SLOAD`) costs 2,100 gas for a "cold" slot (the first time it's read in a transaction) and 100 gas for a "warm" slot (subsequent reads). Even 100 gas is expensive compared to reading from memory or a stack variable (3 gas). If you use a state variable multiple times in a function, you should "cache" it into a local stack variable. This ensures you only pay for the expensive storage read once. This is especially critical in complex math logic or when checking a variable multiple times in `if/else` branches.</p>
+                            
+                            <h6>3. Bitwise Magic vs. Boolean Arrays</h6>
+                            <p>A `bool` in Solidity takes up 8 bits in memory but a full 256-bit slot in storage if not packed. A `uint256` can store 256 individual bits. Using a single `uint256` as a **Bitmask** is much more efficient than using an array of booleans. You can use bitwise operators like `AND` (`&`), `OR` (`|`), and `XOR` (`^`) to check and set multiple flags at once for the cost of a single storage operation. This is how high-performance protocols track permissions or claim statuses efficiently.</p>
+
+                            <h6>4. Calldata vs Memory for Large Inputs</h6>
+                            <p>When a function receives a large array or struct as an argument, declaring it as `calldata` is almost always cheaper than `memory`. `memory` requires the EVM to copy the data from the transaction's input space into the active memory space, which costs gas. `calldata` allows the EVM to read the data directly from the transaction input, skipping the copy entirely. This is why all external-facing functions in professional protocols use `calldata` for their arguments.</p>
+
+                            <h6>5. Transient Storage (EIP-1153) Mastery</h6>
+                            <p>Transient Storage (`TSTORE`/`TLOAD`) is the ultimate tool for gas efficiency in reentrancy guards and state passing. It costs only 100 gas, the same as a warm `SLOAD`, but it allows you to store state that is wiped at the end of the transaction. This eliminates the need for expensive `SSTORE` (2,100+ gas) operations that were previously required to track "mid-call" status or to pass data between callbacks in complex DeFi integrations.</p>
+
+                            <h5>🛡️ Security Perspective: Gas Limit DoS & The 30M Limit</h5>
+                            <p>Every block on Ethereum has a **Gas Limit** (currently 30 million gas). If your function iterates over a dynamic array that can grow indefinitely (like a list of all users), an attacker can bloat that array until the gas required to iterate exceeds the block gas limit. This is called a **Gas Limit Denial of Service (DoS)**. The protocol becomes "bricked" because the function can never be successfully executed again. Always use a pattern that allows users to process arrays in batches, or use fixed-size arrays where possible. An architect's job is to ensure the protocol remains usable even under extreme load or malicious attacks.</p>
+                        </div>
                     </div>
                 </details>
-            </div>
-        </section>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(6)">Mark Stage Complete</button>
@@ -3274,11 +3458,40 @@ interface IERC4626 {
 
                 <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/S2C_j7pC8_E" allowfullscreen loading="lazy"></iframe></div>
 
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Lego Kingdom & The Weird Bricks</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Lego Kingdom</h5>
+                            <p>Imagine a giant kingdom built entirely out of Lego bricks. Everyone uses the same size bricks so they can build together. If one kid decides to use Mega Bloks or Duplo instead, his bricks won't fit into anyone else's castle. These "Rules for Bricks" are called **Standards**. ERC-20 is the rule for "Money Bricks," and ERC-721 is the rule for "Unique Toy Bricks." But sometimes, a kid tries to be "too smart" and makes a brick that looks right on the outside but has a hidden spring inside that pushes other bricks away! These are "Weird Tokens," and as a pro builder, you have to know how to handle them without your castle falling down.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: The Standardized Ecosystem</h5>
+                            <p>Standards (ERCs) are the bedrock of DeFi composability. Without them, every protocol would need custom logic for every single asset, which would be an architectural nightmare.</p>
+                            
+                            <h6>1. ERC-20: The "Fungible" Baseline</h6>
+                            <p>The **ERC-20** standard defines a set of functions (`transfer`, `approve`, `transferFrom`, etc.) that allow contracts to treat all units of a token as identical. However, the standard is loosely defined. For example, some tokens (like USDT) don't return a `bool` on `transfer`, while others (like PAXG) take a "Fee on Transfer." **Architect Solution:** Always use OpenZeppelin's `SafeERC20` wrapper, which handles these non-standard behaviors by performing low-level calls and checking the return data manually.</p>
+                            
+                            <h6>2. ERC-721 & ERC-1155: Digital Scarcity</h6>
+                            <p>**ERC-721** is the NFT standard, where each token ID is unique. **ERC-1155** is the "Multi-Token" standard, allowing a single contract to manage multiple token types (both fungible and non-fungible). This is critical for gaming (e.g., a contract managing 100 "Gold" tokens and 1 "Excalibur" sword). A major security risk here is the `onERC721Received` hook. If your contract accepts NFTs, an attacker can use this hook to re-enter your contract before you've finished updating your state.</p>
+                            
+                            <h6>3. ERC-4626: The "Yield" Lego</h6>
+                            <p>**ERC-4626** standardizes "Tokenized Vaults." Before 4626, every yield-bearing protocol (Aave, Compound, Yearn) had a different way of calculating "Shares" for "Assets." This made building cross-protocol yield aggregators extremely difficult. 4626 provides a standard API for deposits, withdrawals, and share-to-asset calculations. **The Inflation Attack:** An attacker can manipulate the `sharePrice` of a new, empty vault by donating assets directly to the contract. **Defense:** "Virtual Assets and Shares"—pretend the vault already has 1 share and 10^18 assets to make the exchange rate stable from day one.</p>
+
+                            <h6>4. ERC-2612: The "Gasless" Approval (Permit)</h6>
+                            <p>The "Approve-then-Transfer" pattern requires two transactions from the user. **ERC-2612** adds a `permit` function that allows users to sign an offline message (using EIP-712). The contract then uses this signature to set the allowance in the same transaction as the transfer, saving the user gas and providing a much better UX. This is the foundation for "one-click" DeFi interactions.</p>
+
+                            <h6>5. ERC-2771: Meta-Transactions & Trusted Forwarders</h6>
+                            <p>Allows users to send transactions without holding any ETH. A "Relayer" pays the gas, and the target contract uses a **Trusted Forwarder** to verify the user's signature. This is critical for onboarding. However, if your contract isn't "Context-Aware" (using `_msgSender()` instead of `msg.sender`), it will think the relayer is the user, leading to catastrophic security failures.</p>
+                        </div>
+                    </div>
+                </details>
+
                 <div class="completion-footer">
-                    <button class="share-lesson-btn" onclick="shareLesson(7)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0-10.628a2.25 2.25 0 103.935-2.186 2.25 2.25 0 00-3.935 2.186zm0 12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Share Lesson
-                    </button>
                     <button class="mark-complete-btn" onclick="toggleStage(7)">Mark Stage Complete</button>
                 </div>
             </div>
@@ -3400,6 +3613,39 @@ contract Base {
     uint256[50] private __gap; // Reserved space for future variables.
 }</code></pre>
                 </div>
+
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: The Toy Robots & The Magic Factory</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Magic Robot Factory</h5>
+                            <p>Imagine you have a toy robot that can do one thing, like dance. But what if you want it to learn how to sing? Usually, you'd have to buy a new robot. But with a **Proxy**, you have a "Magic Robot" that is just a shell. It has a tiny radio inside that talks to a "Brain" (the Implementation) in a factory far away. When you want the robot to sing, you just tell the factory to swap the "Dance Brain" for a "Sing Brain." To you, it's still the same robot, but now it has new powers! But be careful: if the factory gives the robot two brains that try to use the same arm at the same time, the robot might explode! This is a **Storage Collision**.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Proxy Architecture & Storage Safety</h5>
+                            <p>Proxies are the primary way to achieve upgradability on Ethereum. They rely on the `DELEGATECALL` opcode, which executes code from a target contract but uses the storage, balance, and context of the calling contract.</p>
+                            
+                            <h6>1. UUPS vs. Transparent: The Modern Choice</h6>
+                            <p>In a **Transparent Proxy**, the upgrade logic lives in the proxy itself. It uses a "ProxyAdmin" to prevent function selector collisions. In **UUPS**, the upgrade logic lives in the implementation contract. UUPS is the industry favorite because it's significantly cheaper for users (no admin check on every call). However, if you deploy an implementation that doesn't include the `upgradeTo` function, your contract is bricked forever. **Pro Tip:** Always inherit from `UUPSUpgradeable` and implement the `_authorizeUpgrade` function with a strict `onlyOwner` check.</p>
+                            
+                            <h6>2. Storage Collisions: The Hidden Danger</h6>
+                            <p>When Contract A `delegatecalls` Contract B, Contract B uses Contract A's storage slots. If Contract A has `address owner` in Slot 0, and Contract B has `uint256 balance` in Slot 0, Contract B will overwrite the owner! This is a **Storage Collision**. To prevent this, architects use **EIP-1967**, which reserves specific high-numbered storage slots for proxy metadata (like the implementation address), ensuring they never collide with the implementation's variables.</p>
+                            
+                            <h6>3. Storage Gaps: Designing for Inheritance</h6>
+                            <p>When building upgradeable contracts that use inheritance, you must reserve space in the parent contracts for future variables. By adding `uint256[50] private __gap;` to your base contracts, you ensure that if you add a variable later, it won't shift the storage slots of the child contracts. This is a non-negotiable best practice for complex protocols like Aave or Compound.</p>
+
+                            <h6>4. The Diamond Standard (EIP-2535)</h6>
+                            <p>For protocols that exceed the 24KB contract size limit, the **Diamond Pattern** is the ultimate solution. A Diamond has multiple "Facets" (implementation contracts) and a "Lookup Table" that maps function selectors to facets. This allows for modular, infinitely scalable protocols. However, it's much harder to audit and requires specialized tools like `diamond-hardhat` to manage correctly.</p>
+
+                            <h6>5. Initialization vs. Constructors</h6>
+                            <p>Constructors do not run in a `delegatecall` context. Therefore, proxy implementations must use **Initializers**. An initializer is a regular function that can only be called once. **Security Warning:** Always call `_disableInitializers()` in the constructor of your implementation contract to prevent an attacker from "initializing" the logic contract itself and potentially calling `selfdestruct` on it.</p>
+                        </div>
+                    </div>
+                </details>
 
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(8)">Mark Stage Complete</button>
@@ -3614,13 +3860,38 @@ function executeModern(bytes memory message, bytes memory signature) public {
                 <h3>5. ON-CHAIN REPUTATION (Decentralized LinkedIn)</h3>
                 <p>Your on chain history is your new resume. <strong>Soulbound Tokens (SBTs)</strong> can store your credentials, certifications, and referral history. This creates a "Decentralized LinkedIn" where your reputation is verifiable and owned by you, not a centralized platform. Referral economics can be built directly into the protocol, rewarding users for bringing value to the ecosystem.</p>
 
-                <h3>6. NEXT BULLISH OPPORTUNITIES</h3>
-                <ul>
-                    <li><strong>ZK Reputation Layers:</strong> The foundation for decentralized trust.</li>
-                    <li><strong>Decentralized LinkedIn:</strong> Own your professional network and data.</li>
-                    <li><strong>Referral Economies with Escrow:</strong> Trustless rewards for network growth.</li>
-                    <li><strong>AI XODO Micro-Companies:</strong> Small, AI-driven companies that live entirely on-chain.</li>
-                </ul>
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: The Middleman Monster & The ZK Cloak</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Greedy Candy Man</h5>
+                            <p>Imagine you want to trade your red candy for your friend's blue candy. But there's a "Greedy Candy Man" (The Middleman) who stands between you. He says, "If you want to trade, you both have to give me a piece of your candy first!" By the time you finish the trade, you both have less candy than you started with. A **Smart Contract** is like a magic box that sits on the table. You both put your candies in, and if the rules are met, the box swaps them for free! No Greedy Candy Man needed. Also, **ZK Tech** is like a "Magic Cloak." You can prove to the principal that you have your homework done without actually showing him what's written on the paper. You stay private, but you still follow the rules!</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Real-World Asset (RWA) Tokenization & Privacy</h5>
+                            <p>The next frontier of blockchain is moving "Off-Chain Value" onto the "On-Chain State." This requires sophisticated bridges between legal systems and cryptographic systems.</p>
+                            
+                            <h6>1. RWA Tokenization: The "Legal-to-Code" Bridge</h6>
+                            <p>Tokenizing real estate or private equity isn't just about minting an NFT. It requires a **Legal Wrapper** (like an SPV) that owns the asset, and a smart contract that represents ownership of that SPV. The biggest technical challenge is "Forced Transfers": if a court orders a token to be moved (e.g., in a divorce or bankruptcy), the contract must have a way for a "Compliance Admin" to move the tokens without the owner's signature. This breaks the "Not your keys, not your coins" rule but is a requirement for institutional adoption.</p>
+                            
+                            <h6>2. Zero-Knowledge Proofs: The Mathematics of Privacy</h6>
+                            <p>ZK-SNARKs and ZK-STARKs allow for "Verifiable Privacy." In a **ZK-KYC** system, a user can prove they are over 18 and not on a sanctions list without revealing their name or passport number. This is done by creating a "Circuit" (a mathematical program) that takes the user's ID as a private input and outputs a "True/False" proof. The protocol only sees the "True" and never the ID. This is the only way to build compliant DeFi that respects individual sovereignty.</p>
+                            
+                            <h6>3. On-Chain Reputation & Soulbound Tokens</h6>
+                            <p>Reputation is the "Social Collateral" of the future. By using **Soulbound Tokens (SBTs)**—non-transferable NFTs—we can build a "Credit Score" based on your on-chain behavior. Did you repay your Aave loans on time? Did you vote in the Uniswap DAO? This data can be used to give you lower interest rates or more voting power. Unlike a traditional credit score, your on-chain reputation is transparent, global, and owned entirely by you.</p>
+
+                            <h6>4. Programmable Money: Streaming & Vesting</h6>
+                            <p>Protocols like Sablier allow for **Real-Time Finance**. Instead of getting a paycheck once a month, your salary "streams" to your wallet every second. Technically, this is achieved by a contract that calculates `balance = rate * (currentTime - startTime)`. This improves capital efficiency for employees and simplifies payroll for DAOs. Vesting contracts for founders use similar logic to ensure long-term alignment with the protocol's success.</p>
+
+                            <h6>5. Decentralized Justice (Kleros)</h6>
+                            <p>When a smart contract can't decide a dispute (e.g., "Was the code delivered high quality?"), we use **Decentralized Arbitration**. Kleros uses game theory and "Schelling Points" to reward jurors for voting with the majority. Jurors stake tokens to be selected, and if they vote against the majority, they lose their stake. This creates a self-correcting system for resolving real-world disputes without expensive lawyers.</p>
+                        </div>
+                    </div>
+                </details>
             </div>
         </section>
 
@@ -3693,6 +3964,39 @@ function executeModern(bytes memory message, bytes memory signature) public {
                     <br><code style="display: block; margin: 20px 0; padding: 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); text-align: center; font-family: var(--font-mono);">P = (q / p)^z if p > q, else P = 1</code>
                     where <code>p</code> is the probability an honest node finds the next block, and <code>q</code> is the probability the attacker finds it. This is the <strong>Gambler's Ruin</strong> problem. If the attacker has less than 50% of the hash power, their probability of success drops exponentially as the chain length increases. This is why "Wait for 6 confirmations" is the law.</p>
                 </div>
+
+                <details class="interactive-card masterclass-dropdown" style="margin-top: 56px; border-color: var(--accent);">
+                    <summary>
+                        <h4 style="color: var(--accent);">Masterclass: The Unicorn Lab & The Game Theory Trap</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Childlike analogies and exhaustive technical secrets for protocol architects.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <div class="childlike-explanation">
+                            <h5>💡 The Childlike Analogy: The Unicorn Invention Lab</h5>
+                            <p>Imagine you have a secret lab where you invent "Unicorn Toys" that do things no other toy can do. One toy can hide your name from bullies (Privacy Layer). Another toy can automatically clean up all the tiny Lego dust in your room (UTXO Optimizer). A third toy is a "Magic Eye" that can spot when a bully is trying to break the playground rules before it even happens (Blockchain Forensics). Building a startup is like taking these inventions out of your lab and showing them to all the other kids. If your toy solves a real problem, they will give you their candies to use it! This section is about how to build those toys and make them famous.</p>
+                        </div>
+
+                        <div class="technical-deep-dive">
+                            <h5>🧠 Exhaustive Technical Deep-Dive: Engineering for Success & Game Theory</h5>
+                            <p>Building a successful Web3 startup isn't just about the code; it's about the **Economic Incentives** and the **Flywheel Effect**. If you don't understand the game theory of your protocol, it will fail no matter how good the tech is.</p>
+                            
+                            <h6>1. The "Cold Start" Problem & Liquidity Mining</h6>
+                            <p>New protocols face the "Chicken and Egg" problem: users won't use it without liquidity, and liquidity won't come without users. Most startups solve this by "Liquidity Mining"—giving away governance tokens to anyone who provides liquidity. **The Trap:** If your protocol's only utility is the token reward, the liquidity will leave as soon as the rewards drop. This is "Mercenary Capital." To win, you must build a protocol where the utility (e.g., lower slippage or higher security) is worth more than the token rewards.</p>
+                            
+                            <h6>2. MEV-Aware Protocol Design</h6>
+                            <p>In modern Ethereum, your protocol *will* be exploited for MEV. If you build a DEX, bots will sandwich your users. If you build a lending pool, bots will frontrun your liquidations. A successful startup designs for this from day one. **Architect Solution:** Internalize the MEV. Use an "Auction Based" liquidation system where the protocol captures the profit, or route your trades through "Private RPCs" to protect your users. Making your protocol "MEV-Friendly" for the *right* participants can be a competitive advantage.</p>
+                            
+                            <h6>3. The "Lindy Effect" & Security as a Feature</h6>
+                            <p>In crypto, time is the ultimate auditor. The longer a protocol survives without being hacked, the more trust it gains. This is the **Lindy Effect**. As a startup founder, your goal is to "Stay in the Game." This means prioritizing security over rapid feature releases. A single hack can end your company forever. Use multiple auditing firms, implement bug bounties (ImmuneFi), and use "Gradual Deployment" (guarded launches) to limit the damage if something goes wrong.</p>
+
+                            <h6>4. Vertical Integration vs. Composability</h6>
+                            <p>Should you build one specific tool (like a bridge) or a full ecosystem (like an L2)? Vertical integration gives you more control over the UX and the fees, but it's harder to build. Composability allows you to "Stand on the shoulders of giants" by using existing protocols like Aave or Uniswap. The most successful startups find a balance: they build a "Moat" (something unique they own) while integrating with the rest of the ecosystem to gain reach.</p>
+
+                            <h6>5. Decentralization as a Roadmap, Not a Day 1 Requirement</h6>
+                            <p>Trying to be 100% decentralized on Day 1 is a recipe for failure. It makes the protocol impossible to upgrade or fix in an emergency. The "Progressive Decentralization" model is better: start with a "Multisig" and a "Pause Button" while the code is new. As the protocol matures and the Lindy Effect kicks in, slowly hand over control to a DAO and remove the administrative backdoors. This allows for rapid innovation while building long-term trust.</p>
+                        </div>
+                    </div>
+                </details>
             </div>
         </section>
 
