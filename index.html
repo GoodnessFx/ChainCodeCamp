@@ -4101,6 +4101,32 @@ require(block.timestamp - oracle.updatedAt < 3600, "stale price");</code></pre>
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(10)">Mark Stage Complete</button>
                 </div>
+
+                <details class="interactive-card" style="margin-top: 32px; border-color: var(--primary);">
+                    <summary>
+                        <h4 style="color: var(--primary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">The "Dark Forest" of MEV and the search for fairness.</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Candy Shop Line</h5>
+                        <p>Imagine you are standing in line at a candy shop. You want to buy a chocolate bar for $1. Just as you are about to pay, a kid named "Bot" jumps in front of you, buys all the chocolate bars for $1 each, and then turns around and offers to sell one to you for $2! This is called "Frontrunning." Now imagine the shopkeeper is also in on it, and he lets "Bot" cut the line because "Bot" gives him a extra candy. This is how MEV works in the "Dark Forest" of the blockchain.</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: MEV Infrastructure</h5>
+                        <p>MEV (Maximal Extractable Value) is the profit that a block producer (validator) can extract by reordering, including, or excluding transactions in a block.</p>
+                        
+                        <h6>1. Flashbots & PBS (Proposer-Builder Separation)</h6>
+                        <p>To prevent a centralized "Dark Forest" where only the biggest validators win, the Ethereum community introduced **PBS**. In this system, "Builders" create optimized blocks to maximize MEV and "Proposers" (Validators) simply pick the highest-paying block. **Flashbots** is the most popular relay that facilitates this communication, ensuring that MEV is distributed more fairly across the network.</p>
+                        
+                        <h6>2. Sandwich Attacks & Slippage</h6>
+                        <p>A **Sandwich Attack** is the most common form of MEV. A bot sees your trade on a DEX, sends a transaction *before* yours to push the price up (Frontrun), and another transaction *after* yours to sell at the new, higher price (Backrun). You end up buying at the worst possible price allowed by your **Slippage Tolerance**. This is why setting a low slippage (e.g., 0.1%) is critical for large trades.</p>
+                        
+                        <h6>3. Searchers & Arbitrage</h6>
+                        <p>**Searchers** are independent developers who write sophisticated algorithms to find MEV opportunities. They look for price differences between DEXes (Arbitrage), underwater loans (Liquidations), or even bugs in new contracts. They compete in a "Priority Gas Auction" (PGA) to have their transactions included first, which often results in massive gas spikes for everyone else.</p>
+
+                        <h5>🛡️ Security Perspective: MEV-Resistance</h5>
+                        <p>Protocol architects can fight MEV by using **Commit-Reveal Schemes** (where the transaction intent is hidden until it's too late to frontrun) or by using **Batch Auctions** (where all trades in a block are executed at the same price). In the future, "Shared Sequencers" and "Enshrinement" of PBS into the Ethereum protocol itself will likely change the MEV landscape forever.</p>
+                    </div>
+                </details>
             </div>
         </section>
 
@@ -4937,6 +4963,32 @@ function executeModern(uint256 proposalId) public {
                 <div class="completion-footer">
                     <button class="mark-complete-btn" onclick="toggleStage(18)">Mark Stage Complete</button>
                 </div>
+
+                <details class="interactive-card" style="margin-top: 32px; border-color: var(--secondary);">
+                    <summary>
+                        <h4 style="color: var(--secondary);">Masterclass: Childlike Examples & Exhaustive Deep-Dive</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray-600);">Tokenomics, Game Theory, and the "Incentive Machine".</p>
+                    </summary>
+                    <div class="interactive-card-content">
+                        <h5>💡 The Childlike Analogy: The Magic Sticker Economy</h5>
+                        <p>Imagine your school starts giving out "Magic Stickers" for good grades. At first, everyone wants them because you can trade 10 stickers for a pizza party. But then the principal starts giving out millions of stickers to everyone, and suddenly they aren't worth much because there's too many of them. This is "Inflation." Now imagine if the principal says "Every time you trade a sticker, we burn one!" This makes them rarer and more valuable. This is "Deflation." Tokenomics is just the set of rules for how these stickers are born, how they live, and how they die to keep everyone behaving nicely.</p>
+                        
+                        <h5>🧠 Exhaustive Technical Deep-Dive: Tokenomics & Governance</h5>
+                        <p>Tokenomics is the study of the economic systems and incentives designed into a cryptocurrency protocol. It involves the issuance, distribution, and utility of tokens to align the interests of all stakeholders.</p>
+                        
+                        <h6>1. Supply & Demand Dynamics</h6>
+                        <p>The value of a token is driven by its **Circulating Supply** and its **Utility**. If a token is required to pay for gas (like ETH) or to access a specific service, demand will naturally rise with usage. To manage supply, protocols use mechanisms like **Halvings** (reducing issuance over time), **Buyback-and-Burn** (using protocol fees to buy and destroy tokens), or **Lock-ups** (preventing investors from selling their tokens too early).</p>
+                        
+                        <h6>2. Governance & DAOs</h6>
+                        <p>Decentralized Autonomous Organizations (DAOs) allow token holders to vote on changes to the protocol. This is usually done through "Governance Tokens." However, this creates a risk of **Governance Attacks**, where a wealthy individual (a "Whale") can buy enough tokens to force a change that benefits them but hurts the protocol. Architects use **Quadratic Voting** or **Delegation** to make governance more democratic and resistant to centralization.</p>
+                        
+                        <h6>3. Staking & Yield Farming</h6>
+                        <p>**Staking** involves locking up tokens to secure the network or provide liquidity. In exchange, users receive "Yield" (newly minted tokens or a share of protocol fees). While this encourages long-term holding, it can also lead to "Mercenary Capital"—users who only provide liquidity as long as the rewards are high, and then dump their tokens as soon as the rewards drop, causing a "Death Spiral" for the token price.</p>
+
+                        <h5>🛡️ Security Perspective: The "Governance Rug"</h5>
+                        <p>If a protocol's governance has too much power (e.g., the ability to upgrade contracts or mint new tokens without a delay), it is a massive security risk. An attacker can use a **Flash Loan** to temporarily acquire enough tokens to pass a malicious proposal, drain the protocol, and then return the loan all in one block. **Fix:** Implement a **Governance Timelock** (e.g., 48 hours) between when a proposal passes and when it is executed, allowing users to exit if they don't agree with the change.</p>
+                    </div>
+                </details>
             </div>
         </section>
 
