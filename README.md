@@ -15,24 +15,7 @@ To provide the most rigorous, clear, and comprehensive path to mastering smart c
 - **Premium UX**: Dark/Light theme, mobile-responsive design, and reading progress tracking.
 - **Offline Capable**: Designed to be fully functional without an internet connection for core reading.
 
-## 📂 Project Structure
-- `smart-contract-roadmap.html`: The core interactive roadmap and curriculum.
-- `package.json`: Local development environment configuration.
-
-## 🏗️ Getting Started
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/GoodnessFx/ChainCodeCamp.git
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
-4. Open `http://localhost:3000/smart-contract-roadmap.html` in your browser.
+\
 
 ## 🛡️ Security
 Security is our entire job. If you find vulnerabilities or have suggestions for improved auditing techniques, please contribute via a Pull Request.
