@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Google Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --primary: #ff4d00;
+  --primary-dark: #cc3d00;
+  --primary-light: #fff0eb;
+  --secondary: #2a4ad0;
+
+  --ink: #1a1a1a;
+  --paper: #f8f7f4;
+  --sidebar-bg: #f0efe9;
+
+  --gray-900: #1a1a1a;
+  --gray-800: #333333;
+  --gray-600: #555555;
+  --gray-400: #888888;
+  --gray-300: #cccccc;
+  --gray-200: #e0e0e0;
+  --gray-100: #f0f0f0;
+  --white: #ffffff;
+
+  --border: 2px solid var(--ink);
+  --border-strong: 3px solid var(--ink);
+  --shadow-hard: 4px 4px 0px var(--ink);
+  --shadow-hard-lg: 8px 8px 0px var(--ink);
+
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 72px;
+  --header-height: 64px;
+
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'IBM Plex Serif', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --transition-fast: 100ms ease;
+  --transition-sidebar: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --success: #008556;
+  --error: #d70000;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background-color: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--secondary);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  transition: var(--transition-fast);
+}
+a:hover { color: var(--primary); background: var(--primary-light); }
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+/* ─── Utility Classes ────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border: var(--border);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  gap: 12px;
+  text-decoration: none !important;
+  background: var(--white);
+  color: var(--ink);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: var(--shadow-hard);
+}
+.btn-primary:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0px var(--ink);
+  background: var(--primary);
+  color: var(--white);
+}
+.btn-primary:active { transform: translate(0, 0); box-shadow: none; }
+
+.btn-outline {
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: var(--shadow-hard);
+}
+.btn-outline:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0px var(--ink);
+  color: var(--ink);
+  background: var(--white);
+}
+
+.stage-card {
+  background: var(--white);
+  border: var(--border);
+  padding: 32px;
+  box-shadow: var(--shadow-hard-lg);
+  transition: var(--transition-fast);
+  position: relative;
+}
+.stage-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0px var(--ink);
+}
+
+.interactive-card {
+  background: var(--white);
+  border: var(--border);
+  box-shadow: var(--shadow-hard);
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+.interactive-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--ink);
+}
+
+/* Progress dots (Cyfrin-style) */
+.progress-dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.progress-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: transparent;
+  transition: background 200ms;
+}
+.progress-dot.completed { background: var(--primary); }
+.progress-dot.current { background: var(--secondary); }
+
+/* Code blocks */
+pre {
+  background: #0d1117 !important;
+  border: var(--border);
+  padding: 20px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.7;
+  box-shadow: var(--shadow-hard);
+}
+pre code { background: transparent !important; color: #c9d1d9; }
+
+/* Highlight.js tokyo-night override tones */
+.hljs-keyword { color: #ff7b72; }
+.hljs-string { color: #a5d6ff; }
+.hljs-comment { color: #8b949e; }
+.hljs-number { color: #79c0ff; }
+.hljs-function { color: #d2a8ff; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--gray-300); }
+::-webkit-scrollbar-thumb:hover { background: var(--gray-400); }

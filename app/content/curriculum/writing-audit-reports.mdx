@@ -1,0 +1,177 @@
+---
+title: "Writing a Real Audit Report"
+stage: "09"
+track: "security"
+description: "Scope definition, severity classification, PoC writing, client communication, and professional report formatting — the part almost nobody teaches."
+estimatedTime: "1 week"
+difficulty: "intermediate"
+objectives:
+  - "Scope an audit engagement correctly"
+  - "Classify findings by severity using OWASP + Immunefi rubrics"
+  - "Write a PoC that reproduces the bug in Foundry"
+  - "Structure a report that wins future clients"
+tags: ["audit", "report", "severity", "poc", "professional"]
+---
+
+## What a Real Audit Report Contains
+
+Most tutorials show you how to find bugs. Almost none show you what happens after. The report is the product you deliver — it's also your reputation.
+
+A professional audit report has:
+
+1. **Executive Summary** — 1 page, non-technical, for the CEO
+2. **Scope** — exact commit hash, files in/out of scope, time period
+3. **Methodology** — tools used, manual review process, test coverage
+4. **Findings** — sorted by severity, each with full PoC
+5. **Recommendations** — prioritised fix list
+6. **Appendix** — test results, coverage reports
+
+---
+
+## Severity Classification
+
+The industry uses a combination of **Likelihood × Impact**. Here's the standard rubric:
+
+| Severity | Impact | Likelihood | Examples |
+|---|---|---|---|
+| **Critical** | Complete fund loss or protocol takeover | Likely | Reentrancy draining vault, admin key stolen |
+| **High** | Partial fund loss, broken core function | Possible | Oracle manipulation, flash loan attack |
+| **Medium** | Minor fund loss, degraded functionality | Possible | Incorrect fee calculation, DOS vector |
+| **Low** | No fund risk, bad UX or edge case | Unlikely | Misleading event, minor gas waste |
+| **Informational** | Style, best practice, code quality | — | Missing NatSpec, shadowed variable |
+| **Gas** | Gas optimisation opportunity | — | Redundant SLOAD, missing unchecked |
+
+**The judgment calls:**
+
+- A **critical** bug in dead code no one can call = **Low** (impact is low)
+- A **medium** bug in a function called 10,000 times/day = **High** (frequency amplifies impact)
+- A bug that requires the attacker to have admin access = drop one severity level
+
+---
+
+## Anatomy of a Finding
+
+Every finding needs exactly these sections:
+
+```markdown
+### [H-01] Reentrancy in `withdraw()` allows complete vault drain
+
+**Severity:** High
+
+**Summary:**
+The `withdraw()` function sends ETH to the caller before zeroing their
+balance. An attacker can re-enter the function during the ETH transfer
+and drain the entire vault.
+
+**Vulnerability Details:**
+In `ReentrancyVault.sol` line 24, the external call `msg.sender.call{value: bal}()`
+executes before `balances[msg.sender] = 0` on line 26. A contract recipient
+can call `withdraw()` again in its `receive()` function before the balance
+is cleared.
+
+**Impact:**
+Complete loss of all ETH held in the vault. Any depositor can drain
+funds belonging to all other depositors.
+
+**Proof of Concept:**
+```solidity
+contract AttackPoC is Test {
+    ReentrancyVault vault;
+
+    function setUp() public {
+        vault = new ReentrancyVault();
+        // Seed vault with victim funds
+        vm.deal(address(vault), 10 ether);
+        vault.deposit{value: 1 ether}();
+    }
+
+    function testExploit() public {
+        uint256 vaultBefore = address(vault).balance; // 11 ether
+        vault.withdraw();
+        assertEq(address(vault).balance, 0, "Vault not drained");
+        assertGt(address(this).balance, vaultBefore, "No profit");
+    }
+
+    receive() external payable {
+        if (address(vault).balance > 0) vault.withdraw();
+    }
+}
+```
+
+Run: `forge test --match-test testExploit -vvv`
+
+**Recommended Fix:**
+Apply Checks-Effects-Interactions pattern. Zero the balance before the
+external call:
+
+```solidity
+function withdraw() external nonReentrant {
+    uint256 bal = balances[msg.sender];
+    balances[msg.sender] = 0;            // Effect before Interaction
+    (bool ok,) = msg.sender.call{value: bal}("");
+    require(ok, "Transfer failed");
+}
+```
+
+**References:**
+- [The DAO Hack](https://hackingdistributed.com/2016/06/18/analysis-of-the-dao-exploit/)
+- [SWC-107: Reentrancy](https://swcregistry.io/docs/SWC-107)
+```
+
+---
+
+## The PoC is Non-Negotiable
+
+A finding without a PoC is an allegation. A finding with a passing Foundry test is evidence.
+
+Rules for PoCs:
+- Must compile and run with `forge test` against the **exact commit** you audited
+- Must demonstrate real impact — drain funds, bypass access control, cause DOS
+- Should be minimal — isolate the vulnerability, don't add unrelated setup
+- Should print clear assertions that show before/after state
+
+```bash
+# The client should be able to run this and see it fail:
+git clone <protocol-repo>
+git checkout <audited-commit>
+cp PoC.t.sol test/
+forge test --match-test testExploit -vvv
+```
+
+---
+
+## Client Communication
+
+**Before the audit:**
+- Agree on scope in writing (contract addresses or commit hashes, not "the whole repo")
+- Agree on timeline and deliverables
+- Get read access to any private repos
+
+**During:**
+- Flag critical/high findings immediately — don't wait for the final report
+- Ask questions about intent, not assumptions ("Is it intentional that any address can call `setFee()`?")
+
+**After:**
+- Allow 5–7 days for the team to respond to findings
+- Revise severity if the team provides context that changes your assessment
+- Do a fix verification pass before publishing
+
+---
+
+## Report Templates
+
+Start from [Cyfrin's audit report template](https://github.com/Cyfrin/audit-report-templating) or [Code4rena's format](https://github.com/code-423n4/2023-01-drips-findings). Both are battle-tested and clients recognise them.
+
+Your first report will be rough. That's fine. The goal is to practice the structure so it becomes automatic.
+
+---
+
+## Build This Now
+
+Pick any one of the gauntlet contracts and write a finding for it using the template above. Include:
+
+1. A Foundry PoC that passes
+2. Correct severity classification with justification
+3. A recommended fix
+
+Then compare your finding to the reference solution in `gauntlet/solutions/`.

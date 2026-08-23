@@ -1,0 +1,168 @@
+---
+title: "DeFi Attack Vectors"
+stage: "06"
+track: "security"
+description: "AMM manipulation, lending protocol exploits, MEV sandwich attacks, liquidation cascades, and ERC-4626 inflation attacks."
+estimatedTime: "2–3 weeks"
+difficulty: "advanced"
+objectives:
+  - "Model x*y=k and identify when it breaks under attack"
+  - "Simulate a liquidation cascade with real parameters"
+  - "Build a flash loan arbitrage bot for educational purposes"
+  - "Protect ERC-4626 vaults from first-depositor exploits"
+tags: ["defi", "amm", "lending", "mev", "liquidation"]
+historicalHack:
+  name: "Euler Finance"
+  amount: "$197M"
+  year: 2023
+  vector: "Missing health check in donateToReserves() allowed self-liquidation exploit"
+---
+
+## AMM Fundamentals: x * y = k
+
+Uniswap v2's invariant: `reserve0 * reserve1 = k`. When you swap token A for token B, you add to reserve A, so reserve B must decrease to maintain `k`. Price is emergent — the ratio of reserves.
+
+```solidity
+// Price of token B in terms of A
+function getAmountOut(
+    uint256 amountIn,
+    uint256 reserveIn,
+    uint256 reserveOut
+) public pure returns (uint256 amountOut) {
+    uint256 amountInWithFee = amountIn * 997; // 0.3% fee
+    uint256 numerator = amountInWithFee * reserveOut;
+    uint256 denominator = (reserveIn * 1000) + amountInWithFee;
+    amountOut = numerator / denominator;
+}
+```
+
+**The attack surface:** If your protocol reads price as `reserveOut / reserveIn` at any point during a transaction, a flash loan can move those reserves before your read.
+
+## The Price Oracle Problem
+
+Every DeFi protocol needs prices. There are three sources, ranked by manipulation resistance:
+
+| Source | Manipulation cost | Latency | Use for |
+|---|---|---|---|
+| Chainlink | Very high (requires 21+ oracle nodes) | ~1 block | Collateral valuation, liquidations |
+| Uniswap v3 TWAP | High (requires sustained capital over time window) | Configurable | Secondary check |
+| Spot reserve ratio | Zero (one transaction) | Instant | Never use for critical paths |
+
+```solidity
+// ❌ Spot price — manipulable in one tx
+price = (reserveA * 1e18) / reserveB;
+
+// ✅ Chainlink with staleness check
+(, int256 answer, , uint256 updatedAt,) = feed.latestRoundData();
+require(block.timestamp - updatedAt <= MAX_DELAY, "Stale");
+require(answer > 0);
+price = uint256(answer);
+```
+
+## Liquidation Cascades
+
+Lending protocols liquidate undercollateralised positions. Large liquidations sell collateral, pushing its price down, making more positions undercollateralised, triggering more liquidations — a cascade.
+
+**The math:** For a position to stay solvent, `collateralValue * LTV >= debtValue`. When price drops:
+
+```
+ETH drops 20%:
+- Collateral value drops 20%
+- If LTV was 80%, the position hits threshold
+- Protocol sells ETH → adds sell pressure → ETH drops more
+- Cascade begins
+```
+
+**Architect mitigations:**
+- Conservative LTV ratios (50–75% depending on asset volatility)
+- Liquidation bonuses that make liquidation attractive but not too profitable
+- Position size caps to prevent single-position cascades
+- Sequencer uptime checks on L2 (positions can't be liquidated during downtime)
+
+```solidity
+// Always check sequencer on L2 before using prices for liquidation
+function _checkSequencer() internal view {
+    (, int256 answer, uint256 startedAt,,) =
+        sequencerFeed.latestRoundData();
+    require(answer == 0, "Sequencer offline");
+    require(block.timestamp - startedAt >= GRACE_PERIOD, "Grace period");
+}
+```
+
+## ERC-4626 Inflation Attack
+
+The first-depositor attack on tokenised vaults. When a vault is empty, share price is calculated as `shares = assets * totalSupply / totalAssets`. If `totalSupply == 0`, the first depositor gets shares 1:1.
+
+**Attack:**
+1. Attacker deposits 1 wei → receives 1 share
+2. Attacker donates 100 ETH directly to the vault (bypasses `deposit()`)
+3. Now: `totalAssets = 100 ETH + 1 wei`, `totalSupply = 1`
+4. Next depositor deposits 50 ETH: `50 ETH * 1 / (100 ETH + 1 wei) = 0 shares`
+5. Depositor's 50 ETH is added to vault, they receive 0 shares
+6. Attacker's 1 share now represents all ~150 ETH
+
+**Fix — Virtual shares (OpenZeppelin v5 default):**
+
+```solidity
+// Pretend the vault already has 10^decimals assets and shares
+// Makes share price stable from the very first deposit
+function _convertToShares(uint256 assets, Math.Rounding rounding)
+    internal view virtual override returns (uint256) {
+    return assets.mulDiv(
+        totalSupply() + 10 ** _decimalsOffset(),
+        totalAssets() + 1,
+        rounding
+    );
+}
+```
+
+The virtual offset makes the inflation attack economically infeasible — the attacker would need to donate impractically large amounts.
+
+## MEV: The Dark Forest
+
+Every transaction in the public mempool is visible to bots before it's included in a block. Bots can frontrun, backrun, or sandwich your transaction.
+
+**Sandwich attack:**
+1. Bot sees your large swap tx in mempool
+2. Bot buys the same token ahead of you (frontrun) — price rises
+3. Your tx executes at the now-higher price — you get less output
+4. Bot sells immediately after your tx (backrun) — profit
+
+**Cost to user:** The difference between the price you expected and the price you got. On large swaps, this is thousands of dollars.
+
+**Defences:**
+- Set strict `minAmountOut` (slippage tolerance of ≤0.5% for large swaps)
+- Use private RPCs (Flashbots Protect, MEV Blocker)
+- Use batch auctions (CoW Protocol) — all trades in a batch execute at the same clearing price
+
+```solidity
+// Always enforce minimum output — don't let routers set 0
+function swap(
+    address tokenIn,
+    address tokenOut,
+    uint256 amountIn,
+    uint256 minAmountOut  // caller must set this meaningfully
+) external {
+    uint256 received = _doSwap(tokenIn, tokenOut, amountIn);
+    require(received >= minAmountOut, "Slippage exceeded");
+}
+```
+
+## Cross-Protocol Flash Loan Attack
+
+The `ChainedExploitVault` in the gauntlet combines two vulnerabilities: an unauthorized call sets up the state, then reentrancy during `withdraw()` drains the balance.
+
+This is the real pattern of sophisticated DeFi hacks — rarely a single bug, usually a chain: oracle manipulation enables over-borrowing, which combined with missing health checks enables insolvency, which combined with a callback enables full drain.
+
+## Build This Now
+
+```bash
+# Run the advanced gauntlet challenges
+cd gauntlet
+forge test --match-contract OracleLender -vvv      # oracle manipulation
+forge test --match-contract InflationVault -vvv    # ERC-4626 inflation
+forge test --match-contract ChainedExploitVault -vvv # chained exploit
+forge test --match-contract Governor -vvv          # governance raid
+```
+
+The Governor challenge requires you to flash-borrow voting tokens, propose a treasury drain, pass it, execute it, and repay the loan — all in one transaction.

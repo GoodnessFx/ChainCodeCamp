@@ -1,0 +1,160 @@
+---
+title: "Bug Bounty & Competitive Audits"
+stage: "10"
+track: "security"
+description: "Code4rena, Sherlock, Cantina — how submissions actually get judged, what separates winning reports from noise, and how to build a track record from zero."
+estimatedTime: "Ongoing"
+difficulty: "advanced"
+objectives:
+  - "Understand how C4 and Sherlock judge severity"
+  - "Read and learn from past winning reports"
+  - "Submit your first finding with confidence"
+  - "Track your competitive audit earnings and progress"
+tags: ["code4rena", "sherlock", "cantina", "bug-bounty", "competitive"]
+---
+
+## The Platforms
+
+| Platform | Model | Payout | Best for |
+|---|---|---|---|
+| [Code4rena](https://code4rena.com) | Competitive audit (judged) | Share of prize pool | Learning, community |
+| [Sherlock](https://www.sherlock.xyz) | Competitive audit (fixed payouts) | Fixed per valid finding | More predictable income |
+| [Cantina](https://cantina.xyz) | Competitive + private audits | Variable | Growing reputation |
+| [Immunefi](https://immunefi.com) | Bug bounty (live protocols) | Up to 10M USD per finding | High-value targets |
+| [Codehawks](https://codehawks.cyfrin.io) | Competitive (Cyfrin platform) | Share of pool | Beginner-friendly |
+
+Start with Code4rena or Codehawks. Both have lower-stakes contests that are good for learning the submission process.
+
+---
+
+## How Code4rena Works
+
+1. A protocol pays C4 to run a competitive audit (typical prize pool: $20k–$200k)
+2. The contest runs for 3–10 days — the repo is public, anyone audits
+3. Wardens submit findings via C4's web interface
+4. C4 judges review, deduplicate, and assign severity/validity
+5. Payouts distributed proportionally to valid findings
+
+**Severity → payout formula:**
+- High findings: highest payout per valid unique finding
+- Medium: moderate payout
+- Low/Informational: small fixed amounts or nothing depending on contest
+- Duplicate findings: the best-written duplicate usually gets more credit
+
+**What "unique" means:** If 50 wardens find the same reentrancy bug, you split the High allocation 50 ways. Finding bugs fewer people found = higher payout. Focus on complexity, not obviousness.
+
+---
+
+## How Sherlock Works
+
+Sherlock uses a fixed pricing model and has stricter validity standards than C4. Judges are highly experienced and reject vague or low-quality reports aggressively.
+
+**The key differences:**
+- You must prove impact with a PoC (no PoC = automatic rejection)
+- Severity definitions are stricter — "users might lose funds in edge case" ≠ High
+- You can escalate disputed decisions (and often should)
+
+---
+
+## What Separates Winning Reports from Noise
+
+After reading hundreds of past contest reports, the pattern is clear:
+
+**Reports that win:**
+- State the impact in dollar terms or percentage of funds at risk
+- Include a Foundry PoC with clear before/after assertions
+- Explain the root cause, not just the symptom
+- Suggest a specific fix, not "add validation"
+
+**Reports that get rejected:**
+- "This could potentially maybe cause issues if..." — no quantified impact
+- No PoC, or a PoC that doesn't compile
+- Duplicate of a higher-quality report on the same issue
+- Informational issues submitted as Mediums hoping to sneak through
+
+---
+
+## Your First 90 Days: A Practical Path
+
+**Month 1 — Read, don't submit:**
+- Pick one contest that's already finished
+- Read the final report
+- Now try to find those same bugs in the original code
+- Compare what you found vs what was found
+
+**Month 2 — Shadow audit:**
+- Find a live contest with fewer than 5 days remaining
+- Audit it seriously, write your findings as if you're submitting
+- After the contest closes, compare your findings to the public report
+
+**Month 3 — Submit:**
+- Pick a contest where you feel confident in at least 2 findings
+- Submit properly-formatted reports with PoCs
+- Expect your first submissions to be rejected or downgraded — that's normal
+- Read the judge's rationale and adjust
+
+---
+
+## Immunefi: Bug Bounties on Live Protocols
+
+Immunefi hosts bounties from live protocols — finding a bug here means real deployed contracts, real user funds at risk, and potentially 50k–10M USD in payout.
+
+**How to approach it:**
+
+1. Pick a protocol you understand from Section 06 (DeFi architecture)
+2. Read their Immunefi scope carefully — out-of-scope submissions waste everyone's time
+3. Audit the live code (Etherscan verified sources + GitHub)
+4. If you find something critical: report it, don't exploit it
+5. Give the team 72 hours to respond before any public disclosure
+
+**The responsible disclosure rule is not optional.** Exploiting a bug you find rather than reporting it is theft. It also ends your career in public security.
+
+---
+
+## Tracking Your Progress
+
+Keep a personal log for every contest you participate in:
+
+```markdown
+## Contest: ProtocolX (Code4rena, Jan 2025)
+
+**Time spent:** 40 hours  
+**Findings submitted:** 3  
+**Results:** 1 Valid Medium, 2 Duplicates  
+**Payout:** $340  
+
+**Bugs I missed that others found:**
+- H-01: Flash loan governance attack — I identified the governor had no delay
+  but didn't chain it with the flash loan vector. Need to think more about
+  composability.
+
+**What I'll do differently:**
+- For every governance contract: immediately test flash loan voting attack
+```
+
+This log becomes your portfolio. After 10 contests, patterns in your blind spots emerge. Fix them systematically.
+
+---
+
+## The Business Side
+
+The income picture for a skilled auditor (18–24 months in):
+
+- Competitive audits: $2k–$20k/month depending on contest selection and win rate
+- Private audits: $5k–$50k per engagement (need 3–5 public wins to get hired)
+- Bug bounties: Irregular, potentially life-changing single findings
+- Full-time at a firm (Spearbit, Trail of Bits, Cyfrin, OpenZeppelin): $120k–$300k+
+
+The fastest path to private audits: win something notable on a well-known protocol. One High finding on a top-100 DeFi protocol is worth more for reputation than 20 Low findings on small contests.
+
+---
+
+## Build This Now
+
+1. Go to [code4rena.com/contests](https://code4rena.com/contests) and find a recently finished contest
+2. Read the full audit report (they're all public)
+3. Clone the audited repo at the contest commit
+4. Try to independently find the High findings before reading the PoC
+5. Run each PoC locally with Foundry
+
+This exercise, done 10 times, will teach you more than reading any tutorial.

@@ -1,0 +1,162 @@
+---
+title: "EVM Fundamentals"
+stage: "01"
+track: "foundations"
+description: "How the EVM actually executes code. Stack, memory, storage, calldata, opcodes, and gas mechanics from first principles."
+estimatedTime: "1–2 weeks"
+difficulty: "beginner"
+objectives:
+  - "Understand the EVM execution model"
+  - "Know every data location and its cost"
+  - "Read raw opcode output from the compiler"
+  - "Identify gas cost hotspots before writing Solidity"
+tags: ["evm", "opcodes", "gas", "stack", "memory", "storage"]
+realContractAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+realContractChain: "Ethereum Mainnet"
+---
+
+## What the EVM Actually Is
+
+The Ethereum Virtual Machine is a **stack-based state machine** that runs on every full node in the network simultaneously. When you deploy a contract, its bytecode lives on-chain. When you call it, every node re-executes every instruction and must arrive at the same result. That's the constraint everything else flows from.
+
+Unlike your laptop (register-based, x86/ARM), the EVM uses a **stack** with a max depth of 1024 slots. Each slot is exactly 256 bits wide — sized for Keccak-256 hashes and secp256k1 curve math.
+
+> **Simple terms:** The EVM is a global calculator that costs money to run. Gas is the fee. Every opcode has a fixed price. Run out of gas mid-execution and all changes revert — but you still pay for the computation used.
+
+## The Five Data Locations
+
+| Location | Persists | Gas cost | When to use |
+|---|---|---|---|
+| **Stack** | No (transaction only) | ~3 gas | Local variables, function args |
+| **Memory** | No (transaction only) | Quadratic expansion | Temporary arrays, ABI encoding |
+| **Storage** | Yes (forever) | 2,100–20,000 gas | State variables |
+| **Calldata** | No (read-only input) | Cheapest | Function inputs on `external` fns |
+| **Transient Storage** | No (transaction only) | 100 gas | Reentrancy locks, EIP-1153 |
+
+The single biggest gas optimization decision you make every time you write Solidity: **does this live in storage, or can it live somewhere cheaper?**
+
+## Gas: The Physics of the EVM
+
+Gas isn't arbitrary. Prices encode real resource costs:
+
+- **SSTORE new slot: 20,000** — permanent allocation on every node's disk, forever
+- **SSTORE update: 2,900** — update an existing trie entry
+- **SLOAD cold: 2,100** — first read requires a disk lookup
+- **SLOAD warm: 100** — subsequent reads in same transaction hit the cache
+- **CALL cold: 2,600** — state trie lookup for a new address
+- **KECCAK256: 30 + 6/word** — scales with data size
+
+The mental model: **Stack (3) → Warm SLOAD (100) → Cold SLOAD (2,100) → SSTORE update (2,900) → SSTORE new (20,000)**.
+
+Cache storage reads in memory variables. Every repeat `SLOAD` of the same slot in a function costs 100 gas instead of 2,100 — that's 21× cheaper.
+
+```solidity
+// ❌ Bad — 3 cold SLOADs if called first
+function bad() external view returns (uint256) {
+    return balances[msg.sender] + balances[msg.sender] + balances[msg.sender];
+}
+
+// ✅ Good — 1 cold SLOAD, then stack reads
+function good() external view returns (uint256) {
+    uint256 bal = balances[msg.sender]; // single SLOAD
+    return bal + bal + bal;
+}
+```
+
+## Opcodes That Matter for Security
+
+### DELEGATECALL
+
+Executes code from another contract **in your storage context**. The implementation's logic runs, but reads and writes hit **your** slots.
+
+This is how proxy upgrades work. It's also how the Parity multi-sig hack happened: an unprotected `initWallet` call took ownership because `delegatecall` ran in the wallet's storage context.
+
+```solidity
+// The proxy delegates everything to the implementation
+fallback() external payable {
+    address impl = _implementation();
+    assembly {
+        calldatacopy(0, 0, calldatasize())
+        let result := delegatecall(gas(), impl, 0, calldatasize(), 0, 0)
+        returndatacopy(0, 0, returndatasize())
+        switch result
+        case 0 { revert(0, returndatasize()) }
+        default { return(0, returndatasize()) }
+    }
+}
+```
+
+### STATICCALL
+
+A read-only call — any state change in the callee reverts the entire call. Use this for price checks and view calls to untrusted contracts.
+
+### TSTORE / TLOAD (EIP-1153)
+
+Transient storage introduced in the Cancun upgrade. Data lives for one transaction only and costs just 100 gas — perfect for reentrancy guards without the 20,000 gas SSTORE cost.
+
+## The Stack Depth Limit
+
+The stack holds 1024 items, but EVM opcodes can only reference the **top 16**. If you have 17+ local variables active at once, you get a `Stack too deep` compile error.
+
+Fix it by:
+- Scoping variables inside `{}` blocks to free stack space
+- Grouping related variables into a `struct` and passing the struct
+- Moving intermediate results to `memory`
+
+## How a Transaction Executes
+
+1. Wallet signs tx with private key, broadcasts to mempool
+2. Validator picks tx, starts EVM execution
+3. EVM runs opcodes one by one, charging gas each step
+4. If gas runs out → revert all state changes (but gas is consumed)
+5. If execution completes → state changes committed, block finalized
+
+The atomicity guarantee: either **everything** in a transaction happens, or **nothing** does. This is the foundation of DeFi — swap 1000 USDC for ETH or revert, no partial states.
+
+## Reading What the Compiler Actually Produces
+
+```bash
+# Inspect bytecode and opcodes
+forge build
+forge inspect MyContract bytecode
+forge inspect MyContract opcodes
+
+# Interactive opcode explorer
+# Visit https://evm.codes for a full reference with gas costs
+```
+
+Run `forge inspect` on the WETH contract (see live address above) and find the `deposit()` function. Trace every opcode. You'll see exactly one `SSTORE` for the balance update and one `LOG1` for the event.
+
+## In the Wild: WETH
+
+The Wrapped Ether contract (`0xC02...c2`) is the most-called contract on Ethereum. Its `deposit()` function is 6 lines of Solidity that compiles to ~15 opcodes. Reading its assembly output is the single best exercise for internalizing EVM execution.
+
+```solidity
+function deposit() public payable {
+    balanceOf[msg.sender] += msg.value; // SLOAD + ADD + SSTORE
+    emit Deposit(msg.sender, msg.value); // LOG2
+}
+```
+
+Every `+= msg.value` is a cold SLOAD (2,100) + arithmetic (3) + SSTORE update (2,900). That's ~5,000 gas just for one balance update — before any overhead.
+
+## Build This Now
+
+Use `cast` to inspect a live transaction:
+
+```bash
+# Trace a real mainnet tx — see every opcode, every gas deduction
+cast run <TX_HASH> --rpc-url $MAINNET_RPC_URL
+
+# Get the storage value at a specific slot
+cast storage 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 0 --rpc-url $MAINNET_RPC_URL
+
+# Decode a function selector
+cast 4byte 0xd0e30db0
+```
+
+## Further Reading
+
+- [EVM Codes — Interactive opcode reference](https://evm.codes/)
+- [Ethereum Yellow Paper](https://ethereum.github.io/yellowpaper/paper.pdf)
+- [evm.wtf — visual EVM explorer](https://evm.wtf)

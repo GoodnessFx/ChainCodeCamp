@@ -1,0 +1,165 @@
+---
+title: "Solidity Mastery"
+stage: "02"
+track: "foundations"
+description: "Production-grade Solidity from day one. Storage packing, ABI encoding, custom errors, inheritance linearization, and the 24KB limit."
+estimatedTime: "2–3 weeks"
+difficulty: "beginner"
+objectives:
+  - "Pack storage slots to save 20,000 gas per avoided slot"
+  - "Write custom errors instead of string reverts"
+  - "Understand C3 linearization and inheritance order"
+  - "Use transient storage (EIP-1153) correctly"
+tags: ["solidity", "storage", "abi", "inheritance", "gas"]
+realContractAddress: "0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8"
+realContractChain: "Ethereum Mainnet"
+---
+
+## Storage Layout: The Tetris Rule
+
+The EVM works in 32-byte slots. Solidity packs variables into slots from right to left if they fit. One avoided slot = 20,000 gas saved on first write.
+
+```solidity
+// ❌ 3 slots — wastes 40,000 gas on first write
+uint128 a;   // Slot 0 (16 bytes, but takes full slot due to uint256 next)
+uint256 b;   // Slot 1 (full slot)
+uint128 c;   // Slot 2
+
+// ✅ 2 slots — saves 20,000 gas
+uint128 a;   // Slot 0 (bytes 0–15)
+uint128 c;   // Slot 0 (bytes 16–31)  ← packed!
+uint256 b;   // Slot 1
+```
+
+The compiler packs variables **only when they appear sequentially** and fit. A `uint256` between two `uint128`s breaks the pack. Always group small types together.
+
+Use `forge inspect` to verify your layout:
+
+```bash
+forge inspect MyToken storage-layout --pretty
+```
+
+## Mapping Internals
+
+Mappings don't store data sequentially. The slot for key `k` in a mapping at slot `p` is:
+
+```
+slot = keccak256(h(k) || p)
+```
+
+Because keccak output is essentially random across the 2²⁵⁶ key space, collisions are computationally impossible. This is also why **you can't iterate a mapping** — the keys aren't stored anywhere.
+
+```solidity
+mapping(address => uint256) public balances; // slot 1
+
+// Storage slot for balances[alice]:
+// keccak256(abi.encode(alice, uint256(1)))
+```
+
+## Custom Errors (Solidity 0.8.4+)
+
+String revert messages are stored in bytecode and copied to memory on revert — expensive. Custom errors encode as 4-byte selectors.
+
+```solidity
+// ❌ String revert — ~50 bytes of bytecode per message
+require(msg.sender == owner, "Unauthorized");
+
+// ✅ Custom error — 4 bytes, includes context data
+error Unauthorized(address caller, address expected);
+
+function sensitiveAction() external {
+    if (msg.sender != owner) revert Unauthorized(msg.sender, owner);
+}
+```
+
+## The `tx.origin` Trap
+
+Never use `tx.origin` for authorization. A malicious contract in the call chain can exploit it:
+
+```solidity
+// ❌ Vulnerable — attacker tricks user into calling MaliciousContract,
+//    which calls Vault. tx.origin is still the user.
+require(tx.origin == owner);
+
+// ✅ Correct — msg.sender is the immediate caller
+require(msg.sender == owner);
+```
+
+## Transient Storage (EIP-1153)
+
+Available from Solidity 0.8.24+. Data is cleared at the end of the transaction — costs 100 gas instead of 20,000.
+
+```solidity
+// Reentrancy guard using transient storage (100 gas vs 20,000)
+uint256 private transient _lock;
+
+modifier nonReentrant() {
+    require(_lock == 0, "Reentrant");
+    _lock = 1;
+    _;
+    _lock = 0;
+}
+```
+
+## Inheritance: C3 Linearization
+
+Solidity uses Python's C3 linearization to resolve multiple inheritance. The order in the `is` clause matters — rightmost parent is "most derived".
+
+```solidity
+contract A { function foo() public virtual returns (string memory) { return "A"; } }
+contract B is A { function foo() public virtual override returns (string memory) { return "B"; } }
+contract C is A { function foo() public virtual override returns (string memory) { return "C"; } }
+
+// D inherits B, C — MRO is D → C → B → A
+// super.foo() in D calls C.foo(), not B.foo()
+contract D is B, C {
+    function foo() public override(B, C) returns (string memory) {
+        return super.foo(); // returns "C"
+    }
+}
+```
+
+Always list parents from most-general to most-specific to avoid surprises.
+
+## The 24KB Contract Size Limit
+
+EIP-170 caps contract bytecode at 24,576 bytes. Hit it and deployment reverts. Solutions:
+
+- **Libraries** — deploy logic separately, call via `DELEGATECALL`
+- **Diamond Pattern (EIP-2535)** — split across multiple facets
+- **Internal function deduplication** — the compiler inlines `public` functions but not `internal`
+
+## ABI Encoding
+
+Understanding ABI encoding prevents a class of bugs in cross-contract calls:
+
+```solidity
+// abi.encode — adds padding, safe for all types
+bytes memory data = abi.encode(uint256(1), address(this));
+
+// abi.encodePacked — no padding, cheaper but DANGEROUS with dynamic types
+// keccak256(abi.encodePacked("a", "bc")) == keccak256(abi.encodePacked("ab", "c"))
+// Hash collision! Never use encodePacked with user-supplied strings side by side.
+
+// abi.encodeWithSelector — for function calls
+bytes memory callData = abi.encodeWithSelector(IERC20.transfer.selector, recipient, amount);
+```
+
+## In the Wild: Uniswap v3
+
+The USDC/ETH 0.3% pool (`0x8ad5...6D8`) packs tick data and position info into single storage slots using bitwise masks. Reading the source is the best exercise in understanding why layout matters at scale — millions of swaps, every 100 gas saved per slot read adds up to thousands of ETH.
+
+## Build This Now
+
+```bash
+# Visualize your contract's storage layout
+forge inspect YourContract storage-layout --pretty
+
+# Check bytecode size before deployment
+forge build --sizes
+
+# Use Chisel for quick experiments
+chisel
+> uint128 a = 1; uint128 b = 2; uint256 c = 3;
+> assembly { sstore(0, or(a, shl(128, b))) }
+```

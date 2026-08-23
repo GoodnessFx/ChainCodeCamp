@@ -1,0 +1,162 @@
+---
+title: "Assembly & Yul"
+stage: "03"
+track: "foundations"
+description: "Drop into Yul when the compiler isn't enough. Memory layout, bitwise ops, custom dispatchers, and reading production assembly in OpenZeppelin and Solady."
+estimatedTime: "2–3 weeks"
+difficulty: "intermediate"
+objectives:
+  - "Read and write inline Yul without guessing"
+  - "Manage the free memory pointer correctly"
+  - "Implement bit-masking for storage packing"
+  - "Understand dirty bits and why they break auth checks"
+tags: ["yul", "assembly", "opcodes", "memory", "optimization"]
+---
+
+## Why Drop Into Yul?
+
+Solidity is safe by design — it adds overflow checks, type validation, memory zeroing. Those safety rails cost gas. When you need every wei:
+
+- **Skip overflow checks** in loops where the index can never overflow
+- **Manual memory allocation** without Solidity's zero-initialization overhead
+- **Custom function dispatchers** — binary search over selectors is faster than linear if-else
+- **Direct slot access** for storage that Solidity can't reach easily
+
+Yul is the EVM in text form. Every Yul statement maps 1:1 to opcodes.
+
+## Solidity's Memory Layout
+
+Before touching memory in assembly, internalize these reserved regions:
+
+| Address | Size | Purpose |
+|---|---|---|
+| `0x00–0x3F` | 64 bytes | Scratch space (hash operations use this) |
+| `0x40–0x5F` | 32 bytes | **Free memory pointer** — points to next free byte |
+| `0x60–0x7F` | 32 bytes | Zero slot (initial value for dynamic arrays) |
+| `0x80+` | Unbounded | Active memory starts here |
+
+**The #1 Yul mistake:** Writing to memory without updating the free memory pointer at `0x40`. Solidity will overwrite your data on the next allocation.
+
+```solidity
+function safeAllocate(uint256 size) internal pure returns (uint256 ptr) {
+    assembly {
+        ptr := mload(0x40)          // read current free pointer
+        mstore(0x40, add(ptr, size)) // advance it past our allocation
+    }
+}
+```
+
+## Your First Yul Block
+
+```solidity
+function efficientHash(bytes32 a, bytes32 b) public pure returns (bytes32 result) {
+    assembly {
+        // Use scratch space — no pointer update needed for ≤64 bytes
+        mstore(0x00, a)
+        mstore(0x20, b)
+        result := keccak256(0x00, 0x40)
+    }
+}
+```
+
+This avoids Solidity's `abi.encodePacked` overhead. Same result, ~200 fewer gas.
+
+## Bitwise Operations
+
+The tools you'll use constantly:
+
+```solidity
+// Extract lower 128 bits (uint128) from a 256-bit word
+function getLower(uint256 x) public pure returns (uint128 result) {
+    assembly {
+        result := and(x, 0xffffffffffffffffffffffffffffffff)
+    }
+}
+
+// Extract upper 128 bits
+function getUpper(uint256 x) public pure returns (uint128 result) {
+    assembly {
+        result := shr(128, x)
+    }
+}
+
+// Pack two uint128s into one uint256
+function pack(uint128 lo, uint128 hi) public pure returns (uint256 result) {
+    assembly {
+        result := or(lo, shl(128, hi))
+    }
+}
+
+// Check if even (cheaper than modulo)
+function isEven(uint256 x) public pure returns (bool result) {
+    assembly {
+        result := iszero(and(x, 1))
+    }
+}
+```
+
+## Unchecked Loops
+
+Solidity 0.8+ adds overflow checks to every arithmetic op — ~30 extra gas each. In a loop counter that can never reach `type(uint256).max`, this is wasted:
+
+```solidity
+// ❌ ~30 gas overhead per iteration from overflow check
+for (uint256 i = 0; i < arr.length; i++) { ... }
+
+// ✅ ~30 gas saved per iteration
+uint256 len = arr.length; // cache length (avoids repeated SLOAD/MLOAD)
+for (uint256 i = 0; i < len; ) {
+    // ... loop body ...
+    unchecked { ++i; }  // pre-increment is 1 gas cheaper than i++
+}
+```
+
+## The Dirty Bits Problem
+
+When Solidity reads a `uint8` from storage, the surrounding 31 bytes may contain garbage ("dirty bits"). Solidity normally cleans these automatically. In Yul, it doesn't.
+
+```solidity
+// This can silently pass even if the packed value looks zero
+// if dirty upper bits make the full 256-bit value non-zero
+function vulnerableCheck(uint8 flags) internal pure returns (bool) {
+    assembly {
+        // WRONG — flags may have dirty upper bits
+        if flags { revert(0, 0) }
+    }
+}
+
+// ✅ Always mask to the actual type size
+function safeCheck(uint8 flags) internal pure returns (bool) {
+    assembly {
+        if and(flags, 0xff) { revert(0, 0) }
+    }
+}
+```
+
+This is a real audit finding class. Dirty bits in Yul have caused protocol vulnerabilities when used in conditional branches.
+
+## Reading Solady
+
+[Solady](https://github.com/Vectorized/solady) is the gold standard for Yul-optimized contracts. Its `ERC20.sol` `transfer` function saves ~400 gas vs OpenZeppelin by:
+
+1. Using assembly to read/write two storage slots in one batch
+2. Skipping Solidity's safe-math checks on already-validated values  
+3. Using `log3` directly instead of Solidity's `emit` (saves ABI encoding)
+
+Read it line by line. Every assembly block has a comment explaining why it exists.
+
+## Build This Now
+
+```bash
+# Use Chisel to test Yul snippets interactively
+chisel
+> assembly { let x := 0xff; x := and(x, 0x0f) }
+
+# Inspect the assembly output of your contract
+forge inspect MyContract ir-optimized
+
+# Compare gas between implementations
+forge test --gas-report
+```
+
+> **Rule:** Only drop into Yul when you have a gas snapshot proving it's worth the complexity. Assembly is harder to audit, easier to break, and slower to read. Use it surgically.

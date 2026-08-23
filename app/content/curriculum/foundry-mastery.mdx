@@ -1,0 +1,200 @@
+---
+title: "Foundry Mastery"
+stage: "04"
+track: "foundations"
+description: "The industry standard testing toolkit. Fuzz testing, invariant testing, fork tests, cheatcodes, gas snapshots, and deployment scripts — all in Solidity."
+estimatedTime: "1–2 weeks"
+difficulty: "intermediate"
+objectives:
+  - "Write fuzz tests that catch edge cases unit tests miss"
+  - "Build handler-based invariant test suites"
+  - "Use vm.createFork for multi-chain test scenarios"
+  - "Generate gas snapshots and catch regressions in CI"
+tags: ["foundry", "forge", "testing", "fuzzing", "invariants"]
+---
+
+## Why Foundry Won
+
+Before Foundry, tests were written in JavaScript (Hardhat) or Python (Brownie). Context-switching between your test language and Solidity meant blind spots. Foundry runs tests **in Solidity** — the same language as your contracts. You test exactly what runs on-chain, with zero translation layer.
+
+It's also fast. Foundry parallelises tests by default and runs in Rust-compiled EVM. A 1,000-test suite that takes 3 minutes in Hardhat runs in 12 seconds.
+
+## Fuzz Testing
+
+Give Forge a function with typed inputs and it generates thousands of random inputs automatically:
+
+```solidity
+// Foundry runs this ~256 times with random `amount` values
+// including 0, type(uint256).max, and everything between
+function testFuzz_deposit(uint256 amount) public {
+    vm.assume(amount > 0 && amount <= 100 ether);
+    
+    uint256 sharesBefore = vault.totalSupply();
+    vault.deposit{value: amount}();
+    
+    assertGt(vault.totalSupply(), sharesBefore);
+}
+```
+
+`vm.assume()` discards inputs that violate preconditions without counting as failures. Use it sparingly — too many assumes and Foundry can't find meaningful inputs.
+
+## Invariant Testing
+
+Fuzz tests one function. Invariant tests **sequences** of functions. Forge calls random functions in random order, then checks your invariant holds after each sequence.
+
+```solidity
+// The vault must always have enough ETH to cover all shares
+function invariant_solvency() public view {
+    uint256 totalShares = vault.totalSupply();
+    uint256 vaultBalance = address(vault).balance;
+    assertGe(vaultBalance, totalShares, "Vault insolvent");
+}
+```
+
+This is how the Euler Finance $197M bug would have been caught — a `donate()` function that skipped the health check would fail `invariant_healthFactor()` every time.
+
+## Handler-Based Invariant Testing
+
+Raw invariant testing calls any public function randomly. Deep state paths (deposit → borrow → wait 3 days → liquidate) are statistically unreachable. Handlers fix this:
+
+```solidity
+contract LendingHandler is CommonBase, StdCheats, StdUtils {
+    LendingPool pool;
+    address[] actors;
+    
+    function deposit(uint256 actorSeed, uint256 amount) external {
+        address actor = actors[actorSeed % actors.length];
+        amount = bound(amount, 1e6, 1_000_000e6); // bound to realistic range
+        
+        deal(address(usdc), actor, amount);
+        vm.prank(actor);
+        pool.deposit(amount);
+    }
+    
+    function borrow(uint256 actorSeed, uint256 amount) external {
+        address actor = actors[actorSeed % actors.length];
+        uint256 max = pool.maxBorrow(actor);
+        amount = bound(amount, 0, max);
+        
+        vm.prank(actor);
+        pool.borrow(amount);
+    }
+}
+
+// In your test contract:
+function setUp() public {
+    handler = new LendingHandler(pool);
+    targetContract(address(handler)); // Foundry only calls handler functions
+}
+```
+
+## The Essential Cheatcodes
+
+```solidity
+// Identity manipulation
+vm.prank(alice);                    // next call is from alice
+vm.startPrank(alice);               // all calls until stopPrank are from alice
+
+// State manipulation  
+vm.deal(alice, 10 ether);           // set ETH balance
+vm.store(contract, slot, value);    // write directly to storage slot
+vm.warp(block.timestamp + 7 days);  // advance time
+vm.roll(block.number + 100);        // advance blocks
+
+// Expectations
+vm.expectRevert(MyError.selector);
+vm.expectEmit(true, true, false, true);
+emit Transfer(alice, bob, 100e18);
+
+// Recording
+vm.recordLogs();                    // capture all emitted events
+Vm.Log[] memory logs = vm.getRecordedLogs();
+
+// Forking
+uint256 mainnetFork = vm.createFork(vm.envString("MAINNET_RPC_URL"));
+vm.selectFork(mainnetFork);
+```
+
+## Fork Testing
+
+Test against live mainnet state without deploying:
+
+```solidity
+function testFork_UniswapSwap() public {
+    uint256 fork = vm.createFork(vm.envString("MAINNET_RPC_URL"), 19_000_000);
+    vm.selectFork(fork);
+    
+    // Now you're at mainnet block 19,000,000
+    // All Uniswap/Aave/Chainlink contracts exist as they were
+    address weth = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    assertGt(IERC20(weth).totalSupply(), 0);
+}
+```
+
+This is how you test your protocol's interaction with live DeFi without writing mocks that don't match reality.
+
+## Gas Snapshots
+
+```bash
+# Generate a snapshot of every test's gas usage
+forge snapshot
+
+# Fail the build if gas increases by more than 5%
+forge snapshot --diff .gas-snapshot --check
+```
+
+Add `.gas-snapshot` to your repo. Every PR that increases gas triggers a CI failure. This is how protocols like Uniswap catch accidental regressions before deployment.
+
+## Deployment Scripts
+
+Foundry scripts run Solidity on any network:
+
+```solidity
+contract Deploy is Script {
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+        
+        MyToken token = new MyToken("ChainCodeCamp", "CCC");
+        MyVault vault = new MyVault(address(token));
+        
+        vm.stopBroadcast();
+        
+        console.log("Token:", address(token));
+        console.log("Vault:", address(vault));
+    }
+}
+```
+
+```bash
+# Simulate on local fork
+forge script script/Deploy.s.sol --rpc-url $MAINNET_RPC_URL --fork-block-number 19000000
+
+# Broadcast to testnet
+forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify
+```
+
+## Build This Now
+
+```bash
+# Install Foundry
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+
+# Initialize a new project
+forge init my-protocol
+cd my-protocol
+
+# Run the exploit gauntlet from this curriculum
+cd gauntlet
+forge install foundry-rs/forge-std
+forge test -vvv
+```
+
+The gauntlet has 9 failing tests. Each one has a stub attack contract. Implement the exploit, make it pass. Start with `ReentrancyAttack.sol` — it's one function.
+
+## Further Reading
+
+- [The Foundry Book](https://book.getfoundry.sh/)
+- [Invariant Testing Workshop — horsefacts](https://github.com/horsefacts/weth-invariant-testing)
+- [Paradigm's Foundry guide](https://www.paradigm.xyz/2021/12/introducing-the-foundry-ethereum-development-toolbox)

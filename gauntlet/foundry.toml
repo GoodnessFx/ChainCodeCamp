@@ -1,0 +1,17 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+
+# No pinned solc: Foundry auto-compiles per pragma (OverflowToken pins 0.7.6).
+
+[profile.default.fuzz]
+runs = 256
+
+[profile.default.invariant]
+runs = 256
+depth = 15
+
+[fmt]
+line_length = 100

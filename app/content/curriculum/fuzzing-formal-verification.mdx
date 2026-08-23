@@ -1,0 +1,188 @@
+---
+title: "Fuzzing & Formal Verification"
+stage: "08"
+track: "security"
+description: "Property-based testing with Echidna, formal specs with Certora, and SMT solvers — the same tools used by MakerDAO and Aave."
+estimatedTime: "2 weeks"
+difficulty: "advanced"
+objectives:
+  - "Write stateful Echidna campaigns for lending protocols"
+  - "Express security properties in Certora CVL"
+  - "Understand R1CS and circuit constraints at a conceptual level"
+  - "Know when fuzzing is enough vs when you need formal proof"
+tags: ["fuzzing", "formal-verification", "certora", "echidna", "smt"]
+---
+
+## The Testing Pyramid
+
+```
+Unit tests       → prove it works for specific inputs you thought of
+Fuzz tests       → prove it works for random inputs the machine generates
+Invariant tests  → prove a property holds across all reachable states
+Formal proofs    → prove a property holds for ALL possible inputs, mathematically
+```
+
+Each level catches what the level below misses. The Euler Finance $197M hack would have been caught at the invariant test level — a `nonHealthy(user)` state was reachable, which any invariant test covering `healthFactor > 1` would have flagged.
+
+## Foundry Invariant Testing: Handler Pattern
+
+The raw Foundry invariant test calls any public function randomly. Handler-based testing controls the sequence to reach realistic states:
+
+```solidity
+// Handler.sol — defines valid action sequences
+contract LendingHandler is CommonBase, StdCheats, StdUtils {
+    LendingPool public pool;
+    ERC20Mock public token;
+    address[] internal actors;
+
+    // Track ghost variables (for invariant assertions)
+    uint256 public ghost_totalDeposited;
+    uint256 public ghost_totalBorrowed;
+
+    constructor(LendingPool _pool, ERC20Mock _token) {
+        pool = _pool;
+        token = _token;
+        actors = [address(0x1), address(0x2), address(0x3)];
+    }
+
+    function deposit(uint256 actorSeed, uint256 amount) external {
+        address actor = actors[bound(actorSeed, 0, actors.length - 1)];
+        amount = bound(amount, 1, 1_000_000e18);
+
+        token.mint(actor, amount);
+        vm.prank(actor);
+        token.approve(address(pool), amount);
+        vm.prank(actor);
+        pool.deposit(amount);
+
+        ghost_totalDeposited += amount;
+    }
+
+    function borrow(uint256 actorSeed, uint256 amount) external {
+        address actor = actors[bound(actorSeed, 0, actors.length - 1)];
+        uint256 maxBorrow = pool.maxBorrow(actor);
+        if (maxBorrow == 0) return;
+        amount = bound(amount, 1, maxBorrow);
+
+        vm.prank(actor);
+        pool.borrow(amount);
+
+        ghost_totalBorrowed += amount;
+    }
+}
+
+// InvariantTest.sol
+contract LendingInvariantTest is StdInvariant, Test {
+    LendingHandler handler;
+    LendingPool pool;
+
+    function setUp() public {
+        // ... setup
+        handler = new LendingHandler(pool, token);
+        targetContract(address(handler));
+    }
+
+    // The core solvency invariant
+    function invariant_poolSolvent() public view {
+        assertGe(
+            pool.totalAssets(),
+            pool.totalBorrowed(),
+            "Pool insolvent: debt exceeds assets"
+        );
+    }
+
+    // Ghost variable consistency
+    function invariant_ghostAccounting() public view {
+        assertEq(
+            handler.ghost_totalDeposited(),
+            pool.totalAssets() + pool.totalBorrowed(),
+            "Accounting mismatch"
+        );
+    }
+}
+```
+
+## Certora Prover: Formal Verification
+
+Certora translates your Solidity contracts and CVL specs into mathematical formulas, then uses an SMT solver (Z3) to prove the spec is satisfied for **all possible inputs and all possible states**.
+
+```bash
+pip install certora-cli
+certoraRun contracts/Vault.sol --verify Vault:specs/Vault.spec --solc solc8.20
+```
+
+**CVL (Certora Verification Language) spec:**
+
+```cvl
+// specs/Vault.spec
+
+// Rule: depositing then immediately withdrawing returns same amount
+rule depositWithdrawRoundtrip(uint256 assets) {
+    env e;
+    
+    // Preconditions
+    require assets > 0;
+    require balanceOf(e.msg.sender) >= assets;
+    
+    uint256 sharesBefore = totalSupply();
+    
+    // Action
+    uint256 shares = deposit(e, assets, e.msg.sender);
+    uint256 assetsOut = redeem(e, shares, e.msg.sender, e.msg.sender);
+    
+    // Assertion: you get back at least what you put in (minus rounding)
+    assert assetsOut >= assets - 1;
+}
+
+// Invariant: total assets >= total supply (solvency)
+invariant vaultSolvent()
+    totalAssets() >= totalSupply()
+    { preserved { require totalSupply() > 0; } }
+```
+
+If Certora finds a counterexample, it outputs the exact state that violates your spec — effectively a free PoC.
+
+## When to Use Each
+
+| Situation | Tool |
+|---|---|
+| Quick sweep of a new codebase | Slither |
+| Testing input ranges on arithmetic | Foundry fuzz |
+| Testing protocol economic invariants | Handler-based Foundry invariants or Echidna |
+| Proving a specific function is safe for all inputs | Certora |
+| Verifying a ZK circuit has no under-constraints | Manual + constraint analysis |
+
+**Rule of thumb:** Formal verification is expensive to write and maintain. Use it for your most critical invariants — the ones where a violation means protocol insolvency or permanent fund loss. Fuzz everything else.
+
+## SMT Solvers: What's Happening Under the Hood
+
+When Certora or Solidity's built-in `SMTChecker` verifies a property, they're using an SMT (Satisfiability Modulo Theories) solver. The solver receives your code as a logical formula and tries to find a **counterexample** — an input that makes the assertion false.
+
+If it can't find one within the time budget, the property is considered proven.
+
+```bash
+# Use Solidity's built-in SMTChecker (free, less powerful than Certora)
+solc --model-checker-engine chc --model-checker-targets "assert,underflow,overflow" MyContract.sol
+```
+
+## The Certora Bug That Found Real Bugs
+
+MakerDAO used Certora to formally verify their DAI savings rate contract. The prover found that under specific oracle timing conditions, the `drip()` function could cause a rounding error that accumulated over millions of calls. No fuzzer had caught it because the exploit required a specific sequence of oracle updates over time.
+
+Formal verification found it by exhaustively checking all time orderings — something fuzz tests can't do.
+
+## Build This Now
+
+```bash
+# Run Foundry invariant tests on the gauntlet
+cd gauntlet
+forge test --match-contract Invariant -vvv
+
+# Install Certora CLI
+pip install certora-cli
+
+# Try the Certora tutorial (free)
+git clone https://github.com/Certora/Examples
+cd Examples/ERC20
+certoraRun ERC20.sol --verify ERC20:ERC20.spec
+```

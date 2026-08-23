@@ -1,0 +1,210 @@
+---
+title: "Static Analysis & Tooling"
+stage: "07"
+track: "security"
+description: "Slither, Foundry fuzzing, Echidna, Mythril — actual walkthroughs with real vulnerable contracts, not just install guides."
+estimatedTime: "1–2 weeks"
+difficulty: "intermediate"
+objectives:
+  - "Run Slither and triage its output correctly"
+  - "Write Echidna properties for DeFi invariants"
+  - "Use Mythril for symbolic execution on target contracts"
+  - "Integrate static analysis into a CI pipeline"
+tags: ["slither", "echidna", "mythril", "static-analysis", "ci"]
+---
+
+## The Tooling Stack
+
+No single tool finds everything. Use them in layers:
+
+| Tool | Type | Best for | False positive rate |
+|---|---|---|---|
+| Slither | Static analysis | Quick triage, common patterns | Medium-high |
+| Echidna | Fuzzer | Property violations, edge cases | Low (you write the properties) |
+| Mythril | Symbolic execution | Deep logical paths | Low-medium |
+| Foundry fuzz | Fuzzer | Function-level input testing | Low |
+| Certora | Formal verification | Mathematical proofs | Near zero |
+
+Start with Slither (fast, automated). Write Echidna properties for your invariants. Use Mythril for targeted deep analysis on critical functions.
+
+## Slither: Real Workflow
+
+```bash
+pip install slither-analyzer
+slither . --config-file slither.config.json
+```
+
+**`slither.config.json`** — suppress noise, focus signal:
+```json
+{
+  "filter_paths": "node_modules,lib,test",
+  "exclude_informational": false,
+  "exclude_low": false,
+  "exclude_medium": false,
+  "exclude_high": false,
+  "detectors_to_exclude": [
+    "timestamp",
+    "assembly",
+    "naming-convention"
+  ]
+}
+```
+
+**Triage process:**
+
+1. Run Slither — you'll get 20–100 findings
+2. Sort by severity: High → Medium → Low → Informational
+3. For each High/Medium: read the detector description, find the line, determine if it's exploitable
+4. Mark false positives with `// slither-disable-next-line detector-name`
+5. Fix real findings
+
+**Common Slither findings that are almost always real:**
+
+```
+reentrancy-eth — external call before state update
+arbitrary-send — ETH sent to user-controlled address
+suicidal — anyone can call selfdestruct
+uninitialized-state — state variable never set
+```
+
+**Common false positives:**
+
+```
+timestamp — block.timestamp usage (fine for non-critical timing)
+assembly — any inline assembly (informational, not a bug)
+```
+
+## Echidna: Property-Based Fuzzing
+
+Echidna calls your contract functions randomly and checks that properties you define never become false.
+
+**Install:**
+```bash
+# macOS
+brew install echidna
+
+# Or use Docker
+docker pull ghcr.io/crytic/echidna/echidna
+```
+
+**Write properties as functions prefixed `echidna_`:**
+
+```solidity
+// EchidnaTest.sol — inherit your contract or use it as a dependency
+contract EchidnaVaultTest {
+    Vault vault;
+    Token token;
+
+    constructor() {
+        token = new Token();
+        vault = new Vault(address(token));
+    }
+
+    // Property: vault can never owe more than it holds
+    function echidna_solvency() public view returns (bool) {
+        return address(vault).balance >= vault.totalDeposits();
+    }
+
+    // Property: no single user can have more shares than total supply
+    function echidna_userSharesLeTotal() public view returns (bool) {
+        return vault.sharesOf(address(this)) <= vault.totalSupply();
+    }
+}
+```
+
+```bash
+echidna EchidnaVaultTest.sol --contract EchidnaVaultTest --config echidna.yaml
+```
+
+**`echidna.yaml`:**
+```yaml
+testLimit: 50000      # number of sequences to try
+seqLen: 100           # max calls per sequence
+coverage: true        # show which lines were hit
+```
+
+When Echidna breaks a property, it outputs the **minimum reproducing sequence** — the shortest series of calls that causes the violation. This is your PoC.
+
+## Mythril: Symbolic Execution
+
+Mythril explores all possible execution paths mathematically, not randomly. It's slow but thorough on targeted functions.
+
+```bash
+pip install mythril
+
+# Analyse a single contract
+myth analyze contracts/Vault.sol --solv 0.8.20
+
+# Deeper analysis with more transaction depth
+myth analyze contracts/Vault.sol --solv 0.8.20 --execution-timeout 300 -t 4
+```
+
+**What Mythril finds that Slither misses:**
+- Integer overflow in complex arithmetic (even in 0.8+ if you use `unchecked`)
+- Arbitrary jumps in inline assembly
+- Weak randomness (block.timestamp as seed)
+- Delegatecall to user-controlled addresses
+
+## CI Integration
+
+Add static analysis to your CI pipeline so every PR is checked:
+
+```yaml
+# .github/workflows/security.yml
+name: Security Analysis
+
+on: [push, pull_request]
+
+jobs:
+  slither:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install slither-analyzer
+      - run: slither . --fail-on-medium
+        # Fails CI if any medium or high severity finding exists
+
+  echidna:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Run Echidna
+        uses: crytic/echidna-action@v2
+        with:
+          files: test/echidna/
+          contract: EchidnaVaultTest
+          config: echidna.yaml
+```
+
+## The Triage Decision Tree
+
+When a tool reports a finding:
+
+```
+1. Is it in a test or mock file? → Not a real finding, suppress it
+2. Is the flagged function reachable by an untrusted caller? → Maybe real
+3. Can the flagged condition be triggered without special access? → Likely real
+4. What's the worst-case impact if triggered? → Determines severity
+5. Is there a fix that doesn't break functionality? → Propose it
+```
+
+## Build This Now
+
+```bash
+# Install all tools
+pip install slither-analyzer mythril
+
+# Run Slither on the gauntlet
+cd gauntlet
+slither src/ --exclude-informational
+
+# Run Echidna on a simple vault property
+# (requires writing the EchidnaTest contract first)
+echidna test/echidna/EchidnaReentrancy.sol --contract EchidnaReentrancy
+```
+
+Then: run Slither on the gauntlet's `src/` directory. It should flag reentrancy in `ReentrancyVault.sol` and unprotected initializers in `FlawedAccessControl.sol`. Verify those match what you found manually.
