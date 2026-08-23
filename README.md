@@ -9,9 +9,9 @@
 [license-shield]: https://img.shields.io/github/license/GoodnessFx/ChainCodeCamp.svg?style=for-the-badge
 [license-url]: https://github.com/GoodnessFx/ChainCodeCamp/blob/main/LICENSE
 
-<h1 align="center">ChainCodeCamp — Smart Contract Security & Auditing</h1>
+<h1 align="center">ChainCodeCamp: Smart Contract Security & Auditing</h1>
 
-<p align="center"><strong>Free, structured smart contract security education for African and self-taught developers who can't afford $2k–$5k bootcamps. EVM internals → Solidity → Assembly → Real audits → Paid findings.</strong></p>
+<p align="center"><strong>Free, structured smart contract security education for African and self-taught developers who cannot afford $2k to $5k bootcamps. EVM internals to Solidity to Assembly to Real audits to Paid findings.</strong></p>
 
 <div align="center">
 
@@ -37,9 +37,9 @@
 
 > ⚠️ All vulnerable contracts in this repo are for educational purposes only. Do not deploy them to mainnet. Use at your own risk.
 
-> 📣 **Inspired by** [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp) (curriculum structure, free certification model) and [Cyfrin Updraft](https://github.com/Cyfrin/security-and-auditing-full-course-s23) (security depth, section anatomy, real contract links). ChainCodeCamp lives in the gap between them — freeCodeCamp's accessibility applied to smart contract security, with African context built in and no paywall ever.
+> 📣 **Inspired by** [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp) (curriculum structure, free certification model) and [Cyfrin Updraft](https://github.com/Cyfrin/security-and-auditing-full-course-s23) (security depth, section anatomy, real contract links). ChainCodeCamp lives in the gap between them: freeCodeCamp's accessibility applied to smart contract security, with African context built in and no paywall ever.
 
----
+<br/>
 
 - [Website](https://chaincodecamp.dev) — Browse the full curriculum, track your progress, claim your certificate
 - [Discord](https://discord.gg/chaincodecamp) — Community of auditors, builders, and learners
@@ -49,12 +49,12 @@
 <br/>
 <p align="center">
 <a href="https://chaincodecamp.dev" target="_blank">
-<img src="https://img.shields.io/badge/chaincodecamp.dev-ff4d00?style=for-the-badge" width="300" alt="ChainCodeCamp — Smart Contract Security Education"/>
+<img src="https://img.shields.io/badge/chaincodecamp.dev-ff4d00?style=for-the-badge" width="300" alt="ChainCodeCamp: Smart Contract Security Education"/>
 </a>
 </p>
 <br/>
 
----
+<br/>
 
 # Table of Contents
 
@@ -68,14 +68,14 @@
 <li><a href="#-section-0-welcome-to-chaincodecamp">Section 0: Welcome</a></li>
 <li><a href="#-section-1-evm-fundamentals">Section 1: EVM Fundamentals</a></li>
 <li><a href="#-section-2-solidity-mastery">Section 2: Solidity Mastery</a></li>
-<li><a href="#-section-3-assembly--yul">Section 3: Assembly & Yul</a></li>
+<li><a href="#-section-3-assembly-and-yul">Section 3: Assembly and Yul</a></li>
 <li><a href="#️-section-4-foundry-mastery">Section 4: Foundry Mastery</a></li>
-<li><a href="#-section-5-vulnerability-classes--first-audit">Section 5: Vulnerability Classes & Your First Audit</a></li>
+<li><a href="#-section-5-vulnerability-classes-and-first-audit">Section 5: Vulnerability Classes and Your First Audit</a></li>
 <li><a href="#-section-6-defi-attack-vectors">Section 6: DeFi Attack Vectors</a></li>
-<li><a href="#-section-7-static-analysis--tooling">Section 7: Static Analysis & Tooling</a></li>
-<li><a href="#-section-8-fuzzing--formal-verification">Section 8: Fuzzing & Formal Verification</a></li>
+<li><a href="#-section-7-static-analysis-and-tooling">Section 7: Static Analysis and Tooling</a></li>
+<li><a href="#-section-8-fuzzing-and-formal-verification">Section 8: Fuzzing and Formal Verification</a></li>
 <li><a href="#-section-9-writing-a-real-audit-report">Section 9: Writing a Real Audit Report</a></li>
-<li><a href="#-section-10-bug-bounty--competitive-audits">Section 10: Bug Bounty & Competitive Audits</a></li>
+<li><a href="#-section-10-bug-bounty-and-competitive-audits">Section 10: Bug Bounty and Competitive Audits</a></li>
 <li><a href="#the-exploit-gauntlet">The Exploit Gauntlet</a></li>
 <li><a href="#certifications">Certifications</a></li>
 <li><a href="#contributing">Contributing</a></li>
@@ -124,7 +124,7 @@
 </details>
 
 <details>
-<summary><a href="#-section-3-assembly--yul">🔩 Section 3: Assembly & Yul</a></summary>
+<summary><a href="#-section-3-assembly-and-yul">🔩 Section 3: Assembly and Yul</a></summary>
 <ol>
 <li><a href="#why-drop-into-yul">Why Drop Into Yul?</a></li>
 <li><a href="#soliditys-memory-layout">Solidity's Memory Layout</a></li>
@@ -147,7 +147,7 @@
 </details>
 
 <details>
-<summary><a href="#-section-5-vulnerability-classes--first-audit">🛡️ Section 5: Vulnerability Classes & Your First Audit</a></summary>
+<summary><a href="#-section-5-vulnerability-classes-and-first-audit">🛡️ Section 5: Vulnerability Classes and Your First Audit</a></summary>
 <ol>
 <li><a href="#1-reentrancy">Reentrancy</a></li>
 <li><a href="#2-access-control-failures">Access Control Failures</a></li>
@@ -160,7 +160,7 @@
 <details>
 <summary><a href="#-section-6-defi-attack-vectors">⚡ Section 6: DeFi Attack Vectors</a></summary>
 <ol>
-<li><a href="#amm-fundamentals-xy--k">AMM Fundamentals</a></li>
+<li><a href="#amm-fundamentals">AMM Fundamentals</a></li>
 <li><a href="#the-price-oracle-problem">The Price Oracle Problem</a></li>
 <li><a href="#liquidation-cascades">Liquidation Cascades</a></li>
 <li><a href="#erc-4626-inflation-attack">ERC-4626 Inflation Attack</a></li>
@@ -169,7 +169,7 @@
 </details>
 
 <details>
-<summary><a href="#-section-7-static-analysis--tooling">🔍 Section 7: Static Analysis & Tooling</a></summary>
+<summary><a href="#-section-7-static-analysis-and-tooling">🔍 Section 7: Static Analysis and Tooling</a></summary>
 <ol>
 <li><a href="#slither-real-workflow">Slither: Real Workflow</a></li>
 <li><a href="#echidna-property-based-fuzzing">Echidna: Property-Based Fuzzing</a></li>
@@ -179,7 +179,7 @@
 </details>
 
 <details>
-<summary><a href="#-section-8-fuzzing--formal-verification">🔬 Section 8: Fuzzing & Formal Verification</a></summary>
+<summary><a href="#-section-8-fuzzing-and-formal-verification">🔬 Section 8: Fuzzing and Formal Verification</a></summary>
 <ol>
 <li><a href="#the-testing-pyramid">The Testing Pyramid</a></li>
 <li><a href="#certora-prover-formal-verification">Certora Prover: Formal Verification</a></li>
@@ -198,7 +198,7 @@
 </details>
 
 <details>
-<summary><a href="#-section-10-bug-bounty--competitive-audits">🏆 Section 10: Bug Bounty & Competitive Audits</a></summary>
+<summary><a href="#-section-10-bug-bounty-and-competitive-audits">🏆 Section 10: Bug Bounty and Competitive Audits</a></summary>
 <ol>
 <li><a href="#the-platforms">The Platforms</a></li>
 <li><a href="#how-code4rena-works">How Code4rena Works</a></li>
@@ -231,7 +231,7 @@
 </ol>
 </details>
 
----
+<br/>
 
 # Introduction, Resources, and Prerequisites
 
@@ -264,7 +264,7 @@
 You should be comfortable with:
 - Blockchain basics (transactions, blocks, wallets)
 - Basic Solidity (functions, structs, mappings, events)
-- Running a test suite — Hardhat or Foundry
+- Running a test suite with Hardhat or Foundry
 
 If you need to get up to speed:
 - [Cyfrin Updraft Foundation Course](https://updraft.cyfrin.io/) — Covers all prerequisites
@@ -288,7 +288,7 @@ After completing this course you will be able to:
 - Use the full security toolchain: Slither, Echidna, Mythril, Certora, Foundry
 - Write audit reports that clients pay for
 
----
+<br/>
 
 # Curriculum
 
@@ -300,15 +300,15 @@ After completing this course you will be able to:
 
 - Over $1.7B lost to smart contract exploits since 2016
 - [Rekt Leaderboard](https://rekt.news/leaderboard/) — the running total
-- Web3 hacks result in irreversible fund loss — not just data theft
+- Web3 hacks result in irreversible fund loss, not just data theft
 - Career opportunities are real and growing:
-  - Private auditors earn $150k–$500k+/year
-  - Competitive auditors earn $2k–$50k/month at scale
+  - Private auditors earn $150k to $500k+ per year
+  - Competitive auditors earn $2k to $50k per month at scale
   - Single bug bounty findings pay up to $10M on Immunefi
 
 ## Who This Is For
 
-- Self-taught developers who can't afford $2k–$5k bootcamps
+- Self-taught developers who cannot afford $2k to $5k bootcamps
 - African and Nigerian developers breaking into Web3 security
 - Developers who want to go beyond building and start defending
 - Anyone who finds the Cyfrin/freeCodeCamp approach compelling but wants more depth on the EVM and assembly layers
@@ -329,7 +329,7 @@ After completing this course you will be able to:
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # ⚙️ Section 1: EVM Fundamentals
 
@@ -347,7 +347,7 @@ After completing this course you will be able to:
 
 ## What the EVM Actually Is
 - Stack-based state machine, 256-bit slots, max depth 1024
-- Every node re-executes every instruction — that's the constraint everything flows from
+- Every node re-executes every instruction. That is the constraint everything flows from.
 
 ## The Five Data Locations
 
@@ -355,7 +355,7 @@ After completing this course you will be able to:
 |---|---|---|---|
 | Stack | No | ~3 | Local vars, function args |
 | Memory | No | Quadratic | Temp arrays, ABI encoding |
-| Storage | Yes | 2,100–20,000 | State variables |
+| Storage | Yes | 2100 to 20000 | State variables |
 | Calldata | No (read-only) | Cheapest | `external` function inputs |
 | Transient | No | 100 | Reentrancy locks (EIP-1153) |
 
@@ -366,13 +366,13 @@ After completing this course you will be able to:
 - `SLOAD` warm: 100 gas
 
 ## Opcodes That Matter for Security
-- `DELEGATECALL` — runs code in your storage context. Parity multi-sig hack vector.
-- `STATICCALL` — read-only call, reverts on any state change
-- `TSTORE`/`TLOAD` — transient storage, 100 gas, cleared end of tx
+- `DELEGATECALL` runs code in your storage context. Parity multi-sig hack vector.
+- `STATICCALL` is a read-only call that reverts on any state change
+- `TSTORE` and `TLOAD` are transient storage at 100 gas, cleared end of tx
 
 ## In the Wild: WETH
 - The most-called contract on Ethereum
-- `deposit()` compiles to ~15 opcodes
+- `deposit()` compiles to roughly 15 opcodes
 - Read its assembly output — best single exercise for internalizing EVM execution
 
 🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧
@@ -380,13 +380,13 @@ After completing this course you will be able to:
 🔧 Exercises:
 1. Run `cast run <TX_HASH> --rpc-url $MAINNET_RPC_URL` on a real WETH deposit tx
 2. Open [evm.codes](https://evm.codes) and look up the gas cost of every opcode used in `deposit()`
-3. Run `forge inspect WETH opcodes` — find the `SSTORE` and `LOG2` instructions
+3. Run `forge inspect WETH opcodes` and find the `SSTORE` and `LOG2` instructions
 
 🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # 📝 Section 2: Solidity Mastery
 
@@ -417,7 +417,7 @@ require(msg.sender == owner);
 ```
 
 ## Custom Errors (0.8.4+)
-- String reverts cost ~50 bytes of bytecode per message
+- String reverts cost roughly 50 bytes of bytecode per message
 - Custom errors encode as 4-byte selectors — use them everywhere
 
 ## In the Wild: Uniswap v3
@@ -435,21 +435,21 @@ require(msg.sender == owner);
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
-# 🔩 Section 3: Assembly & Yul
+# 🔩 Section 3: Assembly and Yul
 
 <br/>
 <p align="center">
 <a href="https://chaincodecamp.dev/curriculum/assembly-and-yul" target="_blank">
-<img src="https://img.shields.io/badge/Section%2003-Assembly%20%26%20Yul-ff4d00?style=for-the-badge" alt="Section 03: Assembly & Yul"/>
+<img src="https://img.shields.io/badge/Section%2003-Assembly%20and%20Yul-ff4d00?style=for-the-badge" alt="Section 03: Assembly and Yul"/>
 </a>
 </p>
 <br/>
 
 **Concepts covered:** Yul syntax, free memory pointer, bitwise masking, dirty bits, unchecked loops, reading Solady and Uniswap v3 assembly
 
-> ⚠️ This is the section freeCodeCamp and most security courses skip entirely. Assembly vulnerabilities — dirty bits, incorrect memory management, missing type masking — are a real and growing audit finding class.
+> ⚠️ This is the section freeCodeCamp and most security courses skip entirely. Assembly vulnerabilities like dirty bits, incorrect memory management, and missing type masking are a real and growing audit finding class.
 
 ## Why Drop Into Yul?
 - Skip overflow checks in provably safe loops
@@ -461,9 +461,9 @@ require(msg.sender == owner);
 
 | Address | Purpose |
 |---|---|
-| `0x00–0x3F` | Scratch space for hash operations |
-| `0x40–0x5F` | **Free memory pointer** |
-| `0x60–0x7F` | Zero slot |
+| `0x00` to `0x3F` | Scratch space for hash operations |
+| `0x40` to `0x5F` | **Free memory pointer** |
+| `0x60` to `0x7F` | Zero slot |
 | `0x80+` | Active memory |
 
 ## The Dirty Bits Problem
@@ -474,7 +474,7 @@ require(msg.sender == owner);
 
 ## Reading Solady
 - [Solady](https://github.com/Vectorized/solady) — gold standard for Yul-optimized contracts
-- `ERC20.transfer` saves ~400 gas vs OpenZeppelin using assembly
+- `ERC20.transfer` saves roughly 400 gas vs OpenZeppelin using assembly
 - Read it line by line — every assembly block is commented
 
 🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧
@@ -488,7 +488,7 @@ require(msg.sender == owner);
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # 🛠️ Section 4: Foundry Mastery
 
@@ -503,9 +503,9 @@ require(msg.sender == owner);
 **Concepts covered:** Fuzz tests, invariant tests, handler pattern, cheatcodes, fork testing, gas snapshots, deployment scripts
 
 ## Why Foundry Won
-- Tests in Solidity — no JavaScript translation layer
+- Tests in Solidity with no JavaScript translation layer
 - Parallel test execution, Rust-compiled EVM
-- 1000 tests: 3 minutes in Hardhat → 12 seconds in Foundry
+- 1000 tests: 3 minutes in Hardhat vs 12 seconds in Foundry
 
 ## Invariant Testing
 The Euler Finance $197M hack would have been caught by:
@@ -531,17 +531,17 @@ vm.createFork(vm.envString("RPC_URL"));   // fork mainnet
 🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧
 
 🔧 Exercises:
-1. Write a fuzz test for any function that takes `uint256` input — run `forge test --fuzz-runs 10000`
-2. Write one invariant property for a contract you've written — run `forge test --match-test invariant`
-3. Run `forge snapshot` — add it to your repo and check the diff next time you change something
+1. Write a fuzz test for any function that takes `uint256` input and run `forge test --fuzz-runs 10000`
+2. Write one invariant property for a contract you've written and run `forge test --match-test invariant`
+3. Run `forge snapshot`, add it to your repo, and check the diff next time you change something
 
 🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧🔧
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
-# 🛡️ Section 5: Vulnerability Classes & Your First Audit
+# 🛡️ Section 5: Vulnerability Classes and Your First Audit
 
 <br/>
 <p align="center">
@@ -557,8 +557,8 @@ vm.createFork(vm.envString("RPC_URL"));   // fork mainnet
 
 💻 Gauntlet Contract (Oracle): [`/gauntlet/src/OracleLender.sol`](./gauntlet/src/OracleLender.sol)
 
-> 🔴 **Real Hack — The DAO (2016) — $60M lost**
-> 
+> 🔴 **Real Hack: The DAO (2016) — $60M lost**
+>
 > External call before state update. Attacker re-entered `withdraw()` recursively. Led to the Ethereum/Ethereum Classic split.
 
 **Concepts covered:** CEI pattern, reentrancy, cross-function reentrancy, read-only reentrancy, access control, oracle manipulation, integer overflow, flash loan attacks, governance attacks
@@ -604,15 +604,15 @@ function withdraw() external nonReentrant {
 🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️
 
 🛡️ Exercises:
-1. Run `forge test --match-contract ReentrancyVault -vvv` in `/gauntlet` — make the test pass by implementing the attack
-2. Run `forge test --match-contract FlawedAccessControl -vvv` — implement the unprotected initializer exploit
-3. Search ["reentrancy" on Solodit](https://solodit.xyz/) — read three real findings and study their PoCs
+1. Run `forge test --match-contract ReentrancyVault -vvv` in `/gauntlet` and make the test pass by implementing the attack
+2. Run `forge test --match-contract FlawedAccessControl -vvv` and implement the unprotected initializer exploit
+3. Search ["reentrancy" on Solodit](https://solodit.xyz/) and read three real findings with their PoCs
 
 🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️🛡️
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # ⚡ Section 6: DeFi Attack Vectors
 
@@ -630,7 +630,7 @@ function withdraw() external nonReentrant {
 
 💻 Gauntlet Contract (Governance): [`/gauntlet/src/Governor.sol`](./gauntlet/src/Governor.sol)
 
-> 🔴 **Real Hack — Euler Finance (2023) — $197M lost**
+> 🔴 **Real Hack: Euler Finance (2023) — $197M lost**
 >
 > Missing health check in `donateToReserves()`. Attacker self-liquidated after artificially inflating their debt. Returned most funds after negotiation.
 
@@ -646,15 +646,15 @@ function withdraw() external nonReentrant {
 
 ## MEV: The Dark Forest
 - Every transaction in the public mempool is visible before inclusion
-- Sandwich attack: bot buys → your swap executes at worse price → bot sells
+- Sandwich attack: bot buys, your swap executes at a worse price, bot sells
 - Defence: strict `minAmountOut` slippage, private RPCs (Flashbots Protect)
 
 ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡
 
 ⚡ Exercises:
-1. Run `forge test --match-contract OracleLender -vvv` — implement the flash loan oracle manipulation attack
-2. Run `forge test --match-contract InflationVault -vvv` — implement the first-depositor inflation attack
-3. Run `forge test --match-contract Governor -vvv` — implement the flash loan governance raid (hardest one in the gauntlet)
+1. Run `forge test --match-contract OracleLender -vvv` and implement the flash loan oracle manipulation attack
+2. Run `forge test --match-contract InflationVault -vvv` and implement the first-depositor inflation attack
+3. Run `forge test --match-contract Governor -vvv` and implement the flash loan governance raid (hardest one in the gauntlet)
 
 ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡
 
@@ -666,14 +666,14 @@ function withdraw() external nonReentrant {
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
-# 🔍 Section 7: Static Analysis & Tooling
+# 🔍 Section 7: Static Analysis and Tooling
 
 <br/>
 <p align="center">
 <a href="https://chaincodecamp.dev/curriculum/static-analysis-tooling" target="_blank">
-<img src="https://img.shields.io/badge/Section%2007-Static%20Analysis%20%26%20Tooling-2a4ad0?style=for-the-badge" alt="Section 07: Static Analysis & Tooling"/>
+<img src="https://img.shields.io/badge/Section%2007-Static%20Analysis%20and%20Tooling-2a4ad0?style=for-the-badge" alt="Section 07: Static Analysis and Tooling"/>
 </a>
 </p>
 <br/>
@@ -709,12 +709,12 @@ function echidna_solvency() public view returns (bool) {
 }
 ```
 
-When Echidna breaks a property it outputs the minimum reproducing call sequence — your PoC for free.
+When Echidna breaks a property it outputs the minimum reproducing call sequence. That is your PoC for free.
 
 🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍🔍
 
 🔍 Exercises:
-1. Run `slither gauntlet/src/` — it should flag reentrancy in `ReentrancyVault.sol` and unprotected init in `FlawedAccessControl.sol`. Verify both manually.
+1. Run `slither gauntlet/src/` and verify that it flags reentrancy in `ReentrancyVault.sol` and unprotected init in `FlawedAccessControl.sol`
 2. Write one Echidna property for any contract you've written
 3. Add a Slither step to a GitHub Actions workflow that fails CI on any medium severity finding
 
@@ -722,14 +722,14 @@ When Echidna breaks a property it outputs the minimum reproducing call sequence 
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
-# 🔬 Section 8: Fuzzing & Formal Verification
+# 🔬 Section 8: Fuzzing and Formal Verification
 
 <br/>
 <p align="center">
 <a href="https://chaincodecamp.dev/curriculum/fuzzing-formal-verification" target="_blank">
-<img src="https://img.shields.io/badge/Section%2008-Fuzzing%20%26%20Formal%20Verification-ff4d00?style=for-the-badge" alt="Section 08: Fuzzing & Formal Verification"/>
+<img src="https://img.shields.io/badge/Section%2008-Fuzzing%20and%20Formal%20Verification-ff4d00?style=for-the-badge" alt="Section 08: Fuzzing and Formal Verification"/>
 </a>
 </p>
 <br/>
@@ -739,15 +739,15 @@ When Echidna breaks a property it outputs the minimum reproducing call sequence 
 ## The Testing Pyramid
 
 ```
-Unit tests      → prove it works for specific inputs you thought of
-Fuzz tests      → prove it works for random inputs the machine generates
-Invariant tests → prove a property holds across all reachable states
-Formal proofs   → prove a property holds for ALL possible inputs, mathematically
+Unit tests      — prove it works for specific inputs you thought of
+Fuzz tests      — prove it works for random inputs the machine generates
+Invariant tests — prove a property holds across all reachable states
+Formal proofs   — prove a property holds for ALL possible inputs, mathematically
 ```
 
 ## Certora: Real-World Use
 
-MakerDAO used Certora to find a rounding error in their DAI savings rate contract that accumulated over millions of calls. No fuzzer caught it — formal verification explored all time orderings.
+MakerDAO used Certora to find a rounding error in their DAI savings rate contract that accumulated over millions of calls. No fuzzer caught it. Formal verification explored all time orderings.
 
 ```bash
 pip install certora-cli
@@ -769,7 +769,7 @@ Use it for properties where violation means protocol insolvency or permanent fun
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # 📋 Section 9: Writing a Real Audit Report
 
@@ -812,7 +812,7 @@ Specific code change, not "add validation."
 
 ## Severity Classification
 
-| Severity | Impact + Likelihood |
+| Severity | Impact and Likelihood |
 |---|---|
 | Critical | Complete fund loss, likely to be triggered |
 | High | Partial fund loss or broken core function |
@@ -828,7 +828,7 @@ Specific code change, not "add validation."
 📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋📋
 
 📋 Exercises:
-1. Write a complete finding for `ReentrancyVault.sol` using the template above — include a passing Foundry PoC
+1. Write a complete finding for `ReentrancyVault.sol` using the template above and include a passing Foundry PoC
 2. Classify it with severity justification
 3. Compare your finding to `/gauntlet/solutions/ReentrancyAttack.sol`
 
@@ -836,14 +836,14 @@ Specific code change, not "add validation."
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
-# 🏆 Section 10: Bug Bounty & Competitive Audits
+# 🏆 Section 10: Bug Bounty and Competitive Audits
 
 <br/>
 <p align="center">
 <a href="https://chaincodecamp.dev/curriculum/bug-bounty-competitive-audits" target="_blank">
-<img src="https://img.shields.io/badge/Section%2010-Bug%20Bounty%20%26%20Competitive%20Audits-ff4d00?style=for-the-badge" alt="Section 10: Bug Bounty & Competitive Audits"/>
+<img src="https://img.shields.io/badge/Section%2010-Bug%20Bounty%20and%20Competitive%20Audits-ff4d00?style=for-the-badge" alt="Section 10: Bug Bounty and Competitive Audits"/>
 </a>
 </p>
 <br/>
@@ -862,39 +862,39 @@ Specific code change, not "add validation."
 
 ## Your First 90 Days
 
-**Month 1 — Read, don't submit yet:**
+**Month 1: Read, don't submit yet**
 - Pick a finished Code4rena contest
 - Try to find the High findings *before* reading the report
 - Compare what you found vs what was found
 
-**Month 2 — Shadow audit:**
+**Month 2: Shadow audit**
 - Find a live contest, audit it seriously, write findings as if submitting
 - After it closes, compare against the public report
 
-**Month 3 — Submit:**
+**Month 3: Submit**
 - Pick a contest where you're confident in at least 2 findings
 - Submit with full PoCs
 - Expect your first submissions to be rejected or downgraded — that is normal
 
-## The Income Picture (18–24 months in)
-- Competitive audits: $2k–$20k/month
-- Private audits: $5k–$50k per engagement (needs 3–5 public wins first)
-- Full-time at a firm (Spearbit, Trail of Bits, Cyfrin, OpenZeppelin): $120k–$300k+
+## The Income Picture (18 to 24 months in)
+- Competitive audits: $2k to $20k per month
+- Private audits: $5k to $50k per engagement (needs 3 to 5 public wins first)
+- Full-time at a firm (Spearbit, Trail of Bits, Cyfrin, OpenZeppelin): $120k to $300k+
 - Single Immunefi finding: potentially life-changing
 
 🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆
 
 🏆 Exercises:
 1. Sign up for [Code4rena](https://code4rena.com) and [Sherlock](https://sherlock.xyz) today
-2. Go to [Solodit](https://solodit.xyz) and read three High findings from recent contests — study their PoCs
-3. Find a finished contest, clone the audited repo, try to find the bugs yourself before reading the report
+2. Go to [Solodit](https://solodit.xyz) and read three High findings from recent contests and study their PoCs
+3. Find a finished contest, clone the audited repo, and try to find the bugs yourself before reading the report
 4. [Tweet about completing the ChainCodeCamp curriculum](https://twitter.com/intent/tweet?text=Just%20completed%20the%20ChainCodeCamp%20smart%20contract%20security%20curriculum%20%F0%9F%94%90%0a%0aFree%20education%20for%20African%20%26%20self-taught%20devs%20%E2%80%94%20github.com%2FGoodnessFx%2FChainCodeCamp)
 
 🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆🏆
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # 💀 The Exploit Gauntlet
 
@@ -924,7 +924,7 @@ forge test -vvv
 | [`FlawedAccessControl.sol`](./gauntlet/src/FlawedAccessControl.sol) | Unprotected initializer | Parity Multi-sig (2017) |
 | [`OracleLender.sol`](./gauntlet/src/OracleLender.sol) | Spot price oracle manipulation | Mango Markets (2022) |
 | [`OverflowToken.sol`](./gauntlet/src/OverflowToken.sol) | Integer overflow (Solidity 0.7) | BEC Token (2018) |
-| [`InflationVault.sol`](./gauntlet/src/InflationVault.sol) | ERC-4626 first-depositor inflation | Multiple vaults (2022–23) |
+| [`InflationVault.sol`](./gauntlet/src/InflationVault.sol) | ERC-4626 first-depositor inflation | Multiple vaults (2022 to 23) |
 | [`Governor.sol`](./gauntlet/src/Governor.sol) | Flash loan governance raid | Beanstalk (2022) |
 | [`ProxyTakeover.sol`](./gauntlet/src/ProxyTakeover.sol) | Delegatecall storage collision | Audius (2022) |
 | [`ChainedExploitVault.sol`](./gauntlet/src/ChainedExploitVault.sol) | Chained: access control + reentrancy | Compound liquidation bug |
@@ -951,7 +951,7 @@ Solutions are in [`/gauntlet/solutions/`](./gauntlet/solutions/). Don't look unt
 
 <p align="right">(<a href="#table-of-contents">back to top</a>) ⬆️</p>
 
----
+<br/>
 
 # Congratulations
 
@@ -984,7 +984,7 @@ Free, verifiable certificate on completion of each track at [chaincodecamp.dev/c
 - Each certificate has a unique verification ID and a public URL
 - Download as PNG or share directly
 
----
+<br/>
 
 # Running Locally
 
@@ -1016,17 +1016,17 @@ forge test -vvv
 2. Run `app/supabase/schema.sql` in the SQL editor
 3. Add project URL + anon key to `.env.local`
 
----
+<br/>
 
 # Contributing
 
-Every section of this curriculum was improved by someone in the community. If you spot an error, a better example, or a missing case study — open a PR.
+Every section of this curriculum was improved by someone in the community. If you spot an error, a better example, or a missing case study, open a PR.
 
 Most useful contributions:
-- **Fix errors** — wrong opcode costs, outdated Solidity syntax, broken contract links
-- **Add case studies** — real hacks with Foundry PoCs, especially African protocol hacks
-- **Write new sections** — ZK security, cross-chain bridge attacks, account abstraction vulnerabilities
-- **Translate** — Yoruba, Igbo, Swahili, Hausa, French (West Africa)
+- **Fix errors** in opcode costs, outdated Solidity syntax, or broken contract links
+- **Add case studies** with real hacks and Foundry PoCs, especially African protocol hacks
+- **Write new sections** on ZK security, cross-chain bridge attacks, or account abstraction vulnerabilities
+- **Translate** into Yoruba, Igbo, Swahili, Hausa, or French (West Africa)
 - **Audit clinic** — submit a contract for community review in Discord. Reviewer gets full credit.
 
 ```bash
@@ -1039,7 +1039,7 @@ git push origin section/your-contribution
 
 All contributors are credited in the section they improve.
 
----
+<br/>
 
 # Thank You
 
@@ -1061,7 +1061,7 @@ This curriculum would not exist without studying:
 - [Crytic Properties](https://github.com/crytic/properties)
 - [SC Exploits Minimized](https://github.com/Cyfrin/sc-exploits-minimized)
 
----
+<br/>
 
 <div align="center">
 
@@ -1069,7 +1069,7 @@ This curriculum would not exist without studying:
 [![Discord](https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/chaincodecamp)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/GoodnessFx/ChainCodeCamp)
 
-<sub>MIT Licensed. Free forever. Built with stubbornness. Dedicated to every self-taught dev who couldn't afford the bootcamp.</sub>
+<sub>MIT Licensed. Free forever. Built with stubbornness. Dedicated to every self-taught dev who could not afford the bootcamp.</sub>
 
 </div>
 
