@@ -1,4 +1,3 @@
----
 [contributors-shield]: https://img.shields.io/github/contributors/GoodnessFx/ChainCodeCamp.svg?style=for-the-badge
 [contributors-url]: https://github.com/GoodnessFx/ChainCodeCamp/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/GoodnessFx/ChainCodeCamp.svg?style=for-the-badge
