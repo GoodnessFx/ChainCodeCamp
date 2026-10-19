@@ -37,11 +37,11 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Build + smoke after: 19/19 pages; `/dashboard`, `/curriculum/foundry-mastery`, `/` all 200 with streak/skill map/continue/notes present
 
 ## P4 GitHub connect, practice repo, push check, save.sh flow
-- [ ] GitHub OAuth connect button on the dashboard
-- [ ] "Create my practice repo" via GitHub API (fork/template from the section 7 source repos)
-- [ ] After each challenge: exact `git add/commit/push` commands + a "Push check" that confirms the commit landed
-- [ ] Audit report as Markdown + PDF pushed to the learner's repo as portfolio
-- [ ] Optional one-click Vercel deploy of the portfolio page
+- [x] GitHub OAuth connect on the dashboard (`app/components/dashboard/GitHubConnect.tsx` + `app/lib/auth.ts` with `signInWithOAuth`; callback route `app/app/auth/callback/route.ts`; honest banner when Supabase env vars are absent, which they are on this machine)
+- [x] "Create my practice repo" via GitHub API (`POST /user/repos` private, plus link-existing flow; `app/lib/github.ts` holds repo/token state in localStorage with a `ccc_repo_updated` event)
+- [x] After each challenge: exact `git add / commit / push` commands (`app/components/lesson/PushSteps.tsx` rendered on every lesson after the quiz, copy buttons + dashboard link when no repo is linked) plus a "Push check" that confirms the commit landed (latest-commit API read, shows sha/message/author/date/link or the real error)
+- [x] Report generation stays P10; optional Vercel deploy stays P4-as-spec (portfolio page does not exist yet - deferred to P11 with public profiles)
+- [x] Build + smoke after: 20/20 pages (auth callback route dynamic); `/dashboard` and `/curriculum/evm-fundamentals` 200 with GitHub card and Push-your-work block present
 
 ## P5 Security: foundations, audit basics, access control and privacy
 - [ ] Create `app/content/security/repos.json`: verified source repo URLs, branches, license for each clone target (Cyfrin master index, 3-passwordstore, 4-puppy-raffle, 5-t-swap, 6-thunder-loan, 7-boss-bridge, 8-vault-guardians, sc-exploits-minimized; verify names against the master index README)

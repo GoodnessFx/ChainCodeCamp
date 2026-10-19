@@ -13,6 +13,7 @@ import { SKILLS, isCovered } from "@/lib/skills";
 import SkillMap from "@/components/dashboard/SkillMap";
 import PathCards from "@/components/dashboard/PathCards";
 import NotesList from "@/components/dashboard/NotesList";
+import GitHubConnect from "@/components/dashboard/GitHubConnect";
 
 export default function DashboardPage() {
   const { completed } = useProgress();
@@ -111,6 +112,11 @@ export default function DashboardPage() {
 
         <h2 className="font-heading font-bold text-2xl mb-4">Your notes</h2>
         <NotesList notes={notes} />
+
+        <h2 className="font-heading font-bold text-2xl mb-4">GitHub</h2>
+        <div className="mb-4">
+          <GitHubConnect />
+        </div>
       </div>
     </ShellLayout>
   );

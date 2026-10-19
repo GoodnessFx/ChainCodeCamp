@@ -3,23 +3,22 @@
 Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
 
 ## Current phase
-**P3 done. P4 is next.**
+**P4 done. P5 is next.**
 
 ## Last finished step
-- P3 complete:
-  - Dashboard at `app/app/dashboard/page.tsx`: streak + active days (`app/lib/streak.ts`, `ccc_streak_v1`), continue-where-you-left-off card, learn paths Beginner/Auditor/Pro (`app/components/dashboard/PathCards.tsx`), skill map of 9 bug classes (`app/lib/skills.ts` + `SkillMap.tsx`), setup score card from registry state, notes list (`NotesList.tsx`). Sidebar Dashboard link.
-  - Per-lesson notes: `app/lib/notes.ts` (`ccc_notes_v1` + `ccc_notes_updated` event) and `app/components/lesson/LessonNotes.tsx` placed on every lesson page after `LessonContent`.
-  - Mobile sidebar fixed: `ShellLayout` holds `mobileOpen` state; header menu button opens the drawer under 768px (`onMenuTap`), drawer uses a dark scrim + tap-to-close, all nav links close it. Desktop collapse unchanged.
-  - Deferred: lesson-level progress (section-level stands; lesson granularity when P5 security lessons land).
-  - Verified: build 19/19 pages; smoke `/dashboard` 200 (streak, skill map, continue), `/curriculum/foundry-mastery` 200 (notes section), `/` 200. Server stopped.
+- P4 complete:
+  - Supabase GitHub OAuth surface: `app/lib/auth.ts` (env check, `signInWithGitHub`, `signOut`, `getSessionUser`), callback route `app/app/auth/callback/route.ts` trading `?code=` for a session and honoring `?next=`. Blocker stands: no Supabase env vars on this machine, so the dashboard card says so honestly and offers the token path.
+  - "Create my practice repo": `app/components/dashboard/GitHubConnect.tsx` on the dashboard — OAuth row (or the honest-not-configured banner), browser-kept fine-grained PAT row, create-via-API (private repo + auto_init) or link-existing flow. State in `app/lib/github.ts` (`ccc_practice_repo`, `ccc_github_token`, `ccc_repo_updated` event).
+  - "Push your work": `app/components/lesson/PushSteps.tsx` after the quiz on every lesson — the exact add/commit/push commands (copy-all + per-line copy), repo link, and a Push check that reads the latest commit from the GitHub API and prints sha/message/author/date/link or the real error.
+  - Deferred: report Markdown/PDF to P10 (content format arrives there), Vercel portfolio deploy to P11 with public profiles.
+  - Verified: build 20/20 (new dynamic auth route); smoke `/dashboard` 200 (GitHub card, token, repo rows), `/curriculum/evm-fundamentals` 200 (Push-your-work + push commands). Server stopped.
 
 ## NEXT STEP (exact file and task)
-P4: GitHub connect and practice repos.
-1. `app/components/dashboard/GitHubConnect.tsx` + extend `app/lib/supabase.ts` with OAuth (GitHub provider, `signInWithOAuth`, auth callback route `app/app/auth/callback/route.ts`). Supabase env vars are absent on this machine: note as blocker if still absent.
-2. "Create my practice repo" button via GitHub API: fork or template-create from Cyfrin audit repos (URLs verified in P5 `app/content/security/repos.json`).
-3. Per-lesson push instructions block (`PushSteps` component): exact `git add / commit / push` commands plus a "Push check" that confirms the commit landed (GitHub commits API).
-4. Report generation (Markdown + PDF) lands mostly in P10; P4 keeps the git flow surface only.
-5. Build + smoke after each piece, update CONTINUE.md, run save.sh.
+P5: Security — foundations, audit basics, access control and privacy.
+1. `app/content/security/repos.json`: verify the Cyfrin master index README for exact repo names (puppy raffle, TSwap, passwordstore, thunder loan, boss bridge, vault guardians, sc-exploits-minimized) plus branch and license; store URLs there.
+2. New section files in `app/content/security/`: (a) security foundations (Solidity/Foundry/ERC20/EVM value movement as security prerequisites), (b) what an audit is (scoping, recon, findings, reporting), (c) access control and on-chain privacy (PasswordStore-style clone target verified first). All original content; every lesson in the full block format with clone command, quiz, challenge, real hack + post-mortem link, Updraft video link where one exists.
+3. Wire the track into the dashboard, sidebar, skill map, and homepage behind the existing curriculum; do not replace existing sections.
+4. Build + smoke after each lesson file, update CONTINUE.md, run save.sh.
 
 ## Decisions made
 - **Path convention:** `/content/...` in the spec = `app/content/...` (the Next app content root). `/docs`, `/scripts`, `/CONTINUE.md` are repo root. See AUDIT.md section 8.

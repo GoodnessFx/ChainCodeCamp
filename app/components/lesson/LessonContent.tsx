@@ -4,6 +4,7 @@ import CodeBlock from "./CodeBlock";
 import ToolTag from "@/components/tools/ToolTag";
 import { linkifyTools } from "@/lib/linkTools";
 import Quiz from "./Quiz";
+import PushSteps from "./PushSteps";
 import {
   GoalLine,
   DoIt,
@@ -20,6 +21,8 @@ import type { ComponentPropsWithoutRef } from "react";
 interface Props {
   content: string;
   frontmatter: LessonFrontmatter;
+  slug: string;
+  title: string;
 }
 
 // Custom MDX components — each maps an HTML element to our design system
@@ -187,6 +190,7 @@ const components = {
   Diagram,
   UpdraftVideo,
   Quiz,
+  PushSteps,
 };
 
 // Tell linkifyTools to leave code and links alone (it checks cccSkip)
@@ -197,7 +201,7 @@ const components = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (components.a as any).cccSkip = true;
 
-export default function LessonContent({ content, frontmatter }: Props) {
+export default function LessonContent({ content, frontmatter, slug, title }: Props) {
   return (
     <div className="lesson-content">
       {/* Goal line comes from frontmatter so it survives any body rewrite */}
@@ -210,6 +214,8 @@ export default function LessonContent({ content, frontmatter }: Props) {
       {frontmatter.quiz && frontmatter.quiz.length > 0 && (
         <Quiz questions={frontmatter.quiz} />
       )}
+      {/* Exact push commands + push check land on every lesson */}
+      <PushSteps slug={slug} title={title} />
     </div>
   );
 }

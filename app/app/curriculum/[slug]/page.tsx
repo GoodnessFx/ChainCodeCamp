@@ -41,7 +41,12 @@ export default async function LessonPage({ params }: Props) {
     <ShellLayout>
       <article className="max-w-4xl mx-auto px-6 py-10">
         <LessonHeader section={section} currentIndex={currentIndex} />
-        <LessonContent content={lesson.content} frontmatter={lesson.frontmatter} />
+        <LessonContent
+          content={lesson.content}
+          frontmatter={lesson.frontmatter}
+          slug={params.slug}
+          title={section.title}
+        />
         <LessonNotes slug={params.slug} />
         <LessonNav
           slug={params.slug}
