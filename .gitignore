@@ -31,6 +31,10 @@ yarn-error.log*
 build.log
 *.log
 
+# Scratch diagnostic scripts at repo root (never commit)
+diagnose*.js
+probe*.js
+
 # Foundry build artifacts
 gauntlet/out/
 gauntlet/cache/
