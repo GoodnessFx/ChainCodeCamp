@@ -1,0 +1,92 @@
+# ChainCodeCamp Plan (P0)
+
+Rules for every session: read `/CONTINUE.md` and this file first, resume at NEXT STEP, one step at a time, run the app after each step, never commit a broken build, use `scripts/save.sh` to save.
+Path convention: `/content/...` means `app/content/...` (see AUDIT.md section 8).
+
+Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
+
+## P0 Audit and plan
+- [x] Read the whole repo (Next app, legacy static site, gauntlet, schema, README)
+- [x] Verify baseline: `npm run build` in `app/` on the clean tree (17/17 pages, 0 type errors)
+- [x] Write `/docs/AUDIT.md` (stack, routes, lessons, auth, DB, works/broken/missing)
+- [x] Write `/docs/PLAN.md` (this file)
+- [x] Write `/CONTINUE.md`
+- [x] Create `/scripts/save.sh` (add, commit, push origin main, print short hash)
+- [x] Run `save.sh`
+
+## P1 Tool registry + Setup Hub + quick-install popups
+- [ ] Create `app/content/tools/registry.json`: one entry per tool (VS Code, Git, Node, WSL, Foundry, Python+pipx, Slither, Aderyn, Echidna, Medusa, Halmos, Certora, Tenderly, Etherscan, Remix, Hardhat, MetaMask, GitHub): name, what it is, why you need it, official link, install commands per OS (Windows+WSL, Mac, Linux), verify command, expected output, common errors + fixes, lessons that use it
+- [ ] `app/lib/tools.ts`: typed loader for the registry (server side, build time import)
+- [ ] Setup Hub page `app/app/setup/page.tsx`: step-by-step install wizard, tick-off progress saved locally (and to the account once auth lands in P4), "Stuck?" panel with the 3 most common problems per tool
+- [ ] Quick-install component: a tool named in a lesson renders as a tooltip with a "How to install" drawer (MDX component)
+- [ ] Setup score surfaced (Setup Hub + shell until the dashboard exists in P3)
+- [ ] Sidebar and home nav links to the Setup Hub
+- [ ] Run build, fix errors, update CONTINUE.md, save
+
+## P2 Unified lesson renderer (MDX, Excalidraw, Do-it panel, quiz)
+- [ ] Extend the MDX component map: Goal line, Excalidraw diagram (lazy), Do-it panel (numbered steps, per-OS commands, expected output), See-it-break, Spot-it, Fix, quiz (3-5 questions, graded client side), mini challenge, "Watch the video version" Updraft link, real-world case callout
+- [ ] Extended lesson frontmatter schema (goal, diagram, tools, videoUrl, repo, quiz)
+- [ ] Apply the renderer to all 10 existing lessons without deleting content
+- [ ] Syntax highlighting for code blocks (small, lazy)
+
+## P3 Dashboard, progress, setup score, notes
+- [ ] Dashboard: learn path (Beginner / Auditor / Pro), skill map of covered bug classes, setup score, streaks, continue where you left off
+- [ ] Per-lesson notes saved to localStorage (plus Supabase when signed in)
+- [ ] Progress extended to lessons inside sections, not only sections
+- [ ] Fix the broken mobile sidebar (`data-open`) while touching the shell
+
+## P4 GitHub connect, practice repo, push check, save.sh flow
+- [ ] GitHub OAuth connect button on the dashboard
+- [ ] "Create my practice repo" via GitHub API (fork/template from the section 7 source repos)
+- [ ] After each challenge: exact `git add/commit/push` commands + a "Push check" that confirms the commit landed
+- [ ] Audit report as Markdown + PDF pushed to the learner's repo as portfolio
+- [ ] Optional one-click Vercel deploy of the portfolio page
+
+## P5 Security: foundations, audit basics, access control and privacy
+- [ ] Create `app/content/security/repos.json`: verified source repo URLs, branches, license for each clone target (Cyfrin master index, 3-passwordstore, 4-puppy-raffle, 5-t-swap, 6-thunder-loan, 7-boss-bridge, 8-vault-guardians, sc-exploits-minimized; verify names against the master index README)
+- [ ] Section: Solidity, Foundry, ERC20, how the EVM stores and moves value (security foundations)
+- [ ] Section: what an audit is (scoping, recon, finding bugs, reporting)
+- [ ] Section: access control and on-chain privacy (PasswordStore style)
+- [ ] Every lesson in the full format: goal, concept + Excalidraw, Do it (per-OS commands + expected output), See it break, Spot it, Fix + re-run, quiz + challenge, real hack + post-mortem link, clone command, Updraft video link where one exists
+
+## P6 Security: raffle-style bugs
+- [ ] Reentrancy (classic, cross-function, read-only)
+- [ ] Bad randomness (Puppy Raffle clone target)
+- [ ] Integer overflow and underflow
+- [ ] Denial of service and gas limits
+- [ ] MEV and front-running
+
+## P7 Security: DeFi
+- [ ] DEX and AMM, constant product formula (TSwap clone target)
+- [ ] Oracles and price manipulation
+- [ ] Flash loans, slippage, deadlines
+
+## P8 Security: invariants and fuzzing + static analysis
+- [ ] Stateless fuzzing, open stateful, handler-based stateful, debugging fuzz sequences, weird ERC20s (sc-exploits-minimized clone target)
+- [ ] Slither, Aderyn, compiler warnings as signals
+
+## P9 Security: bridges, governance, proxies, signatures
+- [ ] Upgradeable proxies, signature replay, cross-chain (Boss Bridge clone target)
+- [ ] Governance attacks
+
+## P10 Reporting, portfolio PDF, capstone
+- [ ] Severity, impact, likelihood, proof of concept as a test, recommended fix, PDF for portfolio
+- [ ] Capstone: audit a real vulnerable codebase end to end (Vault Guardians clone target) and publish the report to the learner's GitHub
+
+## P11 Hunt the bug lab, badges, public profiles, bug of the week
+- [ ] In-browser read-only code viewer with buggy lines highlighted
+- [ ] "Hunt the bug" mode: unlabeled vulnerable contract, learner submits a finding, CCC reveals the answer after
+- [ ] Fuzzing and PoC walkthroughs that turn a failing sequence into a unit test
+- [ ] Badges per bug class, streaks, public profile page with reports and badges
+- [ ] Weekly "bug of the week" challenge page
+
+## P12 Search, glossary, performance, mobile, SEO, launch
+- [ ] Search across lessons, tools and glossary
+- [ ] Glossary with plain-English definitions linking back into lessons
+- [ ] Performance: small bundles, lazy diagrams, offline-friendly lesson cache, Nigeria-first low data
+- [ ] Mobile audit at phone width (sidebar is already broken, see AUDIT)
+- [ ] SEO: metadata, sitemap, robots, OG image, favicon
+- [ ] Resolve the deploy conflict: root `vercel.json` rewrites everything to the legacy `index.html` while the product lives in `app/`
+- [ ] Fix the weak/legacy items listed in AUDIT.md (fake leaderboard, fake verify link, empty dirs, README claims, missing LICENSE)
+- [ ] Launch
+
