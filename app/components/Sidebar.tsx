@@ -21,6 +21,7 @@ import {
   ChevronRight,
   Search,
   Zap,
+  LayoutDashboard,
 } from "lucide-react";
 
 const NAV_ICONS: Record<string, React.ReactNode> = {
@@ -44,9 +45,11 @@ const SECURITY = CURRICULUM_SECTIONS.filter((s) => s.track === "security");
 interface Props {
   collapsed: boolean;
   onToggle: () => void;
+  mobileOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ collapsed, onToggle }: Props) {
+export default function Sidebar({ collapsed, onToggle, mobileOpen = false, onClose }: Props) {
   const pathname = usePathname();
   const { completed, percent } = useProgress();
   const [search, setSearch] = useState("");
@@ -98,18 +101,25 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
 
   return (
     <>
+      {/* Mobile scrim */}
+      {mobileOpen && (
+        <button
+          aria-label="Close menu"
+          onClick={onClose}
+          className="fixed inset-0 z-30 bg-ink/50 md:hidden"
+        />
+      )}
       {/* Sidebar */}
       <aside
         id="sidebar"
         className={[
           "fixed top-0 left-0 bottom-0 z-40 flex flex-col",
           "bg-[var(--sidebar-bg)] border-r-2 border-ink",
-          "transition-[width] duration-300",
+          "transition-[width,transform] duration-300",
           collapsed ? "w-[72px]" : "w-[280px]",
-          // mobile: off-canvas
-          "max-md:translate-x-[-100%] max-md:data-[open=true]:translate-x-0",
+          // mobile: off-canvas drawer, driven by real state
+          mobileOpen ? "max-md:translate-x-0" : "max-md:translate-x-[-100%]",
         ].join(" ")}
-        data-open="false"
       >
         {/* Logo row */}
         <div className="flex items-center h-16 px-4 border-b-2 border-ink flex-shrink-0">
@@ -147,6 +157,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
           {/* Quick nav */}
           <Link
             href="/"
+            onClick={onClose}
             className={[
               "nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 mb-1 transition-all",
               pathname === "/"
@@ -159,7 +170,22 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
           </Link>
 
           <Link
+            href="/dashboard"
+            onClick={onClose}
+            className={[
+              "nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 mb-1 transition-all",
+              pathname === "/dashboard"
+                ? "bg-ink text-white border-ink"
+                : "text-ink border-transparent hover:bg-white hover:border-ink hover:shadow-hard",
+            ].join(" ")}
+          >
+            <LayoutDashboard size={18} className="flex-shrink-0 text-primary" />
+            {!collapsed && <span>Dashboard</span>}
+          </Link>
+
+          <Link
             href="/curriculum"
+            onClick={onClose}
             className={[
               "nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 mb-4 transition-all",
               pathname === "/curriculum"
@@ -235,6 +261,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
             <div className="mt-6 border-t-2 border-ink pt-4">
               <Link
                 href="/setup"
+                onClick={onClose}
                 className="nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 border-transparent mb-1 text-ink hover:bg-white hover:border-ink hover:shadow-hard transition-all"
               >
                 <Wrench size={18} className="flex-shrink-0 text-primary" />
@@ -242,6 +269,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
               </Link>
               <Link
                 href="/community"
+                onClick={onClose}
                 className="nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 border-transparent mb-1 text-ink hover:bg-white hover:border-ink hover:shadow-hard transition-all"
               >
                 <Users size={18} className="flex-shrink-0 text-primary" />
@@ -249,6 +277,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
               </Link>
               <Link
                 href="/certificate"
+                onClick={onClose}
                 className="nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 border-transparent mb-1 text-ink hover:bg-white hover:border-ink hover:shadow-hard transition-all"
               >
                 <Award size={18} className="flex-shrink-0 text-primary" />

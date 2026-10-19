@@ -12,6 +12,7 @@ interface Props {
 
 export default function ShellLayout({ children, showFooter = true }: Props) {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Persist sidebar state
   useEffect(() => {
@@ -26,12 +27,21 @@ export default function ShellLayout({ children, showFooter = true }: Props) {
     });
   };
 
+  // Menu button behavior: on phones it opens the drawer, on desktop it collapses
+  const onMenuTap = () => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setMobileOpen((prev) => !prev);
+    } else {
+      toggle();
+    }
+  };
+
   const sidebarWidth = collapsed ? 72 : 280;
 
   return (
     <div className="min-h-screen bg-paper">
-      <Sidebar collapsed={collapsed} onToggle={toggle} />
-      <Header collapsed={collapsed} onToggle={toggle} />
+      <Sidebar collapsed={collapsed} onToggle={toggle} mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <Header collapsed={collapsed} onToggle={onMenuTap} />
 
       {/* Main content — offset by sidebar and header */}
       <main

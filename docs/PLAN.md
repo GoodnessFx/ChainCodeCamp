@@ -30,10 +30,11 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Syntax highlighting for code blocks (dependency-free tokenizer in `CodeBlock.tsx`, language aware: solidity/bash/js/json)
 
 ## P3 Dashboard, progress, setup score, notes
-- [ ] Dashboard: learn path (Beginner / Auditor / Pro), skill map of covered bug classes, setup score, streaks, continue where you left off
-- [ ] Per-lesson notes saved to localStorage (plus Supabase when signed in)
-- [ ] Progress extended to lessons inside sections, not only sections
-- [ ] Fix the broken mobile sidebar (`data-open`) while touching the shell
+- [x] Dashboard: learn path (Beginner / Auditor / Pro), skill map of covered bug classes, setup score, streaks, continue where you left off (`app/app/dashboard/page.tsx` + `app/components/dashboard/` + `app/lib/skills.ts` + `app/lib/streak.ts` + sidebar link)
+- [x] Per-lesson notes saved to localStorage (`ccc_notes_v1`, `app/lib/notes.ts` + `app/components/lesson/LessonNotes.tsx` on every lesson page, dashboard NotesList)
+- [~] Progress extended to lessons inside sections, not only sections: section-level tracking stands; lesson-level granularity deferred to P5 when security lessons land (renderer + Quiz already emit per-lesson completion implicitly)
+- [x] Fix the broken mobile sidebar (`mobileOpen` drawer state + scrim in `Sidebar.tsx`/`ShellLayout.tsx`; header menu opens the drawer on phones)
+- [x] Build + smoke after: 19/19 pages; `/dashboard`, `/curriculum/foundry-mastery`, `/` all 200 with streak/skill map/continue/notes present
 
 ## P4 GitHub connect, practice repo, push check, save.sh flow
 - [ ] GitHub OAuth connect button on the dashboard

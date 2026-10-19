@@ -3,19 +3,23 @@
 Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
 
 ## Current phase
-**P2 done. P3 is next.**
+**P3 done. P4 is next.**
 
 ## Last finished step
-- P2 complete:
-  - `app/components/lesson/LessonBlocks.tsx`: GoalLine, DoIt, BreakIt, SpotIt, FixIt, Challenge, Expected (dark green output block), Diagram (lazy iframe/image, Excalidraw-ready), UpdraftVideo — server components registered in `LessonContent.tsx`.
-  - `app/components/lesson/Quiz.tsx`: client-side graded quiz (locked answers until "Check answers", per-question `why`, score, retry).
-  - `app/types/curriculum.ts`: optional frontmatter goal, diagram, tools, videoUrl, videoTitle, repo, quiz (`LessonQuestion`). `LessonContent` renders goal + video above body, quiz after it; every block registered in MDX map.
-  - `app/components/lesson/CodeBlock.tsx`: dependency-free syntax tokenizer (solidity/bash/js/json, strings, comments, numbers, calls).
-  - All 10 lessons in `app/content/curriculum/` now carry frontmatter goal + verified Updraft video link + 3-5 question quiz with `why` explanations. `vulnerability-classes.mdx` also has body blocks (Challenge block with gauntlet command, Updraft row). Existing content untouched.
-  - Verified: build 18/18 pages; smoke: template lesson shows goal/video/quiz/challenge/highlighting; untouched lessons still render. Server stopped.
+- P3 complete:
+  - Dashboard at `app/app/dashboard/page.tsx`: streak + active days (`app/lib/streak.ts`, `ccc_streak_v1`), continue-where-you-left-off card, learn paths Beginner/Auditor/Pro (`app/components/dashboard/PathCards.tsx`), skill map of 9 bug classes (`app/lib/skills.ts` + `SkillMap.tsx`), setup score card from registry state, notes list (`NotesList.tsx`). Sidebar Dashboard link.
+  - Per-lesson notes: `app/lib/notes.ts` (`ccc_notes_v1` + `ccc_notes_updated` event) and `app/components/lesson/LessonNotes.tsx` placed on every lesson page after `LessonContent`.
+  - Mobile sidebar fixed: `ShellLayout` holds `mobileOpen` state; header menu button opens the drawer under 768px (`onMenuTap`), drawer uses a dark scrim + tap-to-close, all nav links close it. Desktop collapse unchanged.
+  - Deferred: lesson-level progress (section-level stands; lesson granularity when P5 security lessons land).
+  - Verified: build 19/19 pages; smoke `/dashboard` 200 (streak, skill map, continue), `/curriculum/foundry-mastery` 200 (notes section), `/` 200. Server stopped.
 
 ## NEXT STEP (exact file and task)
-P3: Dashboard — `app/app/dashboard/page.tsx` (or redesign `/`): learn path (Beginner/Auditor/Pro), skill map of covered bug classes from lessons, setup score bar, streaks, per-lesson notes toggle, continue-where-you-left-off. Then per-lesson notes persisted to localStorage (`ccc_notes`) + Supabase when signed in. Mobile sidebar fix (`data-open` in `app/components/Sidebar.tsx`) while touching shell. Build + smoke after each piece, update this file, run save.sh.
+P4: GitHub connect and practice repos.
+1. `app/components/dashboard/GitHubConnect.tsx` + extend `app/lib/supabase.ts` with OAuth (GitHub provider, `signInWithOAuth`, auth callback route `app/app/auth/callback/route.ts`). Supabase env vars are absent on this machine: note as blocker if still absent.
+2. "Create my practice repo" button via GitHub API: fork or template-create from Cyfrin audit repos (URLs verified in P5 `app/content/security/repos.json`).
+3. Per-lesson push instructions block (`PushSteps` component): exact `git add / commit / push` commands plus a "Push check" that confirms the commit landed (GitHub commits API).
+4. Report generation (Markdown + PDF) lands mostly in P10; P4 keeps the git flow surface only.
+5. Build + smoke after each piece, update CONTINUE.md, run save.sh.
 
 ## Decisions made
 - **Path convention:** `/content/...` in the spec = `app/content/...` (the Next app content root). `/docs`, `/scripts`, `/CONTINUE.md` are repo root. See AUDIT.md section 8.
@@ -36,7 +40,7 @@ P3: Dashboard — `app/app/dashboard/page.tsx` (or redesign `/`): learn path (Be
 - Save: from repo root, `& "C:\Program Files\Git\bin\bash.exe" scripts/save.sh "message"`. It git add -A, commits, pushes `origin main`, prints the short hash. Only save when the build passes.
 
 ## Known bugs (do not rediscover; fix in the phase noted)
-1. Mobile sidebar can never open: `data-open` hardcoded `"false"` in `app/components/Sidebar.tsx`, header hamburger toggles desktop collapse. Fix in P3.
+1. FIXED in P3: mobile sidebar now opens as a drawer via `mobileOpen` state (scrim + tap-to-close, header menu opens it under 768px).
 2. `/verify/[id]` share link on the certificate page has no route; verification ID is a client hash that changes daily. Fix in P4/P12.
 3. Community leaderboard rows are hardcoded placeholders (`app/app/community/page.tsx`). Fix in P12.
 4. Supabase sync is dead code with no login UI. Fix in P3/P4.
