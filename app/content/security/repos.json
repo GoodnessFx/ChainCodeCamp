@@ -1,0 +1,107 @@
+{
+  "updated": "2026-10-19",
+  "note": "Clone targets for the security track. CCC never copies these repos; learners clone and audit them. Only repos marked verifiedExists:true were opened and confirmed during P5. Licenses marked unverified must be checked in the repo (LICENSE file) before reusing any of their code. Branch names marked branchVerified:false: run git branch -a after cloning.",
+  "master": {
+    "id": "master-index",
+    "repo": "Cyfrin/security-and-auditing-full-course-s23",
+    "url": "https://github.com/Cyfrin/security-and-auditing-full-course-s23",
+    "license": "GPL-3.0",
+    "licenseVerified": true,
+    "verifiedExists": true,
+    "usedIn": "P5-P10 master index of every section"
+  },
+  "repos": [
+    {
+      "id": "passwordstore",
+      "name": "PasswordStore",
+      "repo": "Cyfrin/3-passwordstore-audit",
+      "url": "https://github.com/Cyfrin/3-passwordstore-audit",
+      "branches": ["onboarded", "audit-data"],
+      "branchVerified": false,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": false,
+      "usedIn": "P5 access control and on-chain privacy"
+    },
+    {
+      "id": "puppy-raffle",
+      "name": "Puppy Raffle",
+      "repo": "Cyfrin/4-puppy-raffle-audit",
+      "url": "https://github.com/Cyfrin/4-puppy-raffle-audit",
+      "scope": "./src/PuppyRaffle.sol",
+      "commit": "2a47715b30cf11ca82db148704e67652ad679cd8",
+      "solc": "0.7.6",
+      "branches": ["main"],
+      "branchVerified": true,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": true,
+      "usedIn": "P5 audit scoping example, P6 reentrancy and randomness"
+    },
+    {
+      "id": "tswap",
+      "name": "TSwap",
+      "repo": "Cyfrin/5-t-swap-audit",
+      "url": "https://github.com/Cyfrin/5-t-swap-audit",
+      "scope": "./src/PoolFactory.sol, ./src/TSwapPool.sol",
+      "commit": "e643a8d4c2c802490976b538dd009b351b1c8dda",
+      "solc": "0.8.20",
+      "branches": ["main"],
+      "branchVerified": true,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": true,
+      "usedIn": "P7 DEX and AMM, oracles, flash loans"
+    },
+    {
+      "id": "thunder-loan",
+      "name": "Thunder Loan",
+      "repo": "Cyfrin/6-thunder-loan-audit",
+      "url": "https://github.com/Cyfrin/6-thunder-loan-audit",
+      "branches": ["main"],
+      "branchVerified": false,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": false,
+      "usedIn": "P7 flash loans, oracle manipulation, upgradeability"
+    },
+    {
+      "id": "boss-bridge",
+      "name": "Boss Bridge",
+      "repo": "Cyfrin/7-boss-bridge-audit",
+      "url": "https://github.com/Cyfrin/7-boss-bridge-audit",
+      "branches": ["main"],
+      "branchVerified": false,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": false,
+      "usedIn": "P9 bridges, signatures, cross-chain"
+    },
+    {
+      "id": "vault-guardians",
+      "name": "Vault Guardians",
+      "repo": "Cyfrin/8-vault-guardians-audit",
+      "url": "https://github.com/Cyfrin/8-vault-guardians-audit",
+      "solc": "0.8.20",
+      "notes": "Tests need a mainnet RPC in RPC_URL_MAINNET. Known issues live in the audit-data folder.",
+      "branches": ["main"],
+      "branchVerified": true,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": true,
+      "usedIn": "P10 capstone audit"
+    },
+    {
+      "id": "sc-exploits",
+      "name": "Smart Contract Exploits Minimized",
+      "repo": "Cyfrin/sc-exploits-minimized",
+      "url": "https://github.com/Cyfrin/sc-exploits-minimized",
+      "branches": ["main"],
+      "branchVerified": false,
+      "license": "unverified, check LICENSE in the repo",
+      "licenseVerified": false,
+      "verifiedExists": false,
+      "usedIn": "P8 fuzzing and invariant exercises"
+    }
+  ]
+}

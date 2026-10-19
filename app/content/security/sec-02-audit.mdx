@@ -1,0 +1,137 @@
+---
+title: "What an Audit Is"
+stage: "S2"
+track: "security"
+description: "Scoping, recon, finding bugs, and writing the report: the four jobs of an audit, practiced on a real raffle codebase."
+estimatedTime: "1 week"
+difficulty: "intermediate"
+objectives:
+  - "Scope an engagement: commit hash, files in scope, roles, chains"
+  - "Run recon: build the call graph, list entry points, rank targets"
+  - "File your first medium-severity finding with a PoC"
+tags: ["audit", "scoping", "recon", "reporting"]
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "What is the correct order of an audit engagement?"
+    options:
+      - "Scope, recon, file findings, write report"
+      - "Run the fuzzer, write the report, tell the client"
+      - "Deploy a demo contract, wait for a bug, send an invoice"
+      - "Fix everything silently, then announce the audit"
+    answer: 0
+    why: "A real audit is bounded work: first decide what is in scope, then reconstruct how the code behaves, then record the flaw, then turn it into a report the team can act on."
+  - q: "What should the first command you run after cloning a practice audited repo be?"
+    options:
+      - "git log and read the README: how to build, run tests, and what the scope file says"
+      - "Deploy to a public testnet"
+      - "Delete the .git folder"
+      - "Compile the attacking contracts"
+    answer: 0
+    why: "The engagement begins with documentation: how to compile, how the tests run, and which files are in scope. Skipping that is how people file findings against the wrong contract."
+  - q: "Your finding says 'this function is broken'. Is that a valid audit result?"
+    options:
+      - "Yes, any bug deserves a report"
+      - "No: severity, impact, likelihood and a proof of concept are required"
+      - "Yes, as long as the proof compiles"
+      - "No, audits never write code"
+    answer: 1
+    why: "Severity, impact, likelihood and a PoC are the language the client and the bounty platform speak. A vague report is a polite way of saying nothing."
+---
+
+<GoalLine>
+
+Audit the cloned raffle project end to end: scope it, read its call graph, file one finding
+with a failing test as the proof, and write the report as a Foundry test.
+
+</GoalLine>
+
+<DoIt note="Your OS commands. Expected outputs are under each step.">
+
+This is the exact workflow a first audit engagement uses:
+
+```bash
+git clone https://github.com/Cyfrin/4-puppy-raffle-audit
+cd 4-puppy-raffle-audit
+make
+forge test --match-path test/PuppyRaffle.t.sol
+```
+
+Then read the scope file `README.md` for the parts the engagement bounds you to:
+
+```bash
+git log --oneline -5
+cat README.md
+```
+
+Your first job is not the exploit: it is the scope paper. Write it as a short
+Markdown file, `SCOPE.md`, with the commit hash, the files in scope, the chain to
+use, and the roles.
+
+<Expected>
+Commit: 2a47715b30cf11ca82db148704e67652ad679cd8
+In scope: ./src/PuppyRaffle.sol
+Solc: 0.7.6
+Chain: Ethereum
+Roles: Owner (fee address), Player (entrants)
+</Expected>
+
+Keep that file. Auditors write it before touching the code.
+
+</DoIt>
+
+<SpotIt>
+
+Route the call graph by hand before you write a single line of attack code:
+
+```bash
+grep -rn "function " src/PuppyRaffle.sol
+```
+
+Draw the edges on paper: who calls what, what reads what, what can anyone call?
+Rank the entry points. This recon is what separates an audit from a hack.
+
+</SpotIt>
+
+<FixIt>
+
+Turn your scope paper into the first real artifact: a finding in Foundry test form.
+Write the failing test first, run it to see it fail, then fix the contract and watch it
+go green. The report stays in Markdown; the proof lives in the test.
+
+</FixIt>
+
+## The report is the deliverable
+
+A finding is a compact document with five fields:
+
+- **Severity** — critical, high, medium, low
+- **Impact** — what does the attacker actually get (tokens, ETH, governance control)
+- **Likelihood** — how easy is this to trigger, and how many paths lead here
+- **Proof of concept** — a Foundry test that fails now and passes after the fix
+- **Recommended fix** — the exact change to make
+
+The report is what gets you paid. Write it before you ever run again, and keep the
+test beside it.
+
+<HackCallout
+  name="NiceHash"
+  amount="$70M"
+  year={2019}
+  vector="Production credentials obtained by phishing; attacker accessed the hot wallet, and ~70M dollars of funds moved. A missing or stale access control at the process level."
+/>
+
+NiceHash's post-mortem (medium): https://medium.com/nicehash/hack-postmortem-2544675f999f
+
+<Challenge>
+
+File your first finding in a Foundry test. Scope the objects by hand above, write the
+failing test, then make it pass with exactly the smallest change you choose. Commit the
+scope paper, the test, and your fix.
+
+</Challenge>
+
+<UpdraftVideo
+  href="https://updraft.cyfrin.io/courses/security"
+  title="Prefer video? This section exists in Cyfrin Updraft's security course"
+/>

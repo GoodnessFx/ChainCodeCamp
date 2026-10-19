@@ -74,6 +74,60 @@ export const CURRICULUM_SECTIONS: CurriculumSection[] = [
     tags: ["foundry", "forge", "testing", "fuzzing", "invariants"],
   },
   {
+    slug: "sec-01-value",
+    title: "How the EVM Stores and Moves Value",
+    stage: "S1",
+    track: "security",
+    description:
+      "The three security prerequisites: how ERC20 moves value, how storage slots hide bugs, and how Foundry runs your exploit as a test.",
+    objectives: [
+      "Read an ERC20 transfer and name every state change it makes",
+      "Predict exact storage slots for mappings and dynamic arrays",
+      "Run a Foundry project and write a failing test on purpose",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "beginner",
+    tags: ["evm", "erc20", "storage", "foundry"],
+    historicalHack: {
+      name: "Compound",
+      amount: "$80M at risk",
+      year: 2021,
+      vector: "Drip-feed bug in COMP distribution (slow value leak, not a drain)",
+    },
+  },
+  {
+    slug: "sec-02-audit",
+    title: "What an Audit Is",
+    stage: "S2",
+    track: "security",
+    description:
+      "Scoping, recon, finding bugs, and writing the report: the four jobs of an audit, practiced on a real raffle codebase.",
+    objectives: [
+      "Scope an engagement: commit hash, files in scope, roles, chains",
+      "Run recon: build the call graph, list entry points, rank targets",
+      "File your first medium-severity finding with a PoC",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["audit", "scoping", "recon", "reporting"],
+  },
+  {
+    slug: "sec-03-access",
+    title: "Access Control and On-Chain Privacy",
+    stage: "S3",
+    track: "security",
+    description:
+      "Who can call what, and why secrets stored on-chain are never secret. PasswordStore-style practice from clone to finding.",
+    objectives: [
+      "Map every privileged function and its caller gate",
+      "Read private storage directly with cast and prove the leak",
+      "Write the access-control finding with severity and a fix",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["access-control", "privacy", "storage", "cast"],
+  },
+  {
     slug: "vulnerability-classes",
     title: "Common Vulnerability Classes",
     stage: "05",
@@ -95,6 +149,60 @@ export const CURRICULUM_SECTIONS: CurriculumSection[] = [
       year: 2016,
       vector: "Recursive reentrancy via external call before state update",
     },
+  },
+  {
+    slug: "sec-01-value",
+    title: "How the EVM Stores and Moves Value",
+    stage: "S1",
+    track: "security",
+    description:
+      "The three security prerequisites: how ERC20 moves value, how storage slots hide bugs, and how Foundry runs your exploit as a test.",
+    objectives: [
+      "Read an ERC20 transfer and name every state change it makes",
+      "Predict exact storage slots for mappings and dynamic arrays",
+      "Run a Foundry project and write a failing test on purpose",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "beginner",
+    tags: ["evm", "erc20", "storage", "foundry"],
+    historicalHack: {
+      name: "Compound",
+      amount: "$80M at risk",
+      year: 2021,
+      vector: "Drip-feed bug in COMP distribution (slow value leak, not a drain)",
+    },
+  },
+  {
+    slug: "sec-02-audit",
+    title: "What an Audit Is",
+    stage: "S2",
+    track: "security",
+    description:
+      "Scoping, recon, finding bugs, and writing the report: the four jobs of an audit, practiced on a real raffle codebase.",
+    objectives: [
+      "Scope an engagement: commit hash, files in scope, roles, chains",
+      "Run recon: build the call graph, list entry points, rank targets",
+      "File your first medium-severity finding with a PoC",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["audit", "scoping", "recon", "reporting"],
+  },
+  {
+    slug: "sec-03-access",
+    title: "Access Control and On-Chain Privacy",
+    stage: "S3",
+    track: "security",
+    description:
+      "Who can call what, and why secrets stored on-chain are never secret. PasswordStore-style practice from clone to finding.",
+    objectives: [
+      "Map every privileged function and its caller gate",
+      "Read private storage directly with cast and prove the leak",
+      "Write the access-control finding with severity and a fix",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["access-control", "privacy", "storage", "cast"],
   },
   {
     slug: "defi-attack-vectors",

@@ -5,6 +5,7 @@ import ToolTag from "@/components/tools/ToolTag";
 import { linkifyTools } from "@/lib/linkTools";
 import Quiz from "./Quiz";
 import PushSteps from "./PushSteps";
+import HackCallout from "@/components/ui/HackCallout";
 import {
   GoalLine,
   DoIt,
@@ -191,6 +192,7 @@ const components = {
   UpdraftVideo,
   Quiz,
   PushSteps,
+  HackCallout,
 };
 
 // Tell linkifyTools to leave code and links alone (it checks cccSkip)

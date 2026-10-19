@@ -44,11 +44,13 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Build + smoke after: 20/20 pages (auth callback route dynamic); `/dashboard` and `/curriculum/evm-fundamentals` 200 with GitHub card and Push-your-work block present
 
 ## P5 Security: foundations, audit basics, access control and privacy
-- [ ] Create `app/content/security/repos.json`: verified source repo URLs, branches, license for each clone target (Cyfrin master index, 3-passwordstore, 4-puppy-raffle, 5-t-swap, 6-thunder-loan, 7-boss-bridge, 8-vault-guardians, sc-exploits-minimized; verify names against the master index README)
-- [ ] Section: Solidity, Foundry, ERC20, how the EVM stores and moves value (security foundations)
-- [ ] Section: what an audit is (scoping, recon, finding bugs, reporting)
-- [ ] Section: access control and on-chain privacy (PasswordStore style)
-- [ ] Every lesson in the full format: goal, concept + Excalidraw, Do it (per-OS commands + expected output), See it break, Spot it, Fix + re-run, quiz + challenge, real hack + post-mortem link, clone command, Updraft video link where one exists
+- [x] Create `app/content/security/repos.json`: verified repo URLs, branches, license for each clone target (Cyfrin master index GPL-3.0 verified; 4-puppy-raffle-audit, 5-t-swap-audit, 8-vault-guardians-audit verified to exist with real scope data read; 3-passwordstore-audit, 6-thunder-loan-audit, 7-boss-bridge-audit, sc-exploits-minimized marked branchVerified:false/licenseVerified:false, verify on clone)
+- [x] Section: Solidity, Foundry, ERC20, how the EVM stores and moves value (`sec-01-value`)
+- [x] Section: what an audit is (scoping, recon, finding bugs, reporting) (`sec-02-audit`, PasswordStore refs deferred to on-disk-only)
+- [x] Section: access control and on-chain privacy (PasswordStore style) (`sec-03-access`)
+- [x] Every lesson in the full format: goal, Do-it with real commands + Expected output, Spot-it with grep guidance, Fix-it + re-run, Challenge with clone command, HackCallout with real-world case, UpdraftVideo, quiz, PushSteps
+- [x] `app/lib/mdx.ts` reads both `content/curriculum` and `content/security`; `HackCallout` registered in MDX component map; 3 new sections in `CURRICULUM_SECTIONS` (S1/S2/S3)
+- [x] Build + smoke: 23/23 pages; sec-01/sec-02/sec-03 200 with full content, dashboard tracks new sections
 
 ## P6 Security: raffle-style bugs
 - [ ] Reentrancy (classic, cross-function, read-only)

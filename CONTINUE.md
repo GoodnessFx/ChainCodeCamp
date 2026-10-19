@@ -3,22 +3,22 @@
 Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
 
 ## Current phase
-**P4 done. P5 is next.**
+**P5 done. P6 is next.**
 
 ## Last finished step
-- P4 complete:
-  - Supabase GitHub OAuth surface: `app/lib/auth.ts` (env check, `signInWithGitHub`, `signOut`, `getSessionUser`), callback route `app/app/auth/callback/route.ts` trading `?code=` for a session and honoring `?next=`. Blocker stands: no Supabase env vars on this machine, so the dashboard card says so honestly and offers the token path.
-  - "Create my practice repo": `app/components/dashboard/GitHubConnect.tsx` on the dashboard — OAuth row (or the honest-not-configured banner), browser-kept fine-grained PAT row, create-via-API (private repo + auto_init) or link-existing flow. State in `app/lib/github.ts` (`ccc_practice_repo`, `ccc_github_token`, `ccc_repo_updated` event).
-  - "Push your work": `app/components/lesson/PushSteps.tsx` after the quiz on every lesson — the exact add/commit/push commands (copy-all + per-line copy), repo link, and a Push check that reads the latest commit from the GitHub API and prints sha/message/author/date/link or the real error.
-  - Deferred: report Markdown/PDF to P10 (content format arrives there), Vercel portfolio deploy to P11 with public profiles.
-  - Verified: build 20/20 (new dynamic auth route); smoke `/dashboard` 200 (GitHub card, token, repo rows), `/curriculum/evm-fundamentals` 200 (Push-your-work + push commands). Server stopped.
+- P5 complete:
+  - `app/content/security/repos.json`: 7 clone targets. Master index GPL-3.0 verified; puppy-raffle, tswap, vault-guardians verified to exist (real scope/commit/solc read from their READMEs); passwordstore, thunder-loan, boss-bridge, sc-exploits marked `verifiedExists:false`/`licenseVerified:false`, flags instruct verify-on-clone.
+  - Three original lessons in `app/content/security/`, all in the full block format with clone commands, grep guidance, real hacks with post-mortem links, Updraft links, quizzes, Challenges, PushSteps: `sec-01-value` (EVM/ERC20/storage/Foundry), `sec-02-audit` (scope/recon/findings/reporting), `sec-03-access` (caller gates, private-is-public with cast).
+  - Loader + registry: `app/lib/mdx.ts` reads both content trees (curriculum first); `HackCallout` registered as an MDX component; S1/S2/S3 added to `CURRICULUM_SECTIONS` so sidebar/curriculum/dashboard/progress/nav pick them up automatically.
+  - Two real fixes this phase: unclosed `<DoIt>` in sec-03 broke MDX parse for sec-02/sec-03; unregistered `<HackCallout>` broke sec-02 prerender. Diagnostic rule recorded: a missing close tag in one file can surface on another file's route, check all new MDX.
+  - Smoke-trap lesson: always `Stop-Process node` before re-testing, a stale `next start` on :3000 serves old pages.
+  - Verified: build 23/23 pages, zero prerender errors; sec-01/02/03 all 200 with goal/Do-it/quiz/video/challenge/push content; dashboard tracks the new sections. Server stopped.
 
 ## NEXT STEP (exact file and task)
-P5: Security — foundations, audit basics, access control and privacy.
-1. `app/content/security/repos.json`: verify the Cyfrin master index README for exact repo names (puppy raffle, TSwap, passwordstore, thunder loan, boss bridge, vault guardians, sc-exploits-minimized) plus branch and license; store URLs there.
-2. New section files in `app/content/security/`: (a) security foundations (Solidity/Foundry/ERC20/EVM value movement as security prerequisites), (b) what an audit is (scoping, recon, findings, reporting), (c) access control and on-chain privacy (PasswordStore-style clone target verified first). All original content; every lesson in the full block format with clone command, quiz, challenge, real hack + post-mortem link, Updraft video link where one exists.
-3. Wire the track into the dashboard, sidebar, skill map, and homepage behind the existing curriculum; do not replace existing sections.
-4. Build + smoke after each lesson file, update CONTINUE.md, run save.sh.
+P6: Security — raffle-style bugs (reentrancy, randomness, overflow, DoS, MEV, gas).
+1. New lesson files in `app/content/security/`: `sec-04-reentrancy` (classic, cross-function, read-only), `sec-05-randomness` (Puppy Raffle clone target), `sec-06-overflow-dos` (integer edges, DoS, gas). All original content; every lesson in the full block format with clone command, quiz, challenge, real hack + post-mortem link, Updraft video link where one exists.
+2. Add S4/S5/S6 to `CURRICULUM_SECTIONS` in `app/lib/curriculum.ts`.
+3. Build + smoke after each lesson file (stop node first), update CONTINUE.md, run save.sh.
 
 ## Decisions made
 - **Path convention:** `/content/...` in the spec = `app/content/...` (the Next app content root). `/docs`, `/scripts`, `/CONTINUE.md` are repo root. See AUDIT.md section 8.

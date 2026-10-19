@@ -1,0 +1,159 @@
+﻿---
+title: "Access Control and On-Chain Privacy"
+stage: "S3"
+track: "security"
+description: "Who can call what, and why secrets stored on-chain are never secret. PasswordStore-style practice from clone to finding."
+estimatedTime: "1 week"
+difficulty: "intermediate"
+objectives:
+  - "Map every privileged function and its caller gate"
+  - "Read private storage directly with cast and prove the leak"
+  - "Write the access-control finding with severity and a fix"
+tags: ["access-control", "privacy", "storage", "cast"]
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "Which check blocks a caller from calling setPassword(k, v) when they are not the owner?"
+    options:
+      - "require(msg.sender == owner, \"not owner\")"
+      - "require(msg.sender != address(0), \"zero address\")"
+      - "keccak256(msg.sender) < 10"
+      - "require(address(this).balance > 0)"
+    answer: 0
+    why: "An access gate compares msg.sender to the authorized identity. The other three checks are real checks that protect nothing."
+  - q: "A contract stores `string private password`. Can a caller read it from storage?"
+    options:
+      - "No, private means secret"
+      - "Yes, with cast and the slot layout — private only hides the accessor"
+      - "Yes, only if the contract is on mainnet"
+      - "Only after a UPGRADE"
+    answer: 1
+    why: "Solidity adds no encryption. Anyone who can read the blockchain can read any storage slot; private only means no public getter was generated."
+  - q: "Which is the strongest first line of defense for a contract with privileged functions?"
+    options:
+      - "require(msg.sender == owner)"
+      - "an onlyOwner modifier on every function"
+      - "a heartbeat that dies if nobody calls it"
+      - "a longer revert string"
+    answer: 1
+    why: "The modifier compresses the gate into one place. If it is ever removed or bypassed in one function, every function benefits from a documented pattern."
+---
+
+<GoalLine>
+
+Clone a PasswordStore-style repo, find the missing access gate in a privileged
+function, prove the leak by reading a private password from storage, then write the
+finding and the fix.
+
+</GoalLine>
+
+<DoIt note="Your OS commands. Expected outputs are under each step.">
+
+Clone the practice target and read the scope before you touch code:
+
+```bash
+git clone https://github.com/Cyfrin/3-passwordstore-audit
+cd 3-passwordstore-audit
+git branch -a
+forge test -vv
+```
+
+Check out the branch the engagement has prepared:
+
+```bash
+git checkout onboarded   # or: git checkout audit-data
+forge test -vv
+```
+
+<Expected>
+... all tests green, contract deployed, owner set on deploy ...
+</Expected>
+</DoIt>
+
+Now open the vulnerability:
+
+```bash
+grep -n "setPassword\|function.*(" src/
+```
+
+<SpotIt>
+
+Run the recon, then read the access gate as data, not as a rule:
+
+```bash
+grep -n "msg.sender\|tx.origin\|require(" src/PasswordStore.sol
+```
+
+Ask three questions for every function `f`:
+
+1. Does anyone call `f()` without a gate?
+2. Does the gate compare the right identity?
+3. Is the data `f()` reads secret to anyone on-chain?
+
+</SpotIt>
+
+<FixIt>
+
+Draft the change in two files before you run anything:
+
+- The gate: `require(msg.sender == owner, "not owner");`
+- The proof: a Foundry test that calls the function nobody may call and asserts the
+  storage changed.
+
+Run `forge test`. The green now means the gate is enforced, not that the code is safe.
+
+</FixIt>
+
+<SpotIt>
+
+When a vulnerability class is unknown in a new repo, read in this order:
+
+1. Links and roles docs (README, scope.txt, audit-data/README.md)
+2. `grep -n "function " src/` — entry points
+3. `grep -n "msg.sender\|tx.origin\|onlyOwner" src/`
+4. Read the highest-access function first; it is usually the damage path.
+
+</SpotIt>
+
+<FixIt>
+
+The canonical access-control fix is a single modifier that every privileged function
+carries, plus a test that proves the gate works:
+
+```solidity
+modifier onlyOwner() {
+    require(msg.sender == owner, "not owner");
+    _;
+}
+```
+
+Add it to `setPassword`, rerun the suite, and commit the test as evidence.
+
+</FixIt>
+
+## Real-world case: a lost password
+
+In 2017 the Parity multi-sig wallet shipped a library contract that a "self
+destruct" call could disable, freezing 153 000 ETH in user contracts and later letting
+an attacker steal roughly $30M in funds from two related contracts. The bug class was
+not clever math. It was a privileged function without a strict caller gate, and a
+recovery path that let anyone call `init` instead of `kill`.
+
+Read the post-mortems:
+
+- https://consensys.net/diligence/blog/2016/10/the-parity-wallet-multisig-vulnerability/
+- https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/CONTRIBUTING.md
+
+<Challenge>
+
+Clone the target, run the suite, then find the function with a missing gate and write
+the failing test that proves it can be called through by a non-owner. Fix the gate with
+the modifier above and make the test green. Commit the test as the evidence for the
+finding and the report.
+
+</Challenge>
+
+<UpdraftVideo
+  href="https://updraft.cyfrin.io/courses/security"
+  title="Prefer video? This section exists in Cyfrin Updraft's security course"
+/>

@@ -1,0 +1,155 @@
+---
+title: "How the EVM Stores and Moves Value"
+stage: "S1"
+track: "security"
+description: "The three security prerequisites: how ERC20 moves value, how storage slots hide bugs, and how Foundry runs your exploit as a test."
+estimatedTime: "1 week"
+difficulty: "beginner"
+objectives:
+  - "Read an ERC20 transfer and name every state change it makes"
+  - "Predict exact storage slots for mappings and dynamic arrays"
+  - "Run a Foundry project and write a failing test on purpose"
+tags: ["evm", "erc20", "storage", "foundry"]
+historicalHack:
+  name: "Compound"
+  amount: "$80M at risk"
+  year: 2021
+  vector: "Drip-feed bug in COMP distribution (slow value leak, not a drain)"
+goal: "Read an ERC20 transfer line by line, predict the exact storage slots it touches, and prove it with a Foundry test you run yourself."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "A standard ERC20 transfer moves tokens from Alice to Bob. Which state changes happen?"
+    options:
+      - "Only Alice's balance goes down; Bob is credited later"
+      - "Alice's balance decreases, Bob's balance increases, and a Transfer event fires, all in one call"
+      - "The total supply increases by the amount sent"
+      - "Nothing happens on-chain until the block is mined twice"
+    answer: 1
+    why: "transfer() subtracts from balances[msg.sender], adds to balances[to], and emits Transfer. No minting, no delays. Auditing starts by listing every write a function performs."
+  - q: "balances is the first state variable in the token. Where is the slot for Alice's balance?"
+    options:
+      - "Slot 0"
+      - "keccak256(abi.encode(Alice, uint256(0)))"
+      - "keccak256(abi.encode(uint256(0), Alice))"
+      - "Nowhere; mappings share one slot"
+    answer: 1
+    why: "Mapping slots are keccak256(abi.encode(key, slotNumber)). Casting this yourself with cast keccak is how you prove what a contract really stores."
+  - q: "Your Foundry test deploys a token, transfers 1 token, and asserts the balance. What makes this a security habit?"
+    options:
+      - "Every exploit PoC is exactly this shape: set up state, poke it, assert the bad thing happened"
+      - "Tests are only for developers, auditors read code"
+      - "The compiler checks security for you"
+      - "Tests slow down audits"
+    answer: 0
+    why: "A proof of concept is a failing test that turns green when the bug is fixed. Learning forge test now means every later finding ships with runnable evidence."
+---
+
+## Value moves in exactly three places
+
+Every token on Ethereum is just numbers in a contract's storage plus two events the world agrees to watch. There is no coins folder. Open any ERC20 and find the three things that move:
+
+```solidity
+mapping(address => uint256) private s_balances;
+mapping(address => mapping(address => uint256)) private s_allowances;
+uint256 private s_totalSupply;
+```
+
+The move itself is boring on purpose:
+
+```solidity
+function transfer(address to, uint256 amount) external returns (bool) {
+    s_balances[msg.sender] -= amount;
+    s_balances[to] += amount;
+    emit Transfer(msg.sender, to, amount);
+    return true;
+}
+```
+
+Three writes on success: two balances, one log. Everything an attacker can do in this function is some path through those three writes. That is the whole audit in miniature: list the writes, then ask what happens when `amount` is zero, huge, or sent to yourself.
+
+## Slots are addresses you can compute
+
+The EVM has 2^256 storage slots. Fixed variables take slots in declaration order starting at 0. A mapping's entries scatter by hash: for `balances` at slot 0, Alice's balance sits at `keccak256(abi.encode(Alice, uint256(0)))`.
+
+<DoIt note="Your OS commands. Expected outputs are under each step.">
+
+Make a project and break it on purpose:
+
+```bash
+mkdir ccc-lab && cd ccc-lab
+forge init --no-git
+forge install OpenZeppelin/openzeppelin-contracts
+```
+
+```bash
+forge build
+```
+
+<Expected>
+Compiler run successful!
+</Expected>
+
+Now write your first failing test. Put it in `test/Value.t.sol`: deploy a mock token,
+move tokens, assert the balance grew. Run `forge test -vv` and watch it pass. Then
+change the assertion to something false, re-run, and read the failure trace. That
+red output is what every proof of concept in this course looks like.
+
+</DoIt>
+
+<SpotIt>
+
+In any unknown ERC20-style codebase, read in this order:
+
+```bash
+grep -rn "function transfer\|function transferFrom\|function approve" src/
+```
+
+Then open each hit and list its state writes. The bug is always a write the author
+forgot was reachable: missing allowance decrement, a self-transfer path, or an
+event that lies about what moved.
+
+</SpotIt>
+
+<FixIt>
+
+When you find a wrong write, the fix is mechanical: update every balance and
+allowance before any external call, emit the event last, and add the exact test
+that failed before. Re-run to prove it:
+
+```bash
+forge test -vv
+```
+
+Green means the write order is now safe, not that the code is clever.
+
+</FixIt>
+
+## Real-world case: a slow leak, not a drain
+
+In 2021 Compound's Comptroller dripped COMP rewards at the wrong rate after an
+upgrade. No one stole anything; the math itself overpaid until governance paused
+it, with around $80M briefly at risk. Write-order bugs do not always look like a
+hack. Sometimes they look like generosity.
+
+Read the post-mortem: https://compound.finance/governance/proposals/64
+
+<Challenge>
+
+Clone the raffle target you will audit in S2 and get it green:
+
+```bash
+git clone https://github.com/Cyfrin/4-puppy-raffle-audit
+cd 4-puppy-raffle-audit
+make
+forge test
+```
+
+Do not read `PuppyRaffle.sol` yet. Just prove the toolchain works in this exact repo.
+
+</Challenge>
+
+<UpdraftVideo
+  href="https://updraft.cyfrin.io/courses/security"
+  title="Prefer video? This section exists in Cyfrin Updraft's security course"
+/>
