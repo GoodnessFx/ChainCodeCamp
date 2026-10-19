@@ -3,25 +3,22 @@
 Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
 
 ## Current phase
-**P0 and P1 done. P2 (Unified lesson renderer: Excalidraw, Do-it panel, quiz) is next.**
+**P2 in progress (renderer done, rollout to lessons remains). After that: P3.**
 
 ## Last finished step
-- P1 complete and saved:
-  - `app/content/tools/registry.json` (19 tools, JSON validated with node)
-  - `app/lib/tools.ts` (types, loader, OS detection, tool-name aliases)
-  - `app/lib/setup.ts` (tick-off storage `ccc_setup`, setup score)
-  - `app/app/setup/page.tsx` (Setup Hub wizard: score, OS picker, per-tool steps, verify + expected output, Stuck? panels)
-  - `app/components/tools/ToolTag.tsx` (tooltip + install drawer) and `app/lib/linkTools.tsx` (server-safe auto-linking used by `LessonContent` paragraphs and list items; `<Tool id="..." />` also registered in the MDX map)
-  - Sidebar: Setup Hub link + live setup score bar. Home: Setup Hub CTA.
-- Verified: `cd app && npm run build` passes (18/18 pages, 0 type errors), then `npm start` smoke test: `/setup` 200, `/` 200, `/curriculum/static-analysis-tooling` 200 with tool tooltips rendered, 0 of 9 `<pre>` code blocks touched by auto-linking. Server stopped after the test.
+- P2 renderer built and verified:
+  - `app/components/lesson/LessonBlocks.tsx`: GoalLine, DoIt, BreakIt, SpotIt, FixIt, Challenge, Expected (dark green output block), Diagram (lazy iframe/image, Excalidraw-ready), UpdraftVideo. All server components, registered in `LessonContent.tsx`.
+  - `app/components/lesson/Quiz.tsx`: client-side graded quiz (answers revealed only after "Check answers", per-question `why`, score, retry).
+  - `app/types/curriculum.ts`: optional frontmatter fields goal, diagram, tools, videoUrl, videoTitle, repo, quiz (LessonQuestion). `LessonContent` renders goal + video above the body, quiz after it.
+  - `app/components/lesson/CodeBlock.tsx`: dependency-free syntax tokenizer (solidity/bash/js/json keyword sets, strings, comments, numbers, calls).
+  - Template rollout: `vulnerability-classes.mdx` now has frontmatter goal, Updraft link (https://updraft.cyfrin.io/courses/security), a 4-question quiz, and a Challenge block. Existing content untouched.
+  - Verified: build 18/18, `npm start` smoke: template lesson shows goal, video, quiz, challenge, highlighted keywords; `evm-fundamentals` still renders with highlighting. Server stopped.
+- Fixed during the step: orphaned JSX lines in LessonBlocks.tsx (a botched insert) - lesson from P1: verify the file compiles after every multi-part edit.
 
 ## NEXT STEP (exact file and task)
-P2, first item: extend the MDX lesson renderer in `app/components/lesson/LessonContent.tsx`.
-1. Add these MDX components (new files in `app/components/lesson/`): `GoalLine`, `Diagram` (Excalidraw embed, lazy), `DoIt` (numbered steps, per-OS command tabs, expected output), `BreakIt` (vulnerable code + real terminal output), `SpotIt` (grep / what to read first), `FixIt` (patch + re-run proof), `Quiz` (3-5 questions, graded client side), `Challenge`, `UpdraftVideo`, and extend `HackCallout` for the real-world case.
-2. Extend the frontmatter schema in `app/types/curriculum.ts` (goal, diagram, tools, videoUrl, repo, quiz) as optional fields so all 10 existing lessons keep rendering.
-3. Apply the new blocks to existing lessons one file at a time, starting with `app/content/curriculum/vulnerability-classes.mdx`, without deleting content.
-4. Then syntax highlighting in `app/components/lesson/CodeBlock.tsx` (lazy, small).
-5. Build, smoke test, update this file, run save.sh.
+1. Roll the lesson format out to the 9 remaining files in `app/content/curriculum/` (evm-fundamentals, solidity-mastery, assembly-and-yul, foundry-mastery, defi-attack-vectors, static-analysis-tooling, fuzzing-formal-verification, writing-audit-reports, bug-bounty-competitive-audits). Per lesson, copy the `vulnerability-classes.mdx` pattern: frontmatter `goal` (one line), `videoUrl` + `videoTitle` (verify each Updraft URL before using it, do not guess deep links), `quiz` (3-5 questions with answer index and why), and body blocks (DoIt/BreakIt/FixIt/Challenge) inserted without deleting any existing content. Keep blank lines around JSX blocks in MDX or markdown inside them becomes a code block.
+2. Build + smoke test after every 3 lessons, update this file, run save.sh.
+3. Then P3: dashboard (learn path, skill map, setup score, streaks), per-lesson notes, lesson-level progress, mobile sidebar fix.
 
 ## Decisions made
 - **Path convention:** `/content/...` in the spec = `app/content/...` (the Next app content root). `/docs`, `/scripts`, `/CONTINUE.md` are repo root. See AUDIT.md section 8.

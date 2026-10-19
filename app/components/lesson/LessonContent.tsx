@@ -3,6 +3,18 @@ import type { LessonFrontmatter } from "@/types/curriculum";
 import CodeBlock from "./CodeBlock";
 import ToolTag from "@/components/tools/ToolTag";
 import { linkifyTools } from "@/lib/linkTools";
+import Quiz from "./Quiz";
+import {
+  GoalLine,
+  DoIt,
+  BreakIt,
+  SpotIt,
+  FixIt,
+  Challenge,
+  Expected,
+  Diagram,
+  UpdraftVideo,
+} from "./LessonBlocks";
 import type { ComponentPropsWithoutRef } from "react";
 
 interface Props {
@@ -163,6 +175,18 @@ const components = {
 
   // Quick-install: <Tool id="slither" /> renders the tool with its install drawer
   Tool: ToolTag,
+
+  // P2 lesson blocks (see components/lesson/LessonBlocks.tsx)
+  GoalLine,
+  DoIt,
+  BreakIt,
+  SpotIt,
+  FixIt,
+  Challenge,
+  Expected,
+  Diagram,
+  UpdraftVideo,
+  Quiz,
 };
 
 // Tell linkifyTools to leave code and links alone (it checks cccSkip)
@@ -173,10 +197,19 @@ const components = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (components.a as any).cccSkip = true;
 
-export default function LessonContent({ content }: Props) {
+export default function LessonContent({ content, frontmatter }: Props) {
   return (
     <div className="lesson-content">
+      {/* Goal line comes from frontmatter so it survives any body rewrite */}
+      {frontmatter.goal && <GoalLine>{frontmatter.goal}</GoalLine>}
+      {frontmatter.videoUrl && (
+        <UpdraftVideo href={frontmatter.videoUrl} title={frontmatter.videoTitle} />
+      )}
       <MDXRemote source={content} components={components} />
+      {/* Quiz from frontmatter renders after the body (lessons may also embed one) */}
+      {frontmatter.quiz && frontmatter.quiz.length > 0 && (
+        <Quiz questions={frontmatter.quiz} />
+      )}
     </div>
   );
 }

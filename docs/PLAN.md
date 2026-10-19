@@ -24,10 +24,10 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Run build, fix errors, update CONTINUE.md, save (build 18/18 pages, smoke tested /setup, / and a lesson page)
 
 ## P2 Unified lesson renderer (MDX, Excalidraw, Do-it panel, quiz)
-- [ ] Extend the MDX component map: Goal line, Excalidraw diagram (lazy), Do-it panel (numbered steps, per-OS commands, expected output), See-it-break, Spot-it, Fix, quiz (3-5 questions, graded client side), mini challenge, "Watch the video version" Updraft link, real-world case callout
-- [ ] Extended lesson frontmatter schema (goal, diagram, tools, videoUrl, repo, quiz)
-- [ ] Apply the renderer to all 10 existing lessons without deleting content
-- [ ] Syntax highlighting for code blocks (small, lazy)
+- [x] Extend the MDX component map: GoalLine, Excalidraw Diagram (lazy), DoIt, BreakIt, SpotIt, FixIt, Expected output, Quiz (graded client side), Challenge, UpdraftVideo, ToolTag - all in `app/components/lesson/LessonBlocks.tsx` + `Quiz.tsx`, registered in `LessonContent.tsx`
+- [x] Extended lesson frontmatter schema (goal, diagram, tools, videoUrl, videoTitle, repo, quiz) as optional fields in `app/types/curriculum.ts`
+- [ ] Apply the new blocks to all 10 existing lessons without deleting content: `vulnerability-classes.mdx` DONE as the template (goal, video link, 4-question quiz, Challenge block); 9 lessons remaining
+- [x] Syntax highlighting for code blocks (dependency-free tokenizer in `CodeBlock.tsx`, language aware: solidity/bash/js/json)
 
 ## P3 Dashboard, progress, setup score, notes
 - [ ] Dashboard: learn path (Beginner / Auditor / Pro), skill map of covered bug classes, setup score, streaks, continue where you left off
