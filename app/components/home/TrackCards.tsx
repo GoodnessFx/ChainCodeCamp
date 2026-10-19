@@ -90,6 +90,9 @@ export default function TrackCards() {
         <Link href="/curriculum" className="btn btn-primary">
           See Full Curriculum <ArrowRight size={16} />
         </Link>
+        <Link href="/setup" className="btn btn-outline">
+          Setup Hub
+        </Link>
         <Link href="/community#bounties" className="btn btn-outline">
           Bug Bounty Tracker
         </Link>

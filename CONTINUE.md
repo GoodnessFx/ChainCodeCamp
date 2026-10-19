@@ -3,15 +3,25 @@
 Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
 
 ## Current phase
-**P0 done. P1 (Tool registry + Setup Hub + quick-install popups) is next.**
+**P0 and P1 done. P2 (Unified lesson renderer: Excalidraw, Do-it panel, quiz) is next.**
 
 ## Last finished step
-- P0 complete: `/docs/AUDIT.md`, `/docs/PLAN.md`, this file, `/scripts/save.sh` created.
-- Baseline verified: `cd app && npm run build` passes on the clean tree (17/17 pages, 0 TypeScript errors, First Load JS shared 87.2 kB).
+- P1 complete and saved:
+  - `app/content/tools/registry.json` (19 tools, JSON validated with node)
+  - `app/lib/tools.ts` (types, loader, OS detection, tool-name aliases)
+  - `app/lib/setup.ts` (tick-off storage `ccc_setup`, setup score)
+  - `app/app/setup/page.tsx` (Setup Hub wizard: score, OS picker, per-tool steps, verify + expected output, Stuck? panels)
+  - `app/components/tools/ToolTag.tsx` (tooltip + install drawer) and `app/lib/linkTools.tsx` (server-safe auto-linking used by `LessonContent` paragraphs and list items; `<Tool id="..." />` also registered in the MDX map)
+  - Sidebar: Setup Hub link + live setup score bar. Home: Setup Hub CTA.
+- Verified: `cd app && npm run build` passes (18/18 pages, 0 type errors), then `npm start` smoke test: `/setup` 200, `/` 200, `/curriculum/static-analysis-tooling` 200 with tool tooltips rendered, 0 of 9 `<pre>` code blocks touched by auto-linking. Server stopped after the test.
 
 ## NEXT STEP (exact file and task)
-1. Create `app/content/tools/registry.json` with all 18 tools from the P1 checklist in `docs/PLAN.md` (name, what it is, why you need it, official link, install commands for Windows+WSL / Mac / Linux, verify command, expected output, common errors + fixes, lessons that use it).
-2. Then `app/lib/tools.ts` (typed loader), then `app/app/setup/page.tsx` (Setup Hub wizard + Stuck panel + setup score), then the quick-install tooltip/drawer MDX component wired into `app/components/lesson/LessonContent.tsx`, then sidebar/home links, then build, then save.
+P2, first item: extend the MDX lesson renderer in `app/components/lesson/LessonContent.tsx`.
+1. Add these MDX components (new files in `app/components/lesson/`): `GoalLine`, `Diagram` (Excalidraw embed, lazy), `DoIt` (numbered steps, per-OS command tabs, expected output), `BreakIt` (vulnerable code + real terminal output), `SpotIt` (grep / what to read first), `FixIt` (patch + re-run proof), `Quiz` (3-5 questions, graded client side), `Challenge`, `UpdraftVideo`, and extend `HackCallout` for the real-world case.
+2. Extend the frontmatter schema in `app/types/curriculum.ts` (goal, diagram, tools, videoUrl, repo, quiz) as optional fields so all 10 existing lessons keep rendering.
+3. Apply the new blocks to existing lessons one file at a time, starting with `app/content/curriculum/vulnerability-classes.mdx`, without deleting content.
+4. Then syntax highlighting in `app/components/lesson/CodeBlock.tsx` (lazy, small).
+5. Build, smoke test, update this file, run save.sh.
 
 ## Decisions made
 - **Path convention:** `/content/...` in the spec = `app/content/...` (the Next app content root). `/docs`, `/scripts`, `/CONTINUE.md` are repo root. See AUDIT.md section 8.
@@ -20,6 +30,9 @@ Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never 
 - **Progress storage:** keep `localStorage` (`ccc_progress`) as the always-works base; Supabase only layers on when env vars + login exist (login arrives in P3/P4).
 - **Content source of truth:** section metadata stays in `app/lib/curriculum.ts` (existing pattern); MDX frontmatter mirrors it. New lesson-format fields are additive and optional so old lessons keep rendering.
 - **Tool install docs:** written by us, original wording, per OS, with real verify commands and expected output.
+
+- **Tool install docs:** written by us, original wording, per OS, real verify commands and expected output. Official docs for Aderyn, Foundry, Certora, Halmos, Medusa and Echidna were checked during P1.
+- **Next.js gotcha learned in P1:** never call a named export of a `"use client"` module from a server component (it is undefined at runtime and fails prerender with `(0, o.x) is not a function`). Helpers used during server render live in non-client modules (`lib/linkTools.tsx`); client modules only export components.
 
 ## Env vars needed
 - None for P0/P1 (no new env).
@@ -41,3 +54,4 @@ Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never 
 8. Duplicate progress system in legacy `index.html` (`completedStages`). Leave until P12.
 9. No LICENSE file although README badges link to one. P12.
 10. `gauntlet/` never executed (`forge` missing) and not linked from the app. Link it in P5/P6.
+11. Home First Load JS grew from 170 kB to 182 kB when the tool registry entered the client bundle (sidebar setup score). Revisit in P12 performance: compute the score without shipping the full registry to every page.

@@ -1,0 +1,995 @@
+{
+  "version": 1,
+  "updated": "2026-10-19",
+  "note": "Single source of truth for every tool ChainCodeCamp teaches. Read by the Setup Hub, the quick-install drawers and the setup score. Windows steps assume WSL for anything that touches the EVM toolchain.",
+  "tools": [
+    {
+      "id": "vscode",
+      "name": "VS Code",
+      "category": "core",
+      "what": "The editor you will live in. Solidity syntax highlighting, Foundry test runs, and the Aderyn and Certora extensions all plug into it.",
+      "why": "You read more code than you write as an auditor. You need fast search across a cloned repo and a terminal one keystroke away.",
+      "official": "https://code.visualstudio.com/download",
+      "lessons": ["evm-fundamentals", "solidity-mastery", "foundry-mastery"],
+      "install": {
+        "windows": {
+          "steps": [
+            "PowerShell: winget install Microsoft.VisualStudioCode",
+            "Open VS Code, press Ctrl+Shift+X, install the extensions: Solidity, Solidity Visual Developer, GitLens",
+            "Press Ctrl+` to open the integrated terminal. This is where you will run forge."
+          ],
+          "verify": "code --version",
+          "expected": "1.XX.x\n<commit hash>\n<architecture>, for example x64"
+        },
+        "mac": {
+          "steps": [
+            "brew install --cask visual-studio-code",
+            "Or download the .dmg from the official link",
+            "Install the Solidity and GitLens extensions from the Extensions panel."
+          ],
+          "verify": "code --version",
+          "expected": "1.XX.x\n<commit hash>\narm64 or x64"
+        },
+        "linux": {
+          "steps": [
+            "Ubuntu/Debian: download the .deb from the official link, then sudo apt install ./code_*.deb",
+            "Or add the Microsoft apt repo as shown on https://code.visualstudio.com/docs/setup/linux",
+            "Install the Solidity and GitLens extensions."
+          ],
+          "verify": "code --version",
+          "expected": "1.XX.x\n<commit hash>\nx64"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "'code' is not recognized as a command (Windows).",
+          "fix": "In VS Code press Ctrl+Shift+P and run \"Shell Command: Install 'code' command in PATH\", then reopen the terminal. Mac has the same entry in the Command Palette."
+        },
+        {
+          "problem": "Extensions installed on Windows do not show up inside WSL.",
+          "fix": "Extensions are per-environment. Open the folder inside WSL, then click 'Install in WSL: Ubuntu' on the Solidity extension page."
+        },
+        {
+          "problem": "Solidity files have no syntax highlighting.",
+          "fix": "Install the extension named Solidity by Juan Blanco (or Solidity Visual Developer), reload the window, and make sure the .sol file is inside the folder you opened."
+        }
+      ]
+    },
+    {
+      "id": "git",
+      "name": "Git",
+      "category": "core",
+      "what": "Version control. Every CCC challenge ends with a commit you push to GitHub, and every practice repo is a git clone.",
+      "why": "Auditors prove their work with git history: the PoC test, the fix, the report. It is also the only sane way to pull updates from the practice repos.",
+      "official": "https://git-scm.com/downloads",
+      "lessons": ["foundry-mastery", "writing-audit-reports", "bug-bounty-competitive-audits"],
+      "install": {
+        "windows": {
+          "steps": [
+            "PowerShell: winget install Git.Git",
+            "Close and reopen the terminal so PATH updates, then set your identity once:",
+            "git config --global user.name \"Your Name\"",
+            "git config --global user.email \"you@example.com\""
+          ],
+          "verify": "git --version",
+          "expected": "git version 2.x.x.windows.1"
+        },
+        "mac": {
+          "steps": [
+            "xcode-select --install (installs git from Apple)",
+            "Or: brew install git",
+            "git config --global user.name \"Your Name\" and git config --global user.email \"you@example.com\""
+          ],
+          "verify": "git --version",
+          "expected": "git version 2.x.x"
+        },
+        "linux": {
+          "steps": [
+            "sudo apt update && sudo apt install -y git",
+            "git config --global user.name \"Your Name\"",
+            "git config --global user.email \"you@example.com\""
+          ],
+          "verify": "git --version",
+          "expected": "git version 2.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "push to GitHub fails with 'Authentication failed'.",
+          "fix": "Use Git Credential Manager (the Windows installer default) and sign in when it prompts, or create a Personal Access Token on GitHub > Settings > Developer settings and use it as the password."
+        },
+        {
+          "problem": "warning: LF will be replaced by CRLF the next time Git touches it.",
+          "fix": "Harmless on Windows. If it annoys you: git config --global core.autocrlf input"
+        },
+        {
+          "problem": "'git' is not recognized after installing.",
+          "fix": "Your terminal opened before the installer finished PATH changes. Close every terminal window, open a new one, confirm with git --version before anything else."
+        }
+      ]
+    },
+    {
+      "id": "node",
+      "name": "Node.js",
+      "category": "core",
+      "what": "JavaScript runtime and package manager (npm). Needed for Hardhat, the Tenderly CLI, the Aderyn npm build, and for running ChainCodeCamp locally.",
+      "why": "Half the tooling in this course ships on npm. Node 18.17+ is the floor for modern Hardhat and for this site's dev server.",
+      "official": "https://nodejs.org/",
+      "lessons": ["foundry-mastery", "static-analysis-tooling"],
+      "install": {
+        "windows": {
+          "steps": [
+            "PowerShell: winget install OpenJS.NodeJS.LTS",
+            "Reopen the terminal.",
+            "Optional: npm install -g npm@latest to update npm itself."
+          ],
+          "verify": "node -v && npm -v",
+          "expected": "v20.x.x (any 18.17+ is fine)\n10.x.x"
+        },
+        "mac": {
+          "steps": [
+            "brew install node",
+            "Or download the LTS installer from the official link",
+            "Verify both node and npm before continuing."
+          ],
+          "verify": "node -v && npm -v",
+          "expected": "v20.x.x\n10.x.x"
+        },
+        "linux": {
+          "steps": [
+            "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash",
+            "source ~/.bashrc",
+            "nvm install --lts",
+            "Never use sudo npm install -g. nvm owns your global packages."
+          ],
+          "verify": "node -v && npm -v",
+          "expected": "v20.x.x\n10.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "npm ERR! unsupported engine, or syntax errors on a fresh clone.",
+          "fix": "Your Node is too old. node -v must be 18.17 or higher. On Windows: winget install OpenJS.NodeJS.LTS, then reopen the terminal."
+        },
+        {
+          "problem": "EACCES permission denied installing a global package (Mac/Linux).",
+          "fix": "Never use sudo npm. Use nvm (Linux steps above) or brew so your user owns the global prefix."
+        },
+        {
+          "problem": "npm install hangs or times out on a slow connection.",
+          "fix": "Run npm install --prefer-offline --no-audit --no-fund. Those flags skip audit calls that stall on weak networks."
+        }
+      ]
+    },
+    {
+      "id": "wsl",
+      "name": "WSL",
+      "category": "core",
+      "what": "Windows Subsystem for Linux: a real Ubuntu shell inside Windows. It is how almost every Ethereum security tool expects to run on a PC.",
+      "why": "Slither, Echidna, Medusa, Aderyn, Foundry and every audit repo in this course are built and tested on Linux first. On Windows you use WSL and skip an entire class of install errors.",
+      "official": "https://learn.microsoft.com/windows/wsl/install",
+      "lessons": ["foundry-mastery", "static-analysis-tooling", "fuzzing-formal-verification"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Open PowerShell as Administrator and run: wsl --install",
+            "Restart the PC when asked, open 'Ubuntu' from the Start menu, create your Linux user.",
+            "Inside Ubuntu: sudo apt update && sudo apt install -y build-essential curl git",
+            "Run the rest of this setup hub inside the Ubuntu terminal, not PowerShell."
+          ],
+          "verify": "wsl -l -v",
+          "expected": "NAME      STATE           VERSION\nUbuntu    Running         2"
+        },
+        "mac": {
+          "steps": [
+            "Not needed on Mac. Mark it installed with the reason 'not applicable on this OS'."
+          ],
+          "verify": "uname -s",
+          "expected": "Darwin"
+        },
+        "linux": {
+          "steps": [
+            "Not needed on Linux. Mark it installed with the reason 'not applicable on this OS'."
+          ],
+          "verify": "uname -s",
+          "expected": "Linux"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "'wsl --install' says the virtual machine platform is not enabled.",
+          "fix": "Control Panel > Turn Windows features on or off > check 'Virtual Machine Platform' and 'Windows Subsystem for Linux', reboot, then run wsl --install again."
+        },
+        {
+          "problem": "WSL 1 got installed instead of WSL 2.",
+          "fix": "Run wsl --set-default-version 2 and wsl --update. For an existing distro: wsl --set-version Ubuntu 2"
+        },
+        {
+          "problem": "The Ubuntu window closes immediately on first launch.",
+          "fix": "Run wsl --update in PowerShell, then relaunch Ubuntu. If it still dies, wsl --unregister Ubuntu then wsl --install -d Ubuntu (this wipes that distro, only safe on a fresh install)."
+        }
+      ]
+    },
+    {
+      "id": "foundry",
+      "name": "Foundry",
+      "category": "core",
+      "what": "The Ethereum development toolkit written in Rust: forge (build and test), cast (talk to chains from the terminal), anvil (a local chain), chisel (a Solidity REPL).",
+      "why": "Every CCC lesson runs forge. You compile, fuzz, invariant-test and deploy with it, and you write your exploit proofs as forge tests.",
+      "official": "https://getfoundry.sh/",
+      "lessons": ["foundry-mastery", "vulnerability-classes", "defi-attack-vectors", "fuzzing-formal-verification", "writing-audit-reports"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL (Ubuntu): curl -L https://getfoundry.sh/install | bash && foundryup",
+            "Close and reopen the Ubuntu terminal.",
+            "PowerShell also works (Invoke-RestMethod https://getfoundry.paradigm.xyz | Invoke-Expression) but WSL is what this course uses.",
+            "In any project: forge install foundry-rs/forge-std"
+          ],
+          "verify": "forge --version",
+          "expected": "forge Version: 0.2.x\ncommit: ...\nbuild timestamp: ..."
+        },
+        "mac": {
+          "steps": [
+            "curl -L https://getfoundry.sh/install | bash && foundryup",
+            "Reopen the terminal.",
+            "Apple Silicon runs the arm64 binary natively, nothing extra to do."
+          ],
+          "verify": "forge --version",
+          "expected": "forge Version: 0.2.x\ncommit: ...\nbuild timestamp: ..."
+        },
+        "linux": {
+          "steps": [
+            "curl -L https://getfoundry.sh/install | bash && foundryup",
+            "Reopen the terminal, then confirm all four binaries:",
+            "forge --version && cast --version && anvil --version && chisel --version"
+          ],
+          "verify": "forge --version",
+          "expected": "forge Version: 0.2.x\ncommit: ...\nbuild timestamp: ..."
+        }
+      },
+      "stuck": [
+        {
+          "problem": "foundryup: command not found after install.",
+          "fix": "The installer appended to your shell profile. Run source ~/.bashrc (or open a new terminal) then foundryup again. On Windows do it inside WSL, not PowerShell."
+        },
+        {
+          "problem": "forge build fails with 'does not exist: lib/forge-std'.",
+          "fix": "Dependencies are not installed: run forge install foundry-rs/forge-std in the project root, or git submodule update --init --recursive on a cloned audit repo."
+        },
+        {
+          "problem": "forge test hangs downloading solc, or fails with no internet.",
+          "fix": "Foundry downloads each solc version on first use. Run it once with connectivity or pre-install with svm install <version>. Check the pinned solc version in foundry.toml first."
+        }
+      ]
+    },
+    {
+      "id": "python",
+      "name": "Python",
+      "category": "core",
+      "what": "Python 3.10+. Several analyzers (Slither, Halmos, the Certora CLI) are Python programs, and pip is how they get installed.",
+      "why": "You need a working python3 before any analysis tool will install. On Windows, install it inside WSL and leave PowerShell alone.",
+      "official": "https://www.python.org/downloads/",
+      "lessons": ["static-analysis-tooling", "fuzzing-formal-verification"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL (Ubuntu): sudo apt update && sudo apt install -y python3 python3-pip python3-venv",
+            "Native alternative: winget install Python.Python.3.12 (check 'Add python.exe to PATH').",
+            "The course assumes python3 inside WSL."
+          ],
+          "verify": "python3 --version",
+          "expected": "Python 3.10.x or newer"
+        },
+        "mac": {
+          "steps": [
+            "brew install python",
+            "Or download the installer from the official link.",
+            "macOS ships python3 already; brew guarantees a current version."
+          ],
+          "verify": "python3 --version",
+          "expected": "Python 3.11.x or newer"
+        },
+        "linux": {
+          "steps": [
+            "sudo apt update && sudo apt install -y python3 python3-pip python3-venv",
+            "Ubuntu 22.04 ships 3.10, the minimum for every tool here."
+          ],
+          "verify": "python3 --version",
+          "expected": "Python 3.10.x or newer"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "On Windows, 'python' opens the Microsoft Store instead of a shell.",
+          "fix": "Settings > Apps > Advanced app settings > App execution aliases, turn off both python.exe aliases, then reinstall with winget or just use python3 inside WSL."
+        },
+        {
+          "problem": "error: externally-managed-environment when you pip install.",
+          "fix": "Modern Linux blocks system-wide pip. Use pipx for tools (next card) or a venv: python3 -m venv .venv && source .venv/bin/activate"
+        },
+        {
+          "problem": "python3 --version prints 3.6 or 3.8 on an old distro.",
+          "fix": "Tools need 3.10+. On Ubuntu use the deadsnakes PPA: sudo add-apt-repository ppa:deadsnakes/ppa && sudo apt update && sudo apt install python3.12, or upgrade the distro."
+        }
+      ]
+    },
+    {
+      "id": "pipx",
+      "name": "pipx",
+      "category": "core",
+      "what": "Installs Python command line tools into their own isolated environment so they never fight with your system Python.",
+      "why": "It is the clean way to get Slither, Halmos and the Certora CLI without breaking anything else on the machine.",
+      "official": "https://pipx.pypa.io/",
+      "lessons": ["static-analysis-tooling", "fuzzing-formal-verification", "writing-audit-reports"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL (Ubuntu): sudo apt install -y pipx && pipx ensurepath",
+            "Reopen the terminal so PATH updates.",
+            "Native alternative: python -m pip install --user pipx && python -m pipx ensurepath"
+          ],
+          "verify": "pipx --version",
+          "expected": "1.x.x"
+        },
+        "mac": {
+          "steps": [
+            "brew install pipx",
+            "pipx ensurepath",
+            "Reopen the terminal."
+          ],
+          "verify": "pipx --version",
+          "expected": "1.x.x"
+        },
+        "linux": {
+          "steps": [
+            "sudo apt install -y pipx && pipx ensurepath",
+            "Or: python3 -m pip install --user pipx && python3 -m pipx ensurepath",
+            "Reopen the terminal so ~/.local/bin lands on PATH."
+          ],
+          "verify": "pipx --version",
+          "expected": "1.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "pipx: command not found after install.",
+          "fix": "Run pipx ensurepath, then open a new terminal (or source ~/.bashrc). On Ubuntu, ~/.local/bin must be on PATH."
+        },
+        {
+          "problem": "pipx says a package is installed but its command is missing.",
+          "fix": "pipx reinstall-all, then pipx list to see which binaries exist."
+        },
+        {
+          "problem": "apt says pipx has no installation candidate.",
+          "fix": "Old Ubuntu. Fall back to: python3 -m pip install --user pipx && python3 -m pipx ensurepath"
+        }
+      ]
+    },
+    {
+      "id": "slither",
+      "name": "Slither",
+      "category": "analysis",
+      "what": "Trail of Bits' static analyzer for Solidity. It reads the compiler's AST and flags reentrancy, unchecked calls, shadowing, bad comparisons and dozens of other issue classes.",
+      "why": "It is the first pass on every audit: run it in minute one, triage the output, then read the code the report points at.",
+      "official": "https://github.com/crytic/slither",
+      "lessons": ["static-analysis-tooling", "vulnerability-classes", "writing-audit-reports"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL with python3 and pipx ready: pipx install slither-analyzer",
+            "Foundry must be installed too, Slither shells out to forge build.",
+            "cd into a Foundry project before running it."
+          ],
+          "verify": "slither --version",
+          "expected": "slither version 0.10.x"
+        },
+        "mac": {
+          "steps": [
+            "pipx install slither-analyzer",
+            "First run downloads the pinned solc for the project, so stay online once.",
+            "brew install git is a prerequisite for repo-wide analysis."
+          ],
+          "verify": "slither --version",
+          "expected": "slither version 0.10.x"
+        },
+        "linux": {
+          "steps": [
+            "pipx install slither-analyzer",
+            "cd into a Foundry project, then run: slither .",
+            "First run downloads the pinned solc for that project."
+          ],
+          "verify": "slither --version",
+          "expected": "slither version 0.10.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "solc errors, or 'No solc version set'.",
+          "fix": "Run inside a project that pins solc (foundry.toml or hardhat config). For bare files: pipx install solc-select && solc-select install 0.8.20 && solc-select use 0.8.20, then slither . --solc solc-0.8.20"
+        },
+        {
+          "problem": "Slither cannot find forge or hardhat in the project.",
+          "fix": "Slither uses the framework build. Run forge build first in a Foundry repo (npm install for Hardhat) and always run Slither from the project root."
+        },
+        {
+          "problem": "On Windows native, crytic-compile fails with Python or path errors.",
+          "fix": "Use WSL. Everything in this course runs from the Ubuntu shell where paths and line endings behave."
+        }
+      ]
+    },
+    {
+      "id": "aderyn",
+      "name": "Aderyn",
+      "category": "analysis",
+      "what": "Cyfrin's Rust-based static analyzer. It is faster than Slither on big repos, needs no solc environment, and writes a Markdown report you can paste into an audit submission.",
+      "why": "Second opinion. Slither and Aderyn find different things, and running both is standard on competitive audits.",
+      "official": "https://github.com/Cyfrin/aderyn",
+      "lessons": ["static-analysis-tooling", "writing-audit-reports"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL: curl -L https://raw.githubusercontent.com/Cyfrin/up/main/install | bash, then run: cyfrinup",
+            "Alternative without cyfrinup: npm install @cyfrin/aderyn -g",
+            "Windows users must have WSL installed first."
+          ],
+          "verify": "aderyn --version",
+          "expected": "aderyn 0.x.x"
+        },
+        "mac": {
+          "steps": [
+            "brew install cyfrin/tap/aderyn",
+            "Or: curl --proto '=https' --tlsv1.2 -LsSf https://github.com/cyfrin/aderyn/releases/latest/download/aderyn-installer.sh | bash",
+            "Upgrade later by re-running the installer or cyfrinup."
+          ],
+          "verify": "aderyn --version",
+          "expected": "aderyn 0.x.x"
+        },
+        "linux": {
+          "steps": [
+            "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/cyfrin/aderyn/releases/latest/download/aderyn-installer.sh | bash",
+            "Or install cyfrinup and run cyfrinup.",
+            "Or: npm install @cyfrin/aderyn -g"
+          ],
+          "verify": "aderyn --version",
+          "expected": "aderyn 0.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "Old aderyn version keeps reporting the same stale findings.",
+          "fix": "If you installed via the curl installer, run aderyn-update. Via cyfrinup, re-run cyfrinup. Via npm, npm install @cyfrin/aderyn -g again."
+        },
+        {
+          "problem": "A very old aderyn sits in ~/.cyfrin/bin and shadows the new one.",
+          "fix": "Remove it: rm -f ~/.cyfrin/bin/aderyn, then which aderyn to confirm the path points at the npm or brew install."
+        },
+        {
+          "problem": "aderyn: command not found on Windows PowerShell.",
+          "fix": "Aderyn expects WSL on Windows. Run it from the Ubuntu shell, not PowerShell."
+        }
+      ]
+    },
+    {
+      "id": "echidna",
+      "name": "Echidna",
+      "category": "fuzzing",
+      "what": "Crytic's Haskell property fuzzer. It generates thousands of random call sequences against your contract and looks for the one that breaks your assertion.",
+      "why": "Unit tests prove one path. Echidna proves the property holds across every path you did not think of.",
+      "official": "https://github.com/crytic/echidna",
+      "lessons": ["fuzzing-formal-verification", "static-analysis-tooling"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL (Ubuntu), download the latest Linux binary from the GitHub releases page, then: chmod +x echidna && sudo mv echidna /usr/local/bin/",
+            "Alternative: docker run -v $PWD:/workdir ghcr.io/crytic/echidna/echidna:latest (needs Docker Desktop with WSL backend)",
+            "There is no native Windows build, WSL is the supported path."
+          ],
+          "verify": "echidna --version",
+          "expected": "echidna 2.2.x"
+        },
+        "mac": {
+          "steps": [
+            "brew install echidna",
+            "Or download the macOS binary from the GitHub releases page.",
+            "On Apple Silicon, check the release notes for a native arm64 build before using the binary."
+          ],
+          "verify": "echidna --version",
+          "expected": "echidna 2.2.x"
+        },
+        "linux": {
+          "steps": [
+            "Download the Linux binary from the GitHub releases page, then chmod +x echidna and move it onto PATH.",
+            "Or: docker run -v $PWD:/workdir ghcr.io/crytic/echidna/echidna:latest",
+            "Or build from source with stack (Haskell toolchain required)."
+          ],
+          "verify": "echidna --version",
+          "expected": "echidna 2.2.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "echidna: command not found after downloading the binary.",
+          "fix": "You skipped chmod and PATH: chmod +x echidna && sudo mv echidna /usr/local/bin/. Confirm with which echidna."
+        },
+        {
+          "problem": "'Permission denied' when running the binary.",
+          "fix": "The executable bit was lost in transfer (common after downloading on Windows then copying to WSL). Re-run chmod +x, and make sure the binary is the Linux build."
+        },
+        {
+          "problem": "Fuzzer runs but never finds your bug.",
+          "fix": "Check your contract actually deploys in the fuzzer (compile errors print first), give it a high enough gas and depth budget in echidna.yaml, and seed state in the test contract. Long reentrancy chains need depth, not luck."
+        }
+      ]
+    },
+    {
+      "id": "medusa",
+      "name": "Medusa",
+      "category": "fuzzing",
+      "what": "Crytic's newer fuzzer, written on top of go-ethereum. Parallel workers, coverage-guided mutation, and a corpus that keeps any call sequence that reaches new code.",
+      "why": "Same job as Echidna, different search strategy. When a property survives one fuzzer, running the second is cheap insurance.",
+      "official": "https://github.com/crytic/medusa",
+      "lessons": ["fuzzing-formal-verification"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL: install Go first (sudo apt install -y golang-go), then: go install github.com/crytic/medusa@latest",
+            "Binaries for Windows and Linux are also published on the releases page.",
+            "Make sure $(go env GOPATH)/bin is on PATH."
+          ],
+          "verify": "medusa --version",
+          "expected": "medusa version 0.x.x"
+        },
+        "mac": {
+          "steps": [
+            "brew install go, then: go install github.com/crytic/medusa@latest",
+            "Or download the macOS binary from the releases page.",
+            "export PATH=\"$PATH:$(go env GOPATH)/bin\" if medusa is not found."
+          ],
+          "verify": "medusa --version",
+          "expected": "medusa version 0.x.x"
+        },
+        "linux": {
+          "steps": [
+            "sudo apt install -y golang-go (any recent Go works)",
+            "go install github.com/crytic/medusa@latest",
+            "export PATH=\"$PATH:$(go env GOPATH)/bin\""
+          ],
+          "verify": "medusa --version",
+          "expected": "medusa version 0.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "medusa: command not found after go install.",
+          "fix": "GOPATH/bin is not on PATH. Run export PATH=\"$PATH:$(go env GOPATH)/bin\" (add it to ~/.bashrc) and confirm with which medusa."
+        },
+        {
+          "problem": "go install fails with 'go: module not found' or proxy timeouts.",
+          "fix": "Check connectivity and proxy: GOPROXY=https://proxy.golang.org,direct go install github.com/crytic/medusa@latest, or grab the release binary instead."
+        },
+        {
+          "problem": "Medusa cannot compile the project.",
+          "fix": "It reuses your Foundry build. Run forge build in the repo first, and run medusa from the project root where foundry.toml lives."
+        }
+      ]
+    },
+    {
+      "id": "halmos",
+      "name": "Halmos",
+      "category": "fuzzing",
+      "what": "Symbolic testing for Solidity by a16z. Instead of random inputs it asks a solver to find an input that falsifies your assertion, so it checks all inputs at once for bounded code.",
+      "why": "Fuzzing samples. Halmos proves for the paths it can bound, and it runs on your existing Foundry test names without new syntax.",
+      "official": "https://github.com/a16z/halmos",
+      "lessons": ["fuzzing-formal-verification"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL: curl -LsSf https://astral.sh/uv/install.sh | sh, then: uv tool install --python 3.12 halmos",
+            "Docker alternative: docker pull ghcr.io/a16z/halmos:latest (includes Python, solvers and Foundry)",
+            "pip path (advanced): python3.12 -m venv .venv && source .venv/bin/activate && pip install halmos"
+          ],
+          "verify": "halmos --version",
+          "expected": "halmos 0.x.x"
+        },
+        "mac": {
+          "steps": [
+            "curl -LsSf https://astral.sh/uv/install.sh | sh",
+            "uv tool install --python 3.12 halmos",
+            "Update later with: uv tool upgrade halmos"
+          ],
+          "verify": "halmos --version",
+          "expected": "halmos 0.x.x"
+        },
+        "linux": {
+          "steps": [
+            "curl -LsSf https://astral.sh/uv/install.sh | sh",
+            "uv tool install --python 3.12 halmos",
+            "Or: docker pull ghcr.io/a16z/halmos:latest"
+          ],
+          "verify": "halmos --version",
+          "expected": "halmos 0.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "halmos: command not found after uv tool install.",
+          "fix": "uv puts tools in ~/.local/bin. Run the PATH line the installer printed (or source ~/.bashrc), open a new terminal, and confirm with which halmos."
+        },
+        {
+          "problem": "pip install halmos refuses (externally-managed-environment) or picks the wrong Python.",
+          "fix": "uv handles the Python version for you (that is why it is recommended). If you insist on pip, use a python3.12 venv first."
+        },
+        {
+          "problem": "Halmos times out or returns unknown on a function.",
+          "fix": "Symbolic execution explodes with unbounded loops and dynamic arrays. Bound the loop (add --loop), narrow the assertion, or use fuzzing for that part instead."
+        }
+      ]
+    },
+    {
+      "id": "certora",
+      "name": "Certora",
+      "category": "fuzzing",
+      "what": "Commercial formal verification. You write rules in CVL (Certora Verification Language) and the Prover checks them against every possible state, not sampled ones.",
+      "why": "Intro level: you will read and run one example to know what a machine-checked proof looks like and when a property deserves one. Teams like Aave and MakerDAO use it on core invariants.",
+      "official": "https://www.certora.com/",
+      "lessons": ["fuzzing-formal-verification"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL: python3 -m pip install certora-cli (or pipx install certora-cli)",
+            "Prerequisites: Python 3.9+ and JDK 21+ (sudo apt install -y openjdk-21-jdk)",
+            "Register on certora.com for a free personal access key, then export CERTORAKEY=<your key>"
+          ],
+          "verify": "certoraRun --help",
+          "expected": "usage: certoraRun ... (prints the CLI usage block)"
+        },
+        "mac": {
+          "steps": [
+            "python3 -m pip install certora-cli (or pipx install certora-cli)",
+            "Prerequisites: Python 3.9+ and JDK 21+ (brew install openjdk@21)",
+            "export CERTORAKEY=<your key> after registering on certora.com"
+          ],
+          "verify": "certoraRun --help",
+          "expected": "usage: certoraRun ... (prints the CLI usage block)"
+        },
+        "linux": {
+          "steps": [
+            "python3 -m pip install certora-cli (or pipx install certora-cli)",
+            "Prerequisites: Python 3.9+ and JDK 21+ (sudo apt install -y openjdk-21-jdk)",
+            "export CERTORAKEY=<your key> after registering on certora.com"
+          ],
+          "verify": "certoraRun --help",
+          "expected": "usage: certoraRun ... (prints the CLI usage block)"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "certoraRun: command not found.",
+          "fix": "pip installed it outside PATH. Add the path pip printed (Linux: ~/.local/bin) to PATH in ~/.profile, or install with pipx and run pipx ensurepath."
+        },
+        {
+          "problem": "'CERTORAKEY is not set' or authentication failed.",
+          "fix": "Create the key on the Certora site after registering, then export CERTORAKEY=<key> in the shell (put it in ~/.bashrc to keep it). Never commit the key to git."
+        },
+        {
+          "problem": "Java version errors.",
+          "fix": "The Prover needs JDK 21+. Check java --version; install with sudo apt install -y openjdk-21-jdk (Linux) or brew install openjdk@21 (Mac)."
+        }
+      ]
+    },
+    {
+      "id": "tenderly",
+      "name": "Tenderly",
+      "category": "platform",
+      "what": "A transaction debugger and simulation platform. Paste a hash and see every execution step, storage change and revert reason, then fork mainnet state and try your exploit before it costs real money.",
+      "why": "When your PoC passes on anvil but you need to explain a real mainnet hack or debug a failing fork test, Tenderly is the microscope.",
+      "official": "https://tenderly.co/",
+      "lessons": ["vulnerability-classes", "defi-attack-vectors", "writing-audit-reports"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Web app first: create an account at tenderly.co, no install needed for debugging.",
+            "CLI (inside WSL): npm install -g @tenderly/tenderly-cli",
+            "Sign in: tenderly login"
+          ],
+          "verify": "tenderly --version",
+          "expected": "tenderly-cli 1.x.x"
+        },
+        "mac": {
+          "steps": [
+            "Create an account at tenderly.co for the web debugger.",
+            "CLI: npm install -g @tenderly/tenderly-cli",
+            "tenderly login"
+          ],
+          "verify": "tenderly --version",
+          "expected": "tenderly-cli 1.x.x"
+        },
+        "linux": {
+          "steps": [
+            "Create an account at tenderly.co for the web debugger.",
+            "CLI: npm install -g @tenderly/tenderly-cli",
+            "tenderly login"
+          ],
+          "verify": "tenderly --version",
+          "expected": "tenderly-cli 1.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "tenderly: command not found after npm install -g.",
+          "fix": "Your npm global bin folder is not on PATH. npm config get prefix shows it; add its bin folder to PATH, reopen the terminal, never use sudo npm."
+        },
+        {
+          "problem": "Login opens a browser you cannot reach (headless server or WSL).",
+          "fix": "tenderly login prints a URL: open it on your phone or host machine, then paste the code back into the terminal."
+        },
+        {
+          "problem": "Simulation says the project or access token is missing.",
+          "fix": "Run tenderly login again, or set TENDERLY_ACCESS_KEY from your Tenderly account settings and export it in the shell."
+        }
+      ]
+    },
+    {
+      "id": "etherscan",
+      "name": "Etherscan",
+      "category": "platform",
+      "what": "The Ethereum block explorer. Source-verified contract code, transaction traces, internal calls, token transfers and event logs for every mainnet contract.",
+      "why": "Recon starts here: read the deployed source of the protocol you are auditing, check who called the admin function, and pull the exact transaction of a historic hack.",
+      "official": "https://etherscan.io/",
+      "lessons": ["evm-fundamentals", "vulnerability-classes", "defi-attack-vectors"],
+      "install": {
+        "windows": {
+          "steps": [
+            "No install: bookmark https://etherscan.io/",
+            "For scripts: create a free account, open https://etherscan.io/myapikey, copy an API key.",
+            "Store the key in an environment variable, never in git."
+          ],
+          "verify": "start https://etherscan.io/myapikey",
+          "expected": "Your API key list page loads (empty until you create one)"
+        },
+        "mac": {
+          "steps": [
+            "No install: bookmark https://etherscan.io/",
+            "For scripts: create a free account and copy an API key from the MyAPIKey page.",
+            "Store the key in an environment variable, never in git."
+          ],
+          "verify": "open https://etherscan.io/myapikey",
+          "expected": "Your API key list page loads"
+        },
+        "linux": {
+          "steps": [
+            "No install: bookmark https://etherscan.io/",
+            "For scripts: create a free account and copy an API key from the MyAPIKey page.",
+            "Store the key in an environment variable, never in git."
+          ],
+          "verify": "xdg-open https://etherscan.io/myapikey",
+          "expected": "Your API key list page loads"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "'This contract is not verified' on the address you are auditing.",
+          "fix": "Check the explorer for that chain (basescan.org, arbiscan.com, polygonscan.com), find the verified proxy implementation under the Contract tab, or ask the team for the commit hash."
+        },
+        {
+          "problem": "API returns 'Missing/Invalid API Key' or rate limit errors.",
+          "fix": "Free tier allows 5 requests per second. Pass the key as &apikey=, keep it out of git, and sleep between loop requests."
+        },
+        {
+          "problem": "The transaction you need is not on mainnet.",
+          "fix": "Switch to the right explorer for that chain, or use etherscan.io/tx/<hash> only for Ethereum mainnet hashes."
+        }
+      ]
+    },
+    {
+      "id": "remix",
+      "name": "Remix",
+      "category": "platform",
+      "what": "The browser Solidity IDE at remix.ethereum.org. Compiler, deploy buttons, a storage inspector and plugins, all in a tab.",
+      "why": "Fastest way to demo a bug: paste a contract, deploy to the Remix VM, click, watch the exploit happen, no toolchain needed.",
+      "official": "https://remix.ethereum.org/",
+      "lessons": ["evm-fundamentals", "solidity-mastery", "vulnerability-classes"],
+      "install": {
+        "windows": {
+          "steps": [
+            "No install: open https://remix.ethereum.org/ in your browser.",
+            "Optional: install MetaMask and connect it to a testnet for real transactions.",
+            "Optional local bridge for big repos: npm install -g @remix-project/remixd"
+          ],
+          "verify": "start https://remix.ethereum.org/",
+          "expected": "The Remix IDE loads with the file explorer on the left"
+        },
+        "mac": {
+          "steps": [
+            "No install: open https://remix.ethereum.org/ in your browser.",
+            "Optional: install MetaMask and connect it to a testnet.",
+            "Optional local bridge: npm install -g @remix-project/remixd"
+          ],
+          "verify": "open https://remix.ethereum.org/",
+          "expected": "The Remix IDE loads with the file explorer on the left"
+        },
+        "linux": {
+          "steps": [
+            "No install: open https://remix.ethereum.org/ in your browser.",
+            "Optional: install MetaMask and connect it to a testnet.",
+            "Optional local bridge: npm install -g @remix-project/remixd"
+          ],
+          "verify": "xdg-open https://remix.ethereum.org/",
+          "expected": "The Remix IDE loads with the file explorer on the left"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "Files you edited locally do not appear in Remix.",
+          "fix": "Remix stores files in browser storage. Run remixd in the project root and connect it from the RemixDEPLOY (File Providers) plugin to bridge the local folder."
+        },
+        {
+          "problem": "Compiler fails to load a solc version.",
+          "fix": "In the Solidity compiler panel pick the version from the dropdown. If the download stalls on a blocked network, fall back to the local toolchain (forge build)."
+        },
+        {
+          "problem": "Injected provider (MetaMask) does not connect.",
+          "fix": "MetaMask must be unlocked and on the network Remix expects. Start with the Remix VM or a testnet, never with your main wallet on mainnet."
+        }
+      ]
+    },
+    {
+      "id": "hardhat",
+      "name": "Hardhat",
+      "category": "core",
+      "what": "The JavaScript smart contract development environment: compile, test in TypeScript, deploy scripts, and a mainnet forking debugger.",
+      "why": "Many real audit targets are Hardhat repos, not Foundry repos. You need both so no codebase is closed to you.",
+      "official": "https://hardhat.org/",
+      "lessons": ["foundry-mastery", "static-analysis-tooling"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Inside WSL, in an empty folder: npm init -y",
+            "npm install --save-dev hardhat",
+            "npx hardhat init and pick the sample project"
+          ],
+          "verify": "npx hardhat --version",
+          "expected": "2.x.x (Hardhat version for this environment)"
+        },
+        "mac": {
+          "steps": [
+            "In an empty folder: npm init -y",
+            "npm install --save-dev hardhat",
+            "npx hardhat init and pick the sample project"
+          ],
+          "verify": "npx hardhat --version",
+          "expected": "2.x.x"
+        },
+        "linux": {
+          "steps": [
+            "In an empty folder: npm init -y",
+            "npm install --save-dev hardhat",
+            "npx hardhat init and pick the sample project"
+          ],
+          "verify": "npx hardhat --version",
+          "expected": "2.x.x"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "npx hardhat init fails or prints engine errors.",
+          "fix": "Node is too old: node -v must be 18.17+. Reinstall the LTS (see the Node card) and delete node_modules plus package-lock.json before retrying."
+        },
+        {
+          "problem": "Tests pass locally but fail with 'Invalid account' or nonce errors.",
+          "fix": "Your hardhat.config network accounts or RPC URL is wrong. Never commit private keys; use a .env file that is git-ignored, or anvil for local work."
+        },
+        {
+          "problem": "Forking mainnet hangs or times out.",
+          "fix": "Free RPC endpoints are rate limited. Use a dedicated provider key (Alchemy, Infura, or a public archive endpoint) in hardhat.config networks."
+        }
+      ]
+    },
+    {
+      "id": "metamask",
+      "name": "MetaMask",
+      "category": "platform",
+      "what": "The browser wallet. It holds keys, signs transactions, and exposes an injected provider that web3 apps (Remix, Tenderly, testnet faucets) talk to.",
+      "why": "You need a wallet to deploy to a testnet, claim faucet ETH, and watch a transaction land on chain. Use a throwaway account for learning, never your funds wallet.",
+      "official": "https://metamask.io/download/",
+      "lessons": ["evm-fundamentals", "foundry-mastery"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Install the browser extension for Chrome, Firefox, Brave or Edge from the official download page (verify the domain, wallet drainers clone this page).",
+            "Create a wallet, write the seed phrase on paper, and never paste it into any website.",
+            "Add a testnet: the wallet's network picker has Sepolia built in."
+          ],
+          "verify": "check the extension icon shows your account and the network bar says Sepolia",
+          "expected": "A 0x address is visible and the network reads Sepolia"
+        },
+        "mac": {
+          "steps": [
+            "Install the browser extension from the official download page.",
+            "Create a wallet, write the seed phrase on paper, never paste it into any website.",
+            "Switch the network bar to Sepolia for testnet work."
+          ],
+          "verify": "check the extension icon shows your account and the network bar says Sepolia",
+          "expected": "A 0x address is visible and the network reads Sepolia"
+        },
+        "linux": {
+          "steps": [
+            "Install the browser extension from the official download page.",
+            "Create a wallet, write the seed phrase on paper, never paste it into any website.",
+            "Switch the network bar to Sepolia for testnet work."
+          ],
+          "verify": "check the extension icon shows your account and the network bar says Sepolia",
+          "expected": "A 0x address is visible and the network reads Sepolia"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "'MetaMask provider is not connected' inside Remix.",
+          "fix": "Unlock MetaMask, approve the site connection when prompted, and make sure the selected network matches what the page expects (start on Sepolia or the Remix VM)."
+        },
+        {
+          "problem": "Transactions fail with 'insufficient funds for gas'.",
+          "fix": "Testnet ETH is free. Use a Sepolia faucet (the network picker links one) and wait for it to arrive. Mainnet ETH costs real money, do not practice there."
+        },
+        {
+          "problem": "Wrong account or wrong network keeps being used.",
+          "fix": "Click the account icon to switch accounts and the network bar to switch networks. Both selections are per-site, so check them whenever a dapp misbehaves."
+        }
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "core",
+      "what": "Where your work is proven. CCC pushes practice repos, PoC tests, audit reports and the final portfolio here.",
+      "why": "Competitive audit platforms and employers judge you by the repo. A green commit history of PoCs beats any certificate.",
+      "official": "https://github.com/",
+      "lessons": ["writing-audit-reports", "bug-bounty-competitive-audits"],
+      "install": {
+        "windows": {
+          "steps": [
+            "Create an account at https://github.com/",
+            "Install the CLI (optional but used by the push check): winget install GitHub.cli",
+            "gh auth login and follow the browser flow.",
+            "git is required first, see the Git card."
+          ],
+          "verify": "gh auth status",
+          "expected": "Logged in to github.com account <your handle>"
+        },
+        "mac": {
+          "steps": [
+            "Create an account at https://github.com/",
+            "CLI (optional): brew install gh",
+            "gh auth login and follow the browser flow."
+          ],
+          "verify": "gh auth status",
+          "expected": "Logged in to github.com account <your handle>"
+        },
+        "linux": {
+          "steps": [
+            "Create an account at https://github.com/",
+            "CLI (optional): sudo apt install -y gh (or the official apt repo for older distros)",
+            "gh auth login and follow the browser flow."
+          ],
+          "verify": "gh auth status",
+          "expected": "Logged in to github.com account <your handle>"
+        }
+      },
+      "stuck": [
+        {
+          "problem": "git push asks for a username and password and then rejects it.",
+          "fix": "GitHub no longer accepts account passwords. Use Git Credential Manager's sign-in window, or generate a Personal Access Token (Settings > Developer settings > Tokens) and use it as the password."
+        },
+        {
+          "problem": "gh auth login fails with 'gh: command not found'.",
+          "fix": "The CLI is optional. Install it (winget/brew/apt as above), reopen the terminal, and confirm with gh --version."
+        },
+        {
+          "problem": "Push rejected: non-fast-forward / remote contains work you do not have.",
+          "fix": "Someone (often your other machine) pushed first. Run git pull --rebase origin main, resolve any conflicts, then push again. Never force push to a shared branch."
+        }
+      ]
+    }
+  ]
+}

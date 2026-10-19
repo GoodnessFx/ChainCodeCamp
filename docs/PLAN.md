@@ -15,13 +15,13 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Run `save.sh`
 
 ## P1 Tool registry + Setup Hub + quick-install popups
-- [ ] Create `app/content/tools/registry.json`: one entry per tool (VS Code, Git, Node, WSL, Foundry, Python+pipx, Slither, Aderyn, Echidna, Medusa, Halmos, Certora, Tenderly, Etherscan, Remix, Hardhat, MetaMask, GitHub): name, what it is, why you need it, official link, install commands per OS (Windows+WSL, Mac, Linux), verify command, expected output, common errors + fixes, lessons that use it
-- [ ] `app/lib/tools.ts`: typed loader for the registry (server side, build time import)
-- [ ] Setup Hub page `app/app/setup/page.tsx`: step-by-step install wizard, tick-off progress saved locally (and to the account once auth lands in P4), "Stuck?" panel with the 3 most common problems per tool
-- [ ] Quick-install component: a tool named in a lesson renders as a tooltip with a "How to install" drawer (MDX component)
-- [ ] Setup score surfaced (Setup Hub + shell until the dashboard exists in P3)
-- [ ] Sidebar and home nav links to the Setup Hub
-- [ ] Run build, fix errors, update CONTINUE.md, save
+- [x] Create `app/content/tools/registry.json`: one entry per tool (VS Code, Git, Node, WSL, Foundry, Python, pipx, Slither, Aderyn, Echidna, Medusa, Halmos, Certora, Tenderly, Etherscan, Remix, Hardhat, MetaMask, GitHub = 19 tools): name, what it is, why you need it, official link, install commands per OS (Windows+WSL, Mac, Linux), verify command, expected output, common errors + fixes, lessons that use it
+- [x] `app/lib/tools.ts`: typed loader for the registry (server side, build time import)
+- [x] Setup Hub page `app/app/setup/page.tsx`: step-by-step install wizard, OS picker, tick-off progress saved locally (and to the account once auth lands in P4), "Stuck?" panel with the 3 most common problems per tool
+- [x] Quick-install component: a tool mentioned in a lesson auto-renders as a tooltip with a "How to install" drawer (`app/components/tools/ToolTag.tsx` + `app/lib/linkTools.tsx` linked into `LessonContent.tsx` paragraphs and list items; `<Tool id="..." />` also available in MDX)
+- [x] Setup score surfaced (Setup Hub header + sidebar bar; dashboard gets it in P3)
+- [x] Sidebar and home nav links to the Setup Hub
+- [x] Run build, fix errors, update CONTINUE.md, save (build 18/18 pages, smoke tested /setup, / and a lesson page)
 
 ## P2 Unified lesson renderer (MDX, Excalidraw, Do-it panel, quiz)
 - [ ] Extend the MDX component map: Goal line, Excalidraw diagram (lazy), Do-it panel (numbered steps, per-OS commands, expected output), See-it-break, Spot-it, Fix, quiz (3-5 questions, graded client side), mini challenge, "Watch the video version" Updraft link, real-world case callout

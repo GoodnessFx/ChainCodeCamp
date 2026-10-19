@@ -1,6 +1,8 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { LessonFrontmatter } from "@/types/curriculum";
 import CodeBlock from "./CodeBlock";
+import ToolTag from "@/components/tools/ToolTag";
+import { linkifyTools } from "@/lib/linkTools";
 import type { ComponentPropsWithoutRef } from "react";
 
 interface Props {
@@ -109,7 +111,7 @@ const components = {
   p({ children, ...props }: ComponentPropsWithoutRef<"p">) {
     return (
       <p className="font-body text-base leading-relaxed mb-5 text-gray-800" {...props}>
-        {children}
+        {linkifyTools(children)}
       </p>
     );
   },
@@ -124,7 +126,7 @@ const components = {
     return (
       <li className="flex items-start gap-2 font-body text-sm text-gray-700" {...props}>
         <span className="text-primary font-bold mt-0.5 flex-shrink-0">→</span>
-        <span>{children}</span>
+        <span>{linkifyTools(children)}</span>
       </li>
     );
   },
@@ -158,7 +160,18 @@ const components = {
       </a>
     );
   },
+
+  // Quick-install: <Tool id="slither" /> renders the tool with its install drawer
+  Tool: ToolTag,
 };
+
+// Tell linkifyTools to leave code and links alone (it checks cccSkip)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(components.code as any).cccSkip = true;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(components.pre as any).cccSkip = true;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(components.a as any).cccSkip = true;
 
 export default function LessonContent({ content }: Props) {
   return (

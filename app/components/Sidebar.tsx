@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CURRICULUM_SECTIONS } from "@/lib/curriculum";
 import { useProgress } from "@/lib/useProgress";
+import { getSetupScore } from "@/lib/setup";
 import {
   BookOpen,
   Shield,
@@ -49,6 +50,14 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
   const pathname = usePathname();
   const { completed, percent } = useProgress();
   const [search, setSearch] = useState("");
+  const [setupPct, setSetupPct] = useState(0);
+
+  useEffect(() => {
+    const refresh = () => setSetupPct(getSetupScore());
+    refresh();
+    window.addEventListener("ccc_setup_updated", refresh);
+    return () => window.removeEventListener("ccc_setup_updated", refresh);
+  }, []);
 
   const filter = (title: string) =>
     title.toLowerCase().includes(search.toLowerCase());
@@ -182,6 +191,26 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
               <p className="font-mono text-[10px] text-gray-400 mt-1">
                 {completed.length}/{CURRICULUM_SECTIONS.length} sections
               </p>
+              <Link
+                href="/setup"
+                className="mt-3 block no-underline group/setup"
+                title="Setup Hub"
+              >
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-gray-400 group-hover/setup:text-primary">
+                    Setup
+                  </span>
+                  <span className="font-heading font-bold text-sm text-ink group-hover/setup:text-primary">
+                    {setupPct}%
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 border border-ink">
+                  <div
+                    className="h-full bg-secondary transition-all"
+                    style={{ width: `${setupPct}%` }}
+                  />
+                </div>
+              </Link>
             </div>
           )}
 
@@ -204,6 +233,13 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
           {/* Extra links */}
           {!collapsed && !search && (
             <div className="mt-6 border-t-2 border-ink pt-4">
+              <Link
+                href="/setup"
+                className="nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 border-transparent mb-1 text-ink hover:bg-white hover:border-ink hover:shadow-hard transition-all"
+              >
+                <Wrench size={18} className="flex-shrink-0 text-primary" />
+                Setup Hub
+              </Link>
               <Link
                 href="/community"
                 className="nav-item flex items-center gap-3 px-3 py-3 font-heading font-bold text-xs uppercase tracking-wide border-2 border-transparent mb-1 text-ink hover:bg-white hover:border-ink hover:shadow-hard transition-all"
