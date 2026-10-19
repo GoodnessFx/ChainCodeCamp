@@ -11,6 +11,34 @@ objectives:
   - "Use Mythril for symbolic execution on target contracts"
   - "Integrate static analysis into a CI pipeline"
 tags: ["slither", "echidna", "mythril", "static-analysis", "ci"]
+goal: "Run Slither on a Foundry project, triage real findings, and tell which warnings are signals worth reading."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "Slither runs before or after compilation?"
+    options:
+      - "After, because it reads the compiler's AST"
+      - "Before, so it works on any solidity file"
+      - "Only on mainnet"
+      - "Only inside forge test"
+    answer: 0
+    why: "Slither shells out to forge build (or hardhat compile) first, then analyzes the compiler output. No buildable project, no results."
+  - q: "What does Slither's reentrancy flag actually mean?"
+    options:
+      - "An external call happens before all state that depends on it is updated"
+      - "The contract calls itself"
+      - "A public function sends ETH"
+      - "The test failed"
+    answer: 0
+    why: "The flag marks the pattern: external interaction before state effects. That is the Checks-Effects-Interactions violation, not proof money is stolen."
+  - q: "You run slither . and see dozens of findings. What do you do first?"
+    options:
+      - "Filter by detector name (reentrancy, unchecked-send) and confirm each with code reading"
+      - "Submit all of them to GitHub issues"
+      - "Ignore every medium"
+      - "Run slither again"
+    answer: 0
+    why: "Static analysis over-reports. Triage means mapping each flag to actual contract lines, reading the highlighted context, and writing a PoC for the real ones."
 ---
 
 ## The Tooling Stack

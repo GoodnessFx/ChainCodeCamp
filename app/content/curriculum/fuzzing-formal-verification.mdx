@@ -11,6 +11,34 @@ objectives:
   - "Understand R1CS and circuit constraints at a conceptual level"
   - "Know when fuzzing is enough vs when you need formal proof"
 tags: ["fuzzing", "formal-verification", "certora", "echidna", "smt"]
+goal: "Write properties as assertions, let Echidna find the breaking sequence, then reproduce that sequence as a failing unit test."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "What makes a property different from a test case?"
+    options:
+      - "A property states a condition that must hold for every generated call sequence"
+      - "A test case runs on mainnet"
+      - "A property uses more gas"
+      - "A test case can fail"
+    answer: 0
+    why: "A unit test covers one scenario. A property covers every scenario the fuzzer generates, so one property replaces hundreds of unit tests."
+  - q: "An Echidna campaign fails after 17 random calls. What turns it into a reproducible PoC?"
+    options:
+      - "Replay the exact call sequence Echidna printed in a new forge test"
+      - "Run more tests"
+      - "Delete the sequence"
+      - "Change the property"
+    answer: 0
+    why: "Echidna reports the call sequence that broke the invariant. A unit test that calls exactly those functions in that order will fail deterministically."
+  - q: "Stateful fuzzing vs stateless fuzzing: what is the key difference?"
+    options:
+      - "Stateful reuses the same deployed contract across many calls; stateless deploys fresh per case"
+      - "Stateless costs more gas"
+      - "Stateful works only on mainnet"
+      - "Stateless tests more code"
+    answer: 0
+    why: "Stateful tests walk through states with persistent storage between calls, exposing cross-function bugs like reentrancy across functions."
 ---
 
 ## The Testing Pyramid

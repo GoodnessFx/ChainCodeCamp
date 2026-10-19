@@ -11,6 +11,34 @@ objectives:
   - "Implement bit-masking for storage packing"
   - "Understand dirty bits and why they break auth checks"
 tags: ["yul", "assembly", "opcodes", "memory", "optimization"]
+goal: "Read any inline assembly block and say exactly which memory or storage bytes it touches, without trusting the compiler to save you."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "Where does the free memory pointer live and what is it for?"
+    options:
+      - "At 0x40, it always points at the next unused byte of memory"
+      - "At slot 0, it mirrors storage"
+      - "On the stack, it is per call only"
+      - "It is a Solidity concept that Yul ignores"
+    answer: 0
+    why: "Word 0x40 holds the free memory pointer. Read it with mload(0x40), write at that address, then add the size and mstore the new value back."
+  - q: "What usually goes wrong when an assembly block writes at a hardcoded memory address like 0x00?"
+    options:
+      - "It clobbers memory the compiler is already using, corrupting other variables"
+      - "The transaction reverts for using reserved opcodes"
+      - "Gas cost doubles"
+      - "Nothing, 0x00 is scratch space forever"
+    answer: 0
+    why: "Low memory holds scratch space (0x00 to 0x3f) and the pointer at 0x40, then the zero slot at 0x60. Writing outside your allocation corrupts data other parts of the function rely on."
+  - q: "Why does inline assembly disable Solidity's safety checks?"
+    options:
+      - "You told the compiler you are handling bounds and overflow yourself"
+      - "Yul has no reverts"
+      - "Assembly runs on a different EVM"
+      - "It only works below solc 0.8"
+    answer: 0
+    why: "Array bounds checks, overflow checks and similar guards are compiler-generated. Drop into assembly and you own them, which is exactly where dirty bits and out-of-range reads come from."
 ---
 
 ## Why Drop Into Yul?

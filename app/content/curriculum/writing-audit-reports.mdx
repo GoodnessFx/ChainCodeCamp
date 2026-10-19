@@ -11,6 +11,34 @@ objectives:
   - "Write a PoC that reproduces the bug in Foundry"
   - "Structure a report that wins future clients"
 tags: ["audit", "report", "severity", "poc", "professional"]
+goal: "Turn one bug into an audit finding: severity, impact, likelihood, PoC as a Foundry test, fix, and a report a client can act on."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "What makes a proof of concept credible?"
+    options:
+      - "It is a failing Foundry test that someone else can run on the same codebase"
+      - "It has screenshots"
+      - "It quotes the whitepaper"
+      - "It is written by a senior auditor"
+    answer: 0
+    why: "A PoC that another person can execute is falsifiable. Screenshots and names are decoration; the test is evidence."
+  - q: "Which two axes does the Immunefi/C4-style rubric normally combine?"
+    options:
+      - "Impact and likelihood"
+      - "Lines of code and author"
+      - "Gas used and test count"
+      - "Star count and price"
+    answer: 0
+    why: "Severity = impact (how much is lost) × likelihood (how easy to trigger). Impact alone is not enough: a $10M bug nobody can reach is lower priority than a $10k bug anyone can trigger."
+  - q: 'What belongs in a recommended fix beyond "rewrite the function"?'
+    options:
+      - "The exact state-update order, guard placement, test additions, and the re-run that proves the finding no longer passes"
+      - "A link to the contract"
+      - "The auditor's rate"
+      - "The deployment date"
+    answer: 0
+    why: "A fix instruction must be executable: state updates before calls, the checks that now exist, the failing test that now passes, and how to verify on mainnet fork."
 ---
 
 ## What a Real Audit Report Contains

@@ -13,6 +13,34 @@ objectives:
 tags: ["evm", "opcodes", "gas", "stack", "memory", "storage"]
 realContractAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
 realContractChain: "Ethereum Mainnet"
+goal: "Follow a transaction through the EVM and name the exact data location, opcode and gas cost behind every state change you see."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "Which data location survives after a transaction finishes?"
+    options:
+      - "Memory"
+      - "Storage"
+      - "Stack"
+      - "Calldata"
+    answer: 1
+    why: "Only storage is written to the chain. Memory and stack live for one call, calldata is read-only input."
+  - q: "Why does adding one extra mapping write dominate a function's gas bill?"
+    options:
+      - "SSTORE costs about 5000 to 20000 gas while an SLOAD is about 2100, so writes dominate reads"
+      - "Mappings use a special opcode that costs 21000"
+      - "Storage writes are free after the first one"
+      - "Gas only applies to external calls"
+    answer: 0
+    why: "Cold storage reads cost around 2100 gas and writes 5000 to 20000. That asymmetry is why slot packing saves gas and why a loop over storage is a denial of service risk."
+  - q: "Where do function arguments and msg.sender live during execution?"
+    options:
+      - "On the stack, pushed by the EVM"
+      - "In persistent storage slot 0"
+      - "In the browser wallet"
+      - "In the contract ABI only"
+    answer: 0
+    why: "The EVM is a stack machine. Calldata is copied onto the stack (and to memory for dynamic types); msg.sender arrives with CALLER onto the stack."
 ---
 
 ## What the EVM Actually Is

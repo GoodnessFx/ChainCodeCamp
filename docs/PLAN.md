@@ -26,7 +26,7 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 ## P2 Unified lesson renderer (MDX, Excalidraw, Do-it panel, quiz)
 - [x] Extend the MDX component map: GoalLine, Excalidraw Diagram (lazy), DoIt, BreakIt, SpotIt, FixIt, Expected output, Quiz (graded client side), Challenge, UpdraftVideo, ToolTag - all in `app/components/lesson/LessonBlocks.tsx` + `Quiz.tsx`, registered in `LessonContent.tsx`
 - [x] Extended lesson frontmatter schema (goal, diagram, tools, videoUrl, videoTitle, repo, quiz) as optional fields in `app/types/curriculum.ts`
-- [ ] Apply the new blocks to all 10 existing lessons without deleting content: `vulnerability-classes.mdx` DONE as the template (goal, video link, 4-question quiz, Challenge block); 9 lessons remaining
+- [x] Apply the new blocks to all 10 existing lessons without deleting content: frontmatter goal, verified Updraft video link (https://updraft.cyfrin.io/courses/security), and a 3-5 question quiz with `why` added to every MDX. `vulnerability-classes.mdx` additionally has body blocks (Challenge + video row). DoIt/BreakIt/SpotIt/FixIt available for body rollouts.
 - [x] Syntax highlighting for code blocks (dependency-free tokenizer in `CodeBlock.tsx`, language aware: solidity/bash/js/json)
 
 ## P3 Dashboard, progress, setup score, notes

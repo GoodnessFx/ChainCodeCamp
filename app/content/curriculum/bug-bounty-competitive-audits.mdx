@@ -11,6 +11,34 @@ objectives:
   - "Submit your first finding with confidence"
   - "Track your competitive audit earnings and progress"
 tags: ["code4rena", "sherlock", "cantina", "bug-bounty", "competitive"]
+goal: "Read a Code4rena or Sherlock contest spec, find the one invariant no one checks, and submit a report that gets judged valid."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "How do competitive audit platforms judge a finding?"
+    options:
+      - "By the spec: was it a valid bug, at what severity, did you show a working PoC"
+      - "By how loud you post about it"
+      - "By star count on your repo"
+      - "Randomly"
+    answer: 0
+    why: "Judges check the platform spec: does the report reproduce a real issue, at what severity, with a proof. Everything else is noise."
+  - q: 'Why is "works on mainnet" not enough to claim a bounty?'
+    options:
+      - "The platform needs a reproducible PoC against the contest's fixed codebase and spec version"
+      - "Mainnet is out of scope"
+      - "Only white hats get paid"
+      - "It costs gas"
+    answer: 0
+    why: "A claim must be verifiable: exact contract version, exact call sequence, exact expected outcome. Ambiguity gets marked invalid or low severity."
+  - q: 'What moves a submission from duplicate to "marginal" or "valid"?'
+    options:
+      - "A clear, earlier, complete report with a working PoC wins; later reports of the same bug are duplicates"
+      - "Who posts first on Twitter"
+      - "How many contracts they audited"
+      - "Nothing, all reports are valid"
+    answer: 0
+    why: "Platforms deduplicate by report quality and timing. A complete PoC filed first under the rules is the one that gets paid."
 ---
 
 ## The Platforms

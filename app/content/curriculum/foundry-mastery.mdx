@@ -11,6 +11,34 @@ objectives:
   - "Use vm.createFork for multi-chain test scenarios"
   - "Generate gas snapshots and catch regressions in CI"
 tags: ["foundry", "forge", "testing", "fuzzing", "invariants"]
+goal: "Write forge tests that fail on purpose, fuzz them with generated inputs, and use cheatcodes to build any attack setup you can imagine."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "What does a fuzz test do that a plain unit test does not?"
+    options:
+      - "Runs the same assertion against hundreds of generated inputs to find edge cases"
+      - "Deploys to mainnet"
+      - "Replaces the compiler"
+      - "Measures gas only"
+    answer: 0
+    why: "A fuzz test declares the property and lets forge vary the inputs (including weird ones like type(uint256).max), so boundaries you forgot get tested automatically."
+  - q: "What does vm.prank(newActor) do?"
+    options:
+      - "Makes the next call in the test appear to come from newActor"
+      - "Fast forwards block time"
+      - "Broadcasts a real transaction"
+      - "Stores newActor as the contract owner"
+    answer: 0
+    why: "prank changes msg.sender for exactly one call. Use vm.startPrank when the attacker needs several calls in a row, and vm.warp or vm.roll for time and blocks."
+  - q: "How does an invariant test differ from a unit test?"
+    options:
+      - "It asserts a property after every random sequence of calls a handler performs"
+      - "It runs only once and never again"
+      - "It is a unit test with more logging"
+      - "It requires a live RPC"
+    answer: 0
+    why: "You give forge a handler that performs allowed operations, it fuzzes call sequences, and your invariant must hold after each sequence. That is how multi-step exploits get caught."
 ---
 
 ## Why Foundry Won

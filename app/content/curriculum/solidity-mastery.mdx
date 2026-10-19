@@ -13,6 +13,34 @@ objectives:
 tags: ["solidity", "storage", "abi", "inheritance", "gas"]
 realContractAddress: "0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8"
 realContractChain: "Ethereum Mainnet"
+goal: "Predict the storage slot and byte cost of any variable you write, and use custom errors and packing to ship cheaper contracts."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "You declare uint128 a then address b. How many storage slots do they take?"
+    options:
+      - "1 slot, they pack together"
+      - "2 slots, because 16 bytes plus 20 bytes is 36 bytes and a slot holds 32"
+      - "3 slots, one per variable plus one for the struct"
+      - "0 slots, both fit in memory"
+    answer: 1
+    why: "Packing only merges variables that fit in the same 32-byte slot, in declaration order. 16 + 20 = 36 bytes, so b starts a new slot."
+  - q: "Why do custom errors beat require with a string?"
+    options:
+      - "They cost less calldata and gas, and clients can match the selector"
+      - "They cannot be caught by the caller"
+      - "Strings revert only on mainnet"
+      - "Custom errors deploy smaller constructors"
+    answer: 0
+    why: "A 4-byte error selector is far cheaper than an ABI-encoded string, and tooling can decode it precisely. Strings are for humans reading explorers."
+  - q: "forge build warns that a contract is over 24KB. What rule have you hit?"
+    options:
+      - "EIP-170 caps deployed runtime code at 24576 bytes, so the deploy would revert"
+      - "Your laptop ran out of memory"
+      - "The SPDX license is missing"
+      - "You imported too many files"
+    answer: 0
+    why: "EIP-170 rejects deployments whose runtime bytecode exceeds 24576 bytes. Split libraries out or enable the optimizer runs you actually need."
 ---
 
 ## Storage Layout: The Tetris Rule

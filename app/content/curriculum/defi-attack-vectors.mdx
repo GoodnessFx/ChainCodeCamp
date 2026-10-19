@@ -16,6 +16,34 @@ historicalHack:
   amount: "$197M"
   year: 2023
   vector: "Missing health check in donateToReserves() allowed self-liquidation exploit"
+goal: "Compute a swap by hand with x times y equals k, then exploit a spot-price oracle and a flash loan on a local fork."
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "A pool holds 100 ETH and 1000 DAI (k = 100000). You swap 10 ETH in, no fees. About how much DAI comes out?"
+    options:
+      - "90.9 DAI"
+      - "100 DAI"
+      - "1000 DAI"
+      - "9.09 DAI"
+    answer: 0
+    why: "Reserves become 110 and k divided by 110 is 909.09, so the output is 1000 minus 909.09, about 90.9. Price impact is why big swaps need slippage limits."
+  - q: "What actually protects a user from a bad fill on a DEX?"
+    options:
+      - "minAmountOut (or amountOutMin) plus a deadline on the swap"
+      - "The wallet password"
+      - "Using a higher gas price"
+      - "Nothing, fills are always fair"
+    answer: 0
+    why: "The minimum output reverts if the pool gives less than the user accepted, and the deadline stops a stale transaction from executing after conditions changed."
+  - q: "Which price source survives an attacker moving the pool in the same block?"
+    options:
+      - "Spot reserves read inside the same transaction"
+      - "A time-weighted average price or a Chainlink aggregated feed"
+      - "The highest reserve the pool ever had"
+      - "msg.value of the caller"
+    answer: 1
+    why: "Spot reserves are manipulable for the duration of one transaction, and flash loans supply the size. TWAP and medianized oracle feeds average over many blocks, so one block cannot move them."
 ---
 
 ## AMM Fundamentals: x * y = k
