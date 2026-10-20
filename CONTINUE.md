@@ -1,50 +1,45 @@
 # CONTINUE.md
 
-Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
+Read this first every session, then `/docs/PLAN.md` (legacy roadmap, kept for history).
+The active roadmap is the 8-prompt spec (Prompts 0-7): Phase 0 = context, Phases 1-7 below.
+Work one phase at a time. Show a plan before coding, report after, run build + lint before "done", commit at the end of each phase.
 
 ## Current phase
-**P6 done. P7 is next.**
+**Phase 1 (app shell, splash, login scaffold) done and committed. Phase 2 (one-click environment) is next.**
 
-## Last finished step
-- P6 complete:
-  - Three original lessons in `app/content/security/`, all in the full block format with clone commands, grep guidance, quizzes, Challenges, PushSteps: `sec-04-reentrancy` (classic/cross-function/read-only, CEI + mutex fixes, The DAO + verified EF emergency post), `sec-05-randomness` (Puppy Raffle clone target, vm.warp prediction, commit-reveal + VRF fixes, SWC-120 + Sigma Prime blog links), `sec-06-overflow-dos` (0.7.6 wraps, 0.8 DoS-by-revert, unbounded loops, pull-payments + caps, BEC batchOverflow + SWC-101 whose source includes the real BecToken).
-  - All case links verified live this phase: EF DAO post (blog.ethereum.org), SWC-120, SWC-101 (includes exact vulnerable source), sigp solidity-security-blog. hackingdistributed was unreachable, so The DAO links point at the EF post instead.
-  - MEV and front-running deliberately deferred to P7 with the AMM/TWAP material it needs.
-  - Verified: build 26/26 pages, zero prerender errors; sec-04/05/06 all 200 with quiz/case/push content. Server stopped.
+## Repo layout (important, changed in Phase 1)
+- Root: the NEW Next.js app (this spec): `src/app` routes, `src/lib`, `src/components`, `.env.example`, `ATTRIBUTION.md`.
+- `courses/security-course/`: the PREVIOUS CCC app (Next.js, security track S1-S6, setup hub, dashboard). Fully intact, runnable via `cd courses/security-course && npm i && npm run dev`. Do not delete; it is "another course" and may be ported later.
+- `index.html` at root: legacy static site, viewable with `npm run serve:legacy`.
+- `course/cyfrin-s23/`: Cyfrin s23 course as a read-only git submodule. NEVER modify. See ATTRIBUTION.md.
+- `gauntlet/`: Foundry exploit practice repo (from legacy app). Untouched.
+- `docs/`: legacy audit/plan docs (history).
 
-## NEXT STEP (exact file and task)
-P7: Security — DeFi (DEX/AMM x*y=k, oracles, flash loans, MEV, slippage, deadlines).
-1. New lesson files in `app/content/security/`: `sec-07-amm` (TSwap clone target, constant product, LP math), `sec-08-oracles` (spot vs TWAP vs Chainlink, manipulation on a fork), `sec-09-flash-loans` (flash loan mechanics, slippage + deadlines, MEV). All original content; every lesson in the full block format with clone command, quiz, challenge, real hack + post-mortem link, Updraft video link where one exists.
-2. Add S7/S8/S9 to `CURRICULUM_SECTIONS` in `app/lib/curriculum.ts`.
-3. Build + smoke after each lesson file (stop node first), update CONTINUE.md, run save.sh.
+## Phase status
+- Phase 1 DONE: splash (`/`, once/session, skippable) -> `/landing` (Start from zero -> /basics, I know the basics -> /core) -> `/login`, `/signup` (validated, mock auth) -> `(shell)` group: /dashboard, /basics, /core, /notes, /tools, /community with auth guard, dark default + light toggle, a11y pass (focus ring, reduced motion, landmarks, skip link).
+- Phase 2 NEXT: devcontainer + Dockerfile (Foundry, solc, Node, Git, Slither, Python, course repo), docker-compose, scripts/verify-env.sh, Open Lab button (Codespaces URL from env + local Docker instructions), Environment Checker page with per-OS guides + copy buttons, "Fix it" panel.
+- Phases 3-7: per the spec prompts (lesson player, visualizations, AI helper, extensions, security/tests/CI/launch).
 
-## Decisions made
-- **Path convention:** `/content/...` in the spec = `app/content/...` (the Next app content root). `/docs`, `/scripts`, `/CONTINUE.md` are repo root. See AUDIT.md section 8.
-- **Reuse, do not replace:** Next.js 14 app in `app/` is the product. The legacy root `index.html` static site stays untouched for now (deploy conflict is a P12 decision).
-- **Design:** keep the existing light "field guide" system (paper/ink/safety orange, hard shadows, Outfit + IBM Plex Serif + JetBrains Mono) because the rule is to extend the existing design. Dark code blocks stay dark. No new UI kit, only Tailwind + lucide-react, both already in use.
-- **Progress storage:** keep `localStorage` (`ccc_progress`) as the always-works base; Supabase only layers on when env vars + login exist (login arrives in P3/P4).
-- **Content source of truth:** section metadata stays in `app/lib/curriculum.ts` (existing pattern); MDX frontmatter mirrors it. New lesson-format fields are additive and optional so old lessons keep rendering.
-- **Tool install docs:** written by us, original wording, per OS, with real verify commands and expected output. Official docs for Aderyn, Foundry, Certora, Halmos, Medusa and Echidna were checked during P1.
-- **Next.js gotcha learned in P1:** never call a named export of a "use client" module from a server component (it is undefined at runtime and fails prerender with `(0, o.x) is not a function`). Helpers used during server render live in non-client modules (`lib/linkTools.tsx`); client modules only export components.
+## Key decisions
+- Next 14.2.5 + Tailwind 3.4 at root; `src/app` for routes (no clash with legacy folders); tsconfig/eslint/tailwind scoped to `src` so `courses/` is never typechecked.
+- Auth behind `src/lib/auth/AuthProvider.ts` interface; `MockAuthProvider` (localStorage) selected by `NEXT_PUBLIC_AUTH_PROVIDER` (default mock). Swapping in Supabase/NextAuth = new class + factory case, zero UI changes.
+- Theme: dark default via `class` on <html>, persisted `ccc_theme`, toggle in top bar; global focus-visible ring + reduced-motion CSS in `src/app/globals.css`.
+- Splash: sessionStorage `ccc_splash_seen`, 2.4s auto-advance, Skip button.
+- Course repo = git submodule at `course/cyfrin-s23` (spec allows submodule or copy). Devcontainer (Phase 2) must init submodules.
+- Mock auth is NOT security: password obfuscated (btoa) in localStorage, clearly commented. Real auth arrives behind the interface.
 
-## Env vars needed
-- None for P0/P2 (no new env).
-- Existing optional (see `app/.env.local.example`): `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`. Absent on this machine, app degrades to localStorage.
-- Machine: Node at `C:\Program Files\nodejs`, git 2.51, WSL present, `forge` NOT installed, `bash` not in PATH (Git bash lives at `C:\Program Files\Git\bin\bash.exe`).
+## Env vars (see .env.example)
+- NEXT_PUBLIC_AUTH_PROVIDER=mock
+- NEXT_PUBLIC_CODESPEACES_REPO / NEXT_PUBLIC_CODESPEACES_BRANCH (Phase 2 Open Lab)
+- AI_API_KEY (Phase 5, server-only, never NEXT_PUBLIC_)
 
 ## How to run / save
-- Dev: `cd app; npm run dev` (Next on :3000). Build check: `cd app; npm run build` (takes longer than 30s, run it in the background).
-- Save: from repo root, `& "C:\Program Files\Git\bin\bash.exe" scripts/save.sh "message"`. It git add -A, commits, pushes `origin main`, prints the short hash. Only save when the build passes.
+- `npm run dev` (Next on :3000), `npm run build`, `npm run lint`, `npm run typecheck`, `npm run serve:legacy` (old static site).
+- Save: `& "C:\Program Files\Git\bin\bash.exe" scripts/save.sh "message"` (add -A, commit, push origin main, print short hash). Only when build passes.
 
-## Known bugs (do not rediscover; fix in the phase noted)
-1. FIXED in P3: mobile sidebar now opens as a drawer via `mobileOpen` state (scrim + tap-to-close, header menu opens it under 768px).
-2. `/verify/[id]` share link on the certificate page has no route; verification ID is a client hash that changes daily. Fix in P4/P12.
-3. Community leaderboard rows are hardcoded placeholders (`app/app/community/page.tsx`). Fix in P12.
-4. Supabase sync is dead code with no login UI. Fix in P3/P4.
-5. `app/lib/mdx.ts` returns a silent "Coming Soon" stub for missing MDX. Keep until P2, then make it warn in dev.
-6. Empty dead folders `app/app/security/` and `app/content/security/` (use `app/content/security/` for P5 content, delete the empty `app/app/security/` when the security routes land).
-7. Root `vercel.json` rewrites all traffic to legacy `index.html`; conflicting deploy targets. Decide in P12.
-8. Duplicate progress system in legacy `index.html` (`completedStages`). Leave until P12.
-9. No LICENSE file although README badges link to one. P12.
-10. `gauntlet/` never executed (`forge` missing) and not linked from the app. Link it in P5/P6.
-11. Home First Load JS grew from 170 kB to 182 kB when the tool registry entered the client bundle (sidebar setup score). Revisit in P12 performance: compute the score without shipping the full registry to every page.
+## Known issues / watch-outs
+1. `next build` logs `npm audit` findings (transitive). Document or fix in Phase 7.
+2. Legacy `vercel.json` at root rewrites all paths to `index.html` — conflicts with deploying the new app. Phase 7 decision required.
+3. `courses/security-course` still has its own node_modules on disk (gitignored) — heavy folder, fine.
+4. If `/` shows a blank page after redirect, check sessionStorage was cleared (new tab per session).
+5. Windows shell quirks: `&&` not valid in this PowerShell wrapper; long builds time out at 30s — run `npm run build` in background via Start-Process and poll build.log.

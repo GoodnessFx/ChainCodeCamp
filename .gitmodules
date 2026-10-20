@@ -1,0 +1,4 @@
+[submodule "course/cyfrin-s23"]
+	path = course/cyfrin-s23
+	url = https://github.com/Cyfrin/security-and-auditing-full-course-s23.git
+	branch = main

@@ -56,6 +56,10 @@
 
 <br/>
 
+## Credits
+
+Security curriculum structure is inspired by [Cyfrin Updraft's security and auditing course](https://github.com/Cyfrin/security-and-auditing-full-course-s23) (GPL-3.0, cloned read-only at `course/cyfrin-s23`). No lesson text, videos or code from that repository is used here: every CCC lesson is original, written from public knowledge (SWC registry, Solidity docs, real hack post-mortems). Full attribution: [ATTRIBUTION.md](./ATTRIBUTION.md).
+
 # Table of Contents
 
 > _Note: If you're coming from freeCodeCamp or Cyfrin Updraft, the structure here will feel familiar. We use "Sections" not "Lessons." The exploit gauntlet replaces multiple choice quizzes. Everything else is deliberate._
