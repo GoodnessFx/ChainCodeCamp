@@ -1,0 +1,159 @@
+---
+title: "Reentrancy"
+stage: "S4"
+track: "security"
+description: "Classic, cross-function and read-only reentrancy: the bug that drained The DAO, exploited on a real vault today."
+estimatedTime: "1 week"
+difficulty: "intermediate"
+objectives:
+  - "Recognize the external-call-before-state-update pattern anywhere"
+  - "Exploit classic, cross-function and read-only reentrancy"
+  - "Fix with checks-effects-interactions and a mutex, then prove it with a test"
+tags: ["reentrancy", "cei", "mutex", "security"]
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "What single ordering mistake creates a reentrancy bug?"
+    options:
+      - "An external call happens before all state that depends on it is updated"
+      - "A function is marked pure"
+      - "A require uses a custom error"
+      - "Two contracts share an interface"
+    answer: 0
+    why: "The victim sends value or makes a call while its own bookkeeping is stale. The recipient runs code in the middle of that bookkeeping and calls back in."
+  - q: "After the checks-effects-interactions fix, who should run first in withdraw(): the balance update or the .call?"
+    options:
+      - "The .call, then the update"
+      - "The balance update to zero, then the .call"
+      - "Both at once inside a try/catch"
+      - "Order does not matter once you add events"
+    answer: 1
+    why: "Effects before interactions. By the time control leaves the contract, its state must already be final, so a re-entrant call sees the updated (zero) balance and reverts."
+  - q: "Cross-function reentrancy means:"
+    options:
+      - "Two contracts re-enter each other in one transaction"
+      - "The attacker re-enters a DIFFERENT function that shares the same state as the one being drained"
+      - "A function calls itself recursively on purpose"
+      - "Gas is re-entered"
+    answer: 1
+    why: "Fixing one function is not enough: if withdraw() is safe but redeem() reads the same balance mapping, the attacker drains through redeem() mid-flight."
+  - q: "What does nonReentrant actually guarantee?"
+    options:
+      - "No external calls can ever be made"
+      - "Only one call of the guarded functions can run per transaction, across all guarded functions that share the mutex"
+      - "The contract cannot receive ETH"
+      - "State can never be updated"
+    answer: 1
+    why: "A reentrancy mutex is a global lock for every guarded function. It fails only when some function touching the same state is left unguarded."
+---
+
+## The pattern you are hunting
+
+Every reentrancy bug is the same three lines in the wrong order:
+
+```solidity
+function withdraw() external {
+    uint256 bal = s_balances[msg.sender];
+    (bool ok, ) = msg.sender.call{value: bal}(""); // 1. give value away
+    require(ok);                                    // 2. hope
+    s_balances[msg.sender] = 0;                     // 3. bookkeeping, too late
+}
+```
+
+The call at line 1 hands control to arbitrary code while the contract still
+believes `msg.sender` has `bal`. Their `receive()` fires, calls `withdraw()`
+again, and the loop repeats until the vault is empty or gas runs out. That is
+exactly how ~$60M left The DAO in 2016: a recursive call inside a split.
+
+<DoIt note="Exploit it locally first. Commands and expected output below.">
+
+```bash
+git clone https://github.com/Cyfrin/security-and-auditing-full-course-s23
+cd security-and-auditing-full-course-s23
+```
+
+Then open the local gauntlet in the CCC repo (or run the vault from your own
+`ccc-lab` project):
+
+```bash
+cd gauntlet
+forge test --match-contract ReentrancyVault -vvv
+```
+
+<Expected>
+[FAIL] testExploit_ReentrancyVault() (gas: ...)
+  → Your attack stub still reverts: implement src/attacks/ReentrancyVault.sol
+</Expected>
+
+Implement the attack stub, re-run, and watch it go green. The drain is the
+lesson; the green test is the proof.
+
+</DoIt>
+
+<SpotIt>
+
+In an unknown codebase, grep for the shape of the bug, not the name:
+
+```bash
+grep -rn "\.call{" src/
+grep -rn "\.transfer(\|\.send(" src/
+grep -rn "msg.sender.call" src/
+```
+
+Read every hit and answer one question: does any state change AFTER this line
+depend on values the callee could influence? If yes, rank it as a reentrancy
+candidate, then check whether the same state is reachable from a sibling
+function (cross-function) or from a view called by a price reader
+(read-only).
+
+</SpotIt>
+
+<FixIt>
+
+Two independent fixes, both standard:
+
+```solidity
+// 1. Checks-Effects-Interactions: state first, call last
+s_balances[msg.sender] = 0;
+(bool ok, ) = msg.sender.call{value: bal}("");
+require(ok);
+
+// 2. Mutex as belt and braces
+modifier nonReentrant() {
+    require(s_locked == false, "reentrancy");
+    s_locked = true;
+    _;
+    s_locked = false;
+}
+```
+
+Re-run the exploit test: it must now revert at the call, and the honest
+withdraw test must stay green.
+
+</FixIt>
+
+## Real-world case: The DAO, June 2016
+
+The DAO held ~$60M of ETH. Its split() function sent ETH before finalizing
+internal accounting, and the attacker re-entered split recursively in one
+transaction, draining funds into a child DAO. The Ethereum Foundation's
+emergency writeup describes the recursive calling vulnerability and the
+proposed soft fork in plain terms.
+
+Read it: https://blog.ethereum.org/2016/06/17/critical-update-re-dao-vulnerability
+
+Background and aftermath (including the hard fork): https://en.wikipedia.org/wiki/The_DAO
+
+<Challenge>
+
+Exploit the local ReentrancyVault, then break the fix: after CEI is applied,
+write a cross-function attack through any sibling function that still reads
+the stale balance. Commit the failing test, then add the mutex and commit the
+green run.
+
+</Challenge>
+
+<UpdraftVideo
+  href="https://updraft.cyfrin.io/courses/security"
+  title="Prefer video? This section exists in Cyfrin Updraft's security course"
+/>

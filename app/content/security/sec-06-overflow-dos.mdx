@@ -1,0 +1,150 @@
+---
+title: "Overflow, Denial of Service and Gas"
+stage: "S6"
+track: "security"
+description: "Integer edges that minted 900M worthless tokens, loops that brick a contract when they hit the block gas limit, and the fixes for both."
+estimatedTime: "1 week"
+difficulty: "intermediate"
+objectives:
+  - "Spot arithmetic that wraps on pre-0.8 compilers and where 0.8 still reverts dangerously"
+  - "Find unbounded loops and untrusted-array pushes that brick payouts"
+  - "Fix with checked math, pull-payments and bounded iteration, then prove it"
+tags: ["overflow", "dos", "gas", "loops"]
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "What did Solidity 0.8 change about arithmetic?"
+    options:
+      - "It added automatic checked arithmetic that reverts on overflow/underflow"
+      - "It made uint256 512 bits"
+      - "It removed the EVM gas cost for math"
+      - "It allows overflow with a warning"
+    answer: 0
+    why: "Since 0.8, a += b that would wrap reverts instead. But checked math also changes DoS economics: a deliberately oversized operation now reverts, which can itself be used as a weapon."
+  - q: "Why is a loop over a dynamic array a denial-of-service risk?"
+    options:
+      - "Loops cost zero gas"
+      - "Past a certain size the iteration exceeds the block gas limit, so the function can never succeed for everyone"
+      - "Arrays cannot be looped in Solidity"
+      - "Loops overwrite storage slots"
+    answer: 1
+    why: "Anyone who can push items into the array can grow it until the function's gas cost exceeds the block limit. The function is now bricked for all users, and any funds it holds are stuck."
+  - q: "Batch-paying 500 users inside one function is best replaced by:"
+    options:
+      - "A bigger gas limit"
+      - "A pull-payment pattern: each user claims their own funds"
+      - "Removing the require checks"
+      - "payable loops"
+    answer: 1
+    why: "Pull-payments move the gas cost and the failure surface to each claimer. One malicious or gas-guzzling entry cannot block everyone else's payout."
+  - q: "In the 2018 BEC batchOverflow, what exactly happened?"
+    options:
+      - "A uint256 multiplication in batchTransfer wrapped, minting enormous balances from nothing"
+      - "A reentrancy drained the token contract"
+      - "The owner key was leaked"
+      - "The compiler had a virus"
+    answer: 0
+    why: "cnt * _value overflowed on a pre-0.8 compiler, passing the balance require while crediting receivers with huge amounts. Tokens were then sold on exchanges until the market noticed."
+---
+
+## Two ways arithmetic kills a contract
+
+On pre-0.8 compilers, `a * b` that exceeds uint256 wraps silently to a small
+number. The 2018 BEC incident used exactly this: a `batchTransfer` computed
+`uint256 amount = cnt * _value;` before checking balances, so a crafted
+`_value` made `amount` wrap to near zero, passed the require, and credited
+receivers with enormous balances. Exchanges kept trading until the market
+caught on.
+
+Since 0.8, overflow reverts instead of wrapping. That closes the wrap, but it
+opens the other side: arithmetic you expected to be large now reverts, and
+if the only path to someone's funds runs through that arithmetic, their funds
+are bricked. DoS by math.
+
+<DoIt note="Reproduce both failure modes locally.">
+
+```bash
+mkdir ccc-lab && cd ccc-lab
+forge init --no-git
+```
+
+Write two contracts in `src/`: one pinned to `pragma solidity 0.7.6;` with a
+`batchTransfer`-shaped multiplication, and one 0.8.x contract with an
+unbounded payout loop. Tests:
+
+```bash
+forge test --match-test testOverflow -vvv
+forge test --match-test testBrickTheLoop -vvv
+```
+
+<Expected>
+[FAIL] testOverflow: multiplication wrapped (0.7.6, pre-checked math)
+[PASS] testBrickTheLoop: loop gas grew past the block limit with 2000 entries
+</Expected>
+
+The first test proves value from nothing. The second proves the payout can
+never complete again.
+
+</DoIt>
+
+<SpotIt>
+
+```bash
+grep -rn "for (uint\|while (\|\.length" src/
+grep -rn "pragma solidity" src/
+grep -rn "address(this).balance\|\.transfer(\|\.call{" src/
+```
+
+Rank every hit: does iteration count depend on user-supplied or ever-growing
+state? Does any payout loop share one transaction with all recipients? Is any
+arithmetic on a 0.7-era compiler doing security-critical multiplication? The
+loop hits rank higher than the wraps on modern compilers.
+
+</SpotIt>
+
+<FixIt>
+
+```solidity
+// 1. Pull payments: each user claims, one at a time
+function claim() external {
+    uint256 amount = s_owed[msg.sender];
+    require(amount > 0, "nothing owed");
+    s_owed[msg.sender] = 0;
+    (bool ok, ) = msg.sender.call{value: amount}("");
+    require(ok);
+}
+
+// 2. Bounded iteration when you must loop
+uint256 constant MAX = 100;
+for (uint256 i = 0; i < n && i < MAX; i++) { ... }
+```
+
+Compile on 0.8.x for checked math, then re-run both tests: the wrap test
+reverts on arithmetic, and the loop test can no longer be bricked past MAX.
+
+</FixIt>
+
+## Real-world case: BEC batchOverflow, April 2018
+
+The BEC token's `batchTransfer` on a pre-0.8 compiler multiplied receiver
+count by value with no overflow guard. Two attacker transactions minted
+roughly 70 trillion BEC from thin air (and similarly hit SMT and other tokens
+the same week). The SWC-101 registry carries the actual vulnerable
+`BecToken` source as its reference sample.
+
+The vulnerable code, officially catalogued: https://swcregistry.io/docs/SWC-101
+
+Sigma Prime's writeup of the same era's arithmetic disasters: https://blog.sigmaprime.io/solidity-security.html
+
+<Challenge>
+
+Build the two contracts from the Do-it block, make both tests fail, then fix:
+pin the token to 0.8.x for checked math and convert the loop to pull-payments
+with a hard cap. Commit both fixes with their green runs.
+
+</Challenge>
+
+<UpdraftVideo
+  href="https://updraft.cyfrin.io/courses/security"
+  title="Prefer video? This section exists in Cyfrin Updraft's security course"
+/>

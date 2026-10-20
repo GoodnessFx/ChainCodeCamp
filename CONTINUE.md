@@ -3,21 +3,19 @@
 Read this first every session, then `/docs/PLAN.md`. Resume at NEXT STEP. Never redo finished work.
 
 ## Current phase
-**P5 done. P6 is next.**
+**P6 done. P7 is next.**
 
 ## Last finished step
-- P5 complete:
-  - `app/content/security/repos.json`: 7 clone targets. Master index GPL-3.0 verified; puppy-raffle, tswap, vault-guardians verified to exist (real scope/commit/solc read from their READMEs); passwordstore, thunder-loan, boss-bridge, sc-exploits marked `verifiedExists:false`/`licenseVerified:false`, flags instruct verify-on-clone.
-  - Three original lessons in `app/content/security/`, all in the full block format with clone commands, grep guidance, real hacks with post-mortem links, Updraft links, quizzes, Challenges, PushSteps: `sec-01-value` (EVM/ERC20/storage/Foundry), `sec-02-audit` (scope/recon/findings/reporting), `sec-03-access` (caller gates, private-is-public with cast).
-  - Loader + registry: `app/lib/mdx.ts` reads both content trees (curriculum first); `HackCallout` registered as an MDX component; S1/S2/S3 added to `CURRICULUM_SECTIONS` so sidebar/curriculum/dashboard/progress/nav pick them up automatically.
-  - Two real fixes this phase: unclosed `<DoIt>` in sec-03 broke MDX parse for sec-02/sec-03; unregistered `<HackCallout>` broke sec-02 prerender. Diagnostic rule recorded: a missing close tag in one file can surface on another file's route, check all new MDX.
-  - Smoke-trap lesson: always `Stop-Process node` before re-testing, a stale `next start` on :3000 serves old pages.
-  - Verified: build 23/23 pages, zero prerender errors; sec-01/02/03 all 200 with goal/Do-it/quiz/video/challenge/push content; dashboard tracks the new sections. Server stopped.
+- P6 complete:
+  - Three original lessons in `app/content/security/`, all in the full block format with clone commands, grep guidance, quizzes, Challenges, PushSteps: `sec-04-reentrancy` (classic/cross-function/read-only, CEI + mutex fixes, The DAO + verified EF emergency post), `sec-05-randomness` (Puppy Raffle clone target, vm.warp prediction, commit-reveal + VRF fixes, SWC-120 + Sigma Prime blog links), `sec-06-overflow-dos` (0.7.6 wraps, 0.8 DoS-by-revert, unbounded loops, pull-payments + caps, BEC batchOverflow + SWC-101 whose source includes the real BecToken).
+  - All case links verified live this phase: EF DAO post (blog.ethereum.org), SWC-120, SWC-101 (includes exact vulnerable source), sigp solidity-security-blog. hackingdistributed was unreachable, so The DAO links point at the EF post instead.
+  - MEV and front-running deliberately deferred to P7 with the AMM/TWAP material it needs.
+  - Verified: build 26/26 pages, zero prerender errors; sec-04/05/06 all 200 with quiz/case/push content. Server stopped.
 
 ## NEXT STEP (exact file and task)
-P6: Security — raffle-style bugs (reentrancy, randomness, overflow, DoS, MEV, gas).
-1. New lesson files in `app/content/security/`: `sec-04-reentrancy` (classic, cross-function, read-only), `sec-05-randomness` (Puppy Raffle clone target), `sec-06-overflow-dos` (integer edges, DoS, gas). All original content; every lesson in the full block format with clone command, quiz, challenge, real hack + post-mortem link, Updraft video link where one exists.
-2. Add S4/S5/S6 to `CURRICULUM_SECTIONS` in `app/lib/curriculum.ts`.
+P7: Security — DeFi (DEX/AMM x*y=k, oracles, flash loans, MEV, slippage, deadlines).
+1. New lesson files in `app/content/security/`: `sec-07-amm` (TSwap clone target, constant product, LP math), `sec-08-oracles` (spot vs TWAP vs Chainlink, manipulation on a fork), `sec-09-flash-loans` (flash loan mechanics, slippage + deadlines, MEV). All original content; every lesson in the full block format with clone command, quiz, challenge, real hack + post-mortem link, Updraft video link where one exists.
+2. Add S7/S8/S9 to `CURRICULUM_SECTIONS` in `app/lib/curriculum.ts`.
 3. Build + smoke after each lesson file (stop node first), update CONTINUE.md, run save.sh.
 
 ## Decisions made

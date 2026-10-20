@@ -53,11 +53,13 @@ Legend: `[ ]` not started, `[~]` in progress, `[x]` done.
 - [x] Build + smoke: 23/23 pages; sec-01/sec-02/sec-03 200 with full content, dashboard tracks new sections
 
 ## P6 Security: raffle-style bugs
-- [ ] Reentrancy (classic, cross-function, read-only)
-- [ ] Bad randomness (Puppy Raffle clone target)
-- [ ] Integer overflow and underflow
-- [ ] Denial of service and gas limits
-- [ ] MEV and front-running
+- [x] Reentrancy (classic, cross-function, read-only) (`sec-04-reentrancy`; The DAO with EF blog post, verified at https://blog.ethereum.org/2016/06/17/critical-update-re-dao-vulnerability)
+- [x] Bad randomness (Puppy Raffle clone target) (`sec-05-randomness`; SWC-120 verified at https://swcregistry.io/docs/SWC-120 + Sigma Prime blog https://github.com/sigp/solidity-security-blog)
+- [x] Integer overflow and underflow (`sec-06-overflow-dos`; BEC batchOverflow with SWC-101 whose source includes the actual BecToken, verified at https://swcregistry.io/docs/SWC-101)
+- [x] Denial of service and gas limits (unbounded loops, pull-payments, caps — same file)
+- [ ] MEV and front-running (moved to P7 with AMM/Twap material where it belongs)
+- [x] Registered S4/S5/S6 in `CURRICULUM_SECTIONS` (order fixed ascending)
+- [x] Build + smoke: 26/26 pages; sec-04/05/06 200 with quiz/case/push content
 
 ## P7 Security: DeFi
 - [ ] DEX and AMM, constant product formula (TSwap clone target)

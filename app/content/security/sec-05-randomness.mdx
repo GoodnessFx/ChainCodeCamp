@@ -1,0 +1,145 @@
+---
+title: "Bad Randomness"
+stage: "S5"
+track: "security"
+description: "block.timestamp, blockhash and difficulty are public, miner-influenced values. Predict the raffle winner before the raffle ends."
+estimatedTime: "1 week"
+difficulty: "intermediate"
+objectives:
+  - "Name every on-chain value that looks random and is not"
+  - "Predict a winner drawn from block attributes in a local test"
+  - "Fix with a commit-reveal or an oracle, and explain the tradeoff"
+tags: ["randomness", "blockhash", "vrf", "raffle"]
+videoUrl: "https://updraft.cyfrin.io/courses/security"
+videoTitle: "Cyfrin Updraft: Security and Auditing course (video version)"
+quiz:
+  - q: "Why is block.timestamp a bad lottery seed?"
+    options:
+      - "It is only accurate to 15 seconds and miners choose the value inside that window"
+      - "It reverts on mainnet"
+      - "It is charged extra gas"
+      - "It changes after the block is mined"
+    answer: 0
+    why: "Miners pick the timestamp within the protocol's tolerance and can grind several candidates. Anyone who can compute the outcome in advance can also refuse to include an unfavorable transaction."
+  - q: "blockhash(n) for n older than 256 blocks returns:"
+    options:
+      - "keccak256 of the block header, always"
+      - "zero, silently"
+      - "a cached value from your node"
+      - "revert"
+    answer: 1
+    why: "EVM only keeps the last 256 block hashes. Older hashes come back as zero, so a naive lottery that samples a distant block is fully predictable: the answer is zero."
+  - q: "What makes Chainlink VRF safe where block attributes are not?"
+    options:
+      - "It uses a faster hash"
+      - "The randomness is generated off-chain with a verifiable proof and checked on-chain, so the oracle cannot choose the output"
+      - "It runs inside the EVM"
+      - "It is free"
+    answer: 1
+    why: "VRF proves the output came from a seed the requester could not influence, and the chain verifies the proof. The oracle delivers a number it cannot rig."
+  - q: "A raffle picks winners with keccak256 over msg.sender and blockhash. What can an attacker do?"
+    options:
+      - "Nothing, keccak256 is cryptographic"
+      - "Compute the same value before entering, and only enter when the result is favorable"
+      - "Overwrite the blockhash storage slot"
+      - "Rent the whole chain"
+    answer: 1
+    why: "Every input is public or chosen. The hash is fine; the seed is the bug. Prediction turns entry into a free option: join only when you already know you win."
+---
+
+## Everything public, nothing random
+
+The EVM has no entropy source. Every value a contract can read on-chain was
+either published by the protocol (block attributes), submitted by a caller
+(msg.sender, calldata), or stored earlier. A "random" winner drawn from any
+combination of those is a computation anyone can replay. In 2018 whole rounds
+of a popular ETH game were consistently captured by contracts that predicted
+the outcome and only played when profitable.
+
+The three usual culprits:
+
+```solidity
+uint256 seed = uint256(
+    keccak256(abi.encodePacked(block.timestamp, blockhash(block.number - 1), msg.sender))
+);
+uint256 winner = participants[seed % participants.length];
+```
+
+Every term is public the moment the transaction is in the mempool. The
+attacker computes `seed` for their own transaction, and if they lose, they
+replace it with a higher-fee version or simply do not send it.
+
+<DoIt note="Prove the prediction in a test, then fix it.">
+
+Clone the practice raffle and read the drawing code first:
+
+```bash
+git clone https://github.com/Cyfrin/4-puppy-raffle-audit
+cd 4-puppy-raffle-audit
+make
+grep -n "block.timestamp\|blockhash\|keccak256" src/PuppyRaffle.sol
+```
+
+<Expected>
+src/PuppyRaffle.sol:NN: uint256 raffle = uint256(keccak256(abi.encodePacked(...block.timestamp...)));
+</Expected>
+
+Now write the prediction: a Foundry test that computes the same formula the
+contract uses, with the same `block.timestamp` after `vm.warp`, and shows the
+"random" winner was determined before anyone called draw. The winner is not
+drawn; it is computed.
+
+</DoIt>
+
+<SpotIt>
+
+```bash
+grep -rn "block.timestamp\|blockhash\|block.difficulty\|prevrandao" src/
+grep -rn "keccak256(abi.encodePacked" src/
+```
+
+Any keccak256 over block attributes plus user input is a candidate. Ask:
+could a miner or a caller move any input? Could they see the result before
+committing funds? If either answer is yes, the randomness is exploitable.
+
+</SpotIt>
+
+<FixIt>
+
+Two production fixes, pick by stake size:
+
+1. **Commit-reveal**: participants commit `keccak256(secret)` first; the
+   winner is drawn later from the revealed secrets plus a future block hash
+   nobody controls at commit time.
+2. **Verifiable randomness**: request the draw from a VRF oracle (Chainlink
+   VRF on mainnet) and verify the proof on-chain before paying out.
+
+Re-run your prediction test: with either fix, the attacker's "compute before
+committing" trick must no longer reveal the winner early.
+
+</FixIt>
+
+## Real-world case: documented weakness, real money
+
+The Smart Contract Weakness Classification files this as SWC-120, with live
+sample contracts including one deployed on Ethereum that seeds from
+block.timestamp and blockhash. Gambling DApps on multiple chains lost pots to
+predicted or grinded draws throughout 2017-2019; the pattern is the same
+everywhere: public seed, predictable winner.
+
+Read the classification and its samples: https://swcregistry.io/docs/SWC-120
+
+Sigma Prime's survey of the same class, with more examples: https://blog.sigmaprime.io/solidity-security.html
+
+<Challenge>
+
+In the raffle repo, write the failing test that predicts the drawn winner,
+then implement a commit-reveal draw (two phases, secrets revealed after a
+deadline) and make the prediction test revert. Push both commits.
+
+</Challenge>
+
+<UpdraftVideo
+  href="https://updraft.cyfrin.io/courses/security"
+  title="Prefer video? This section exists in Cyfrin Updraft's security course"
+/>

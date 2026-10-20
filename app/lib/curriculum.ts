@@ -128,6 +128,60 @@ export const CURRICULUM_SECTIONS: CurriculumSection[] = [
     tags: ["access-control", "privacy", "storage", "cast"],
   },
   {
+    slug: "sec-04-reentrancy",
+    title: "Reentrancy",
+    stage: "S4",
+    track: "security",
+    description:
+      "Classic, cross-function and read-only reentrancy: the bug that drained The DAO, exploited on a real vault today.",
+    objectives: [
+      "Recognize the external-call-before-state-update pattern anywhere",
+      "Exploit classic, cross-function and read-only reentrancy",
+      "Fix with checks-effects-interactions and a mutex, then prove it with a test",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["reentrancy", "cei", "mutex", "security"],
+    historicalHack: {
+      name: "The DAO",
+      amount: "$60M",
+      year: 2016,
+      vector: "Recursive calling of split() before accounting finalized",
+    },
+  },
+  {
+    slug: "sec-05-randomness",
+    title: "Bad Randomness",
+    stage: "S5",
+    track: "security",
+    description:
+      "block.timestamp, blockhash and difficulty are public, miner-influenced values. Predict the raffle winner before the raffle ends.",
+    objectives: [
+      "Name every on-chain value that looks random and is not",
+      "Predict a winner drawn from block attributes in a local test",
+      "Fix with a commit-reveal or an oracle, and explain the tradeoff",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["randomness", "blockhash", "vrf", "raffle"],
+  },
+  {
+    slug: "sec-06-overflow-dos",
+    title: "Overflow, Denial of Service and Gas",
+    stage: "S6",
+    track: "security",
+    description:
+      "Integer edges that minted 900M worthless tokens, loops that brick a contract when they hit the block gas limit, and the fixes for both.",
+    objectives: [
+      "Spot arithmetic that wraps on pre-0.8 compilers and where 0.8 still reverts dangerously",
+      "Find unbounded loops and untrusted-array pushes that brick payouts",
+      "Fix with checked math, pull-payments and bounded iteration, then prove it",
+    ],
+    estimatedTime: "1 week",
+    difficulty: "intermediate",
+    tags: ["overflow", "dos", "gas", "loops"],
+  },
+  {
     slug: "vulnerability-classes",
     title: "Common Vulnerability Classes",
     stage: "05",
