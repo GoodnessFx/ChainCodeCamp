@@ -1,0 +1,21 @@
+{
+  "name": "chaincodecamp-dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {},
+  "postStartCommand": "pnpm install && pnpm run dev",
+  "postCreateCommand": "pnpm install",
+  "customizations": {
+    "vscode": {
+      "extensions": []
+    },
+    "ports": {
+      "3000": {
+        "onAutoForward": "notify"
+      }
+    }
+  },
+  "postStartCommandTimeout": 90000,
+  "remoteUser": "root"
+}

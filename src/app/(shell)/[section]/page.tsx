@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import SectionView from "./SectionView";
 
 interface Props {
   params: { section: string };
@@ -30,6 +31,70 @@ const SECTIONS: Record<string, { title: string; blurb: string }> = {
   },
 };
 
+/**
+ * Environment Checker panel – shows per-OS install steps with copy buttons.
+ */
+function EnvCheckerPanel() {
+  const osOptions = [
+    { id: "windows", label: "Windows (with WSL)" },
+    { id: "mac", label: "Mac (Homebrew)" },
+    { id: "linux", label: "Linux (apt)" },
+  ];
+  const [os, setOs] = useState("windows");
+
+  const installSteps: Record<string, string[]> = {
+    windows: [
+      "wsl --install",
+      "curl -L https://foundry.paradigm.xyz | bash && foundryup",
+      "curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs",
+      "pip3 install slither-analyzer",
+    ],
+    mac: [
+      "brew install --cask docker",
+      "brew install node",
+      "curl -L https://foundry.paradigm.xyz | bash && foundryup",
+      "pip3 install slither-analyzer",
+    ],
+    linux: [
+      "sudo apt-get update && sudo apt-get install -y build-essential curl git python3 python3-pip",
+      "curl -L https://foundry.paradigm.xyz | bash && foundryup",
+      "curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && sudo apt-get install -y nodejs",
+      "pip3 install slither-analyzer",
+    ],
+  };
+
+  return (
+    <section className="border-2 border-zinc-800 rounded-xl p-6 bg-zinc-900 text-zinc-100 mb-8">
+      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+        <span className="text-brand">🖥️</span> Environment Checker
+      </h2>
+      <div className="flex gap-2 mb-4">
+        {osOptions.map((o) => (
+          <button
+            key={o.id}
+            onClick={() => setOs(o.id)}
+            className={`text-sm px-3 py-1 rounded-md font-medium transition-colors ${
+              os === o.id
+                ? "bg-brand text-zinc-950"
+                : "text-zinc-400 hover:bg-zinc-800"
+            }`}
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+      <div className="border border-zinc-800 rounded-md p-4 bg-zinc-950/50 font-mono text-sm text-zinc-300">
+        {installSteps[os].map((step, i) => (
+          <div key={i} className="flex items-center gap-2 mb-1">
+            <span className="text-brand">{i + 1}.</span>
+            <span className="truncate">{step}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function generateMetadata({ params }: Props): Metadata {
   const section = SECTIONS[params.section];
   return { title: section ? section.title : "Not found" };
@@ -39,57 +104,6 @@ export default function SectionPage({ params }: Props) {
   const section = SECTIONS[params.section];
   if (!section) notFound();
 
-  if (params.section === "dashboard") {
-    return (
-      <div className="mx-auto max-w-3xl space-y-8">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-
-        <section className="rounded-xl border-2 border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-          <h2 className="mb-1 text-lg font-semibold">Course progress</h2>
-          <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
-            0% complete. Progress starts moving the moment you finish your
-            first checked lesson (Phase 3).
-          </p>
-          <div
-            role="progressbar"
-            aria-valuenow={0}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label="Course progress"
-            className="h-3 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700"
-          >
-            <div className="h-full w-0 bg-brand" />
-          </div>
-        </section>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Link
-            href="/basics"
-            className="rounded-xl border-2 border-zinc-200 bg-white p-5 hover:border-brand dark:border-zinc-800 dark:bg-zinc-900"
-          >
-            <span className="text-xs font-semibold uppercase tracking-widest text-brand">
-              Beginner path
-            </span>
-            <p className="mt-1 text-lg font-bold">Start from zero →</p>
-          </Link>
-          <Link
-            href="/core"
-            className="rounded-xl border-2 border-zinc-200 bg-white p-5 hover:border-brand dark:border-zinc-800 dark:bg-zinc-900"
-          >
-            <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Experienced path
-            </span>
-            <p className="mt-1 text-lg font-bold">I know the basics →</p>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="mb-2 text-3xl font-bold">{section.title}</h1>
-      <p className="text-zinc-600 dark:text-zinc-400">{section.blurb}</p>
-    </div>
-  );
+  return <SectionView section={params.section} title={section.title} blurb={section.blurb} />;
 }
+
